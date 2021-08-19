@@ -44,12 +44,29 @@ sim_polling_data <- function(N,
     return(out)
   }) %>%
     do.call("bind_rows", .)
-  return(polls)
+  #' Output
+  sigma_parameters =
+    data.frame(sigma_xi = sd(xi),
+               sigma_tau = sd(tau),
+               sigma_alpha = sd(alpha))
+  alpha <- data.frame(alpha) %>%
+    mutate(r = 1:N_R) %>%
+    pivot_longer(
+      c(-r),
+      names_to = "p",
+      values_to = "alpha",
+      names_prefix = "X"
+    )
+  return(list(polls = polls,
+              sigma_parameters = sigma_parameters,
+              alpha = alpha,
+              tau = tau,
+              xi = xi))
 }
 #' Example
 source("src/R/functions/sim_random_walk.R")
 data <- sim_random_walk(4, 20, 0, 0.1)
 df <- sim_polling_data(40, 3, 0.2, 0.2, 0.2, data$eta_matrix)
-ggplot(df, aes(x = t, y = y/n, color = as.factor(p))) +
+ggplot(df$polls, aes(x = t, y = y/n, color = as.factor(p))) +
   geom_point() +
   geom_smooth()
