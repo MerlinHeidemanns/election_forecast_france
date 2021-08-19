@@ -7,13 +7,18 @@ library(cmdstanr)
 source("src/R/functions/exp_softmax.R")
 source("src/R/functions/sim_random_walk.R")
 source("src/R/functions/sim_polling_data.R")
+source("src/R/functions/ppc_pi_theta.R")
+source("src/R/functions/ppc_plt_sigma_tau.R")
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
-T <- 100
-N <- 100
+T <- 50
+N <- 200
 data <- sim_random_walk(4, T, 0, 0.1)
-df <- sim_polling_data(N, 3, 0.2, 0.2, 0.2, data$eta_matrix)
+df <- sim_polling_data(N, 3,
+                       sigma_alpha = 0.2,
+                       sigma_tau = 0.2,
+                       sigma_xi = 0.2, data$eta_matrix)
 ggplot(df, aes(x = t, y = y/n, color = as.factor(p))) +
   geom_point()
 ## Prepare data
@@ -44,27 +49,7 @@ fit <- mod$sample(
   refresh = 250
 )
 ## Plot pi_theta
-pi_theta <- fit$draws("pi_theta") %>%
-  posterior::as_draws_df() %>%
-  pivot_longer(
-    everything(),
-    names_to = "pt",
-    values_to = "draws"
-  ) %>%
-  mutate(
-    p = str_match(pt, "(\\d+),")[, 2],
-    t = as.integer(str_match(pt, ",(\\d+)")[, 2])
-  ) %>%
-  filter(!is.na(t)) %>%
-  dplyr::select(-pt) %>%
-  group_by(p, t) %>%
-  summarize(
-    q50 = quantile(draws, 0.5),
-    q25 = quantile(draws, 0.25),
-    q75 = quantile(draws, 0.75),
-    q10 = quantile(draws, 0.10),
-    q90 = quantile(draws, 0.90)
-  )
+pi_theta <- ppc_pi_theta(fit)
 ggplot(pi_theta, aes(x = t, y = q50)) +
   geom_line() +
   geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.5) +
@@ -73,7 +58,8 @@ ggplot(pi_theta, aes(x = t, y = q50)) +
   geom_point(data = df, aes(x = t, y = y/n)) +
   geom_line(data = data$df, aes(x = t, y = share), linetype = 2) +
   facet_wrap(p ~ .)
-
+## Plot sigma_tau
+ppc_plt_sigma_tau(fit, 0.2)
 
 
 
