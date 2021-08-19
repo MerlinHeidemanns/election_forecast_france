@@ -18,7 +18,7 @@ sim_polling_data <- function(N,
   #' Draw polling house deviations, excess variance, and polling error
   alpha <- matrix(rnorm(P * N_R, 0, sigma_alpha), nrow = N_R, ncol = P)
   alpha <- demean_by_row(alpha)
-  tau <- matrix(rnorm(N * N_R, 0, sigma_tau), nrow = N, ncol = P)
+  tau <- matrix(rnorm(N * P, 0, sigma_tau), nrow = N, ncol = P)
   tau <- demean_by_row(tau)
   xi <- matrix(rnorm(P, 0, sigma_xi), nrow = 1, ncol = P)
   xi <- demean_by_row(xi)
@@ -66,9 +66,9 @@ sim_polling_data <- function(N,
               xi = xi))
 }
 #' Example
-source("src/R/functions/sim_random_walk.R")
-data <- sim_random_walk(4, 20, 0, 0.1)
-df <- sim_polling_data(40, 3, 0.2, 0.2, 0.2, data$eta_matrix)
-ggplot(df$polls, aes(x = t, y = y/n, color = as.factor(p))) +
-  geom_point() +
-  geom_smooth()
+#' source("src/R/functions/sim_random_walk.R")
+#' data <- sim_random_walk(4, 20, 1000, 0, 0.1)
+#' df <- sim_polling_data(40, 3, 0.2, 0.2, 0.2, data$eta_matrix)
+#' ggplot(df$polls, aes(x = t, y = y/n, color = as.factor(p))) +
+#'   geom_point() +
+#'   geom_smooth()
