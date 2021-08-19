@@ -3,6 +3,8 @@ data {
   int P;
   int R;
   int T;
+  int T_prior;
+  vector[P] theta_prior;
   int t[N];
   int r[N];
   int<lower = 0> y[P, N];
@@ -36,7 +38,7 @@ transformed parameters {
     alpha[, ii] = raw_alpha[, ii] - mean(raw_alpha[, ii]);
   }
   xi = raw_xi - mean(raw_xi);
-  theta[, 1] = cholesky_cov_theta * raw_theta[:, 1];
+  theta[, 1] = sqrt(T_prior) * cholesky_cov_theta * raw_theta[:, 1] + theta_prior;
   for (tt in 2:T){
     theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
   }
