@@ -57,6 +57,8 @@ sim_polling_data <- function(N,
       values_to = "alpha",
       names_prefix = "X"
     )
+  xi <- data.frame(xi = t(xi)) %>%
+    mutate(p = 1:P)
   return(list(polls = polls,
               sigma_parameters = sigma_parameters,
               alpha = alpha,

@@ -39,7 +39,8 @@ sim_random_walk <- function(P, T, rho, sigma){
     )
   return(list(df = data,
               pi_matrix = pi_matrix,
-              eta_matrix = eta_matrix))
+              eta_matrix = eta_matrix,
+              transition_matrix = transition_matrix))
 }
 
 
