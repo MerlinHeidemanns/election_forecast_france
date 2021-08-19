@@ -10,9 +10,10 @@ source("src/R/functions/sim_polling_data.R")
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
-T <- 20
+T <- 100
+N <- 100
 data <- sim_random_walk(4, T, 0, 0.1)
-df <- sim_polling_data(T, 3, 0.2, 0.2, 0.2, data$eta_matrix)
+df <- sim_polling_data(N, 3, 0.2, 0.2, 0.2, data$eta_matrix)
 ggplot(df, aes(x = t, y = y/n, color = as.factor(p))) +
   geom_point()
 ## Prepare data
@@ -70,6 +71,7 @@ ggplot(pi_theta, aes(x = t, y = q50)) +
   geom_ribbon(aes(ymin = q10, ymax = q90), alpha = 0.25) +
   theme_light() +
   geom_point(data = df, aes(x = t, y = y/n)) +
+  geom_line(data = data$df, aes(x = t, y = share), linetype = 2) +
   facet_wrap(p ~ .)
 
 
