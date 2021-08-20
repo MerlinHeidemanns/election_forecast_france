@@ -83,6 +83,7 @@ ppc_plt_alpha(fit, true_alpha = df$alpha)
 ppc_plt_xi(fit, true_xi = df$xi)
 ## cov_theta
 ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
+<<<<<<< HEAD
 
 
 
@@ -94,3 +95,6 @@ ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
 
 
 
+=======
+
+>>>>>>> e4e9726d08d1ef539d622b6221784eb57beef747
