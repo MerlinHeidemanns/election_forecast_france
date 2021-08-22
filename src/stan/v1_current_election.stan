@@ -18,23 +18,28 @@ data {
   int N_first_round_past;
   int N_second_round_past;
   int P_past[N_past];
-  int R_past[];
-  int T;
-  int T_prior;
-  vector[P] theta_prior;
-  int t_first_round[N_first_round];
-  int t_second_round[N_second_round];
-  int r_first_round[N_first_round];
-  int r_second_round[N_second_round];
-  int<lower = 0> y_first_round[P, N_first_round];
-  int<lower = 0> y_second_round[N_second_round];
-  int<lower = 0> n_second_round[N_second_round];
-
-
+  int R_past;
+  matrix[N_past, max(P_past)] pi_theta_first_round_past;
+  vector[N_past] pi_theta_second_round_past;
+  int t_first_round_past[N_first_round_past];
+  int t_second_round_past[N_second_round_past];
+  int r_first_round_past[N_first_round_past];
+  int r_second_round_past[N_second_round_past];
+  int<lower = 0> y_first_round_past[max(P), N_first_round_past];
+  int<lower = 0> y_second_round_past[N_second_round_past];
+  int<lower = 0> n_second_round_past[N_second_round_past];
 }
 transformed data {
   real lsigma = 0.0001;
   vector[P - 2] conditional_values = rep_vector(0, P - 2);
+  matrix[N_past, max(P_past)] theta_first_round_past;
+  for (ii in 1:N_past){
+    theta_first_round_past[ii, 1:(P_past[N_past] - 1)] =
+      log(pi_theta_first_round_past[1:(P_past[N_past] - 1)]/pi_theta_first_round_past[P_past[N_past]]);
+    theta_first_round_past[ii, P_past[N_past]] = 0;
+  }
+  vector[N_past] theta_second_round_past = logit(pi_theta_second_round_past);
+
 }
 parameters {
   real<lower = lsigma> sigma_tau;
@@ -47,6 +52,10 @@ parameters {
   matrix[P, T] raw_theta;
   vector[P] raw_xi;
   cholesky_factor_corr[P] cholesky_corr_theta;
+  // Past election
+  matrix[max(P_past), N_first_round_past] raw_tau_first_round_past;
+  vector[N_second_round_past] raw_tau_second_round_past;
+  matrix[N_past, max(P_past)] raw_xi_past;
 }
 transformed parameters {
   matrix[P, T] theta;
