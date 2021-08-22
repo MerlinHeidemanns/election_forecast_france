@@ -13,6 +13,24 @@ data {
   int<lower = 0> y_first_round[P, N_first_round];
   int<lower = 0> y_second_round[N_second_round];
   int<lower = 0> n_second_round[N_second_round];
+
+  int N_past;
+  int N_first_round_past;
+  int N_second_round_past;
+  int P_past[N_past];
+  int R_past[];
+  int T;
+  int T_prior;
+  vector[P] theta_prior;
+  int t_first_round[N_first_round];
+  int t_second_round[N_second_round];
+  int r_first_round[N_first_round];
+  int r_second_round[N_second_round];
+  int<lower = 0> y_first_round[P, N_first_round];
+  int<lower = 0> y_second_round[N_second_round];
+  int<lower = 0> n_second_round[N_second_round];
+
+
 }
 transformed data {
   real lsigma = 0.0001;
