@@ -7,7 +7,8 @@ library(cmdstanr)
 source("src/R/functions/exp_softmax.R")
 source("src/R/functions/sim_random_walk.R")
 source("src/R/functions/sim_polling_data.R")
-source("src/R/functions/ppc_pi_theta.R")
+source("src/R/functions/ppc_plt_pi_theta_first_round.R")
+source("src/R/functions/ppc_plt_pi_theta_second_round.R")
 source("src/R/functions/ppc_plt_sigma_tau.R")
 source("src/R/functions/ppc_plt_sigma_alpha.R")
 source("src/R/functions/ppc_plt_alpha.R")
@@ -18,61 +19,78 @@ mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
 T <- 50
 T_prior <- 10
-N <- 20
-data <- sim_random_walk(P = 4,
+N_first_round <- 20
+N_second_round <- 20
+P <- 4
+data <- sim_random_walk(P = P,
                         T = T,
                         T_prior = T_prior,
                         rho = 0.1,
                         sigma = 0.1)
-df <- sim_polling_data(N, 3,
+ggplot(data$df_coll, aes(x = t, y = share, color = p)) + geom_line()
+df <- sim_polling_data(N_first_round = N_first_round,
+                       N_second_round = N_second_round,
+                       N_R = 3,
                        sigma_alpha = 0.2,
                        sigma_tau = 0.2,
                        sigma_xi = 0.2,
-                       data$eta_matrix)
-ggplot(df$polls, aes(x = t, y = y/n, color = as.factor(p))) +
+                       data$eta_matrix,
+                       transition_matrix = data$transition_matrix)
+ggplot(df$polls_first_round, aes(x = t, y = y/n, color = as.factor(p))) +
+  geom_point()
+ggplot(df$polls_second_round, aes(x = t, y = y/n)) +
   geom_point()
 ## Prepare data
 data_list <- list(
-  N = df$polls %>%
+  N_first_round = df$polls_first_round %>%
     distinct(id) %>%
     nrow(),
-  P = 4,
+  N_second_round = df$polls_second_round %>%
+    distinct(id) %>%
+    nrow(),
+  P = P,
   R = 3,
   T = T,
   T_prior = T_prior,
   theta_prior = data$eta_start,
-  t = df$polls %>% distinct(id, t) %>% pull(t),
-  r = df$polls %>% distinct(id, r) %>% pull(r),
-  y = df$polls %>%
+  t_first_round = df$polls_first_round %>%
+    distinct(id, t) %>%
+    pull(t),
+  t_second_round = df$polls_second_round %>%
+    distinct(id, t) %>%
+    pull(t),
+  r_first_round = df$polls_first_round %>%
+    distinct(id, r) %>%
+    pull(r),
+  r_second_round = df$polls_second_round %>%
+    distinct(id, r) %>%
+    pull(r),
+  y_first_round = df$polls_first_round %>%
     dplyr::select(y, p, id) %>%
     pivot_wider(id_cols = id,
                 names_from = p,
                 values_from = y) %>%
     dplyr::select(-id) %>%
     as.matrix() %>%
-    t()
+    t(),
+  y_second_round = df$polls_second_round %>%
+    pull(y),
+  n_second_round = df$polls_second_round %>%
+    pull(n)
 )
 ## Fit model
 fit <- mod$sample(
   data = data_list,
   seed = 1234,
   chains = 4,
-  iter_sampling = 300,
-  iter_warmup = 300,
+  iter_sampling = 600,
+  iter_warmup = 600,
   parallel_chains = 4,
   refresh = 250
 )
 ## Plot pi_theta
-pi_theta <- ppc_pi_theta(fit)
-ggplot(pi_theta, aes(x = t, y = q50)) +
-  geom_line() +
-  geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.5) +
-  geom_ribbon(aes(ymin = q10, ymax = q90), alpha = 0.25) +
-  theme_light() +
-  geom_point(data = df$polls, aes(x = t, y = y/n)) +
-  geom_line(data = data$df, aes(x = t, y = share), linetype = 2,
-            color = "red") +
-  facet_wrap(p ~ .)
+ppc_plt_pi_theta_first_round(fit, df$polls_first_round, data$df)
+ppc_plt_pi_theta_second_round(fit, df$polls_second_round)
 ## Plot sigma_tau
 ppc_plt_sigma_tau(fit, 0.2)
 ## Plot sigma_alpha
@@ -83,18 +101,8 @@ ppc_plt_alpha(fit, true_alpha = df$alpha)
 ppc_plt_xi(fit, true_xi = df$xi)
 ## cov_theta
 ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
-<<<<<<< HEAD
 
 
 
 
 
-
-
-
-
-
-
-=======
-
->>>>>>> e4e9726d08d1ef539d622b6221784eb57beef747

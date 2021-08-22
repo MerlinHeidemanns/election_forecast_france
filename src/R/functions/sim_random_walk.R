@@ -11,7 +11,7 @@ sim_random_walk <- function(P, T, T_prior = 0, rho, sigma){
   #' Transition matrix for the process
   pi <- runif(P, 0.3, 1); pi <- pi/sum(pi)
   eta <- c(log(pi[1:length(pi) - 1]/pi[length(pi)]), 0)
-  transition_matrix <- matrix(sigma^2 * rho, nrow = 4, ncol = 4)
+  transition_matrix <- matrix(sigma^2 * rho, nrow = P, ncol = P)
   diag(transition_matrix) <- sigma^2
 
   ## Random walk
@@ -30,8 +30,29 @@ sim_random_walk <- function(P, T, T_prior = 0, rho, sigma){
   for (t in 1:T){
     pi_matrix[t, ] <- exp(eta_matrix[t, ])/sum(exp(eta_matrix[t, ]))
   }
-  ## Plot
+
+  #' Create collapsed data frame
+  eta_matrix_coll <- matrix(NA, nrow = T, ncol = 2)
+  pi_matrix_coll <- matrix(NA, nrow = T, ncol = 2)
+  for (t in 1:T){
+    eta_matrix_coll[t, ] <- eta_matrix[t, 1:2] +
+      transition_matrix[1:2, 3:P] %*% solve(transition_matrix[3:P, 3:P]) %*% (rep(-10, P - 2) - eta_matrix[t, 3:P])
+  }
+  for (t in 1:T){
+    pi_matrix_coll[t, ] <- exp(eta_matrix_coll[t, ])/sum(exp(eta_matrix_coll[t, ]))
+  }
+
+  ## Create data frame
   data <- pi_matrix %>%
+    as.data.frame() %>%
+    mutate(t = 1:n()) %>%
+    pivot_longer(
+      c(-t),
+      names_to = "p",
+      values_to = "share",
+      names_prefix = "V"
+    )
+  data_coll <- pi_matrix_coll %>%
     as.data.frame() %>%
     mutate(t = 1:n()) %>%
     pivot_longer(
@@ -45,7 +66,8 @@ sim_random_walk <- function(P, T, T_prior = 0, rho, sigma){
               eta_matrix = eta_matrix,
               transition_matrix = transition_matrix,
               eta_start = eta,
-              pi_start = pi))
+              pi_start = pi,
+              df_coll = data_coll))
 }
 
 

@@ -1,8 +1,8 @@
 #' ppc_pi_theta
 #' @param fit Cmdstan fit object
 #' @return Dataframe with quantiles of th voteshares
-ppc_pi_theta <- function(fit){
-  pi_theta <- fit$draws("pi_theta") %>%
+ppc_plt_pi_theta_first_round <- function(fit, polls, true_data = NULL){
+  pi_theta_first_round <- fit$draws("pi_theta_first_round") %>%
     posterior::as_draws_df() %>%
     pivot_longer(
       everything(),
@@ -23,5 +23,18 @@ ppc_pi_theta <- function(fit){
       q10 = quantile(draws, 0.10),
       q90 = quantile(draws, 0.90)
     )
-  return(pi_theta)
+  plt <- ggplot(pi_theta_first_round, aes(x = t, y = q50)) +
+    geom_line() +
+    geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.5) +
+    geom_ribbon(aes(ymin = q10, ymax = q90), alpha = 0.25) +
+    theme_light() +
+    geom_point(data = polls, aes(x = t, y = y/n)) +
+    facet_wrap(p ~ .)
+
+  if (!is.null(true_data)){
+    plt <- plt +
+      geom_line(data = true_data, aes(x = t, y = share), linetype = 2,
+              color = "red")
+  }
+  return(plt)
 }

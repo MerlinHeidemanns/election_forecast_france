@@ -5,12 +5,14 @@
 #' @param sigma_tau Excess variance
 #' @param sigma_xi Polling error
 #' @param eta_matrix Matrix of log odds ratios
-sim_polling_data <- function(N,
-                                  N_R,
-                                  sigma_alpha,
-                                  sigma_tau,
-                                  sigma_xi,
-                                  eta_matrix){
+sim_polling_data <- function(N_first_round,
+                             N_second_round,
+                             N_R,
+                             sigma_alpha,
+                             sigma_tau,
+                             sigma_xi,
+                             eta_matrix,
+                             transition_matrix){
   #' Determine number of parties and time points from input
   P <- dim(eta_matrix)[2]
   T <- dim(eta_matrix)[1]
@@ -18,16 +20,18 @@ sim_polling_data <- function(N,
   #' Draw polling house deviations, excess variance, and polling error
   alpha <- matrix(rnorm(P * N_R, 0, sigma_alpha), nrow = N_R, ncol = P)
   alpha <- demean_by_row(alpha)
-  tau <- matrix(rnorm(N * P, 0, sigma_tau), nrow = N, ncol = P)
+  tau <- matrix(rnorm((N_first_round + N_second_round) * P, 0, sigma_tau),
+                nrow = (N_first_round + N_second_round),
+                ncol = P)
   tau <- demean_by_row(tau)
   xi <- matrix(rnorm(P, 0, sigma_xi), nrow = 1, ncol = P)
   xi <- demean_by_row(xi)
 
   #' Simulate polls
-  polls <- lapply(1:N, function(x){
+  polls_first_round <- lapply(1:N_first_round, function(x){
     r <- sample(1:N_R, 1)
     t <- sample(1:T, 1)
-    eta <- data$eta_matrix[t, ] +
+    eta <- eta_matrix[t, ] +
       alpha[r, ] +
       tau[x, ] +
       xi
@@ -44,6 +48,30 @@ sim_polling_data <- function(N,
     return(out)
   }) %>%
     do.call("bind_rows", .)
+
+  polls_second_round <- lapply(1:N_second_round, function(x){
+    r <- sample(1:N_R, 1)
+    t = sample(1:T, 1)
+    eta <- eta_matrix[t, ] +
+      alpha[r, ] +
+      tau[x + N_first_round, ] +
+      xi
+    eta_coll <- eta[1:2] +
+      transition_matrix[1:2, 3:P] %*%
+        solve(transition_matrix[3:P, 3:P]) %*%
+        (rep(0, P - 2) - eta[3:P])
+    pi <- exp_softmax(eta_coll)
+    y <- rbinom(1, 1000, pi[1])
+    out <- data.frame(
+      y = y,
+      t = t,
+      r = r,
+      n = 1000,
+      id = x
+    )
+  }) %>%
+    do.call("bind_rows", .)
+
   #' Output
   sigma_parameters =
     data.frame(sigma_xi = sd(xi),
@@ -59,7 +87,8 @@ sim_polling_data <- function(N,
     )
   xi <- data.frame(xi = t(xi)) %>%
     mutate(p = 1:P)
-  return(list(polls = polls,
+  return(list(polls_first_round = polls_first_round,
+              polls_second_round = polls_second_round,
               sigma_parameters = sigma_parameters,
               alpha = alpha,
               tau = tau,
@@ -68,7 +97,8 @@ sim_polling_data <- function(N,
 #' Example
 #' source("src/R/functions/sim_random_walk.R")
 #' data <- sim_random_walk(4, 20, 1000, 0, 0.1)
-#' df <- sim_polling_data(40, 3, 0.2, 0.2, 0.2, data$eta_matrix)
+#' df <- sim_polling_data(40, 40, 3, 0, 0, 0, data$eta_matrix, data$transition_matrix)
+#' print(df$polls_second_round)
 #' ggplot(df$polls, aes(x = t, y = y/n, color = as.factor(p))) +
 #'   geom_point() +
 #'   geom_smooth()
