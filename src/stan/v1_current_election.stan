@@ -50,14 +50,14 @@ transformed parameters {
   {
     vector[P_past_present] tmp;
     int cut;
-    matrix[P_past_present - P, P_past_present - P] inv_cov_theta_past;
+    matrix[P, P_past_present - P] left_inv_cov_theta_past;
     cut = P + 1;
-    inv_cov_theta_past = inverse_spd(cov_theta_past[cut:P_past_present, cut:P_past_present]);
+    left_inv_cov_theta_past = cov_theta_past[1:P, cut:P_past_present] /
+      cov_theta_past[cut:P_past_present, cut:P_past_present];
     tmp = sqrt(T_prior) * cholesky_cov_theta_past * std_theta_prior + theta_prior;
-    theta[, 1] = tmp[1:P] + cov_theta_past[1:P, cut:P_past_present] *
-      inv_cov_theta_past * (conditional_values_one - tmp[cut:P_past_present]);
-    cov_theta = cov_theta_past[1:P, 1:P] - cov_theta_past[1:P, cut:P_past_present] *
-      inv_cov_theta_past * cov_theta_past[cut:P_past_present, 1:P];
+    theta[, 1] = tmp[1:P] + left_inv_cov_theta_past *
+      (conditional_values_one - tmp[cut:P_past_present]);
+    cov_theta = cov_theta_past[1:P, 1:P] - left_inv_cov_theta_past * cov_theta_past[cut:P_past_present, 1:P];
     cholesky_cov_theta = cholesky_decompose(cov_theta);
   }
 

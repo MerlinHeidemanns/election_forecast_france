@@ -94,7 +94,8 @@ fit <- mod$sample(
   iter_sampling = 250,
   iter_warmup = 250,
   parallel_chains = 4,
-  refresh = 250
+  refresh = 250,
+  init = 0.2
 )
 ## Plot pi_theta
 ppc_plt_pi_theta_first_round(fit, df$polls_first_round, data$df)
