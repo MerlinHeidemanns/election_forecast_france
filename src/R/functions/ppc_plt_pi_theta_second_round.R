@@ -1,6 +1,6 @@
 #' ppc_pi_beta
 #' @param fit Cmdstan fit object
-ppc_plt_pi_theta_second_round <- function(fit, polls){
+ppc_plt_pi_theta_second_round <- function(fit, polls, true_data = NULL){
   pi_theta_second_round <- fit$draws("pi_theta_second_round") %>%
     posterior::as_draws_df() %>%
     pivot_longer(
@@ -23,10 +23,17 @@ ppc_plt_pi_theta_second_round <- function(fit, polls){
       q90 = quantile(draws, 0.90)
     ) %>%
     filter(p == 1)
-  ggplot(pi_theta_second_round, aes(x = t, y = q50)) +
+  plt <- ggplot(pi_theta_second_round, aes(x = t, y = q50)) +
     geom_line() +
     geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.5) +
     geom_ribbon(aes(ymin = q10, ymax = q90), alpha = 0.25) +
     geom_point(data = polls, aes(x = t, y = y/n)) +
     theme_light()
+  if (!is.null(true_data)){
+    plt <- plt +
+      geom_line(data = true_data %>%
+                  filter(p == 1),
+                aes(x = t, y = share), color = "red", linetype = 2)
+  }
+  return(plt)
 }

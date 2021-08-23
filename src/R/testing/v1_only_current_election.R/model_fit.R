@@ -21,13 +21,20 @@ T <- 50
 T_prior <- 10
 N_first_round <- 20
 N_second_round <- 20
-P <- 4
-data <- sim_random_walk(P = P,
+P_both <- 3
+P_past <- 2
+P_new <- 1
+data <- sim_random_walk(P_both = P_both,
+                        P_past = P_past,
+                        P_new = P_new,
                         T = T,
                         T_prior = T_prior,
                         rho = 0.1,
                         sigma = 0.1)
-ggplot(data$df_coll, aes(x = t, y = share, color = p)) + geom_line()
+ggplot(data$df, aes(x = t, y = share, color = p)) +
+  geom_line()
+ggplot(data$df_coll, aes(x = t, y = share, color = p)) +
+  geom_line()
 df <- sim_polling_data(N_first_round = N_first_round,
                        N_second_round = N_second_round,
                        N_R = 3,
@@ -48,7 +55,8 @@ data_list <- list(
   N_second_round = df$polls_second_round %>%
     distinct(id) %>%
     nrow(),
-  P = P,
+  P = P_new + P_both,
+  P_past_present = P_new + P_both + P_past,
   R = 3,
   T = T,
   T_prior = T_prior,
@@ -83,20 +91,21 @@ fit <- mod$sample(
   data = data_list,
   seed = 1234,
   chains = 4,
-  iter_sampling = 600,
-  iter_warmup = 600,
+  iter_sampling = 250,
+  iter_warmup = 250,
   parallel_chains = 4,
   refresh = 250
 )
 ## Plot pi_theta
 ppc_plt_pi_theta_first_round(fit, df$polls_first_round, data$df)
-ppc_plt_pi_theta_second_round(fit, df$polls_second_round)
+ppc_plt_pi_theta_second_round(fit, df$polls_second_round, data$df_coll)
 ## Plot sigma_tau
 ppc_plt_sigma_tau(fit, 0.2)
 ## Plot sigma_alpha
 ppc_plt_sigma_alpha(fit, 0.2)
 ## Plot alpha
-ppc_plt_alpha(fit, true_alpha = df$alpha)
+ppc_plt_alpha(fit,
+              true_alpha = df$alpha)
 ## Plot xi
 ppc_plt_xi(fit, true_xi = df$xi)
 ## cov_theta

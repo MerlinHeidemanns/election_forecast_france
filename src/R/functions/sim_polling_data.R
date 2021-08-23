@@ -95,10 +95,9 @@ sim_polling_data <- function(N_first_round,
               xi = xi))
 }
 #' Example
-#' source("src/R/functions/sim_random_walk.R")
-#' data <- sim_random_walk(4, 20, 1000, 0, 0.1)
-#' df <- sim_polling_data(40, 40, 3, 0, 0, 0, data$eta_matrix, data$transition_matrix)
-#' print(df$polls_second_round)
-#' ggplot(df$polls, aes(x = t, y = y/n, color = as.factor(p))) +
-#'   geom_point() +
-#'   geom_smooth()
+source("src/R/functions/sim_random_walk.R")
+data <- sim_random_walk(4, 2, 2, 20, 20, 0, 0.1)
+df <- sim_polling_data(40, 40, 3, 0, 0, 0, data$eta_matrix, data$transition_matrix)
+ggplot(df$polls_first_round, aes(x = t, y = y/n, color = as.factor(p))) +
+  geom_point() +
+  geom_smooth()
