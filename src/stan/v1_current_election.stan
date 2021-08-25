@@ -14,12 +14,23 @@ data {
   int<lower = 0> y_first_round[P, N_first_round];
   int<lower = 0> y_second_round[N_second_round];
   int<lower = 0> n_second_round[N_second_round];
+  // past
+  int N_elections_past;
+  int N_first_round_past;
+  int P_past[N_elections_past];
+  int<lower = 1, upper = N_elections_past> t_past[N_first_round_past];
+  matrix[max(P_past), N_elections_past] results;
+  int<lower = 0> y_first_round_past[max(P_past), N_first_round];
 }
 transformed data {
   real lsigma = 0.0001;
   vector[P_past_present - P] conditional_values_one =
     rep_vector(0, P_past_present - P);
   vector[P - 2] conditional_values_two = rep_vector(0, P - 2);
+  matrix[max(P_past), N_elections_past] theta_results = rep_matrix(0.0, max(P_past), N_elections_past);
+  for (ii in 1:N_elections_past){
+    theta_results[1:P_past[ii], ii] = log(results[1:P_past[ii], ii]/results[P_past[ii], ii]);
+  }
 }
 parameters {
   vector[P_past_present] std_theta_prior;
@@ -86,6 +97,7 @@ transformed parameters {
       pi_beta[ii] = softmax(beta)[1];
     }
   }
+
 }
 model {
   sigma_xi ~ normal(0, 0.1);
@@ -107,6 +119,11 @@ model {
         xi));
   }
   y_second_round ~ binomial(n_second_round, pi_beta);
+  // past
+  for (ii in 1:N_first_round_past){
+    target += multinomial_lpmf(y_first_round_past[1:P_past[t_past[ii]], ii] |
+      softmax(theta_results[1:P_past[t_past[ii]], t_past[ii]]));
+  }
 }
 generated quantities {
   matrix[P, T] pi_theta_first_round;

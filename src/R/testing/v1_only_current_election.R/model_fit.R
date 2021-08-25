@@ -21,10 +21,13 @@ T <- 50
 T_prior <- 10
 N_first_round <- 20
 N_second_round <- 20
+N_first_round_past <- 20
+N_past_election <- 3
 P_both <- 3
 P_past <- 2
 P_new <- 1
-data <- sim_random_walk(P_both = P_both,
+data <- sim_random_walk(N_past_election = N_past_election,
+                        P_both = P_both,
                         P_past = P_past,
                         P_new = P_new,
                         T = T,
@@ -37,12 +40,14 @@ ggplot(data$df_coll, aes(x = t, y = share, color = p)) +
   geom_line()
 df <- sim_polling_data(N_first_round = N_first_round,
                        N_second_round = N_second_round,
+                       N_first_round_past = N_first_round_past,
                        N_R = 3,
                        sigma_alpha = 0.2,
                        sigma_tau = 0.2,
                        sigma_xi = 0.2,
                        data$eta_matrix,
-                       transition_matrix = data$transition_matrix)
+                       transition_matrix = data$transition_matrix,
+                       pi_past = data$pi_past)
 ggplot(df$polls_first_round, aes(x = t, y = y/n, color = as.factor(p))) +
   geom_point()
 ggplot(df$polls_second_round, aes(x = t, y = y/n)) +
@@ -84,7 +89,26 @@ data_list <- list(
   y_second_round = df$polls_second_round %>%
     pull(y),
   n_second_round = df$polls_second_round %>%
-    pull(n)
+    pull(n),
+  N_elections_past = df$N_elections_past,
+  N_first_round_past = df$polls_first_round_past %>%
+    distinct(id) %>%
+    nrow(),
+  P_past = df$P_past_elections,
+  t_past = df$polls_first_round_past %>%
+    distinct(id, t) %>%
+    pull(t),
+  results = data$pi_past %>%
+    t(),
+  y_first_round_past = df$polls_first_round_past %>%
+    select(id, y, p) %>%
+    pivot_wider(id_cols = id,
+                names_from = p,
+                values_from = y,
+                values_fill = 0) %>%
+    select(-id) %>%
+    as.matrix() %>%
+    t()
 )
 ## Fit model
 fit <- mod$sample(
@@ -105,8 +129,7 @@ ppc_plt_sigma_tau(fit, 0.2)
 ## Plot sigma_alpha
 ppc_plt_sigma_alpha(fit, 0.2)
 ## Plot alpha
-ppc_plt_alpha(fit,
-              true_alpha = df$alpha)
+ppc_plt_alpha(fit, true_alpha = df$alpha)
 ## Plot xi
 ppc_plt_xi(fit, true_xi = df$xi)
 ## cov_theta

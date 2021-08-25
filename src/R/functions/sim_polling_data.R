@@ -7,12 +7,14 @@
 #' @param eta_matrix Matrix of log odds ratios
 sim_polling_data <- function(N_first_round,
                              N_second_round,
+                             N_first_round_past,
                              N_R,
                              sigma_alpha,
                              sigma_tau,
                              sigma_xi,
                              eta_matrix,
-                             transition_matrix){
+                             transition_matrix,
+                             pi_past){
   #' Determine number of parties and time points from input
   P <- dim(eta_matrix)[2]
   T <- dim(eta_matrix)[1]
@@ -72,6 +74,29 @@ sim_polling_data <- function(N_first_round,
   }) %>%
     do.call("bind_rows", .)
 
+  #' Past polls
+  #' Draw an election
+  #' Sample poll result
+  #' Same format as first round polls
+  N_past_elections <- dim(pi_past)[1]
+  P_past_elections <- rep(NA, N_past_election)
+  for (ii in 1:N_past_elections) P_past_elections[ii] <- sum(pi_past[ii,] > 0)
+  polls_first_round_past <- lapply(1:N_first_round_past, function(x){
+    t <- sample(1:N_past_elections, 1)
+    N_p <- P_past_elections[t]
+    y <- rmultinom(1, 1000, pi_past[t, 1:N_p])
+    out <- data.frame(
+      y = y,
+      p = 1:N_p,
+      t = t,
+      n = rep(1000, N_p),
+      id = x
+    )
+    return(out)
+  }) %>%
+  do.call("bind_rows", .)
+
+
   #' Output
   sigma_parameters =
     data.frame(sigma_xi = sd(xi),
@@ -87,17 +112,21 @@ sim_polling_data <- function(N_first_round,
     )
   xi <- data.frame(xi = t(xi)) %>%
     mutate(p = 1:P)
+
   return(list(polls_first_round = polls_first_round,
               polls_second_round = polls_second_round,
+              polls_first_round_past = polls_first_round_past,
+              P_past_elections = P_past_elections,
+              N_elections_past = N_past_elections,
               sigma_parameters = sigma_parameters,
               alpha = alpha,
               tau = tau,
               xi = xi))
 }
 #' Example
-source("src/R/functions/sim_random_walk.R")
-data <- sim_random_walk(4, 2, 2, 20, 20, 0, 0.1)
-df <- sim_polling_data(40, 40, 3, 0, 0, 0, data$eta_matrix, data$transition_matrix)
-ggplot(df$polls_first_round, aes(x = t, y = y/n, color = as.factor(p))) +
-  geom_point() +
-  geom_smooth()
+# source("src/R/functions/sim_random_walk.R")
+# data <- sim_random_walk(6, 4, 2, 2, 20, 20, 0, 0.1)
+# df <- sim_polling_data(40, 40, 40, 3, 0, 0, 0, data$eta_matrix, data$transition_matrix, pi_past = data$pi_past)
+# ggplot(df$polls_first_round, aes(x = t, y = y/n, color = as.factor(p))) +
+#   geom_point() +
+#   geom_smooth()

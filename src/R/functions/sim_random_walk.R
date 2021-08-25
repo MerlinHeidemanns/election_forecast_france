@@ -11,13 +11,27 @@ T = 20
 T_prior = 10
 rho <- 0.5
 sigma <- 0.1
-sim_random_walk <- function(P_both,
+sim_random_walk <- function(N_past_election,
+                            P_both,
                             P_past,
                             P_new,
                             T,
                             T_prior = 0,
                             rho,
                             sigma){
+
+  P_past_elections <- rpois(N_past_election, 4)
+  while (min(P_past_elections) <= 2){
+    P_past_elections[P_past_elections <= 2] <- rpois(sum(P_past_elections <= 2), 5)
+  }
+  max_P_past_elections <- max(P_past_elections)
+  pi_past <- matrix(0, nrow = N_past_election, ncol = max_P_past_elections)
+  for (ii in 1:N_past_election){
+    tmp <- runif(P_past_elections[ii], 0.3, 1)
+    tmp <- tmp/sum(tmp)
+    pi_past[ii, 1:P_past_elections[ii]] <- tmp
+  }
+
 
   P <- P_both + P_new + P_past
   ## Simulate a multinomial random walk
@@ -106,7 +120,8 @@ sim_random_walk <- function(P_both,
               transition_matrix = trans_matr,
               eta_start = eta,
               pi_start = pi,
-              df_coll = data_coll))
+              df_coll = data_coll,
+              pi_past = pi_past))
 }
 
 
