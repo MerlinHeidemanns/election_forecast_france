@@ -80,15 +80,43 @@ sim_polling_data <- function(N_first_round,
   #' Same format as first round polls
   N_past_elections <- dim(pi_past)[1]
   P_past_elections <- rep(NA, N_past_election)
+  R_past <- N_past_elections + rpois(1, 5)
+  rt_past <- c(sample(c(1:N_past_elections), N_past_elections),
+               sample(1:N_past_elections, R_past - N_past_elections, replace = TRUE))
   for (ii in 1:N_past_elections) P_past_elections[ii] <- sum(pi_past[ii,] > 0)
+  #' parameters
+  #' Create matrix for alpha_past
+  alpha_past <- matrix(-10,
+                       ncol = max(P_past_elections),
+                       nrow = R_past)
+  #' Demean each row
+  #' Rows = polling houses
+  #' Columns = parties
+  for (ii in 1:R_past){
+    tmp <- rnorm(P_past_elections[rt_past[ii]], 0, sigma_alpha)
+    tmp <- tmp - mean(tmp)
+    alpha_past[ii, 1:P_past_elections[rt_past[ii]]] <- tmp
+  }
+
+  eta_past <- matrix(-10, nrow = dim(pi_past)[1],
+                     ncol = dim(pi_past)[2])
+  for (ii in 1:dim(pi_past)[1]){
+    tmp <- pi_past[ii,1:P_past_elections[ii]]
+    tmp <- log(tmp/tmp[length(tmp)])
+    eta_past[ii,1:P_past_elections[ii]] <- tmp
+  }
   polls_first_round_past <- lapply(1:N_first_round_past, function(x){
     t <- sample(1:N_past_elections, 1)
+    r <- sample(seq(1:R_past)[rt_past == t], 1)
     N_p <- P_past_elections[t]
-    y <- rmultinom(1, 1000, pi_past[t, 1:N_p])
+    tmp <- exp_softmax(eta_past[t, 1:N_p] +
+      alpha_past[r, 1:P_past_elections[t]])
+    y <- rmultinom(1, 1000, tmp)
     out <- data.frame(
       y = y,
       p = 1:N_p,
       t = t,
+      r = r,
       n = rep(1000, N_p),
       id = x
     )
@@ -96,12 +124,16 @@ sim_polling_data <- function(N_first_round,
   }) %>%
   do.call("bind_rows", .)
 
+  polls_first_round_past <- polls_first_round_past %>%
+    group_by(r) %>%
+    mutate(r_id = cur_group_id()) %>%
+    ungroup()
 
   #' Output
   sigma_parameters =
     data.frame(sigma_xi = sd(xi),
                sigma_tau = sd(tau),
-               sigma_alpha = sd(alpha))
+               sigma_alpha = sd(c(alpha, alpha_past[alpha_past != -10])))
   alpha <- data.frame(alpha) %>%
     mutate(r = 1:N_R) %>%
     pivot_longer(

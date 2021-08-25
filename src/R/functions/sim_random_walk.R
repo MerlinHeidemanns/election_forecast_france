@@ -90,7 +90,8 @@ sim_random_walk <- function(N_past_election,
     pi_matrix_coll[t, ] <- exp(eta_matrix_coll[t, ])/sum(exp(eta_matrix_coll[t, ]))
   }
 
-  ## Create data frame
+  ## Create data frames
+  #' true data current all parties
   data <- pi_matrix %>%
     as.data.frame() %>%
     mutate(t = 1:n()) %>%
@@ -100,6 +101,7 @@ sim_random_walk <- function(N_past_election,
       values_to = "share",
       names_prefix = "V"
     )
+  #' true data current run off
   data_coll <- pi_matrix_coll %>%
     as.data.frame() %>%
     mutate(t = 1:n()) %>%
@@ -109,6 +111,16 @@ sim_random_walk <- function(N_past_election,
       values_to = "share",
       names_prefix = "V"
     )
+  #' past results
+  pi_past_dataframe <- pi_past %>%
+    as.data.frame() %>%
+    mutate(t = 1:n()) %>%
+    pivot_longer(c(-t),
+                 names_to = "p",
+                 values_to = "share",
+                 names_prefix = "V") %>%
+    mutate(p = as.integer(p)) %>%
+    filter(share > 0)
   return(list(
               P_both = P_both,
               P_new = P_new,
@@ -121,7 +133,8 @@ sim_random_walk <- function(N_past_election,
               eta_start = eta,
               pi_start = pi,
               df_coll = data_coll,
-              pi_past = pi_past))
+              pi_past = pi_past,
+              pi_past_dataframe = pi_past_dataframe))
 }
 
 

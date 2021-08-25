@@ -18,9 +18,12 @@ data {
   int N_elections_past;
   int N_first_round_past;
   int P_past[N_elections_past];
+  int R_past;
+  int<lower = 1, upper = R_past> r_past[N_first_round_past];
+  int<lower = 1, upper = N_elections_past> rt_past[R_past];
   int<lower = 1, upper = N_elections_past> t_past[N_first_round_past];
   matrix[max(P_past), N_elections_past] results;
-  int<lower = 0> y_first_round_past[max(P_past), N_first_round];
+  int<lower = 0> y_first_round_past[max(P_past), N_first_round_past];
 }
 transformed data {
   real lsigma = 0.0001;
@@ -28,9 +31,11 @@ transformed data {
     rep_vector(0, P_past_present - P);
   vector[P - 2] conditional_values_two = rep_vector(0, P - 2);
   matrix[max(P_past), N_elections_past] theta_results = rep_matrix(0.0, max(P_past), N_elections_past);
+  int rt_past_count = sum(P_past[rt_past]);
   for (ii in 1:N_elections_past){
     theta_results[1:P_past[ii], ii] = log(results[1:P_past[ii], ii]/results[P_past[ii], ii]);
   }
+
 }
 parameters {
   vector[P_past_present] std_theta_prior;
@@ -41,6 +46,7 @@ parameters {
   matrix[P, N_first_round] raw_tau_first_round;
   matrix[P, N_second_round] raw_tau_second_round;
   matrix[P, R] raw_alpha;
+  matrix[max(P_past), R_past] raw_alpha_past;
   matrix[P, T] raw_theta;
   vector[P] raw_xi;
   cholesky_factor_corr[P_past_present] cholesky_corr_theta;
@@ -50,6 +56,7 @@ transformed parameters {
   matrix[P, N_first_round] tau_first_round;
   matrix[P, N_second_round] tau_second_round;
   matrix[P, R] alpha;
+  matrix[max(P_past), R_past] alpha_past = rep_matrix(0.0, max(P_past), R_past);
   vector[P] xi;
   cholesky_factor_cov[P_past_present] cholesky_cov_theta_past;
   matrix[P_past_present, P_past_present] cov_theta_past;
@@ -78,25 +85,33 @@ transformed parameters {
     tau_second_round[, ii] = raw_tau_second_round[, ii] - mean(raw_tau_second_round[, ii]);
   for (ii in 1:R)
     alpha[, ii] = raw_alpha[, ii] - mean(raw_alpha[, ii]);
+  for (ii in 1:R_past){
+      alpha_past[1:P_past[rt_past[ii]], ii] = raw_alpha_past[1:P_past[rt_past[ii]], ii] -
+        mean(raw_alpha_past[1:P_past[rt_past[ii]], ii]);
+  }
+
   xi = raw_xi - mean(raw_xi);
   for (tt in 2:T){
     theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
   }
 
-  for (ii in 1:N_second_round){
-    {
-      vector[P] tmp;
-      vector[2] beta;
-      matrix[2, P - 2] cov_beta;
-      cov_beta = cov_theta[1:2, 3:P] / cov_theta[3:P, 3:P];
-      tmp = theta[, t_second_round[ii]] +
-        tau_second_round[, ii] +
-          alpha[, r_second_round[ii]] +
-          xi;
-      beta = tmp[1:2] + cov_beta * (conditional_values_two - tmp[3:P]);
-      pi_beta[ii] = softmax(beta)[1];
+  {
+    matrix[2, P - 2] cov_beta;
+    cov_beta = cov_theta[1:2, 3:P] / cov_theta[3:P, 3:P];
+    for (ii in 1:N_second_round){
+      {
+        vector[P] tmp;
+        vector[2] beta;
+        tmp = theta[, t_second_round[ii]] +
+          tau_second_round[, ii] +
+            alpha[, r_second_round[ii]] +
+            xi;
+        beta = tmp[1:2] + cov_beta * (conditional_values_two - tmp[3:P]);
+        pi_beta[ii] = softmax(beta)[1];
+      }
     }
   }
+
 
 }
 model {
@@ -107,6 +122,7 @@ model {
   std_theta_prior ~ std_normal();
   to_vector(raw_xi) ~ normal(0, sigma_xi);
   to_vector(raw_alpha) ~ normal(0, sigma_alpha);
+  to_vector(raw_alpha_past) ~ normal(0, sigma_alpha);
   to_vector(raw_tau_first_round) ~ normal(0, sigma_tau);
   to_vector(raw_tau_second_round) ~ normal(0, sigma_tau);
   cholesky_corr_theta ~ lkj_corr_cholesky(2.0);
@@ -122,7 +138,8 @@ model {
   // past
   for (ii in 1:N_first_round_past){
     target += multinomial_lpmf(y_first_round_past[1:P_past[t_past[ii]], ii] |
-      softmax(theta_results[1:P_past[t_past[ii]], t_past[ii]]));
+      softmax(theta_results[1:P_past[t_past[ii]], t_past[ii]] +
+        alpha_past[1:P_past[rt_past[r_past[ii]]], r_past[ii]]));
   }
 }
 generated quantities {

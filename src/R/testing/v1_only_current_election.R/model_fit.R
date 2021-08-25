@@ -20,8 +20,8 @@ mod <- cmdstan_model("src/stan/v1_current_election.stan")
 T <- 50
 T_prior <- 10
 N_first_round <- 20
-N_second_round <- 20
-N_first_round_past <- 20
+N_second_round <- 25
+N_first_round_past <- 30
 N_past_election <- 3
 P_both <- 3
 P_past <- 2
@@ -48,10 +48,18 @@ df <- sim_polling_data(N_first_round = N_first_round,
                        data$eta_matrix,
                        transition_matrix = data$transition_matrix,
                        pi_past = data$pi_past)
+df$polls_first_round_past %>%
+  left_join(data$pi_past_dataframe) %>%
+  ggplot(aes(x = share - y/n)) +
+    geom_histogram()
 ggplot(df$polls_first_round, aes(x = t, y = y/n, color = as.factor(p))) +
   geom_point()
 ggplot(df$polls_second_round, aes(x = t, y = y/n)) +
   geom_point()
+
+
+
+
 ## Prepare data
 data_list <- list(
   N_first_round = df$polls_first_round %>%
@@ -95,6 +103,16 @@ data_list <- list(
     distinct(id) %>%
     nrow(),
   P_past = df$P_past_elections,
+  R_past = df$polls_first_round_past %>%
+    distinct(r) %>%
+    nrow(),
+  r_past = df$polls_first_round_past %>%
+    distinct(id, r_id) %>%
+    pull(r_id),
+  rt_past = df$polls_first_round_past %>%
+    distinct(r_id, t) %>%
+    arrange(r_id) %>%
+    pull(t),
   t_past = df$polls_first_round_past %>%
     distinct(id, t) %>%
     pull(t),
@@ -110,6 +128,7 @@ data_list <- list(
     as.matrix() %>%
     t()
 )
+
 ## Fit model
 fit <- mod$sample(
   data = data_list,
