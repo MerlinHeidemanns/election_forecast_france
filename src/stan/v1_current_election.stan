@@ -43,14 +43,14 @@ parameters {
   real<lower = lsigma> sigma_alpha;
   real<lower = lsigma> sigma_xi;
   vector<lower = lsigma>[P_past_present] sigma_cov;
-  matrix[P, N_first_round] raw_tau_first_round;
-  matrix[P, N_second_round] raw_tau_second_round;
-  matrix[P, R] raw_alpha;
-  matrix[max(P_past), R_past] raw_alpha_past;
+  matrix[P - 1, N_first_round] raw_tau_first_round;
+  matrix[P - 1, N_second_round] raw_tau_second_round;
+  matrix[P - 1, R] raw_alpha;
+  matrix[max(P_past) - 1, R_past] raw_alpha_past;
   matrix[max(P_past), N_first_round_past] raw_tau_first_round_past;
   matrix[P, T] raw_theta;
-  vector[P] raw_xi;
-  matrix[max(P_past), N_elections_past] raw_xi_past;
+  vector[P - 1] raw_xi;
+  matrix[max(P_past) - 1, N_elections_past] raw_xi_past;
   cholesky_factor_corr[P_past_present] cholesky_corr_theta;
 }
 transformed parameters {
@@ -86,29 +86,32 @@ transformed parameters {
   // -- Current polling data
   // Demean parameters
   for (ii in 1:N_first_round)
-    tau_first_round[, ii] = raw_tau_first_round[, ii] - mean(raw_tau_first_round[, ii]);
+    tau_first_round[, ii] = append_row(
+      raw_tau_first_round[, ii],- sum(raw_tau_first_round[, ii]));
   for (ii in 1:N_second_round)
-    tau_second_round[, ii] = raw_tau_second_round[, ii] - mean(raw_tau_second_round[, ii]);
+    tau_second_round[, ii] = append_row(
+      raw_tau_second_round[, ii], -sum(raw_tau_second_round[, ii]));
   for (ii in 1:R)
-    alpha[, ii] = raw_alpha[, ii] - mean(raw_alpha[, ii]);
-  xi = raw_xi - mean(raw_xi);
+    alpha[, ii] = append_row(raw_alpha[, ii], -sum(raw_alpha[, ii]));
+  xi = append_row(raw_xi, -sum(raw_xi));
   // Random walk
   for (tt in 2:T)
     theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
   // -- Past polling data
   // Demean parameters
   for (ii in 1:N_first_round_past){
-    tau_first_round_past[1:P_past[t_past[ii]]] = raw_tau_first_round_past[1:P_past[t_past[ii]]] -
-      mean(raw_tau_first_round_past[1:P_past[t_past[ii]]]);
+    tau_first_round_past[1:P_past[t_past[ii]], ii] =
+      append_row(raw_tau_first_round_past[1:(P_past[t_past[ii]] - 1), ii],
+            -sum(raw_tau_first_round_past[1:(P_past[t_past[ii]] - 1), ii]));
   }
   for (ii in 1:R_past)
-      alpha_past[1:P_past[rt_past[ii]], ii] = raw_alpha_past[1:P_past[rt_past[ii]], ii] -
-        mean(raw_alpha_past[1:P_past[rt_past[ii]], ii]);
+      alpha_past[1:P_past[rt_past[ii]], ii] = append_row(
+        raw_alpha_past[1:(P_past[rt_past[ii]] - 1), ii],
+        - sum(raw_alpha_past[1:(P_past[rt_past[ii]] - 1), ii]));
   for (ii in 1:N_elections_past)
-    xi_past[1:P_past[ii], ii] = raw_xi_past[1:P_past[ii], ii] - mean(raw_xi_past[1:P_past[ii], ii]);
-
-
-
+    xi_past[1:P_past[ii], ii] =
+      append_row(raw_xi_past[1:(P_past[ii] - 1), ii],
+            -sum(raw_xi_past[1:(P_past[ii] - 1), ii]));
 
   {
     matrix[2, P - 2] cov_beta;
