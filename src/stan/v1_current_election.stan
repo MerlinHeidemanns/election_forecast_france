@@ -84,7 +84,7 @@ transformed parameters {
   }
 
   // -- Current polling data
-  // Demean parameters
+  // Sum to 0 constraints
   for (ii in 1:N_first_round)
     tau_first_round[, ii] = append_row(
       raw_tau_first_round[, ii],- sum(raw_tau_first_round[, ii]));
@@ -98,7 +98,7 @@ transformed parameters {
   for (tt in 2:T)
     theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
   // -- Past polling data
-  // Demean parameters
+  // Sum to 0 constraints
   for (ii in 1:N_first_round_past){
     tau_first_round_past[1:P_past[t_past[ii]], ii] =
       append_row(raw_tau_first_round_past[1:(P_past[t_past[ii]] - 1), ii],
