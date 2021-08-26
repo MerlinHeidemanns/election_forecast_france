@@ -17,7 +17,7 @@ source("src/R/functions/ppc_plt_cov_theta.R")
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
-T <- 50
+T <- 20
 T_prior <- 10
 N_first_round <- 20
 N_second_round <- 25

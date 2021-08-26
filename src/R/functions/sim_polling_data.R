@@ -74,7 +74,7 @@ sim_polling_data <- function(N_first_round,
   }) %>%
     do.call("bind_rows", .)
 
-  #' Past polls
+  #' -- Past polls --
   #' Draw an election
   #' Sample poll result
   #' Same format as first round polls
@@ -89,15 +89,24 @@ sim_polling_data <- function(N_first_round,
   alpha_past <- matrix(-10,
                        ncol = max(P_past_elections),
                        nrow = R_past)
-  #' Demean each row
-  #' Rows = polling houses
-  #' Columns = parties
+  #' Demean each row, rows = polling houses, columns = parties
   for (ii in 1:R_past){
     tmp <- rnorm(P_past_elections[rt_past[ii]], 0, sigma_alpha)
     tmp <- tmp - mean(tmp)
     alpha_past[ii, 1:P_past_elections[rt_past[ii]]] <- tmp
   }
+  #' Create matrix for xi_past
+  xi_past <- matrix(-10,
+                    ncol = max(P_past_elections),
+                    nrow = N_past_elections)
+  #' Demean each row, rows = polling houses, columns = parties
+  for (ii in 1:N_past_elections){
+    tmp <- rnorm(P_past_elections[ii], 0, sigma_xi)
+    tmp <- tmp - mean(tmp)
+    xi_past[ii, 1:P_past_elections[ii]] <- tmp
+  }
 
+  #' Turn past results into log-odds ratios
   eta_past <- matrix(-10, nrow = dim(pi_past)[1],
                      ncol = dim(pi_past)[2])
   for (ii in 1:dim(pi_past)[1]){
@@ -105,12 +114,17 @@ sim_polling_data <- function(N_first_round,
     tmp <- log(tmp/tmp[length(tmp)])
     eta_past[ii,1:P_past_elections[ii]] <- tmp
   }
+  #' Simulate polls
   polls_first_round_past <- lapply(1:N_first_round_past, function(x){
     t <- sample(1:N_past_elections, 1)
     r <- sample(seq(1:R_past)[rt_past == t], 1)
     N_p <- P_past_elections[t]
+    tau <- rnorm(N_p, 0, sigma_tau)
+    tau <- tau - mean(tau)
     tmp <- exp_softmax(eta_past[t, 1:N_p] +
-      alpha_past[r, 1:P_past_elections[t]])
+      alpha_past[r, 1:P_past_elections[t]] +
+      tau +
+      xi_past[t, 1:N_p])
     y <- rmultinom(1, 1000, tmp)
     out <- data.frame(
       y = y,
@@ -118,7 +132,9 @@ sim_polling_data <- function(N_first_round,
       t = t,
       r = r,
       n = rep(1000, N_p),
-      id = x
+      id = x,
+      tau = tau,
+      xi = xi_past[t, 1:N_p]
     )
     return(out)
   }) %>%

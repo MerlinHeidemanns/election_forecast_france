@@ -47,8 +47,10 @@ parameters {
   matrix[P, N_second_round] raw_tau_second_round;
   matrix[P, R] raw_alpha;
   matrix[max(P_past), R_past] raw_alpha_past;
+  matrix[max(P_past), N_first_round_past] raw_tau_first_round_past;
   matrix[P, T] raw_theta;
   vector[P] raw_xi;
+  matrix[max(P_past), N_elections_past] raw_xi_past;
   cholesky_factor_corr[P_past_present] cholesky_corr_theta;
 }
 transformed parameters {
@@ -57,7 +59,9 @@ transformed parameters {
   matrix[P, N_second_round] tau_second_round;
   matrix[P, R] alpha;
   matrix[max(P_past), R_past] alpha_past = rep_matrix(0.0, max(P_past), R_past);
+  matrix[max(P_past), N_first_round_past] tau_first_round_past;
   vector[P] xi;
+  matrix[max(P_past), N_elections_past] xi_past;
   cholesky_factor_cov[P_past_present] cholesky_cov_theta_past;
   matrix[P_past_present, P_past_present] cov_theta_past;
   matrix[P, P] cholesky_cov_theta;
@@ -79,21 +83,32 @@ transformed parameters {
     cholesky_cov_theta = cholesky_decompose(cov_theta);
   }
 
+  // -- Current polling data
+  // Demean parameters
   for (ii in 1:N_first_round)
     tau_first_round[, ii] = raw_tau_first_round[, ii] - mean(raw_tau_first_round[, ii]);
   for (ii in 1:N_second_round)
     tau_second_round[, ii] = raw_tau_second_round[, ii] - mean(raw_tau_second_round[, ii]);
   for (ii in 1:R)
     alpha[, ii] = raw_alpha[, ii] - mean(raw_alpha[, ii]);
-  for (ii in 1:R_past){
+  xi = raw_xi - mean(raw_xi);
+  // Random walk
+  for (tt in 2:T)
+    theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
+  // -- Past polling data
+  // Demean parameters
+  for (ii in 1:N_first_round_past){
+    tau_first_round_past[1:P_past[t_past[ii]]] = raw_tau_first_round_past[1:P_past[t_past[ii]]] -
+      mean(raw_tau_first_round_past[1:P_past[t_past[ii]]]);
+  }
+  for (ii in 1:R_past)
       alpha_past[1:P_past[rt_past[ii]], ii] = raw_alpha_past[1:P_past[rt_past[ii]], ii] -
         mean(raw_alpha_past[1:P_past[rt_past[ii]], ii]);
-  }
+  for (ii in 1:N_elections_past)
+    xi_past[1:P_past[ii], ii] = raw_xi_past[1:P_past[ii], ii] - mean(raw_xi_past[1:P_past[ii], ii]);
 
-  xi = raw_xi - mean(raw_xi);
-  for (tt in 2:T){
-    theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
-  }
+
+
 
   {
     matrix[2, P - 2] cov_beta;
@@ -115,18 +130,20 @@ transformed parameters {
 
 }
 model {
-  sigma_xi ~ normal(0, 0.1);
-  sigma_alpha ~ normal(0, 0.1);
-  sigma_tau ~ normal(0, 0.1);
-  sigma_cov ~ normal(0, 0.1);
-  std_theta_prior ~ std_normal();
+  // -- Current polling data
+  sigma_xi ~ normal(0, 0.3);
+  sigma_alpha ~ normal(0, 0.3);
+  sigma_tau ~ normal(0, 0.3);
+  sigma_cov ~ normal(0, 0.3);
   to_vector(raw_xi) ~ normal(0, sigma_xi);
   to_vector(raw_alpha) ~ normal(0, sigma_alpha);
-  to_vector(raw_alpha_past) ~ normal(0, sigma_alpha);
   to_vector(raw_tau_first_round) ~ normal(0, sigma_tau);
   to_vector(raw_tau_second_round) ~ normal(0, sigma_tau);
-  cholesky_corr_theta ~ lkj_corr_cholesky(2.0);
+  // Random walk
+  std_theta_prior ~ std_normal();
   to_vector(raw_theta) ~ std_normal();
+  cholesky_corr_theta ~ lkj_corr_cholesky(2.0);
+  // Likelihood (first round)
   for (ii in 1:N_first_round){
     target += multinomial_lpmf(y_first_round[, ii] |
       softmax(theta[, t_first_round[ii]] +
@@ -134,12 +151,20 @@ model {
         alpha[, r_first_round[ii]] +
         xi));
   }
+  // Likelihood (second round)
   y_second_round ~ binomial(n_second_round, pi_beta);
-  // past
+  // -- Past polling data
+  // Priors
+  to_vector(raw_alpha_past) ~ normal(0, sigma_alpha);
+  to_vector(raw_xi_past) ~ normal(0, sigma_xi);
+  to_vector(raw_tau_first_round_past) ~ normal(0, sigma_tau);
+  // Likelihood
   for (ii in 1:N_first_round_past){
     target += multinomial_lpmf(y_first_round_past[1:P_past[t_past[ii]], ii] |
       softmax(theta_results[1:P_past[t_past[ii]], t_past[ii]] +
-        alpha_past[1:P_past[rt_past[r_past[ii]]], r_past[ii]]));
+        alpha_past[1:P_past[rt_past[r_past[ii]]], r_past[ii]] +
+        xi_past[1:P_past[t_past[ii]], t_past[ii]] +
+        tau_first_round_past[1:P_past[t_past[ii]], ii]));
   }
 }
 generated quantities {
