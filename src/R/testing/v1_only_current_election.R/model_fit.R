@@ -17,11 +17,11 @@ source("src/R/functions/ppc_plt_cov_theta.R")
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
-T <- 20
+T <- 40
 T_prior <- 10
-N_first_round <- 20
+N_first_round <- 40
 N_second_round <- 25
-N_first_round_past <- 30
+N_first_round_past <- 40
 N_past_election <- 3
 P_both <- 3
 P_past <- 2
@@ -33,7 +33,8 @@ data <- sim_random_walk(N_past_election = N_past_election,
                         T = T,
                         T_prior = T_prior,
                         rho = 0.1,
-                        sigma = 0.1)
+                        sigma = 0.1,
+                        K_VAR = 1)
 ggplot(data$df, aes(x = t, y = share, color = p)) +
   geom_line()
 ggplot(data$df_coll, aes(x = t, y = share, color = p)) +
@@ -153,6 +154,11 @@ ppc_plt_alpha(fit, true_alpha = df$alpha)
 ppc_plt_xi(fit, true_xi = df$xi)
 ## cov_theta
 ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
+## Sum to zero constraint
+ppc_plt_alpha_sum_to_0(fit)
+
+
+
 
 
 

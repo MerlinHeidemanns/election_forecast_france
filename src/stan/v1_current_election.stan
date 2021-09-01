@@ -35,7 +35,6 @@ transformed data {
   for (ii in 1:N_elections_past){
     theta_results[1:P_past[ii], ii] = log(results[1:P_past[ii], ii]/results[P_past[ii], ii]);
   }
-
 }
 parameters {
   vector[P_past_present] std_theta_prior;

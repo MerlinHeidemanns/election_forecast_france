@@ -18,7 +18,8 @@ sim_random_walk <- function(N_past_election,
                             T,
                             T_prior = 0,
                             rho,
-                            sigma){
+                            sigma,
+                            K_VAR){
 
   P_past_elections <- rpois(N_past_election, 4)
   while (min(P_past_elections) <= 2){
@@ -48,7 +49,13 @@ sim_random_walk <- function(N_past_election,
                                   ncol = P)
   diag(trans_matr_old) <- sigma^2
 
-  ## Random walk
+  ## Random walk / Autoregressive process
+  #' Draw parameters
+  beta <- matrix(0,
+         nrow = P_both + P_new,
+         ncol = P_both + P_new)
+  diag(beta) <- 1
+
   #' Setup matrizes
   #' Transformation back into shares
   eta_matrix <- matrix(NA, nrow = T, ncol = P_both + P_new)
@@ -71,7 +78,7 @@ sim_random_walk <- function(N_past_election,
   eta_matrix[1, ] = eta_start_conditional
   #' Random walk
   for (t in 2:T){
-    eta_matrix[t, ] <- eta_matrix[t - 1, ] + MASS::mvrnorm(1, rep(0, P_both + P_new), trans_matr)
+    eta_matrix[t, ] <- eta_matrix[t - 1, ] %*% beta + MASS::mvrnorm(1, rep(0, P_both + P_new), trans_matr)
   }
   for (t in 1:T){
     pi_matrix[t, ] <- exp(eta_matrix[t, ])/sum(exp(eta_matrix[t, ]))

@@ -1,5 +1,11 @@
 ## Election forecast France
 
+### Sources
+
+* Harris: https://harris-interactive.fr/actualite/sondages-publies/
+* ifop: https://www.ifop.com/opinion/?id_category=9#isotope
+
+
 ### To do
 
 * Integrate past polling data
