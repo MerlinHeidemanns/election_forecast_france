@@ -14,18 +14,21 @@ source("src/R/functions/ppc_plt_sigma_alpha.R")
 source("src/R/functions/ppc_plt_alpha.R")
 source("src/R/functions/ppc_plt_xi.R")
 source("src/R/functions/ppc_plt_cov_theta.R")
+source("src/R/functions/create_y_first_round.R")
+source("src/R/functions/create_variable_inclusion_input.R")
+source("src/R/functions/ppc_plt_alpha_sum_to_0.R")
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
-T <- 40
+T <- 10
 T_prior <- 10
-N_first_round <- 40
+N_first_round <- 15
 N_second_round <- 25
 N_first_round_past <- 40
 N_past_election <- 3
-P_both <- 3
+P_both <- 4
 P_past <- 2
-P_new <- 1
+P_new <- 2
 data <- sim_random_walk(N_past_election = N_past_election,
                         P_both = P_both,
                         P_past = P_past,
@@ -61,6 +64,9 @@ ggplot(df$polls_second_round, aes(x = t, y = y/n)) +
 
 
 
+inclusion_data <- create_variable_inclusion_input(df$polls_first_round)
+
+
 ## Prepare data
 data_list <- list(
   N_first_round = df$polls_first_round %>%
@@ -87,14 +93,16 @@ data_list <- list(
   r_second_round = df$polls_second_round %>%
     distinct(id, r) %>%
     pull(r),
-  y_first_round = df$polls_first_round %>%
-    dplyr::select(y, p, id) %>%
-    pivot_wider(id_cols = id,
-                names_from = p,
-                values_from = y) %>%
-    dplyr::select(-id) %>%
-    as.matrix() %>%
-    t(),
+  ## -- variable inclusion dynamic
+  P_first_round = inclusion_data$P_first_round,
+  N_combinations = inclusion_data$N_combinations,
+  P_N_combinations = inclusion_data$P_N_combinations,
+  p_first_round_included = inclusion_data$p_first_round_included,
+  p_first_round_excluded = inclusion_data$p_first_round_excluded,
+  p_id = inclusion_data$p_id,
+
+  ##
+  y_first_round = inclusion_data$y_first_round %>% t(),
   y_second_round = df$polls_second_round %>%
     pull(y),
   n_second_round = df$polls_second_round %>%
@@ -156,6 +164,7 @@ ppc_plt_xi(fit, true_xi = df$xi)
 ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
 ## Sum to zero constraint
 ppc_plt_alpha_sum_to_0(fit)
+
 
 
 

@@ -5,6 +5,16 @@
 #' @param sigma_tau Excess variance
 #' @param sigma_xi Polling error
 #' @param eta_matrix Matrix of log odds ratios
+# N_first_round = 20
+# N_second_round = 20
+# N_first_round_past = 20
+# N_R = 3
+# sigma_alpha = 0.2
+# sigma_tau = 0.2
+# sigma_xi = 0.2
+# eta_matrix = data$eta_matrix
+# transition_matrix = data$transition_matrix
+# pi_past = data$pi_past
 sim_polling_data <- function(N_first_round,
                              N_second_round,
                              N_first_round_past,
@@ -29,24 +39,54 @@ sim_polling_data <- function(N_first_round,
   xi <- matrix(rnorm(P, 0, sigma_xi), nrow = 1, ncol = P)
   xi <- demean_by_row(xi)
 
+  p_combinations <- list()
+  for (ii in 1:5){
+    p_combinations[[ii]] <- sort(sample(1:P, sample((P - 3):(P - 1), 1)))
+  }
   #' Simulate polls
   polls_first_round <- lapply(1:N_first_round, function(x){
+    #x = sample(1:N_first_round, 1)
     r <- sample(1:N_R, 1)
     t <- sample(1:T, 1)
     eta <- eta_matrix[t, ] +
       alpha[r, ] +
       tau[x, ] +
       xi
-    pi <- exp_softmax(eta)
+    p_included <- p_combinations[[sample(1:5, 1)]]
+    p_excluded <- (1:P)[!((1:P) %in% p_included)]
+    P_included = length(p_included)
+    P_excluded = P - P_included
+    if (P_included < P){
+      mat1 <- matrix(NA,
+                     nrow = P_included,
+                     ncol = P_excluded)
+      mat2 <- matrix(NA, nrow = P_excluded,
+                     ncol = P_excluded)
+      for (j in 1:P_included){
+        mat1[j,] = transition_matrix[p_included[j],][p_excluded]
+      }
+      for (j in 1:P_excluded){
+        mat2[j,] = transition_matrix[p_excluded[j],][p_excluded]
+      }
+      eta_ss <- eta[p_included] +
+        mat1 %*%
+        solve(mat2) %*%
+        (rep(0, P_excluded) - eta[p_excluded])
+    } else if (P_included == P){
+      eta_ss = eta
+    }
+
+    pi <- exp_softmax(eta_ss)
     y <- rmultinom(1, 1000, pi)
     out <- data.frame(
       y = y,
-      p = 1:P,
+      p = p_included,
       t = t,
-      r = rep(r, P),
-      n = rep(1000, P),
+      r = rep(r, P_included),
+      n = rep(1000, P_included),
       id = x
     )
+    #out
     return(out)
   }) %>%
     do.call("bind_rows", .)
