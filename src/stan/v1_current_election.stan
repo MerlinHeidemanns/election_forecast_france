@@ -44,6 +44,9 @@ transformed data {
   vector[P - 2] conditional_values_two = rep_vector(0, P - 2);
   vector[P] conditional_values = rep_vector(0.0, P);
   matrix[max(P_past), N_elections_past] theta_results = rep_matrix(0.0, max(P_past), N_elections_past);
+  int not_P_N_combinations[N_combinations];
+  for (ii in 1:N_combinations)
+    not_P_N_combinations[ii] = P - P_N_combinations[ii];
   for (ii in 1:N_elections_past){
     theta_results[1:P_past[ii], ii] = log(results[1:P_past[ii], ii]/results[P_past[ii], ii]);
   }
@@ -102,9 +105,9 @@ transformed parameters {
     {
       matrix[P_N_combinations[ii], P - P_N_combinations[ii]] mat1;
       matrix[P - P_N_combinations[ii], P - P_N_combinations[ii]] mat2;
-      mat1 = cov_theta[p_first_round_included[ii, 1:P_N_combinations[ii]], p_first_round_excluded[ii, 1:(P - P_N_combinations[ii])]];
-      mat2 = cov_theta[p_first_round_excluded[ii, 1:(P - P_N_combinations[ii])], p_first_round_excluded[ii, 1:(P - P_N_combinations[ii])]];
-      left_inv_cov_theta_comb[ii, 1:P_N_combinations[ii], 1:(P - P_N_combinations[ii])] =  mat1 / mat2;
+      mat1 = cov_theta[p_first_round_included[ii, 1:P_N_combinations[ii]], p_first_round_excluded[ii, 1:not_P_N_combinations[ii]]];
+      mat2 = cov_theta[p_first_round_excluded[ii, 1:not_P_N_combinations[ii]], p_first_round_excluded[ii, 1:not_P_N_combinations[ii]]];
+      left_inv_cov_theta_comb[ii, 1:P_N_combinations[ii], 1:not_P_N_combinations[ii]] =  mat1 / mat2;
     }
   }
 
@@ -171,7 +174,12 @@ model {
   std_theta_prior ~ std_normal();
   to_vector(raw_theta) ~ std_normal();
   cholesky_corr_theta ~ lkj_corr_cholesky(2.0);
+
   // Likelihood (first round)
+  // * Get the indexes for the included and excluded candidates
+  // * Create a container for the complete vector
+  // * Create a subset of those observed for the specific poll using the
+  // * correct left_inv of the covariance matrix cov_theta
   for (ii in 1:N_first_round){
     {
       vector[P] pi_theta_complete;
@@ -183,8 +191,8 @@ model {
         alpha[, r_first_round[ii]] +
         xi;
       pi_theta_subset = pi_theta_complete[index_included] -
-        left_inv_cov_theta_comb[p_id[ii], 1:P_N_combinations[p_id[ii]], 1:(P - P_N_combinations[p_id[ii]])] *
-        (conditional_values[1:(P - P_N_combinations[p_id[ii]])] - pi_theta_complete[index_excluded]);
+        left_inv_cov_theta_comb[p_id[ii], 1:P_N_combinations[p_id[ii]], 1:not_P_N_combinations[p_id[ii]]] *
+        (conditional_values[1:not_P_N_combinations[p_id[ii]]] - pi_theta_complete[index_excluded]);
       target += multinomial_lpmf(y_first_round[1:P_N_combinations[p_id[ii]], ii] |
                                  softmax(pi_theta_subset));
     }
