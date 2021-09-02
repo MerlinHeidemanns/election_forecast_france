@@ -1,810 +1,856 @@
-﻿survey_id,question_id,start,end,pollName,population,mode,total,electoral_list,respondents,candidate,included,percentage,round
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,1,1,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,1,1,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Fabien Roussel,1,2.5,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,1,11,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,1,7,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,1,6,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,1,24,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,1,-,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Betrand,1,16,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Valerie Pécresse,0,NA,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Laurent Wauquiez,0,NA,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Bruno Retailleau,0,NA,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,1,5,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,1,25,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,1,1,1
-1,1_01,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,1,0.5,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,1,1,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,1,1.5,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Fabien Roussel,1,3,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,1,11,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,1,7,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,1,7,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,1,25,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,1,0.5,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,0,NA,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Valerie Pécresse,1,11,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Laurent Wauquiez,0,NA,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Bruno Retailleau,0,NA,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,1,5,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,1,26,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,1,1.5,1
-1,1_02,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,1,0.5,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,1,1,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,1,1.5,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Fabien Roussel,1,2.5,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,1,10,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,1,8,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,1,7,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,1,27,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,1,1,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,0,NA,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Valerie Pécresse,0,NA,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Laurent Wauquiez,1,7,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Bruno Retailleau,0,NA,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,1,5.5,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,1,27,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,1,2,1
-1,1_03,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,1,0.5,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,1,1,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,1,1.5,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Fabien Roussel,1,3,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,1,11,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,1,7,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,1,7,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,1,26,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,1,1,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,0,NA,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Valerie Pécresse,0,NA,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Laurent Wauquiez,0,NA,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Bruno Retailleau,1,6,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,1,6,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,1,27,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,1,3,1
-1,1_04,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,1,0.5,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,1,1,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,1,1,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Fabien Roussel,1,2.5,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,1,11,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,1,7,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,1,6,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,1,24,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,1,-,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,1,16,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,1,5,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,1,25,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,1,1,1
-1,1_05,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,1,0.5,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,1,1,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,1,1,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Fabien Roussel,1,2,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,1,12,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Arnaud Montebourg,1,5,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,1,7,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,1,23,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,1,0.5,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,1,18,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,1,4,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,1,25,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,1,1,1
-1,1_06,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,1,0.5,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,1,0.5,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,1,1.5,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Fabien Roussel,1,2,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,1,11,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,1,10,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Éric Piolle,1,2,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,1,24,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,1,-,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,1,18,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,1,4,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,1,25,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,1,1.5,1
-1,1_07,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,1,0.5,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,,1,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,,1,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,,12,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,,10,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,,25,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,,-,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,,20,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,,4,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,25,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,,1.5,1
-1,1_08,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,,0.5,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,,0.5,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,,1,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,,13.5,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,,9,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,,25,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,,-,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,,19,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,,4,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,26,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,,1.5,1
-1,1_09,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,,0.5,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,,0.5,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,,1.5,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,,13,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,,10,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,,27,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,,1,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Valerie Pécresse,,12,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,,5,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,27,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,,2,1
-1,1_10,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,,1,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nathalie Arthaud,,1.5,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Philippe Poutou,,1,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,,13,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,,9,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,,28,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Christophe Lagarde,,1,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Valerie Pécresse,,13,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Nicolas Dupong-Aignan,,5,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,27,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean Lassalle,,1,1
-1,1_11,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Frédéric Poisson,,0.5,1
-1,1_12,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Emmanuel Macron,,54,2
-1,1_12,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,46,2
-1,1_13,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Xavier Bertrand,,59,2
-1,1_13,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,41,2
-1,1_14,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Valerie Pécresse,,55,2
-1,1_14,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,45,2
-1,1_15,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Jean-Luc Mélenchon,,40,2
-1,1_15,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,60,2
-1,1_16,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Anne Hidalgo,,50,2
-1,1_16,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,50,2
-1,1_17,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Yannick Jadot,,47,2
-1,1_17,2021_04_02,2021_04_08,ifop,rv,online,,,1730,Marine Le Pen,,53,2
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nathalie Arthaud,,0.5,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Philippe Poutou,,1,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Fabien Roussel,,1.5,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Luc Mélenchon,,11,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Anne Hidalgo,,6,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Yannick Jadot,,6,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Emmanuel Macron,,25,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Christophe Lagarde,,-,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Xavier Bertrand,,15,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nicolas Dupong-Aignan,,5,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Marine Le Pen,,27,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean Lassalle,,1.5,1
-2,2_01,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Frédéric Poisson,,0.5,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nathalie Arthaud,,0.5,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Philippe Poutou,,1,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Fabien Roussel,,2,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Luc Mélenchon,,12,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Anne Hidalgo,,6,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Yannick Jadot,,6,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Emmanuel Macron,,26,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Christophe Lagarde,,0.5,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Valerie Pécresse,,10,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nicolas Dupong-Aignan,,5,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Marine Le Pen,,29,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean Lassalle,,1.5,1
-2,2_02,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Frédéric Poisson,,0.5,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nathalie Arthaud,,0.5,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Philippe Poutou,,0.5,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Fabien Roussel,,2,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Luc Mélenchon,,12,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Anne Hidalgo,,7,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Yannick Jadot,,6,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Emmanuel Macron,,27,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Christophe Lagarde,,0.5,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Laurent Wauquiez,,8,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nicolas Dupong-Aignan,,5,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Marine Le Pen,,30,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean Lassalle,,1,1
-2,2_03,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Frédéric Poisson,,0.5,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nathalie Arthaud,,0.5,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Philippe Poutou,,1,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Fabien Roussel,,2,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Luc Mélenchon,,11,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Anne Hidalgo,,6,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Yannick Jadot,,6,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Emmanuel Macron,,28,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Christophe Lagarde,,1.5,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Bruno Retailleau,,6,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nicolas Dupong-Aignan,,6,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Marine Le Pen,,29,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean Lassalle,,2,1
-2,2_04,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Frédéric Poisson,,1,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nathalie Arthaud,,0.5,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Philippe Poutou,,1,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Fabien Roussel,,2,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Luc Mélenchon,,12,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Anne Hidalgo,,6,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Yannick Jadot,,5,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Emmanuel Macron,,27,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Christophe Lagarde,,1,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Michel Barnier,,8,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Nicolas Dupong-Aignan,,6,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Marine Le Pen,,29,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean Lassalle,,2,1
-2,2_05,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Jean-Frédéric Poisson,,0.5,1
-2,2_06,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Emmanuel Macron,,54,2
-2,2_06,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Marine Le Pen,,46,2
-2,2_07,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Emmanuel Macron,,51,2
-2,2_07,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Xavier Bertrand,,49,2
-2,2_08,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Xavier Bertrand,,60,2
-2,2_08,2021_05_18,2021_05_20,ifop,rv,online,,,1363,Marine Le Pen,,40,2
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Nathalie Arthaud,,0.5,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Philippe Poutou,,1,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Fabien Roussel,,2,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Jean-Luc Mélenchon,,9,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Anne Hidalgo,,5,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Yannick Jadot,,5.5,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Emmanuel Macron,,26,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Jean-Christophe Lagarde,,-,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Xavier Bertrand,,13.5,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Nicolas Dupong-Aignan,,3.5,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Marine Le Pen,,28,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Éric Zemmour,,5.5,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Jean Lassalle,,0.5,1
-3,3_01,2021_06_08,2021_06_09,ifop,rv,online,,,901,Jean-Frédéric Poisson,,-,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nathalie Arthaud,,0.5,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Philippe Poutou,,1,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Fabien Roussel,,3.5,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Luc Mélenchon,,7,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Anne Hidalgo,,6,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Yannick Jadot,,7,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Emmanuel Macron,,24,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Christophe Lagarde,,0.5,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Xavier Bertrand,,18,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nicolas Dupong-Aignan,,4,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Marine Le Pen,,26,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean Lassalle,,2,1
-4,4_01,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Frédéric Poisson,,0.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nathalie Arthaud,,0.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Philippe Poutou,,1,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Fabien Roussel,,3.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Luc Mélenchon,,7.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Anne Hidalgo,,6.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Yannick Jadot,,7,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Emmanuel Macron,,26,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Christophe Lagarde,,0.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Valerie Pécresse,,14,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nicolas Dupong-Aignan,,4.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Marine Le Pen,,26,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean Lassalle,,2.5,1
-4,4_02,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Frédéric Poisson,,0.5,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nathalie Arthaud,,0.5,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Philippe Poutou,,1,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Fabien Roussel,,3.5,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Luc Mélenchon,,7.5,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Anne Hidalgo,,6,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Yannick Jadot,,7,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Emmanuel Macron,,28,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Christophe Lagarde,,0.5,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Laurent Wauquiez,,13,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nicolas Dupong-Aignan,,3.5,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Marine Le Pen,,26,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean Lassalle,,3,1
-4,4_03,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Frédéric Poisson,,5,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nathalie Arthaud,,0.5,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Philippe Poutou,,1,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Fabien Roussel,,4,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Luc Mélenchon,,7,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Anne Hidalgo,,8,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Emmanuel Macron,,28,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Christophe Lagarde,,0.5,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Xavier Bertrand,,18,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nicolas Dupong-Aignan,,4.5,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Marine Le Pen,,26,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean Lassalle,,2,1
-4,4_04,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Frédéric Poisson,,0.5,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nathalie Arthaud,,0.5,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Philippe Poutou,,1,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Fabien Roussel,,4,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Luc Mélenchon,,7,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Yannick Jadot,,9,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Emmanuel Macron,,26,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Christophe Lagarde,,0.5,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Xavier Bertrand,,18.5,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Nicolas Dupong-Aignan,,4,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Marine Le Pen,,27,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean Lassalle,,2,1
-4,4_05,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Jean-Frédéric Poisson,,0.5,1
-4,4_06,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Emmanuel Macron,,57,2
-4,4_06,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Marine Le Pen,,43,2
-4,4_07,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Emmanuel Macron,,48,2
-4,4_07,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Xavier Bertrand,,52,2
-4,4_08,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Xavier Bertrand,,61,2
-4,4_08,2021_06_29,2021_07_02,ifop,rv,online,,,1337,Marine Le Pen,,39,2
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Un candidate d'extrême-gauch,,2,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Jean-Luc Mélenchon,,9,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Arnaud Montebourg,,4,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Anne Hidalgo,,8,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Yannick Jadot,,7,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,24,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Xavier Bertrand,,14,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Nicolas Dupong-Aignan,,7,1
-5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,25,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Un candidate d'extrême-gauch,,2,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Jean-Luc Mélenchon,,10,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Anne Hidalgo,,9,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Yannick Jadot,,7.5,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,24,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Xavier Bertrand,,14.5,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Nicolas Dupong-Aignan,,7,1
-5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,26,1
-5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Un candidate d'extrême-gauch,,2,1
-5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Jean-Luc Mélenchon,,9,1
-5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Anne Hidalgo,,16,1
-5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,25,1
-5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Xavier Bertrand,,16,1
-5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Nicolas Dupong-Aignan,,7,1
-5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,25,1
-5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Un candidate d'extrême-gauch,,2,1
-5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Jean-Luc Mélenchon,,9,1
-5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Yannick Jadot,,17,1
-5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,25,1
-5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Xavier Bertrand,,15,1
-5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Nicolas Dupong-Aignan,,7,1
-5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,25,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Un candidate d'extrême-gauch,,2,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Jean-Luc Mélenchon,,10,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Arnaud Montebourg,,4.5,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Yannick Jadot,,10,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,25,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Xavier Bertrand,,15,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Nicolas Dupong-Aignan,,7,1
-5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,26.5,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Un candidate d'extrême-gauch,,2.5,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Jean-Luc Mélenchon,,10,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,François Hollande,,6,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Yannick Jadot,,9,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,26,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Xavier Bertrand,,14.5,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Nicolas Dupong-Aignan,,6,1
-5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,26,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Un candidate d'extrême-gauch,,2,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Jean-Luc Mélenchon,,10,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Anne Hidalgo,,12,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Éric Piolle,,2,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,27,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Xavier Bertrand,,14.5,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Nicolas Dupong-Aignan,,7.5,1
-5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,25,1
-5,5_08,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Emmanuel Macron,,56,2
-5,5_08,2021_01_27,2021_01_28,ipsos,rv,online,,,1000,Marine Le Pen,,44,2
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Philippe Poutou,,1,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Nathalie Arthaud,,1,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Fabien Roussel,,1,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Luc Mélenchon,,9,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Anne Hidalgo,,5,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Yannick Jadot,,6,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Emmanuel Macron,,29,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Christophe Lagarde,,-,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Xavier Bertrand,,14,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean Lassalle,,2,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,François Asselineau,,1,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Nicolas Dupong-Aignan,,5,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Frédéric Poisson,,1,1
-6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Marine Le Pen,,25,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Philippe Poutou,,2,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Nathalie Arthaud,,-,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Fabien Roussel,,2,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Luc Mélenchon,,10,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Anne Hidalgo,,5,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Yannick Jadot,,7,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Emmanuel Macron,,30,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Christophe Lagarde,,1,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Valerie Pécresse,,11,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean Lassalle,,2,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,François Asselineau,,2,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Nicolas Dupong-Aignan,,4,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Frédéric Poisson,,1,1
-6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Marine Le Pen,,23,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Philippe Poutou,,2,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Nathalie Arthaud,,1,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Fabien Roussel,,2,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Luc Mélenchon,,10,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Anne Hidalgo,,4,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Yannick Jadot,,6,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Emmanuel Macron,,31,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Christophe Lagarde,,-,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Laurent Wauquiez,,12,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean Lassalle,,1,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,François Asselineau,,1,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Nicolas Dupong-Aignan,,5,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Jean-Frédéric Poisson,,1,1
-6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Marine Le Pen,,24,1
-6,6_04,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Emmanuel Macron,,60,2
-6,6_04,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Marine Le Pen,,40,2
-6,6_04,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,,Abstention,,28,2
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Nathalie Arthaud,,1,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Philippe Poutou,,1,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Fabien Roussel,,1,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean-Luc Mélenchon,,11,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Anne Hidalgo,,6,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Yannick Jadot,,6,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Emmanuel Macron,,26,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean-Christophe Lagarde,,1,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Xavier Bertrand,,15,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Nicolas Dupong-Aignan,,5,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean-Frédéric Poisson,,-,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Marine Le Pen,,26,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,François Asselineau,,1,1
-7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean Lassalle,,-,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Nathalie Arthaud,,1,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Philippe Poutou,,1,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Fabien Roussel,,1,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean-Luc Mélenchon,,11,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Anne Hidalgo,,6,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Yannick Jadot,,6,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Emmanuel Macron,,28,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean-Christophe Lagarde,,2,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Valerie Pécresse,,12,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Nicolas Dupong-Aignan,,5,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean-Frédéric Poisson,,-,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Marine Le Pen,,26,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,François Asselineau,,1,1
-7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Jean Lassalle,,-,1
-7,7_03,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Emmanuel Macron,,54,2
-7,7_03,2021_04_16,2021_04_19,harris,rv,online,1210,1001,,Marine Le Pen,,47,2
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Nathalie Arthaud,,1,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Philippe Poutou,,1,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Fabien Roussel,,2,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean-Luc Mélenchon,,12,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Anne Hidalgo,,6,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Yannick Jadot,,6,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Emmanuel Macron,,25,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean-Christophe Lagarde,,1,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Xavier Bertrand,,14,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Nicolas Dupong-Aignan,,4,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean-Frédéric Poisson,,-,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Marine Le Pen,,27,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,François Asselineau,,1,1
-8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean Lassalle,,-,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Nathalie Arthaud,,1,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Philippe Poutou,,1,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Fabien Roussel,,2,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean-Luc Mélenchon,,13,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Anne Hidalgo,,6,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Yannick Jadot,,6,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Emmanuel Macron,,27,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean-Christophe Lagarde,,2,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Michel Barnier,,6,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Nicolas Dupong-Aignan,,5,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean-Frédéric Poisson,,-,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Marine Le Pen,,29,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,François Asselineau,,1,1
-8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Jean Lassalle,,1,1
-8,8_03,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Emmanuel Macron,,53,2
-8,8_03,2021_05_14,2021_05_17,harris,rv,online,1236,1002,,Marine Le Pen,,47,2
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Nathalie Arthaud,,1,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Philippe Poutou,,1,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Fabien Roussel,,1,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean-Luc Mélenchon,,13,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Anne Hidalgo,,6,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Yannick Jadot,,6,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Emmanuel Macron,,25,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean-Christophe Lagarde,,1,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Xavier Bertrand,,14,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Nicolas Dupong-Aignan,,4,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean-Frédéric Poisson,,-,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Marine Le Pen,,27,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,François Asselineau,,-,1
-9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean Lassalle,,1,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Nathalie Arthaud,,1,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Philippe Poutou,,1,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Fabien Roussel,,1,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean-Luc Mélenchon,,13,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Anne Hidalgo,,7,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Yannick Jadot,,6,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Emmanuel Macron,,27,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean-Christophe Lagarde,,1,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Valerie Pécresse,,11,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Nicolas Dupong-Aignan,,4,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean-Frédéric Poisson,,-,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Marine Le Pen,,27,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,François Asselineau,,-,1
-9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Jean Lassalle,,1,1
-9,9_03,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Emmanuel Macron,,54,2
-9,9_03,2021_05_21,2021_05_24,harris,rv,online,1272,1014,,Marine Le Pen,,46,2
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Nathalie Arthaud,,1,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Philippe Poutou,,1,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Fabien Roussel,,1,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean-Luc Mélenchon,,12,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Anne Hidalgo,,6,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Yannick Jadot,,6,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Emmanuel Macron,,25,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean-Christophe Lagarde,,-,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Xavier Bertrand,,14,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Nicolas Dupong-Aignan,,4,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean-Frédéric Poisson,,1,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Marine Le Pen,,28,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,François Asselineau,,-,1
-10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean Lassalle,,1,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Nathalie Arthaud,,1,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Philippe Poutou,,1,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Fabien Roussel,,1,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean-Luc Mélenchon,,13,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Anne Hidalgo,,6,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Yannick Jadot,,6,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Emmanuel Macron,,27,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean-Christophe Lagarde,,1,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Valerie Pécresse,,10,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Nicolas Dupong-Aignan,,4,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean-Frédéric Poisson,,-,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Marine Le Pen,,28,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,François Asselineau,,1,1
-10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Jean Lassalle,,1,1
-10,10_03,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Emmanuel Macron,,54,2
-10,10_03,2021_05_28,2021_05_31,harris,rv,online,1316,1057,,Marine Le Pen,,46,2
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Nathalie Arthaud,,1,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Philippe Poutou,,1,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Fabien Roussel,,1,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean-Luc Mélenchon,,11,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Anne Hidalgo,,7,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Yannick Jadot,,6,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Emmanuel Macron,,25,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean-Christophe Lagarde,,1,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Xavier Bertrand,,14,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Nicolas Dupong-Aignan,,3,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean-Frédéric Poisson,,-,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Marine Le Pen,,28,1
-11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,François Asselineau,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean Lassalle,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Nathalie Arthaud,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Philippe Poutou,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Fabien Roussel,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean-Luc Mélenchon,,11,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Anne Hidalgo,,7,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Yannick Jadot,,6,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Emmanuel Macron,,28,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean-Christophe Lagarde,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,François Baroin,,10,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Nicolas Dupong-Aignan,,3,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean-Frédéric Poisson,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Marine Le Pen,,28,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,François Asselineau,,1,1
-11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Jean Lassalle,,1,1
-11,11_03,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Emmanuel Macron,,53,2
-11,11_03,2021_06_04,2021_06_07,harris,rv,online,1295,1006,,Marine Le Pen,,47,2
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nathalie Arthaud,,1,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Philippe Poutou,,1,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Fabien Roussel,,2,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Luc Mélenchon,,11,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Anne Hidalgo,,7,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Yannick Jadot,,6,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Emmanuel Macron,,26,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Christophe Lagarde,,1,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Xavier Bertrand,,13,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nicolas Dupong-Aignan,,3,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Frédéric Poisson,,-,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Marine Le Pen,,27,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,François Asselineau,,1,1
-12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean Lassalle,,1,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nathalie Arthaud,,1,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Philippe Poutou,,2,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Fabien Roussel,,3,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Luc Mélenchon,,13,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Emmanuel Macron,,29,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Christophe Lagarde,,1,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Xavier Bertrand,,14,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nicolas Dupong-Aignan,,5,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Frédéric Poisson,,1,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Marine Le Pen,,29,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,François Asselineau,,1,1
-12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean Lassalle,,1,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nathalie Arthaud,,3,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Philippe Poutou,,3,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Fabien Roussel,,4,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Anne Hidalgo,,9,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Emmanuel Macron,,28,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Christophe Lagarde,,1,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Xavier Bertrand,,15,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nicolas Dupong-Aignan,,5,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Frédéric Poisson,,1,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Marine Le Pen,,29,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,François Asselineau,,1,1
-12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean Lassalle,,1,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nathalie Arthaud,,2,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Philippe Poutou,,3,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Fabien Roussel,,4,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Yannick Jadot,,12,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Emmanuel Macron,,28,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Christophe Lagarde,,1,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Xavier Bertrand,,14,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Nicolas Dupong-Aignan,,4,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean-Frédéric Poisson,,1,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Marine Le Pen,,29,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,François Asselineau,,1,1
-12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Jean Lassalle,,1,1
-12,12_05,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Emmanuel Macron,,53,2
-12,12_05,2021_06_11,2021_06_14,harris,rv,online,1304,1027,,Marine Le Pen,,47,2
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Nathalie Arthaud,,1,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Philippe Poutou,,1,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Fabien Roussel,,1,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Luc Mélenchon,,10,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Anne Hidalgo,,6,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Yannick Jadot,,7,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Emmanuel Macron,,25,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Christophe Lagarde,,1,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Xavier Bertrand,,16,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Nicolas Dupong-Aignan,,4,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Frédéric Poisson,,-,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Marine Le Pen,,26,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,François Asselineau,,1,1
-13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean Lassalle,,1,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Nathalie Arthaud,,1,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Philippe Poutou,,1,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Fabien Roussel,,1,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Luc Mélenchon,,10,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Anne Hidalgo,,7,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Yannick Jadot,,7,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Emmanuel Macron,,28,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Christophe Lagarde,,1,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Valerie Pécresse,,10,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Nicolas Dupong-Aignan,,4,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Frédéric Poisson,,-,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Marine Le Pen,,28,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,François Asselineau,,1,1
-13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean Lassalle,,1,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Nathalie Arthaud,,1,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Philippe Poutou,,1,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Fabien Roussel,,1,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Luc Mélenchon,,10,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Anne Hidalgo,,7,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Yannick Jadot,,8,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Emmanuel Macron,,28,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Christophe Lagarde,,1,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Laurent Wauquiez,,10,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Nicolas Dupong-Aignan,,4,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean-Frédéric Poisson,,-,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Marine Le Pen,,27,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,François Asselineau,,1,1
-13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Jean Lassalle,,1,1
-13,13_04,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Emmanuel Macron,,54,2
-13,13_04,2021_06_20,2021_06_21,harris,rv,online,1279,1020,,Marine Le Pen,,46,2
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Nathalie Arthaud,,1,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Philippe Poutou,,1,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Fabien Roussel,,1,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Luc Mélenchon,,10,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Anne Hidalgo,,7,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Yannick Jadot,,7,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Emmanuel Macron,,25,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Christophe Lagarde,,1,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Xavier Bertrand,,17,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Nicolas Dupong-Aignan,,4,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Frédéric Poisson,,-,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Marine Le Pen,,24,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,François Asselineau,,1,1
-14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean Lassalle,,1,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Nathalie Arthaud,,1,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Philippe Poutou,,1,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Fabien Roussel,,1,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Luc Mélenchon,,10,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Anne Hidalgo,,7,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Yannick Jadot,,8,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Emmanuel Macron,,27,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Christophe Lagarde,,1,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Valerie Pécresse,,11,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Nicolas Dupong-Aignan,,4,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Frédéric Poisson,,-,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Marine Le Pen,,27,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,François Asselineau,,1,1
-14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean Lassalle,,1,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Nathalie Arthaud,,1,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Philippe Poutou,,1,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Fabien Roussel,,1,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Luc Mélenchon,,10,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Anne Hidalgo,,7,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Yannick Jadot,,8,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Emmanuel Macron,,28,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Christophe Lagarde,,1,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Laurent Wauquiez,,11,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Nicolas Dupong-Aignan,,4,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean-Frédéric Poisson,,-,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Marine Le Pen,,26,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,François Asselineau,,1,1
-14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Jean Lassalle,,1,1
-14,14_04,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Emmanuel Macron,,55,2
-14,14_04,2021_06_27,2021_06_28,harris,rv,online,1307,1003,,Marine Le Pen,,45,2
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Nathalie Arthaud,,1,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Philippe Poutou,,1,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Fabien Roussel,,2,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Luc Mélenchon,,10,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Anne Hidalgo,,7,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Yannick Jadot,,7,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Emmanuel Macron,,24,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Christophe Lagarde,,1,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Xavier Bertrand,,17,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Nicolas Dupong-Aignan,,4,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Frédéric Poisson,,-,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Marine Le Pen,,24,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,François Asselineau,,1,1
-15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean Lassalle,,1,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Nathalie Arthaud,,1,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Philippe Poutou,,1,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Fabien Roussel,,2,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Luc Mélenchon,,10,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Anne Hidalgo,,7,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Yannick Jadot,,8,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Emmanuel Macron,,26,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Christophe Lagarde,,1,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Xavier Bertrand,,12,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Nicolas Dupong-Aignan,,4,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Frédéric Poisson,,-,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Marine Le Pen,,26,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,François Asselineau,,1,1
-15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean Lassalle,,1,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Nathalie Arthaud,,1,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Philippe Poutou,,1,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Fabien Roussel,,2,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Luc Mélenchon,,10,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Anne Hidalgo,,7,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Yannick Jadot,,7,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Emmanuel Macron,,24,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Christophe Lagarde,,1,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Xavier Bertrand,,16,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Nicolas Dupong-Aignan,,2,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean-Frédéric Poisson,,-,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Marine Le Pen,,22,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,François Asselineau,,5,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Jean Lassalle,,1,1
-15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Eric Zemmour,,1,1
-15,15_04,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Emmanuel Macron,,55,2
-15,15_04,2021_07_02,2021_07_05,harris,rv,online,1260,1072,,Marine Le Pen,,45,2
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nathalie Arthaud,,1,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Philippe Poutou,,1,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Fabien Roussel,,2,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Luc Mélenchon,,11,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Anne Hidalgo,,7,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Yannick Jadot,,6,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Emmanuel Macron,,24,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Christophe Lagarde,,1,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Xavier Bertrand,,16,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nicolas Dupong-Aignan,,4,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Florian Philippot,,1,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Marine Le Pen,,24,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,François Asselineau,,1,1
-16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean Lassalle,,1,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nathalie Arthaud,,1,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Philippe Poutou,,1,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Fabien Roussel,,2,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Luc Mélenchon,,11,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Anne Hidalgo,,7,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Yannick Jadot,,6,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Emmanuel Macron,,25,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Christophe Lagarde,,1,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Valerie Pécresse,,13,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nicolas Dupong-Aignan,,4,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Florian Philippot,,1,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Marine Le Pen,,26,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,François Asselineau,,1,1
-16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean Lassalle,,1,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nathalie Arthaud,,1,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Philippe Poutou,,1,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Fabien Roussel,,2,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Luc Mélenchon,,11,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Arnaud Montebourg,,5,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Yannick Jadot,,8,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Emmanuel Macron,,24,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Christophe Lagarde,,1,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Xavier Bertrand,,16,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nicolas Dupong-Aignan,,4,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Florian Philippot,,1,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Marine Le Pen,,24,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,François Asselineau,,1,1
-16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean Lassalle,,1,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nathalie Arthaud,,1,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Philippe Poutou,,1,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Fabien Roussel,,2,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Luc Mélenchon,,11,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Anne Hidalgo,,7,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Yannick Jadot,,6,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Emmanuel Macron,,21,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean-Christophe Lagarde,,1,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Xavier Bertrand,,11,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Valerie Pécresse,,8,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Nicolas Dupong-Aignan,,4,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Florian Philippot,,2,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Marine Le Pen,,23,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,François Asselineau,,1,1
-16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Jean Lassalle,,1,1
-16,16_05,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Emmanuel Macron,,55,2
-16,16_05,2021_08_20,2021_08_23,harris,rv,online,1343,1113,,Marine Le Pen,,45,2
+﻿survey_id,question_id,start,end,pollName,population,mode,total,electoral_list,candidate,percentage,round
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Fabien Roussel,2.5,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,11,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,7,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,6,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,24,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,-,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Xavier Bertrand,16,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,5,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,25,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1,1
+1,1_01,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1.5,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Fabien Roussel,3,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,11,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,7,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,7,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,25,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,0.5,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Valerie Pécresse,11,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,5,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,26,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1.5,1
+1,1_02,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1.5,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Fabien Roussel,2.5,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,10,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,8,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,7,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,27,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,1,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Laurent Wauquiez,7,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,5.5,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,27,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,2,1
+1,1_03,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1.5,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Fabien Roussel,3,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,11,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,7,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,7,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,26,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,1,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Bruno Retailleau,6,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,6,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,27,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,3,1
+1,1_04,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Fabien Roussel,2.5,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,11,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,7,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,6,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,24,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,-,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Xavier Bertrand,16,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,5,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,25,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1,1
+1,1_05,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Fabien Roussel,2,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,12,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Arnaud Montebourg,5,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,7,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,23,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,0.5,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Xavier Bertrand,18,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,4,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,25,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1,1
+1,1_06,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,0.5,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1.5,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Fabien Roussel,2,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,11,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,10,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Éric Piolle,2,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,24,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,-,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Xavier Bertrand,18,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,4,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,25,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1.5,1
+1,1_07,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,12,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,10,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,25,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,-,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Xavier Bertrand,20,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,4,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,25,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1.5,1
+1,1_08,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,0.5,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,13.5,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,9,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,25,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,-,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Xavier Bertrand,19,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,4,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,26,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1.5,1
+1,1_09,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,0.5,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1.5,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,13,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,10,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,27,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,1,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Valerie Pécresse,12,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,5,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,27,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,2,1
+1,1_10,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,1,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nathalie Arthaud,1.5,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Philippe Poutou,1,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,13,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,9,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,28,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Christophe Lagarde,1,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Valerie Pécresse,13,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Nicolas Dupont-Aignan,5,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,27,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean Lassalle,1,1
+1,1_11,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Frédéric Poisson,0.5,1
+1,1_12,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Emmanuel Macron,54,2
+1,1_12,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,46,2
+1,1_13,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Xavier Bertrand,59,2
+1,1_13,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,41,2
+1,1_14,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Valerie Pécresse,55,2
+1,1_14,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,45,2
+1,1_15,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Jean-Luc Mélenchon,40,2
+1,1_15,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,60,2
+1,1_16,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Anne Hidalgo,50,2
+1,1_16,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,50,2
+1,1_17,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Yannick Jadot,47,2
+1,1_17,2021_04_02,2021_04_08,ifop,rv,online,2003,1730,Marine Le Pen,53,2
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nathalie Arthaud,0.5,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Philippe Poutou,1,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Fabien Roussel,1.5,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Luc Mélenchon,11,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Anne Hidalgo,6,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Yannick Jadot,6,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Emmanuel Macron,25,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Christophe Lagarde,-,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Xavier Bertrand,15,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nicolas Dupont-Aignan,5,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Marine Le Pen,27,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean Lassalle,1.5,1
+2,2_01,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Frédéric Poisson,0.5,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nathalie Arthaud,0.5,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Philippe Poutou,1,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Fabien Roussel,2,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Luc Mélenchon,12,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Anne Hidalgo,6,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Yannick Jadot,6,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Emmanuel Macron,26,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Christophe Lagarde,0.5,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Valerie Pécresse,10,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nicolas Dupont-Aignan,5,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Marine Le Pen,29,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean Lassalle,1.5,1
+2,2_02,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Frédéric Poisson,0.5,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nathalie Arthaud,0.5,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Philippe Poutou,0.5,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Fabien Roussel,2,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Luc Mélenchon,12,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Anne Hidalgo,7,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Yannick Jadot,6,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Emmanuel Macron,27,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Christophe Lagarde,0.5,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Laurent Wauquiez,8,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nicolas Dupont-Aignan,5,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Marine Le Pen,30,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean Lassalle,1,1
+2,2_03,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Frédéric Poisson,0.5,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nathalie Arthaud,0.5,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Philippe Poutou,1,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Fabien Roussel,2,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Luc Mélenchon,11,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Anne Hidalgo,6,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Yannick Jadot,6,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Emmanuel Macron,28,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Christophe Lagarde,1.5,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Bruno Retailleau,6,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nicolas Dupont-Aignan,6,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Marine Le Pen,29,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean Lassalle,2,1
+2,2_04,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Frédéric Poisson,1,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nathalie Arthaud,0.5,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Philippe Poutou,1,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Fabien Roussel,2,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Luc Mélenchon,12,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Anne Hidalgo,6,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Yannick Jadot,5,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Emmanuel Macron,27,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Christophe Lagarde,1,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Michel Barnier,8,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Nicolas Dupont-Aignan,6,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Marine Le Pen,29,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean Lassalle,2,1
+2,2_05,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Jean-Frédéric Poisson,0.5,1
+2,2_06,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Emmanuel Macron,54,2
+2,2_06,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Marine Le Pen,46,2
+2,2_07,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Emmanuel Macron,51,2
+2,2_07,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Xavier Bertrand,49,2
+2,2_08,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Xavier Bertrand,60,2
+2,2_08,2021_05_18,2021_05_20,ifop,rv,online,1529,1363,Marine Le Pen,40,2
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Nathalie Arthaud,0.5,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Philippe Poutou,1,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Fabien Roussel,2,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Jean-Luc Mélenchon,9,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Anne Hidalgo,5,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Yannick Jadot,5.5,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Emmanuel Macron,26,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Jean-Christophe Lagarde,-,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Xavier Bertrand,13.5,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Nicolas Dupont-Aignan,3.5,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Marine Le Pen,28,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Éric Zemmour,5.5,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Jean Lassalle,0.5,1
+3,3_01,2021_06_08,2021_06_09,ifop,rv,online,1003,901,Jean-Frédéric Poisson,-,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nathalie Arthaud,0.5,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Philippe Poutou,1,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Fabien Roussel,3.5,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Luc Mélenchon,7,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Anne Hidalgo,6,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Yannick Jadot,7,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Emmanuel Macron,24,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Christophe Lagarde,0.5,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Xavier Bertrand,18,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nicolas Dupont-Aignan,4,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Marine Le Pen,26,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean Lassalle,2,1
+4,4_01,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Frédéric Poisson,0.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nathalie Arthaud,0.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Philippe Poutou,1,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Fabien Roussel,3.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Luc Mélenchon,7.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Anne Hidalgo,6.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Yannick Jadot,7,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Emmanuel Macron,26,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Christophe Lagarde,0.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Valerie Pécresse,14,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nicolas Dupont-Aignan,4.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Marine Le Pen,26,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean Lassalle,2.5,1
+4,4_02,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Frédéric Poisson,0.5,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nathalie Arthaud,0.5,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Philippe Poutou,1,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Fabien Roussel,3.5,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Luc Mélenchon,7.5,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Anne Hidalgo,6,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Yannick Jadot,7,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Emmanuel Macron,28,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Christophe Lagarde,0.5,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Laurent Wauquiez,13,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nicolas Dupont-Aignan,3.5,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Marine Le Pen,26,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean Lassalle,3,1
+4,4_03,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Frédéric Poisson,0.5,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nathalie Arthaud,0.5,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Philippe Poutou,1,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Fabien Roussel,4,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Luc Mélenchon,7,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Anne Hidalgo,8,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Emmanuel Macron,28,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Christophe Lagarde,0.5,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Xavier Bertrand,18,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nicolas Dupont-Aignan,4.5,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Marine Le Pen,26,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean Lassalle,2,1
+4,4_04,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Frédéric Poisson,0.5,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nathalie Arthaud,0.5,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Philippe Poutou,1,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Fabien Roussel,4,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Luc Mélenchon,7,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Yannick Jadot,9,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Emmanuel Macron,26,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Christophe Lagarde,0.5,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Xavier Bertrand,18.5,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Nicolas Dupont-Aignan,4,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Marine Le Pen,27,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean Lassalle,2,1
+4,4_05,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Jean-Frédéric Poisson,0.5,1
+4,4_06,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Emmanuel Macron,57,2
+4,4_06,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Marine Le Pen,43,2
+4,4_07,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Emmanuel Macron,48,2
+4,4_07,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Xavier Bertrand,52,2
+4,4_08,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Xavier Bertrand,61,2
+4,4_08,2021_06_29,2021_07_02,ifop,rv,online,1500,1337,Marine Le Pen,39,2
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Un candidate d'extrême-gauch,2,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Jean-Luc Mélenchon,9,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Arnaud Montebourg,4,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Anne Hidalgo,8,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Yannick Jadot,7,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,24,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Xavier Bertrand,14,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Nicolas Dupont-Aignan,7,1
+5,5_01,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,25,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Un candidate d'extrême-gauch,2,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Jean-Luc Mélenchon,10,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Anne Hidalgo,9,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Yannick Jadot,7.5,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,24,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Xavier Bertrand,14.5,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Nicolas Dupont-Aignan,7,1
+5,5_02,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,26,1
+5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Un candidate d'extrême-gauch,2,1
+5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Jean-Luc Mélenchon,9,1
+5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Anne Hidalgo,16,1
+5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,25,1
+5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Xavier Bertrand,16,1
+5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Nicolas Dupont-Aignan,7,1
+5,5_03,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,25,1
+5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Un candidate d'extrême-gauch,2,1
+5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Jean-Luc Mélenchon,9,1
+5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Yannick Jadot,17,1
+5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,25,1
+5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Xavier Bertrand,15,1
+5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Nicolas Dupont-Aignan,7,1
+5,5_04,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,25,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Un candidate d'extrême-gauch,2,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Jean-Luc Mélenchon,10,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Arnaud Montebourg,4.5,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Yannick Jadot,10,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,25,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Xavier Bertrand,15,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Nicolas Dupont-Aignan,7,1
+5,5_05,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,26.5,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Un candidate d'extrême-gauch,2.5,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Jean-Luc Mélenchon,10,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,François Hollande,6,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Yannick Jadot,9,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,26,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Xavier Bertrand,14.5,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Nicolas Dupont-Aignan,6,1
+5,5_06,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,26,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Un candidate d'extrême-gauch,2,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Jean-Luc Mélenchon,10,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Anne Hidalgo,12,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Éric Piolle,2,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,27,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Xavier Bertrand,14.5,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Nicolas Dupont-Aignan,7.5,1
+5,5_07,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,25,1
+5,5_08,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Emmanuel Macron,56,2
+5,5_08,2021_01_27,2021_01_28,ipsos,rv,online,,1000,Marine Le Pen,44,2
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Philippe Poutou,1,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Nathalie Arthaud,1,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Fabien Roussel,1,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Luc Mélenchon,9,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Anne Hidalgo,5,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Yannick Jadot,6,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Emmanuel Macron,29,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Christophe Lagarde,-,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Xavier Bertrand,14,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean Lassalle,2,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,François Asselineau,1,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Nicolas Dupont-Aignan,5,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Frédéric Poisson,1,1
+6,6_01,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Marine Le Pen,25,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Philippe Poutou,2,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Nathalie Arthaud,-,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Fabien Roussel,2,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Luc Mélenchon,10,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Anne Hidalgo,5,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Yannick Jadot,7,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Emmanuel Macron,30,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Christophe Lagarde,1,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Valerie Pécresse,11,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean Lassalle,2,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,François Asselineau,2,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Nicolas Dupont-Aignan,4,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Frédéric Poisson,1,1
+6,6_02,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Marine Le Pen,23,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Philippe Poutou,2,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Nathalie Arthaud,1,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Fabien Roussel,2,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Luc Mélenchon,10,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Anne Hidalgo,4,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Yannick Jadot,6,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Emmanuel Macron,31,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Christophe Lagarde,-,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Laurent Wauquiez,12,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean Lassalle,1,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,François Asselineau,1,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Nicolas Dupont-Aignan,5,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Jean-Frédéric Poisson,1,1
+6,6_03,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Marine Le Pen,24,1
+6,6_04,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Emmanuel Macron,60,2
+6,6_04,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Marine Le Pen,40,2
+6,6_04,2021_06_28,2021_06_29,elabe,rv,online,1124,1006,Abstention,28,2
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Nathalie Arthaud,1,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Philippe Poutou,1,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Fabien Roussel,1,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean-Luc Mélenchon,11,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Anne Hidalgo,6,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Yannick Jadot,6,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Emmanuel Macron,26,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean-Christophe Lagarde,1,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Xavier Bertrand,15,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Nicolas Dupont-Aignan,5,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean-Frédéric Poisson,-,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Marine Le Pen,26,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,François Asselineau,1,1
+7,7_01,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean Lassalle,-,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Nathalie Arthaud,1,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Philippe Poutou,1,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Fabien Roussel,1,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean-Luc Mélenchon,11,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Anne Hidalgo,6,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Yannick Jadot,6,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Emmanuel Macron,28,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean-Christophe Lagarde,2,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Valerie Pécresse,12,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Nicolas Dupont-Aignan,5,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean-Frédéric Poisson,-,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Marine Le Pen,26,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,François Asselineau,1,1
+7,7_02,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Jean Lassalle,-,1
+7,7_03,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Emmanuel Macron,54,2
+7,7_03,2021_04_16,2021_04_19,harris,rv,online,1210,1001,Marine Le Pen,46,2
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Nathalie Arthaud,1,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Philippe Poutou,1,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Fabien Roussel,2,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean-Luc Mélenchon,12,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Anne Hidalgo,6,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Yannick Jadot,6,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Emmanuel Macron,25,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean-Christophe Lagarde,1,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Xavier Bertrand,14,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Nicolas Dupont-Aignan,4,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean-Frédéric Poisson,-,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Marine Le Pen,27,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,François Asselineau,1,1
+8,8_01,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean Lassalle,-,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Nathalie Arthaud,1,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Philippe Poutou,1,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Fabien Roussel,2,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean-Luc Mélenchon,13,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Anne Hidalgo,6,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Yannick Jadot,6,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Emmanuel Macron,27,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean-Christophe Lagarde,2,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Michel Barnier,6,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Nicolas Dupont-Aignan,5,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean-Frédéric Poisson,-,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Marine Le Pen,29,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,François Asselineau,1,1
+8,8_02,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Jean Lassalle,1,1
+8,8_03,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Emmanuel Macron,53,2
+8,8_03,2021_05_14,2021_05_17,harris,rv,online,1236,1002,Marine Le Pen,47,2
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Nathalie Arthaud,1,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Philippe Poutou,1,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Fabien Roussel,1,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean-Luc Mélenchon,13,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Anne Hidalgo,6,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Yannick Jadot,6,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Emmanuel Macron,25,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean-Christophe Lagarde,1,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Xavier Bertrand,14,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Nicolas Dupont-Aignan,4,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean-Frédéric Poisson,-,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Marine Le Pen,27,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,François Asselineau,-,1
+9,9_01,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean Lassalle,1,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Nathalie Arthaud,1,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Philippe Poutou,1,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Fabien Roussel,1,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean-Luc Mélenchon,13,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Anne Hidalgo,7,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Yannick Jadot,6,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Emmanuel Macron,27,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean-Christophe Lagarde,1,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Valerie Pécresse,11,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Nicolas Dupont-Aignan,4,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean-Frédéric Poisson,-,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Marine Le Pen,27,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,François Asselineau,-,1
+9,9_02,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Jean Lassalle,1,1
+9,9_03,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Emmanuel Macron,54,2
+9,9_03,2021_05_21,2021_05_24,harris,rv,online,1272,1014,Marine Le Pen,46,2
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Nathalie Arthaud,1,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Philippe Poutou,1,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Fabien Roussel,1,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean-Luc Mélenchon,12,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Anne Hidalgo,6,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Yannick Jadot,6,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Emmanuel Macron,25,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean-Christophe Lagarde,-,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Xavier Bertrand,14,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Nicolas Dupont-Aignan,4,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean-Frédéric Poisson,1,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Marine Le Pen,28,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,François Asselineau,-,1
+10,10_01,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean Lassalle,1,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Nathalie Arthaud,1,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Philippe Poutou,1,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Fabien Roussel,1,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean-Luc Mélenchon,13,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Anne Hidalgo,6,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Yannick Jadot,6,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Emmanuel Macron,27,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean-Christophe Lagarde,1,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Valerie Pécresse,10,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Nicolas Dupont-Aignan,4,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean-Frédéric Poisson,-,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Marine Le Pen,28,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,François Asselineau,1,1
+10,10_02,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Jean Lassalle,1,1
+10,10_03,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Emmanuel Macron,54,2
+10,10_03,2021_05_28,2021_05_31,harris,rv,online,1316,1057,Marine Le Pen,46,2
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Nathalie Arthaud,1,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Philippe Poutou,1,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Fabien Roussel,1,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean-Luc Mélenchon,11,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Anne Hidalgo,7,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Yannick Jadot,6,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Emmanuel Macron,25,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean-Christophe Lagarde,1,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Xavier Bertrand,14,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Nicolas Dupont-Aignan,3,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean-Frédéric Poisson,-,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Marine Le Pen,28,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,François Asselineau,1,1
+11,11_01,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean Lassalle,1,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Nathalie Arthaud,1,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Philippe Poutou,1,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Fabien Roussel,1,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean-Luc Mélenchon,11,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Anne Hidalgo,7,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Yannick Jadot,6,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Emmanuel Macron,28,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean-Christophe Lagarde,1,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,François Baroin,10,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Nicolas Dupont-Aignan,3,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean-Frédéric Poisson,1,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Marine Le Pen,28,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,François Asselineau,1,1
+11,11_02,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Jean Lassalle,1,1
+11,11_03,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Emmanuel Macron,53,2
+11,11_03,2021_06_04,2021_06_07,harris,rv,online,1295,1006,Marine Le Pen,47,2
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nathalie Arthaud,1,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Philippe Poutou,1,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Fabien Roussel,2,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Luc Mélenchon,11,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Anne Hidalgo,7,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Yannick Jadot,6,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Emmanuel Macron,26,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Christophe Lagarde,1,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Xavier Bertrand,13,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nicolas Dupont-Aignan,3,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Frédéric Poisson,-,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Marine Le Pen,27,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,François Asselineau,1,1
+12,12_01,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean Lassalle,1,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nathalie Arthaud,1,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Philippe Poutou,2,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Fabien Roussel,3,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Luc Mélenchon,13,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Emmanuel Macron,29,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Christophe Lagarde,1,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Xavier Bertrand,14,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nicolas Dupont-Aignan,5,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Frédéric Poisson,1,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Marine Le Pen,29,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,François Asselineau,1,1
+12,12_02,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean Lassalle,1,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nathalie Arthaud,3,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Philippe Poutou,3,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Fabien Roussel,4,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Anne Hidalgo,9,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Emmanuel Macron,28,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Christophe Lagarde,1,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Xavier Bertrand,15,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nicolas Dupont-Aignan,5,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Frédéric Poisson,1,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Marine Le Pen,29,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,François Asselineau,1,1
+12,12_03,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean Lassalle,1,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nathalie Arthaud,2,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Philippe Poutou,3,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Fabien Roussel,4,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Yannick Jadot,12,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Emmanuel Macron,28,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Christophe Lagarde,1,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Xavier Bertrand,14,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Nicolas Dupont-Aignan,4,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean-Frédéric Poisson,1,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Marine Le Pen,29,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,François Asselineau,1,1
+12,12_04,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Jean Lassalle,1,1
+12,12_05,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Emmanuel Macron,53,2
+12,12_05,2021_06_11,2021_06_14,harris,rv,online,1304,1027,Marine Le Pen,47,2
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Nathalie Arthaud,1,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Philippe Poutou,1,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Fabien Roussel,1,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Luc Mélenchon,10,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Anne Hidalgo,6,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Yannick Jadot,7,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Emmanuel Macron,25,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Christophe Lagarde,1,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Xavier Bertrand,16,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Nicolas Dupont-Aignan,4,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Frédéric Poisson,-,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Marine Le Pen,26,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,François Asselineau,1,1
+13,13_01,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean Lassalle,1,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Nathalie Arthaud,1,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Philippe Poutou,1,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Fabien Roussel,1,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Luc Mélenchon,10,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Anne Hidalgo,7,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Yannick Jadot,7,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Emmanuel Macron,28,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Christophe Lagarde,1,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Valerie Pécresse,10,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Nicolas Dupont-Aignan,4,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Frédéric Poisson,-,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Marine Le Pen,28,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,François Asselineau,1,1
+13,13_02,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean Lassalle,1,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Nathalie Arthaud,1,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Philippe Poutou,1,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Fabien Roussel,1,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Luc Mélenchon,10,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Anne Hidalgo,7,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Yannick Jadot,8,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Emmanuel Macron,28,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Christophe Lagarde,1,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Laurent Wauquiez,10,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Nicolas Dupont-Aignan,4,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean-Frédéric Poisson,-,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Marine Le Pen,27,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,François Asselineau,1,1
+13,13_03,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Jean Lassalle,1,1
+13,13_04,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Emmanuel Macron,54,2
+13,13_04,2021_06_20,2021_06_21,harris,rv,online,1279,1020,Marine Le Pen,46,2
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Nathalie Arthaud,1,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Philippe Poutou,1,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Fabien Roussel,1,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Luc Mélenchon,10,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Anne Hidalgo,7,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Yannick Jadot,7,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Emmanuel Macron,25,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Christophe Lagarde,1,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Xavier Bertrand,17,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Nicolas Dupont-Aignan,4,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Frédéric Poisson,-,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Marine Le Pen,24,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,François Asselineau,1,1
+14,14_01,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean Lassalle,1,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Nathalie Arthaud,1,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Philippe Poutou,1,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Fabien Roussel,1,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Luc Mélenchon,10,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Anne Hidalgo,7,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Yannick Jadot,8,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Emmanuel Macron,27,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Christophe Lagarde,1,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Valerie Pécresse,11,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Nicolas Dupont-Aignan,4,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Frédéric Poisson,-,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Marine Le Pen,27,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,François Asselineau,1,1
+14,14_02,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean Lassalle,1,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Nathalie Arthaud,1,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Philippe Poutou,1,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Fabien Roussel,1,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Luc Mélenchon,10,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Anne Hidalgo,7,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Yannick Jadot,8,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Emmanuel Macron,28,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Christophe Lagarde,1,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Laurent Wauquiez,11,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Nicolas Dupont-Aignan,4,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean-Frédéric Poisson,-,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Marine Le Pen,26,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,François Asselineau,1,1
+14,14_03,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Jean Lassalle,1,1
+14,14_04,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Emmanuel Macron,55,2
+14,14_04,2021_06_27,2021_06_28,harris,rv,online,1307,1003,Marine Le Pen,45,2
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Nathalie Arthaud,1,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Philippe Poutou,1,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Fabien Roussel,2,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Luc Mélenchon,10,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Anne Hidalgo,7,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Yannick Jadot,7,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Emmanuel Macron,24,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Christophe Lagarde,1,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Xavier Bertrand,17,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Nicolas Dupont-Aignan,4,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Frédéric Poisson,-,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Marine Le Pen,24,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,François Asselineau,1,1
+15,15_01,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean Lassalle,1,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Nathalie Arthaud,1,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Philippe Poutou,1,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Fabien Roussel,2,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Luc Mélenchon,10,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Anne Hidalgo,7,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Yannick Jadot,8,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Emmanuel Macron,26,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Christophe Lagarde,1,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Xavier Bertrand,12,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Nicolas Dupont-Aignan,4,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Frédéric Poisson,-,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Marine Le Pen,26,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,François Asselineau,1,1
+15,15_02,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean Lassalle,1,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Nathalie Arthaud,1,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Philippe Poutou,1,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Fabien Roussel,2,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Luc Mélenchon,10,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Anne Hidalgo,7,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Yannick Jadot,7,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Emmanuel Macron,24,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Christophe Lagarde,1,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Xavier Bertrand,16,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Nicolas Dupont-Aignan,2,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean-Frédéric Poisson,-,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Marine Le Pen,22,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,François Asselineau,5,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Jean Lassalle,1,1
+15,15_03,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Éric Zemmour,1,1
+15,15_04,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Emmanuel Macron,55,2
+15,15_04,2021_07_02,2021_07_05,harris,rv,online,1260,1072,Marine Le Pen,45,2
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nathalie Arthaud,1,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Philippe Poutou,1,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Fabien Roussel,2,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Luc Mélenchon,11,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Anne Hidalgo,7,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Yannick Jadot,6,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Emmanuel Macron,24,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Christophe Lagarde,1,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Xavier Bertrand,16,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nicolas Dupont-Aignan,4,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Florian Philippot,1,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Marine Le Pen,24,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,François Asselineau,1,1
+16,16_01,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean Lassalle,1,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nathalie Arthaud,1,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Philippe Poutou,1,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Fabien Roussel,2,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Luc Mélenchon,11,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Anne Hidalgo,7,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Yannick Jadot,6,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Emmanuel Macron,25,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Christophe Lagarde,1,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Valerie Pécresse,13,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nicolas Dupont-Aignan,4,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Florian Philippot,1,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Marine Le Pen,26,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,François Asselineau,1,1
+16,16_02,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean Lassalle,1,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nathalie Arthaud,1,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Philippe Poutou,1,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Fabien Roussel,2,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Luc Mélenchon,11,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Arnaud Montebourg,5,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Yannick Jadot,8,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Emmanuel Macron,24,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Christophe Lagarde,1,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Xavier Bertrand,16,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nicolas Dupont-Aignan,4,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Florian Philippot,1,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Marine Le Pen,24,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,François Asselineau,1,1
+16,16_03,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean Lassalle,1,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nathalie Arthaud,1,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Philippe Poutou,1,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Fabien Roussel,2,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Luc Mélenchon,11,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Anne Hidalgo,7,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Yannick Jadot,6,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Emmanuel Macron,21,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean-Christophe Lagarde,1,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Xavier Bertrand,11,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Valerie Pécresse,8,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Nicolas Dupont-Aignan,4,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Florian Philippot,2,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Marine Le Pen,23,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,François Asselineau,1,1
+16,16_04,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Jean Lassalle,1,1
+16,16_05,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Emmanuel Macron,55,2
+16,16_05,2021_08_20,2021_08_23,harris,rv,online,1343,1113,Marine Le Pen,45,2
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nathalie Arthaud,1,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Philippe Poutou,1,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Fabien Roussel,3,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Luc Mélenchon,12,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Anne Hidalgo,7,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Yannick Jadot,6,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Emmanuel Macron,24,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Christophe Lagarde,-,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Xavier Bertrand,16,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nicolas Dupont-Aignan,4,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Florian Philippot,1,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Marine Le Pen,23,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,François Asselineau,1,1
+17,17_01,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean Lassalle,1,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nathalie Arthaud,1,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Philippe Poutou,1,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Fabien Roussel,2,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Luc Mélenchon,12,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Anne Hidalgo,7,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Yannick Jadot,6,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Emmanuel Macron,26,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Christophe Lagarde,-,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Valerie Pécresse,14,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nicolas Dupont-Aignan,4,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Florian Philippot,1,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Marine Le Pen,24,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,François Asselineau,1,1
+17,17_02,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean Lassalle,1,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nathalie Arthaud,1,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Philippe Poutou,1,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Fabien Roussel,3,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Luc Mélenchon,12,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Anne Hidalgo,7,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Yannick Jadot,6,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Emmanuel Macron,30,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Christophe Lagarde,-,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Eric Ciotti,6,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nicolas Dupont-Aignan,4,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Florian Philippot,2,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Marine Le Pen,26,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,François Asselineau,1,1
+17,17_03,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean Lassalle,1,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nathalie Arthaud,1,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Philippe Poutou,1,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Fabien Roussel,2,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Luc Mélenchon,13,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Arnaud Montebourg,5,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Yannick Jadot,6,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Emmanuel Macron,25,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean-Christophe Lagarde,-,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Xavier Bertrand,16,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Nicolas Dupont-Aignan,4,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Florian Philippot,1,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Marine Le Pen,24,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,François Asselineau,1,1
+17,17_04,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Jean Lassalle,1,1
+17,17_05,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Emmanuel Macron,55,2
+17,17_05,2021_08_27,2021_08_30,harris,rv,online,1328,1083,Marine Le Pen,45,2
