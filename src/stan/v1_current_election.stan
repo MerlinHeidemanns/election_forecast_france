@@ -11,9 +11,17 @@ data {
   int t_second_round[N_second_round];
   int r_first_round[N_first_round];
   int r_second_round[N_second_round];
-  int<lower = 0> y_first_round[P, N_first_round];
+  // variable inclusion
+  int P_first_round[N_first_round];
+  int N_combinations;
+  int P_N_combinations[N_combinations];
+  int p_first_round_included[N_combinations, P];
+  int p_first_round_excluded[N_combinations, P];
+  int<lower = 1, upper = N_combinations> p_id[N_first_round];
+  int y_first_round[P, N_first_round];
   int<lower = 0> y_second_round[N_second_round];
   int<lower = 0> n_second_round[N_second_round];
+
   // past
   int N_elections_past;
   int N_first_round_past;
@@ -27,11 +35,15 @@ data {
 }
 transformed data {
   real lsigma = 0.0001;
+  // Conditional values for subsetting:
+  // * Previous election to current one
+  // * Runoff
+  // * Subsets currently
   vector[P_past_present - P] conditional_values_one =
     rep_vector(0, P_past_present - P);
   vector[P - 2] conditional_values_two = rep_vector(0, P - 2);
+  vector[P] conditional_values = rep_vector(0.0, P);
   matrix[max(P_past), N_elections_past] theta_results = rep_matrix(0.0, max(P_past), N_elections_past);
-  int rt_past_count = sum(P_past[rt_past]);
   for (ii in 1:N_elections_past){
     theta_results[1:P_past[ii], ii] = log(results[1:P_past[ii], ii]/results[P_past[ii], ii]);
   }
@@ -61,11 +73,15 @@ transformed parameters {
   matrix[max(P_past), N_first_round_past] tau_first_round_past;
   vector[P] xi;
   matrix[max(P_past), N_elections_past] xi_past;
+  // Covariance matrizes
   cholesky_factor_cov[P_past_present] cholesky_cov_theta_past;
   matrix[P_past_present, P_past_present] cov_theta_past;
   matrix[P, P] cholesky_cov_theta;
   matrix[P, P] cov_theta;
+  matrix[max(P_N_combinations), max(P_N_combinations)] left_inv_cov_theta_comb[N_combinations];
+  // Containers
   vector[N_second_round] pi_beta;
+  // Determine current covariance matrix
   cholesky_cov_theta_past = diag_pre_multiply(sigma_cov, cholesky_corr_theta);
   cov_theta_past = cholesky_cov_theta_past * cholesky_cov_theta_past';
   {
@@ -80,6 +96,16 @@ transformed parameters {
       (conditional_values_one - tmp[cut:P_past_present]);
     cov_theta = cov_theta_past[1:P, 1:P] - left_inv_cov_theta_past * cov_theta_past[cut:P_past_present, 1:P];
     cholesky_cov_theta = cholesky_decompose(cov_theta);
+  }
+
+  for (ii in 1:N_combinations){
+    {
+      matrix[P_N_combinations[ii], P - P_N_combinations[ii]] mat1;
+      matrix[P - P_N_combinations[ii], P - P_N_combinations[ii]] mat2;
+      mat1 = cov_theta[p_first_round_included[ii, 1:P_N_combinations[ii]], p_first_round_excluded[ii, 1:(P - P_N_combinations[ii])]];
+      mat2 = cov_theta[p_first_round_excluded[ii, 1:(P - P_N_combinations[ii])], p_first_round_excluded[ii, 1:(P - P_N_combinations[ii])]];
+      left_inv_cov_theta_comb[ii, 1:P_N_combinations[ii], 1:(P - P_N_combinations[ii])] =  mat1 / mat2;
+    }
   }
 
   // -- Current polling data
@@ -147,11 +173,21 @@ model {
   cholesky_corr_theta ~ lkj_corr_cholesky(2.0);
   // Likelihood (first round)
   for (ii in 1:N_first_round){
-    target += multinomial_lpmf(y_first_round[, ii] |
-      softmax(theta[, t_first_round[ii]] +
+    {
+      vector[P] pi_theta_complete;
+      vector[P_first_round[ii]] pi_theta_subset;
+      int index_included[P_first_round[ii]] = p_first_round_included[p_id[ii], 1:P_first_round[ii]];
+      int index_excluded[P - P_first_round[ii]] = p_first_round_excluded[p_id[ii], 1:(P - P_first_round[ii])];
+      pi_theta_complete = theta[, t_first_round[ii]] +
         tau_first_round[, ii] +
         alpha[, r_first_round[ii]] +
-        xi));
+        xi;
+      pi_theta_subset = pi_theta_complete[index_included] -
+        left_inv_cov_theta_comb[p_id[ii], 1:P_N_combinations[p_id[ii]], 1:(P - P_N_combinations[p_id[ii]])] *
+        (conditional_values[1:(P - P_N_combinations[p_id[ii]])] - pi_theta_complete[index_excluded]);
+      target += multinomial_lpmf(y_first_round[1:P_N_combinations[p_id[ii]], ii] |
+                                 softmax(pi_theta_subset));
+    }
   }
   // Likelihood (second round)
   y_second_round ~ binomial(n_second_round, pi_beta);
