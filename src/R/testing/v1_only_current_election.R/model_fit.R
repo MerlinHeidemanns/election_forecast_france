@@ -72,16 +72,16 @@ df$polls_second_round %>%
 ## Prepare data
 inclusion_data <- create_variable_inclusion_input(df$polls_first_round)
 data_list <- list(
-  S_first_round_surveys = df$polls_first_round %>%
+  S_1r_surveys = df$polls_first_round %>%
     distinct(id) %>%
     nrow(),
-  N_first_round = df$polls_first_round %>%
+  N_1r = df$polls_first_round %>%
     distinct(question_id) %>%
     nrow(),
-  s_first_round = df$polls_first_round %>%
+  s_1r = df$polls_first_round %>%
     distinct(id, question_id) %>%
     pull(id),
-  N_second_round = df$polls_second_round %>%
+  N_1r = df$polls_second_round %>%
     distinct(id) %>%
     nrow(),
   P = P_new + P_both,
@@ -90,28 +90,28 @@ data_list <- list(
   T = T,
   T_prior = T_prior,
   theta_prior = data$eta_start,
-  t_first_round = df$polls_first_round %>%
+  t_1r = df$polls_first_round %>%
     distinct(id, t) %>%
     pull(t),
-  t_second_round = df$polls_second_round %>%
+  t_2r = df$polls_second_round %>%
     distinct(id, t) %>%
     pull(t),
-  r_first_round = df$polls_first_round %>%
+  r_1r = df$polls_first_round %>%
     distinct(id, r) %>%
     pull(r),
-  r_second_round = df$polls_second_round %>%
+  r_2r = df$polls_second_round %>%
     distinct(id, r) %>%
     pull(r),
   ## -- variable inclusion dynamic
-  P_first_round = inclusion_data$P_first_round,
+  P_1r = inclusion_data$P_first_round,
   N_combinations = inclusion_data$N_combinations,
   P_N_combinations = inclusion_data$P_N_combinations,
-  p_first_round_included = inclusion_data$p_first_round_included,
-  p_first_round_excluded = inclusion_data$p_first_round_excluded,
+  p_1r_included = inclusion_data$p_first_round_included,
+  p_1r_excluded = inclusion_data$p_first_round_excluded,
   p_id = inclusion_data$p_id,
 
   ##
-  y_first_round = inclusion_data$y_first_round %>% t(),
+  y_1r = inclusion_data$y_first_round %>% t(),
   y_second_round = df$polls_second_round %>%
     pull(y),
   n_second_round = df$polls_second_round %>%
