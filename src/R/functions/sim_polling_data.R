@@ -15,7 +15,7 @@
 # eta_matrix = data$eta_matrix
 # transition_matrix = data$transition_matrix
 # pi_past = data$pi_past
-sim_polling_data <- function(N_first_round,
+sim_polling_data <- function(N_first_round_surveys,
                              N_second_round,
                              N_first_round_past,
                              N_R,
@@ -32,8 +32,8 @@ sim_polling_data <- function(N_first_round,
   #' Draw polling house deviations, excess variance, and polling error
   alpha <- matrix(rnorm(P * N_R, 0, sigma_alpha), nrow = N_R, ncol = P)
   alpha <- demean_by_row(alpha)
-  tau <- matrix(rnorm((N_first_round + N_second_round) * P, 0, sigma_tau),
-                nrow = (N_first_round + N_second_round),
+  tau <- matrix(rnorm((N_first_round_surveys + N_second_round) * P, 0, sigma_tau),
+                nrow = (N_first_round_surveys + N_second_round),
                 ncol = P)
   tau <- demean_by_row(tau)
   xi <- matrix(rnorm(P, 0, sigma_xi), nrow = 1, ncol = P)
@@ -44,7 +44,7 @@ sim_polling_data <- function(N_first_round,
     p_combinations[[ii]] <- sort(sample(1:P, sample((P - 3):(P - 1), 1)))
   }
   #' Simulate polls
-  polls_first_round <- lapply(1:N_first_round, function(x){
+  polls_first_round <- lapply(1:N_first_round_surveys, function(x){
     #x = sample(1:N_first_round, 1)
     r <- sample(1:N_R, 1)
     t <- sample(1:T, 1)
@@ -52,51 +52,60 @@ sim_polling_data <- function(N_first_round,
       alpha[r, ] +
       tau[x, ] +
       xi
-    p_included <- p_combinations[[sample(1:5, 1)]]
-    p_excluded <- (1:P)[!((1:P) %in% p_included)]
-    P_included = length(p_included)
-    P_excluded = P - P_included
-    if (P_included < P){
-      mat1 <- matrix(NA,
-                     nrow = P_included,
-                     ncol = P_excluded)
-      mat2 <- matrix(NA, nrow = P_excluded,
-                     ncol = P_excluded)
-      for (j in 1:P_included){
-        mat1[j,] = transition_matrix[p_included[j],][p_excluded]
+    N_questions <- sample(2:4, 1)
+    out_survey <- lapply(1:N_questions, function(jj){
+      p_included <- p_combinations[[sample(1:5, 1)]]
+      p_excluded <- (1:P)[!((1:P) %in% p_included)]
+      P_included = length(p_included)
+      P_excluded = P - P_included
+      if (P_included < P){
+        mat1 <- matrix(NA,
+                       nrow = P_included,
+                       ncol = P_excluded)
+        mat2 <- matrix(NA, nrow = P_excluded,
+                       ncol = P_excluded)
+        for (j in 1:P_included){
+          mat1[j,] = transition_matrix[p_included[j],][p_excluded]
+        }
+        for (j in 1:P_excluded){
+          mat2[j,] = transition_matrix[p_excluded[j],][p_excluded]
+        }
+        eta_ss <- eta[p_included] +
+          mat1 %*%
+          solve(mat2) %*%
+          (rep(0, P_excluded) - eta[p_excluded])
+      } else if (P_included == P){
+        eta_ss = eta
       }
-      for (j in 1:P_excluded){
-        mat2[j,] = transition_matrix[p_excluded[j],][p_excluded]
-      }
-      eta_ss <- eta[p_included] +
-        mat1 %*%
-        solve(mat2) %*%
-        (rep(0, P_excluded) - eta[p_excluded])
-    } else if (P_included == P){
-      eta_ss = eta
-    }
 
-    pi <- exp_softmax(eta_ss)
-    y <- rmultinom(1, 1000, pi)
-    out <- data.frame(
-      y = y,
-      p = p_included,
-      t = t,
-      r = rep(r, P_included),
-      n = rep(1000, P_included),
-      id = x
-    )
+      pi <- exp_softmax(eta_ss)
+      y <- rmultinom(1, 1000, pi)
+      out_question <- data.frame(
+        question_id = jj,
+        y = y,
+        p = p_included,
+        t = t,
+        r = rep(r, P_included),
+        n = rep(1000, P_included),
+        id = x
+      )
+      return(out_question)
+    })
     #out
-    return(out)
+    return(out_survey)
   }) %>%
     do.call("bind_rows", .)
+  polls_first_round <- polls_first_round %>%
+    group_by(id, question_id) %>%
+    mutate(question_id = cur_group_id()) %>%
+    ungroup()
 
   polls_second_round <- lapply(1:N_second_round, function(x){
     r <- sample(1:N_R, 1)
     t = sample(1:T, 1)
     eta <- eta_matrix[t, ] +
       alpha[r, ] +
-      tau[x + N_first_round, ] +
+      tau[x + N_first_round_surveys, ] +
       xi
     eta_coll <- eta[1:2] +
       transition_matrix[1:2, 3:P] %*%

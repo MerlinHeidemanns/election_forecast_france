@@ -4,7 +4,7 @@ create_variable_inclusion_input <- function(df){
   ## How many parties did the poll ask for?
   #' Group by id and find number of observation as number of parties
   P_first_round <- df %>%
-    group_by(id) %>%
+    group_by(question_id) %>%
     summarize(n = n()) %>%
     pull(n)
 
@@ -15,13 +15,13 @@ create_variable_inclusion_input <- function(df){
   #' Pass combinations to list
   #' Call unique
   df_wide <- df %>%
-    group_by(id) %>%
+    group_by(question_id) %>%
     mutate(n = n()) %>%
     ungroup() %>%
-    arrange(-n, id, p) %>%
-    dplyr::select(id, p) %>%
+    arrange(-n, question_id, p) %>%
+    dplyr::select(question_id, p) %>%
     mutate(val = 1) %>%
-    pivot_wider(id_cols = id,
+    pivot_wider(id_cols = question_id,
                 names_from = p,
                 names_prefix = "p",
                 values_from = val,
@@ -46,10 +46,10 @@ create_variable_inclusion_input <- function(df){
       }
     }
   }
-  df_wide <- df_wide %>% as.data.frame() %>%
-    arrange(id)
-  p_id <- df_wide$V8[1:max(df$id)]
-
+  df_wide <- df_wide %>%
+    as.data.frame() %>%
+    arrange(question_id)
+  p_id <- df_wide[,ncol(df_wide)][1:max(df$question_id)]
   ## How long is each combination?
   P_N_combinations <- lapply(combinations, length) %>% unlist()
 

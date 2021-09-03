@@ -20,15 +20,19 @@ source("src/R/functions/ppc_plt_alpha_sum_to_0.R")
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
+#' Parameters
+#' Fake true data
+#' Observed polls
 T <- 10
 T_prior <- 10
-N_first_round <- 15
-N_second_round <- 25
+N_first_round_surveys <- 7
+N_second_round <- 10
 N_first_round_past <- 40
 N_past_election <- 3
 P_both <- 4
 P_past <- 2
 P_new <- 2
+N_R <- 3
 data <- sim_random_walk(N_past_election = N_past_election,
                         P_both = P_both,
                         P_past = P_past,
@@ -38,46 +42,51 @@ data <- sim_random_walk(N_past_election = N_past_election,
                         rho = 0.1,
                         sigma = 0.1,
                         K_VAR = 1)
-ggplot(data$df, aes(x = t, y = share, color = p)) +
-  geom_line()
-ggplot(data$df_coll, aes(x = t, y = share, color = p)) +
-  geom_line()
-df <- sim_polling_data(N_first_round = N_first_round,
+df <- sim_polling_data(N_first_round_surveys = N_first_round_surveys,
                        N_second_round = N_second_round,
                        N_first_round_past = N_first_round_past,
-                       N_R = 3,
+                       N_R = N_R,
                        sigma_alpha = 0.2,
                        sigma_tau = 0.2,
                        sigma_xi = 0.2,
                        data$eta_matrix,
                        transition_matrix = data$transition_matrix,
                        pi_past = data$pi_past)
-df$polls_first_round_past %>%
-  left_join(data$pi_past_dataframe) %>%
-  ggplot(aes(x = share - y/n)) +
-    geom_histogram()
-ggplot(df$polls_first_round, aes(x = t, y = y/n, color = as.factor(p))) +
-  geom_point()
-ggplot(df$polls_second_round, aes(x = t, y = y/n)) +
-  geom_point()
 
 
-
-
-inclusion_data <- create_variable_inclusion_input(df$polls_first_round)
+## Plot simulated data
+plt_1st_round <- ggplot(data$df, aes(x = t, y = share, color = p)) +
+  geom_line()
+plt_2nd_round <- ggplot(data$df_coll, aes(x = t, y = share, color = p)) +
+  geom_line()
+gridExtra::grid.arrange(plt_1st_round, plt_2nd_round)
+cat("Distribution of error in second round polls")
+df$polls_second_round %>%
+  left_join(data$df_coll) %>%
+  filter(p == 1) %>%
+  mutate(error = share - y/n) %>%
+  pull(error) %>%
+  summary()
 
 
 ## Prepare data
+inclusion_data <- create_variable_inclusion_input(df$polls_first_round)
 data_list <- list(
-  N_first_round = df$polls_first_round %>%
+  S_first_round_surveys = df$polls_first_round %>%
     distinct(id) %>%
     nrow(),
+  N_first_round = df$polls_first_round %>%
+    distinct(question_id) %>%
+    nrow(),
+  s_first_round = df$polls_first_round %>%
+    distinct(id, question_id) %>%
+    pull(id),
   N_second_round = df$polls_second_round %>%
     distinct(id) %>%
     nrow(),
   P = P_new + P_both,
   P_past_present = P_new + P_both + P_past,
-  R = 3,
+  R = N_R,
   T = T,
   T_prior = T_prior,
   theta_prior = data$eta_start,
@@ -138,10 +147,10 @@ data_list <- list(
     t()
 )
 
+
 ## Fit model
 fit <- mod$sample(
   data = data_list,
-  seed = 1234,
   chains = 4,
   iter_sampling = 250,
   iter_warmup = 250,
@@ -149,20 +158,23 @@ fit <- mod$sample(
   refresh = 250,
   init = 0.2
 )
-## Plot pi_theta
+
+
+## Posterior Predictive Checks
+# Plot pi_theta
 ppc_plt_pi_theta_first_round(fit, df$polls_first_round, data$df)
 ppc_plt_pi_theta_second_round(fit, df$polls_second_round, data$df_coll)
-## Plot sigma_tau
+# Plot sigma_tau
 ppc_plt_sigma_tau(fit, 0.2)
-## Plot sigma_alpha
+# Plot sigma_alpha
 ppc_plt_sigma_alpha(fit, 0.2)
-## Plot alpha
+# Plot alpha
 ppc_plt_alpha(fit, true_alpha = df$alpha)
-## Plot xi
+# Plot xi
 ppc_plt_xi(fit, true_xi = df$xi)
-## cov_theta
+# cov_theta
 ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
-## Sum to zero constraint
+# Sum to zero constraint
 ppc_plt_alpha_sum_to_0(fit)
 
 
