@@ -174,18 +174,19 @@ transformed parameters {
 }
 model {
   // -- Current polling data
-  sigma_xi ~ normal(0, 0.3);
-  sigma_alpha ~ normal(0, 0.3);
-  sigma_tau ~ normal(0, 0.3);
-  sigma_cov ~ normal(0, 0.3);
+  sigma_xi ~ normal(0, 0.1);
+  sigma_alpha ~ normal(0, 0.1);
+  sigma_tau ~ normal(0, 0.1);
+  sigma_cov ~ normal(0, 0.1);
   to_vector(raw_xi) ~ normal(0, sigma_xi);
   to_vector(raw_alpha) ~ normal(0, sigma_alpha);
   to_vector(raw_tau_1r) ~ normal(0, sigma_tau);
   to_vector(raw_tau_2r) ~ normal(0, sigma_tau);
+
   // Random walk
   std_theta_prior ~ std_normal();
   to_vector(raw_theta) ~ std_normal();
-  cholesky_corr_theta ~ lkj_corr_cholesky(2.0);
+  cholesky_corr_theta ~ lkj_corr_cholesky(10.0);
 
   // Likelihood (first round)
   // * Get the indexes for the included and excluded candidates

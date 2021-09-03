@@ -2,7 +2,7 @@
 #' @param fit Cmdstan fit object
 #' @return Dataframe with quantiles of th voteshares
 ppc_plt_pi_theta_first_round <- function(fit, polls, true_data = NULL){
-  pi_theta_first_round <- fit$draws("pi_theta_first_round") %>%
+  pi_theta_first_round <- fit$draws("pi_theta_1r") %>%
     posterior::as_draws_df() %>%
     pivot_longer(
       everything(),

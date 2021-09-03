@@ -81,7 +81,7 @@ data_list <- list(
   s_1r = df$polls_first_round %>%
     distinct(id, question_id) %>%
     pull(id),
-  N_1r = df$polls_second_round %>%
+  N_2r = df$polls_second_round %>%
     distinct(id) %>%
     nrow(),
   P = P_new + P_both,
@@ -112,12 +112,12 @@ data_list <- list(
 
   ##
   y_1r = inclusion_data$y_first_round %>% t(),
-  y_second_round = df$polls_second_round %>%
+  y_2r = df$polls_second_round %>%
     pull(y),
-  n_second_round = df$polls_second_round %>%
+  n_2r = df$polls_second_round %>%
     pull(n),
   N_elections_past = df$N_elections_past,
-  N_first_round_past = df$polls_first_round_past %>%
+  N_1r_past = df$polls_first_round_past %>%
     distinct(id) %>%
     nrow(),
   P_past = df$P_past_elections,
@@ -136,7 +136,7 @@ data_list <- list(
     pull(t),
   results = data$pi_past %>%
     t(),
-  y_first_round_past = df$polls_first_round_past %>%
+  y_1r_past = df$polls_first_round_past %>%
     select(id, y, p) %>%
     pivot_wider(id_cols = id,
                 names_from = p,
@@ -176,7 +176,8 @@ ppc_plt_xi(fit, true_xi = df$xi)
 ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
 # Sum to zero constraint
 ppc_plt_alpha_sum_to_0(fit)
-
+# sigma_cov
+ppc_plt_sigma_cov(fit, data$transition_matrix)
 
 
 
