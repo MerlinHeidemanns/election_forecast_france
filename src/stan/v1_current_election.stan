@@ -197,8 +197,9 @@ model {
       vector[P] pi_theta_complete;
       vector[P_first_round[ii]] pi_theta_subset;
       int p_id_ii = p_id[ii];
-      int index_included[P_first_round[ii]] = p_first_round_included[p_id_ii, 1:P_first_round[ii]];
-      int index_excluded[P - P_first_round[ii]] = p_first_round_excluded[p_id_ii, 1:(P - P_first_round[ii])];
+      int P_first_round_ii = P_first_round[ii]
+      int index_included[P_first_round_ii] = p_first_round_included[p_id_ii, 1:P_first_round_ii];
+      int index_excluded[P - P_first_round_ii] = p_first_round_excluded[p_id_ii, 1:(P - P_first_round_ii)];
       pi_theta_complete = theta[, s_first_round[ii]] +
         tau_first_round[, s_first_round[ii]] +
         alpha[, r_first_round[s_first_round[ii]]] +
