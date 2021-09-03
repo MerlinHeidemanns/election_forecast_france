@@ -22,8 +22,8 @@ mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Generate data
 T <- 10
 T_prior <- 10
-N_first_round <- 15
-N_second_round <- 25
+N_first_round_surveys <- 7
+N_second_round <- 10
 N_first_round_past <- 40
 N_past_election <- 3
 P_both <- 4
@@ -42,7 +42,7 @@ ggplot(data$df, aes(x = t, y = share, color = p)) +
   geom_line()
 ggplot(data$df_coll, aes(x = t, y = share, color = p)) +
   geom_line()
-df <- sim_polling_data(N_first_round = N_first_round,
+df <- sim_polling_data(N_first_round_surveys = N_first_round_surveys,
                        N_second_round = N_second_round,
                        N_first_round_past = N_first_round_past,
                        N_R = 3,
@@ -69,9 +69,15 @@ inclusion_data <- create_variable_inclusion_input(df$polls_first_round)
 
 ## Prepare data
 data_list <- list(
-  N_first_round = df$polls_first_round %>%
+  S_first_round_surveys = df$polls_first_round %>%
     distinct(id) %>%
     nrow(),
+  N_first_round = df$polls_first_round %>%
+    distinct(question_id) %>%
+    nrow(),
+  s_first_round = df$polls_first_round %>%
+    distinct(id, question_id) %>%
+    pull(id),
   N_second_round = df$polls_second_round %>%
     distinct(id) %>%
     nrow(),

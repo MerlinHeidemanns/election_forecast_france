@@ -1,16 +1,25 @@
 data {
-  int N_first_round;
-  int N_second_round;
+  int S_first_round_surveys; // # first round surveys
+  int<lower = S_first_round_surveys> N_first_round; // # first round polls
+  int N_second_round; // # second round polls
   int P;
   int P_past_present;
   int R;
   int T;
   int T_prior;
   vector[P_past_present] theta_prior;
-  int t_first_round[N_first_round];
+
+  // First round
+  int<lower = 1, upper = S_first_round_surveys> s_first_round[N_first_round];
+  int r_first_round[S_first_round_surveys];
+  int t_first_round[S_first_round_surveys];
+
+  // Second round
   int t_second_round[N_second_round];
-  int r_first_round[N_first_round];
   int r_second_round[N_second_round];
+  int<lower = 0> y_second_round[N_second_round];
+  int<lower = 0> n_second_round[N_second_round];
+
   // variable inclusion
   int P_first_round[N_first_round];
   int N_combinations;
@@ -19,8 +28,6 @@ data {
   int p_first_round_excluded[N_combinations, P];
   int<lower = 1, upper = N_combinations> p_id[N_first_round];
   int y_first_round[P, N_first_round];
-  int<lower = 0> y_second_round[N_second_round];
-  int<lower = 0> n_second_round[N_second_round];
 
   // past
   int N_elections_past;
@@ -57,7 +64,7 @@ parameters {
   real<lower = lsigma> sigma_alpha;
   real<lower = lsigma> sigma_xi;
   vector<lower = lsigma>[P_past_present] sigma_cov;
-  matrix[P - 1, N_first_round] raw_tau_first_round;
+  matrix[P - 1, S_first_round_surveys] raw_tau_first_round;
   matrix[P - 1, N_second_round] raw_tau_second_round;
   matrix[P - 1, R] raw_alpha;
   matrix[max(P_past) - 1, R_past] raw_alpha_past;
@@ -69,21 +76,24 @@ parameters {
 }
 transformed parameters {
   matrix[P, T] theta;
-  matrix[P, N_first_round] tau_first_round;
+  matrix[P, S_first_round_surveys] tau_first_round;
   matrix[P, N_second_round] tau_second_round;
   matrix[P, R] alpha;
   matrix[max(P_past), R_past] alpha_past = rep_matrix(0.0, max(P_past), R_past);
   matrix[max(P_past), N_first_round_past] tau_first_round_past;
   vector[P] xi;
   matrix[max(P_past), N_elections_past] xi_past;
+
   // Covariance matrizes
   cholesky_factor_cov[P_past_present] cholesky_cov_theta_past;
   matrix[P_past_present, P_past_present] cov_theta_past;
   matrix[P, P] cholesky_cov_theta;
   matrix[P, P] cov_theta;
   matrix[max(P_N_combinations), max(P_N_combinations)] left_inv_cov_theta_comb[N_combinations];
+
   // Containers
   vector[N_second_round] pi_beta;
+
   // Determine current covariance matrix
   cholesky_cov_theta_past = diag_pre_multiply(sigma_cov, cholesky_corr_theta);
   cov_theta_past = cholesky_cov_theta_past * cholesky_cov_theta_past';
@@ -113,7 +123,7 @@ transformed parameters {
 
   // -- Current polling data
   // Sum to 0 constraints
-  for (ii in 1:N_first_round)
+  for (ii in 1:S_first_round_surveys)
     tau_first_round[, ii] = append_row(
       raw_tau_first_round[, ii],- sum(raw_tau_first_round[, ii]));
   for (ii in 1:N_second_round)
@@ -122,9 +132,11 @@ transformed parameters {
   for (ii in 1:R)
     alpha[, ii] = append_row(raw_alpha[, ii], -sum(raw_alpha[, ii]));
   xi = append_row(raw_xi, -sum(raw_xi));
+
   // Random walk
   for (tt in 2:T)
     theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
+
   // -- Past polling data
   // Sum to 0 constraints
   for (ii in 1:N_first_round_past){
@@ -184,16 +196,17 @@ model {
     {
       vector[P] pi_theta_complete;
       vector[P_first_round[ii]] pi_theta_subset;
-      int index_included[P_first_round[ii]] = p_first_round_included[p_id[ii], 1:P_first_round[ii]];
-      int index_excluded[P - P_first_round[ii]] = p_first_round_excluded[p_id[ii], 1:(P - P_first_round[ii])];
-      pi_theta_complete = theta[, t_first_round[ii]] +
-        tau_first_round[, ii] +
-        alpha[, r_first_round[ii]] +
+      int p_id_ii = p_id[ii];
+      int index_included[P_first_round[ii]] = p_first_round_included[p_id_ii, 1:P_first_round[ii]];
+      int index_excluded[P - P_first_round[ii]] = p_first_round_excluded[p_id_ii, 1:(P - P_first_round[ii])];
+      pi_theta_complete = theta[, s_first_round[ii]] +
+        tau_first_round[, s_first_round[ii]] +
+        alpha[, r_first_round[s_first_round[ii]]] +
         xi;
       pi_theta_subset = pi_theta_complete[index_included] -
-        left_inv_cov_theta_comb[p_id[ii], 1:P_N_combinations[p_id[ii]], 1:not_P_N_combinations[p_id[ii]]] *
-        (conditional_values[1:not_P_N_combinations[p_id[ii]]] - pi_theta_complete[index_excluded]);
-      target += multinomial_lpmf(y_first_round[1:P_N_combinations[p_id[ii]], ii] |
+        left_inv_cov_theta_comb[p_id_ii, 1:P_N_combinations[p_id_ii], 1:not_P_N_combinations[p_id_ii]] *
+        (conditional_values[1:not_P_N_combinations[p_id_ii]] - pi_theta_complete[index_excluded]);
+      target += multinomial_lpmf(y_first_round[1:P_N_combinations[p_id_ii], ii] |
                                  softmax(pi_theta_subset));
     }
   }
