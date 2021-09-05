@@ -1,7 +1,7 @@
 #' ppc_pi_beta
 #' @param fit Cmdstan fit object
-ppc_plt_pi_theta_second_round <- function(fit, polls, true_data = NULL){
-  pi_theta_second_round <- fit$draws("pi_theta_second_round") %>%
+ppc_plt_pi_theta_second_round <- function(fit, polls, df_skip, true_data = NULL){
+  pi_theta_second_round <- fit$draws("pi_theta_2r") %>%
     posterior::as_draws_df() %>%
     pivot_longer(
       everything(),
@@ -10,9 +10,10 @@ ppc_plt_pi_theta_second_round <- function(fit, polls, true_data = NULL){
     ) %>%
     mutate(
       p = str_match(pt, "(\\d+),")[, 2],
-      t = as.integer(str_match(pt, ",(\\d+)")[, 2])
+      t_unit = as.integer(str_match(pt, ",(\\d+)")[, 2])
     ) %>%
-    filter(!is.na(t)) %>%
+    filter(!is.na(t_unit)) %>%
+    left_join(df_skip) %>%
     dplyr::select(-pt) %>%
     group_by(p, t) %>%
     summarize(

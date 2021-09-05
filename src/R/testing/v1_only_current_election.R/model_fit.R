@@ -17,22 +17,22 @@ source("src/R/functions/ppc_plt_cov_theta.R")
 source("src/R/functions/create_y_first_round.R")
 source("src/R/functions/create_variable_inclusion_input.R")
 source("src/R/functions/ppc_plt_alpha_sum_to_0.R")
-## Load model
-mod <- cmdstan_model("src/stan/v1_current_election.stan")
+source("src/R/functions/ppc_plt_sigma_cov.R")
 ## Generate data
 #' Parameters
 #' Fake true data
 #' Observed polls
-T <- 10
+T <- 30
 T_prior <- 10
-N_first_round_surveys <- 7
-N_second_round <- 10
-N_first_round_past <- 40
-N_past_election <- 3
+N_first_round_surveys <- 6
+N_second_round <- 2
+N_first_round_past <- 20
+N_past_election <- 1
 P_both <- 4
 P_past <- 2
 P_new <- 2
 N_R <- 3
+N_combinations <- 4
 data <- sim_random_walk(N_past_election = N_past_election,
                         P_both = P_both,
                         P_past = P_past,
@@ -46,6 +46,7 @@ df <- sim_polling_data(N_first_round_surveys = N_first_round_surveys,
                        N_second_round = N_second_round,
                        N_first_round_past = N_first_round_past,
                        N_R = N_R,
+                       N_combinations = N_combinations,
                        sigma_alpha = 0.2,
                        sigma_tau = 0.2,
                        sigma_xi = 0.2,
@@ -70,6 +71,25 @@ df$polls_second_round %>%
 
 
 ## Prepare data
+# -- Create unit steps
+t_1r <- df$polls_first_round %>%
+  pull(t)
+t_2r <- df$polls_second_round %>%
+  pull(t)
+t_unit_df <- data.frame(t = c(t_1r, t_2r)) %>%
+  distinct(t) %>%
+  arrange(t) %>%
+  mutate(t_unit = 1:n())
+t_unit_skip <- t_unit_df %>%
+  mutate(t_skip = t - lag(t)) %>%
+  filter(!is.na(t_skip)) %>%
+  pull(t_skip)
+df$polls_first_round <- df$polls_first_round %>%
+  left_join(t_unit_df, by = "t")
+df$polls_second_round <- df$polls_second_round %>%
+  left_join(t_unit_df, by = "t")
+
+
 inclusion_data <- create_variable_inclusion_input(df$polls_first_round)
 data_list <- list(
   S_1r_surveys = df$polls_first_round %>%
@@ -81,21 +101,22 @@ data_list <- list(
   s_1r = df$polls_first_round %>%
     distinct(id, question_id) %>%
     pull(id),
-  N_1r = df$polls_second_round %>%
+  N_2r = df$polls_second_round %>%
     distinct(id) %>%
     nrow(),
   P = P_new + P_both,
   P_past_present = P_new + P_both + P_past,
   R = N_R,
-  T = T,
+  T_unit = nrow(t_unit_df),
+  t_unit_skip = t_unit_skip,
   T_prior = T_prior,
   theta_prior = data$eta_start,
-  t_1r = df$polls_first_round %>%
-    distinct(id, t) %>%
-    pull(t),
-  t_2r = df$polls_second_round %>%
-    distinct(id, t) %>%
-    pull(t),
+  t_unit_1r = df$polls_first_round %>%
+    distinct(id, t_unit) %>%
+    pull(t_unit),
+  t_unit_2r = df$polls_second_round %>%
+    distinct(id, t_unit) %>%
+    pull(t_unit),
   r_1r = df$polls_first_round %>%
     distinct(id, r) %>%
     pull(r),
@@ -112,15 +133,16 @@ data_list <- list(
 
   ##
   y_1r = inclusion_data$y_first_round %>% t(),
-  y_second_round = df$polls_second_round %>%
+  y_2r = df$polls_second_round %>%
     pull(y),
-  n_second_round = df$polls_second_round %>%
+  n_2r = df$polls_second_round %>%
     pull(n),
   N_elections_past = df$N_elections_past,
-  N_first_round_past = df$polls_first_round_past %>%
+  N_1r_past = df$polls_first_round_past %>%
     distinct(id) %>%
     nrow(),
-  P_past = df$P_past_elections,
+  P_past = df$P_past_elections %>%
+    array(),
   R_past = df$polls_first_round_past %>%
     distinct(r) %>%
     nrow(),
@@ -136,7 +158,7 @@ data_list <- list(
     pull(t),
   results = data$pi_past %>%
     t(),
-  y_first_round_past = df$polls_first_round_past %>%
+  y_1r_past = df$polls_first_round_past %>%
     select(id, y, p) %>%
     pivot_wider(id_cols = id,
                 names_from = p,
@@ -148,22 +170,23 @@ data_list <- list(
 )
 
 
+## Load model
+mod <- cmdstan_model("src/stan/v1_current_election.stan")
 ## Fit model
 fit <- mod$sample(
   data = data_list,
   chains = 4,
-  iter_sampling = 250,
-  iter_warmup = 250,
+  iter_sampling = 400,
+  iter_warmup = 500,
   parallel_chains = 4,
-  refresh = 250,
-  init = 0.2
+  refresh = 250
 )
 
 
 ## Posterior Predictive Checks
 # Plot pi_theta
-ppc_plt_pi_theta_first_round(fit, df$polls_first_round, data$df)
-ppc_plt_pi_theta_second_round(fit, df$polls_second_round, data$df_coll)
+ppc_plt_pi_theta_first_round(fit, df$polls_first_round, t_unit_df, data$df)
+ppc_plt_pi_theta_second_round(fit, df$polls_second_round, t_unit_df, data$df_coll)
 # Plot sigma_tau
 ppc_plt_sigma_tau(fit, 0.2)
 # Plot sigma_alpha
@@ -176,12 +199,6 @@ ppc_plt_xi(fit, true_xi = df$xi)
 ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
 # Sum to zero constraint
 ppc_plt_alpha_sum_to_0(fit)
-
-
-
-
-
-
-
-
+# sigma_cov
+ppc_plt_sigma_cov(fit, data$transition_matrix)
 

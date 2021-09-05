@@ -19,6 +19,7 @@ sim_polling_data <- function(N_first_round_surveys,
                              N_second_round,
                              N_first_round_past,
                              N_R,
+                             N_combinations,
                              sigma_alpha,
                              sigma_tau,
                              sigma_xi,
@@ -40,7 +41,8 @@ sim_polling_data <- function(N_first_round_surveys,
   xi <- demean_by_row(xi)
 
   p_combinations <- list()
-  for (ii in 1:5){
+
+  for (ii in 1:N_combinations){
     p_combinations[[ii]] <- sort(sample(1:P, sample((P - 3):(P - 1), 1)))
   }
   #' Simulate polls
@@ -54,7 +56,7 @@ sim_polling_data <- function(N_first_round_surveys,
       xi
     N_questions <- sample(2:4, 1)
     out_survey <- lapply(1:N_questions, function(jj){
-      p_included <- p_combinations[[sample(1:5, 1)]]
+      p_included <- p_combinations[[sample(1:N_combinations, 1)]]
       p_excluded <- (1:P)[!((1:P) %in% p_included)]
       P_included = length(p_included)
       P_excluded = P - P_included
