@@ -5,17 +5,18 @@ data {
   int P;
   int P_past_present;
   int R;
-  int T;
+  int T_unit;
+  vector[T_unit - 1] t_unit_skip;
   int T_prior;
   vector[P_past_present] theta_prior;
 
   // First round
   int<lower = 1, upper = S_1r_surveys> s_1r[N_1r];
   int r_1r[S_1r_surveys];
-  int t_1r[S_1r_surveys];
+  int t_unit_1r[S_1r_surveys];
 
   // Second round
-  int t_2r[N_2r];
+  int t_unit_2r[N_2r];
   int r_2r[N_2r];
   int<lower = 0> y_2r[N_2r];
   int<lower = 0> n_2r[N_2r];
@@ -52,6 +53,7 @@ transformed data {
   vector[P] conditional_values = rep_vector(0.0, P);
   matrix[max(P_past), N_elections_past] theta_results = rep_matrix(0.0, max(P_past), N_elections_past);
   int not_P_N_combinations[N_combinations];
+  vector[T_unit] t_unit_skip_sqrt = sqrt(t_unit_skip);
   for (ii in 1:N_combinations)
     not_P_N_combinations[ii] = P - P_N_combinations[ii];
   for (ii in 1:N_elections_past){
@@ -69,13 +71,13 @@ parameters {
   matrix[P - 1, R] raw_alpha;
   matrix[max(P_past) - 1, R_past] raw_alpha_past;
   matrix[max(P_past), N_1r_past] raw_tau_1r_past;
-  matrix[P, T] raw_theta;
+  matrix[P, T_unit] raw_theta;
   vector[P - 1] raw_xi;
   matrix[max(P_past) - 1, N_elections_past] raw_xi_past;
   cholesky_factor_corr[P_past_present] cholesky_corr_theta;
 }
 transformed parameters {
-  matrix[P, T] theta;
+  matrix[P, T_unit] theta;
   matrix[P, S_1r_surveys] tau_1r;
   matrix[P, N_2r] tau_2r;
   matrix[P, R] alpha;
@@ -126,16 +128,22 @@ transformed parameters {
   for (ii in 1:S_1r_surveys)
     tau_1r[, ii] = append_row(
       raw_tau_1r[, ii],- sum(raw_tau_1r[, ii]));
+
   for (ii in 1:N_2r)
     tau_2r[, ii] = append_row(
       raw_tau_2r[, ii], -sum(raw_tau_2r[, ii]));
-  for (ii in 1:R)
-    alpha[, ii] = append_row(raw_alpha[, ii], -sum(raw_alpha[, ii]));
+  // for (ii in 1:R)
+  //   alpha[, ii] = append_row(raw_alpha[, ii], -sum(raw_alpha[, ii]));
+  //
+  alpha[1:(P - 1), 1:(R - 1)] = raw_alpha[1:(P - 1), 1:(R - 1)];
+  for (ii in 1:(P - 1)) alpha[ii, R] = -sum(alpha[ii,1:(R - 1)]);
+  for (ii in 1:(R)) alpha[P, ii] = -sum(alpha[1:(P - 1), ii]);
+
   xi = append_row(raw_xi, -sum(raw_xi));
 
   // Random walk
-  for (tt in 2:T)
-    theta[, tt] = cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
+  for (tt in 2:T_unit)
+    theta[, tt] = t_unit_skip_sqrt[tt - 1] * cholesky_cov_theta * raw_theta[:, tt] + theta[:, tt - 1];
 
   // -- Past polling data
   // Sum to 0 constraints
@@ -160,10 +168,10 @@ transformed parameters {
       {
         vector[P] tmp;
         vector[2] beta;
-        tmp = theta[, t_2r[ii]] +
+        tmp = theta[, t_unit_2r[ii]] +
           tau_2r[, ii] +
-            alpha[, r_2r[ii]] +
-            xi;
+          alpha[, r_2r[ii]] +
+          xi;
         beta = tmp[1:2] + cov_beta * (conditional_values_two - tmp[3:P]);
         pi_beta[ii] = softmax(beta)[1];
       }
@@ -201,7 +209,7 @@ model {
       int P_1r_ii = P_1r[ii];
       int index_included[P_1r_ii] = p_1r_included[p_id_ii, 1:P_1r_ii];
       int index_excluded[P - P_1r_ii] = p_1r_excluded[p_id_ii, 1:(P - P_1r_ii)];
-      pi_theta_complete = theta[, t_1r[s_1r[ii]]] +
+      pi_theta_complete = theta[, t_unit_1r[s_1r[ii]]] +
         tau_1r[, s_1r[ii]] +
         alpha[, r_1r[s_1r[ii]]] +
         xi;
@@ -229,13 +237,13 @@ model {
   }
 }
 generated quantities {
-  matrix[P, T] pi_theta_1r;
-  matrix[2, T] theta_2r;
-  matrix[2, T] pi_theta_2r;
-  for (tt in 1:T){
+  matrix[P, T_unit] pi_theta_1r;
+  matrix[2, T_unit] theta_2r;
+  matrix[2, T_unit] pi_theta_2r;
+  for (tt in 1:T_unit){
     pi_theta_1r[, tt] = softmax(theta[, tt]);
   }
-  for (tt in 1:T){
+  for (tt in 1:T_unit){
     {
       matrix[2, P - 2] cov_beta;
       cov_beta = cov_theta[1:2, 3:P] / cov_theta[3:P, 3:P];
