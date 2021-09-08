@@ -192,7 +192,7 @@ sim_polling_data <- function(N_first_round_surveys,
   do.call("bind_rows", .)
 
   polls_first_round_past <- polls_first_round_past %>%
-    group_by(r) %>%
+    group_by(r, t) %>%
     mutate(r_id = cur_group_id()) %>%
     ungroup()
 

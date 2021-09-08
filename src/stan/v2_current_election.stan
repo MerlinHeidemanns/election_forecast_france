@@ -44,7 +44,7 @@ transformed data {
   // * Previous election to current one
   // * Runoff
   // * Subsets currently
-  vector[P] conditional_values = rep_vector(-2, P);
+  vector[P] conditional_values = rep_vector(0.0, P);
   matrix[max(P_past), N_elections_past] theta_results = rep_matrix(0.0, max(P_past), N_elections_past);
   int not_P_N_combinations[N_combinations];
   vector[T_unit] t_unit_skip_sqrt = sqrt(t_unit_skip);
@@ -106,12 +106,12 @@ transformed parameters {
   // -- Current polling data
   // Sum to 0 constraints
   for (ii in 1:S_1r_surveys)
-    tau_1r[, ii] = append_row(-sum(raw_tau_1r[, ii]),
-      raw_tau_1r[, ii]);
+    tau_1r[, ii] = append_row(
+      raw_tau_1r[, ii],- sum(raw_tau_1r[, ii]));
 
   for (ii in 1:N_2r)
-    tau_2r[, ii] = append_row(-sum(raw_tau_2r[, ii]),
-      raw_tau_2r[, ii]);
+    tau_2r[, ii] = append_row(
+      raw_tau_2r[, ii], -sum(raw_tau_2r[, ii]));
   // for (ii in 1:R)
   //   alpha[, ii] = append_row(raw_alpha[, ii], -sum(raw_alpha[, ii]));
   //
@@ -119,10 +119,10 @@ transformed parameters {
   for (ii in 1:(P - 1)) alpha[ii, R] = -sum(alpha[ii,1:(R - 1)]);
   for (ii in 1:(R)) alpha[P, ii] = -sum(alpha[1:(P - 1), ii]);
 
-  xi = append_row(-sum(raw_xi), raw_xi);
+  xi = append_row(raw_xi, -sum(raw_xi));
 
   // Random walk
-  theta[, 1] = log(theta_prior/theta_prior[1]);
+  theta[, 1] = theta_prior;
   for (tt in 2:T_unit)
     theta[, tt] = t_unit_skip_sqrt[tt - 1] * cholesky_cov_theta * raw_theta[:, tt] + theta[, tt - 1];
 
@@ -153,7 +153,7 @@ transformed parameters {
           alpha[, r_2r[ii]] +
           xi;
         beta = tmp[1:2] + cov_beta * (conditional_values[3:P] - tmp[3:P]);
-        pi_beta[ii] = softmax(beta)[1];
+        pi_beta[ii] = beta[1];
       }
     }
   }
@@ -197,7 +197,7 @@ model {
         left_inv_cov_theta_comb[p_id_ii, 1:P_N_combinations[p_id_ii], 1:not_P_N_combinations[p_id_ii]] *
         (conditional_values[1:not_P_N_combinations[p_id_ii]] - pi_theta_complete[index_excluded]);
       target += multinomial_lpmf(y_1r[1:P_N_combinations[p_id_ii], ii] |
-                                 softmax(pi_theta_subset));
+                                 pi_theta_subset);
     }
   }
   // Likelihood (second round)
@@ -210,10 +210,10 @@ model {
   // Likelihood
   for (ii in 1:N_1r_past){
     target += multinomial_lpmf(y_1r_past[1:P_past[t_past[ii]], ii] |
-      softmax(theta_results[1:P_past[t_past[ii]], t_past[ii]] +
+      theta_results[1:P_past[t_past[ii]], t_past[ii]] +
         alpha_past[1:P_past[rt_past[r_past[ii]]], r_past[ii]] +
         xi_past[1:P_past[t_past[ii]], t_past[ii]] +
-        tau_1r_past[1:P_past[t_past[ii]], ii]));
+        tau_1r_past[1:P_past[t_past[ii]], ii]);
   }
 }
 generated quantities {
@@ -221,14 +221,14 @@ generated quantities {
   matrix[2, T_unit] theta_2r;
   matrix[2, T_unit] pi_theta_2r;
   for (tt in 1:T_unit){
-    pi_theta_1r[, tt] = softmax(theta[, tt]);
+    pi_theta_1r[, tt] = theta[, tt];
   }
   for (tt in 1:T_unit){
     {
       matrix[2, P - 2] cov_beta;
       cov_beta = cov_theta[1:2, 3:P] / cov_theta[3:P, 3:P];
         theta_2r[:, tt] = theta[1:2, tt] + cov_beta * (conditional_values[3:P] - theta[3:P, tt]);
-        pi_theta_2r[:, tt] = softmax(theta_2r[:, tt]);
+        pi_theta_2r[:, tt] = theta_2r[:, tt];
     }
   }
 }
