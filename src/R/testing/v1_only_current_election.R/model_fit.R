@@ -166,11 +166,6 @@ data_list <- list(
 
 ## Checks
 data_list_check_y_1r(data_list)
-<<<<<<< HEAD
-=======
-
-
->>>>>>> befd849f42c1d9cac34d1bfac3c67842031ddb9f
 
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
