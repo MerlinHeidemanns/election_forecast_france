@@ -6,7 +6,8 @@ source("src/R/organizing/observed_polls/poll_checks.R")
 ## Remove specific questions
 remove <- c("Abstention",
             "Un candidate d'extrême-gauch",
-            "François Hollande")
+            "François Hollande",
+            "Le ou la candidate vainqueur de la primaire écologiste")
 remove_question_ids <- df %>%
   filter(candidate %in% remove) %>%
   pull(question_id) %>%
@@ -58,6 +59,15 @@ df <- df %>%
   left_join(all_pollster,
             by = "pollName")
 
+## Change question identifier to numerique
+#' Group
+#' Create identifier
+#' Ungroup
+df <- df %>%
+  group_by(question_id) %>%
+  mutate(question_id = cur_group_id()) %>%
+  ungroup()
+
 ## Dates
 #' Create dates from strings
 #' Assign time points when the poll took place
@@ -104,9 +114,11 @@ read.csv("dta/polls_dta/election_results_2017.csv") %>%
   left_join(all_candidates) %>%
   write.csv("dta/polls_dta/elections_results_2017_w_id.csv")
 
+## Save
+write.csv(df, "dta/polls_dta/2020_polls_clean.csv")
 
-
-
+## Clean
+rm(list = ls())
 
 
 
