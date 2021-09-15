@@ -44,14 +44,24 @@ transformed data {
   // * Previous election to current one
   // * Runoff
   // * Subsets currently
-  vector[P] conditional_values = rep_vector(-2, P);
+  vector[P] conditional_values = rep_vector(0, P);
   matrix[max(P_past), N_elections_past] theta_results = rep_matrix(0.0, max(P_past), N_elections_past);
   int not_P_N_combinations[N_combinations];
+  int corr_mat_positions[P, P - 1];
   vector[T_unit] t_unit_skip_sqrt = sqrt(t_unit_skip);
   for (ii in 1:N_combinations)
     not_P_N_combinations[ii] = P - P_N_combinations[ii];
   for (ii in 1:N_elections_past){
     theta_results[1:P_past[ii], ii] = log(results[1:P_past[ii], ii]/results[P_past[ii], ii]);
+  }
+  for (ii in 1:P){
+    for (jj in 1:P - 1){
+      if (jj >= ii){
+        corr_mat_positions[ii, jj] = jj + 1;
+      } else {
+        corr_mat_positions[ii, jj] = jj;
+      }
+    }
   }
 }
 parameters {
@@ -67,9 +77,10 @@ parameters {
   matrix[max(P_past) - 1, N_elections_past] raw_xi_past;
   // Random walk
   simplex[P] theta_prior;
-  vector<lower = lsigma>[P] sigma_cov;
-  matrix[P, T_unit] raw_theta;
-  cholesky_factor_corr[P] cholesky_corr_theta;
+  vector<lower = lsigma>[P - 1] sigma_cov;
+  matrix[P - 1, T_unit] raw_theta;
+  cholesky_factor_corr[P - 1] cholesky_corr_theta;
+  simplex[P - 1] trans_prob[P];
 }
 transformed parameters {
   matrix[P, T_unit] theta;
@@ -82,24 +93,32 @@ transformed parameters {
   matrix[max(P_past), N_elections_past] xi_past;
 
   // Covariance matrizes
-  cholesky_factor_cov[P] cholesky_cov_theta;
-  matrix[P, P] cov_theta;
-  matrix[max(P_N_combinations), max(P_N_combinations)] left_inv_cov_theta_comb[N_combinations];
+  cholesky_factor_cov[P - 1] cholesky_cov_theta;
+
+  // transition matrix
+  matrix[P, P] transition_matrix;
+  matrix[max(P_N_combinations), max(P_N_combinations)] left_inv_trans_comb[N_combinations];
 
   // Containers
   vector[N_2r] pi_beta;
 
+  // Fill transition matrix
+  for (ii in 1:P){
+    transition_matrix[ii, ii] = 1;
+    transition_matrix[corr_mat_positions[ii], ii] = -trans_prob[ii];
+  }
+
   // Determine current covariance matrix
   cholesky_cov_theta = diag_pre_multiply(sigma_cov, cholesky_corr_theta);
-  cov_theta = cholesky_cov_theta * cholesky_cov_theta';
 
+  // Determine left inv
   for (ii in 1:N_combinations){
     {
       matrix[P_N_combinations[ii], P - P_N_combinations[ii]] mat1;
       matrix[P - P_N_combinations[ii], P - P_N_combinations[ii]] mat2;
-      mat1 = cov_theta[p_1r_included[ii, 1:P_N_combinations[ii]], p_1r_excluded[ii, 1:not_P_N_combinations[ii]]];
-      mat2 = cov_theta[p_1r_excluded[ii, 1:not_P_N_combinations[ii]], p_1r_excluded[ii, 1:not_P_N_combinations[ii]]];
-      left_inv_cov_theta_comb[ii, 1:P_N_combinations[ii], 1:not_P_N_combinations[ii]] =  mat1 / mat2;
+      mat1 = transition_matrix[p_1r_included[ii, 1:P_N_combinations[ii]], p_1r_excluded[ii, 1:not_P_N_combinations[ii]]];
+      mat2 = transition_matrix[p_1r_excluded[ii, 1:not_P_N_combinations[ii]], p_1r_excluded[ii, 1:not_P_N_combinations[ii]]];
+      left_inv_trans_comb[ii, 1:P_N_combinations[ii], 1:not_P_N_combinations[ii]] =  mat1 / mat2;
     }
   }
 
@@ -112,20 +131,19 @@ transformed parameters {
   for (ii in 1:N_2r)
     tau_2r[, ii] = append_row(-sum(raw_tau_2r[, ii]),
       raw_tau_2r[, ii]);
-  // for (ii in 1:R)
-  //   alpha[, ii] = append_row(raw_alpha[, ii], -sum(raw_alpha[, ii]));
-  //
+
   alpha[1:(P - 1), 1:(R - 1)] = raw_alpha[1:(P - 1), 1:(R - 1)];
   for (ii in 1:(P - 1)) alpha[ii, R] = -sum(alpha[ii,1:(R - 1)]);
   for (ii in 1:(R)) alpha[P, ii] = -sum(alpha[1:(P - 1), ii]);
 
-  //xi = append_row(-sum(raw_xi), raw_xi);
   xi = raw_xi * sigma_xi;
 
   // Random walk
-  theta[, 1] = log(theta_prior/theta_prior[1]);
+  theta[1:(P - 1), 1] = log(theta_prior[1:P - 1]/theta_prior[P]);
   for (tt in 2:T_unit)
-    theta[, tt] = t_unit_skip_sqrt[tt - 1] * cholesky_cov_theta * raw_theta[:, tt] + theta[, tt - 1];
+    theta[1:(P - 1), tt] = t_unit_skip_sqrt[tt - 1] * cholesky_cov_theta * raw_theta[:, tt] + theta[1:(P - 1), tt - 1];
+  theta[P] = rep_vector(0.0, T_unit)';
+
 
   // -- Past polling data
   // Sum to 0 constraints
@@ -144,17 +162,17 @@ transformed parameters {
             -sum(raw_xi_past[1:(P_past[ii] - 1), ii]));
 
   {
-    matrix[2, P - 2] cov_beta = cov_theta[1:2, 3:P] / cov_theta[3:P, 3:P];
+    matrix[2, P - 2] cov_beta = transition_matrix[1:2, 3:P] / transition_matrix[3:P, 3:P];
     for (ii in 1:N_2r){
       {
         vector[P] tmp;
         vector[2] beta;
-        tmp = theta[, t_unit_2r[ii]] +
+        tmp = softmax(theta[, t_unit_2r[ii]] +
           tau_2r[, ii] +
           alpha[, r_2r[ii]] +
-          xi;
+          xi);
         beta = tmp[1:2] + cov_beta * (conditional_values[3:P] - tmp[3:P]);
-        pi_beta[ii] = softmax(beta)[1];
+        pi_beta[ii] = beta[1];
       }
     }
   }
@@ -178,6 +196,11 @@ model {
   to_vector(raw_theta) ~ std_normal();
   cholesky_corr_theta ~ lkj_corr_cholesky(1.0);
 
+  // transition probabilities
+  for (ii in 1:P){
+    trans_prob[ii] ~ dirichlet(rep_vector(1.0, P - 1));
+  }
+
   // Likelihood (first round)
   // * Get the indexes for the included and excluded candidates
   // * Create a container for the complete vector
@@ -191,19 +214,19 @@ model {
       int P_1r_ii = P_1r[ii];
       int index_included[P_1r_ii] = p_1r_included[p_id_ii, 1:P_1r_ii];
       int index_excluded[P - P_1r_ii] = p_1r_excluded[p_id_ii, 1:(P - P_1r_ii)];
-      pi_theta_complete = theta[, t_unit_1r[s_1r[ii]]] +
+      pi_theta_complete = softmax(theta[, t_unit_1r[s_1r[ii]]] +
         tau_1r[, s_1r[ii]] +
         alpha[, r_1r[s_1r[ii]]] +
-        xi;
-      pi_theta_subset = pi_theta_complete[index_included] -
-        left_inv_cov_theta_comb[p_id_ii, 1:P_N_combinations[p_id_ii], 1:not_P_N_combinations[p_id_ii]] *
+        xi);
+      pi_theta_subset = pi_theta_complete[index_included] +
+        left_inv_trans_comb[p_id_ii, 1:P_N_combinations[p_id_ii], 1:not_P_N_combinations[p_id_ii]] *
         (conditional_values[1:not_P_N_combinations[p_id_ii]] - pi_theta_complete[index_excluded]);
       target += multinomial_lpmf(y_1r[1:P_N_combinations[p_id_ii], ii] |
-                                 softmax(pi_theta_subset));
+          pi_theta_subset);
     }
   }
   // Likelihood (second round)
-  y_2r ~ binomial(n_2r, pi_beta);
+  //y_2r ~ binomial(n_2r, pi_beta);
   // -- Past polling data
   // Priors
   to_vector(raw_alpha_past) ~ normal(0, sigma_alpha);
@@ -228,9 +251,9 @@ generated quantities {
   for (tt in 1:T_unit){
     {
       matrix[2, P - 2] cov_beta;
-      cov_beta = cov_theta[1:2, 3:P] / cov_theta[3:P, 3:P];
-        theta_2r[:, tt] = theta[1:2, tt] + cov_beta * (conditional_values[3:P] - theta[3:P, tt]);
-        pi_theta_2r[:, tt] = softmax(theta_2r[:, tt]);
+      cov_beta = transition_matrix[1:2, 3:P] / transition_matrix[3:P, 3:P];
+        theta_2r[:, tt] = softmax(theta[1:2, tt]) + cov_beta * (conditional_values[3:P] - softmax(theta[3:P, tt]));
+        pi_theta_2r[:, tt] = theta_2r[:, tt];
     }
   }
 }

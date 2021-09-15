@@ -24,14 +24,14 @@ source("src/R/functions/data_list_check_y_1r.R")
 #' Parameters
 #' Fake true data
 #' Observed polls
-T <- 30
+T <- 50
 T_prior <- 10
 N_first_round_surveys <- 20
 N_second_round <- 20
-N_first_round_past <- 60
-N_past_election <- 4
-P <- 6
-N_R <- 3
+N_first_round_past <- 10
+N_past_election <- 1
+P <- 15
+N_R <- 2
 N_combinations <- 5
 data <- sim_random_walk(N_past_election = N_past_election,
                         P = P,
@@ -45,9 +45,9 @@ df <- sim_polling_data(N_first_round_surveys = N_first_round_surveys,
                        N_first_round_past = N_first_round_past,
                        N_R = N_R,
                        N_combinations = N_combinations,
-                       sigma_alpha = 0,
-                       sigma_tau = 0,
-                       sigma_xi = 0,
+                       sigma_alpha = 0.2,
+                       sigma_tau = 0.2,
+                       sigma_xi = 0.2,
                        data$eta_matrix,
                        transition_matrix = data$transition_matrix,
                        pi_past = data$pi_past)
@@ -169,16 +169,16 @@ data_list_check_y_1r(data_list)
 
 ## Load model
 mod <- cmdstan_model("src/stan/v1_current_election.stan")
+mod <- cmdstan_model("src/stan/v1_current_election_transition_matrix.stan")
 #mod <- cmdstan_model("src/stan/v2_current_election.stan")
 ## Fit model
 fit <- mod$sample(
   data = data_list,
   chains = 4,
   iter_sampling = 400,
-  iter_warmup = 500,
+  iter_warmup = 400,
   parallel_chains = 4,
-  refresh = 250,
-  init = 0.2
+  refresh = 250
 )
 
 
@@ -190,6 +190,8 @@ ppc_plt_pi_theta_second_round(fit, df$polls_second_round, t_unit_df, data$df_col
 ppc_plt_sigma_tau(fit, 0.2)
 # Plot sigma_alpha
 ppc_plt_sigma_alpha(fit, 0.2)
+# Plot sigma_xi
+ppc_plt_sigma_xi(fit, 0.2)
 # Plot alpha
 ppc_plt_alpha(fit, true_alpha = df$alpha)
 # Plot xi
@@ -206,8 +208,28 @@ ppc_plt_sum_alpha_xi(fit)
 
 
 
-
-
+theta <- fit$draws("theta") %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  filter(iter < 200) %>%
+  pivot_longer(
+    c(-iter),
+    names_to = "pt",
+    values_to = "draws"
+  ) %>%
+  mutate(
+    p = str_match(pt, "(\\d+),")[, 2],
+    t_unit = as.integer(str_match(pt, ",(\\d+)")[, 2])
+  ) %>%
+  filter(!is.na(t_unit)) %>%
+  filter(t_unit == 10) %>%
+  dplyr::select(-pt)
+full_join(theta, theta, by = c("iter", "t_unit")) %>%
+  filter(p.x != p.y) %>%
+  ggplot(aes(x = draws.x, y = draws.y)) +
+    geom_point() +
+    facet_grid(p.x ~ p.y) +
+    xlim(c(-3, 3))
 
 
 

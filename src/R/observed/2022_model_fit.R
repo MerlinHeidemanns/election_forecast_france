@@ -10,9 +10,20 @@ source("src/R/organizing/observed_polls/poll_cleaning.R")
 source("src/R/functions/obs_create_variable_inclusion_input.R")
 # -- Load
 ## 1. file with polls
-df <- read_csv("dta/polls_dta/2020_polls_clean.csv")
+df <- read_csv("dta/polls_dta/2020_polls_clean.csv") %>%
+  filter(t_unit <= 3) %>%
+  group_by(survey_id) %>%
+  mutate(survey_id = cur_group_id()) %>%
+  group_by(candidate_id) %>%
+  mutate(candidate_id = cur_group_id()) %>%
+  group_by(question_id) %>%
+  mutate(question_id = cur_group_id()) %>%
+  group_by(pollster_id) %>%
+  mutate(pollster_id = cur_group_id()) %>%
+  ungroup()
 ## 2. Skip vector
 t_diff <- read_rds("dta/polls_dta/t_diff.Rds")
+t_diff <- t_diff[1:2]
 ## 3. Time identifiers
 df_time <- read_csv("dta/polls_dta/time_identifiers.csv")
 # -- Prepare data list
@@ -87,4 +98,9 @@ fit <- mod$sample(
   refresh = 250,
   init = 0.2
 )
+
+
+
+fit$summary("sigma_alpha")
+
 
