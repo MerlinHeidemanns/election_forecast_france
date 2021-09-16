@@ -28,22 +28,15 @@ df <- df %>%
 #' Create dataframe with identifiers and candidates
 #' Save
 #' Merge into original dataframe
-previous_candidates <- read.csv("dta/polls_dta/election_results_2017.csv") %>%
-  pull(candidate)
-current_candidates <- df %>%
+candidates <- df %>%
   arrange(-percentage) %>%
   distinct(candidate) %>%
   pull(candidate)
-previous_candidates_only <- previous_candidates[!previous_candidates %in% current_candidates]
-current_candidates_only <- current_candidates[!current_candidates %in% previous_candidates]
-both_candidates <- current_candidates[current_candidates %in% previous_candidates]
-all_candidates <- c(current_candidates_only, both_candidates, previous_candidates) %>%
-  unique()
-all_candidates <- data.frame(candidate = all_candidates,
-                             candidate_id = 1:length(all_candidates))
-write.csv(all_candidates, "dta/polls_dta/candidate_identifiers.csv")
+candidates <- data.frame(candidate = candidates,
+                             candidate_id = 1:length(candidates))
+write.csv(candidates, "dta/polls_dta/candidate_identifiers.csv")
 df <- df %>%
-  left_join(all_candidates,
+  left_join(candidates,
             by = "candidate")
 
 
@@ -105,14 +98,6 @@ write_rds(t_diff, "dta/polls_dta/t_diff.Rds")
 #' Round down
 df <- df %>%
   mutate(y = floor(electoral_list * percentage))
-
-
-## Label previous election results
-#' Load
-#' Merge with candidate identifiers
-read.csv("dta/polls_dta/election_results_2017.csv") %>%
-  left_join(all_candidates) %>%
-  write.csv("dta/polls_dta/elections_results_2017_w_id.csv")
 
 ## Save
 write.csv(df, "dta/polls_dta/2020_polls_clean.csv")
