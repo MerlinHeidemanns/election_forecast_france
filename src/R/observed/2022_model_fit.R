@@ -55,8 +55,8 @@ p_1r_excluded <- inclusion_input$p_first_round_excluded
 p_id <- inclusion_input$p_id
 y_1r <- inclusion_input$y_first_round
 
-check_y_input(p_id, p_1r_included, df, P_N_combinations)
-check_y_input <- function(p_id, p_1r_included, df, P_N_combinations){
+#check_y_input(p_id, p_1r_included, df, P_N_combinations)
+#check_y_input <- function(p_id, p_1r_included, df, P_N_combinations){
   input_df <- lapply(1:length(p_id), function(j){
     out <- data.frame(
       question_id = j,
@@ -114,6 +114,11 @@ data_list <- list(
   p_id = p_id,
   y_1r = y_1r %>% t()
 )
+for (j in 1:length(data_list)){
+  if (data_list[[j]] %>% is.na() %>% any()){
+    print(names(data_list)[j])
+  }
+}
 
 ## Model
 # -- Load
@@ -137,6 +142,7 @@ supvec_names <- read.csv("dta/polls_dta/candidate_identifiers.csv") %>%
   pull(candidate)
 supvec_time <- read_csv("dta/polls_dta/time_identifiers.csv") %>%
   pull(end_date)
+supvec_bloc <- read.csv("dta/polls_dta/candidate_party_identifiers.csv")
 pi_theta <- fit$summary("pi_theta_1r", ~ quantile(., c(0.10, 0.25, 0.5, 0.75, 0.9))) %>%
   pivot_longer(c(-variable),
                names_to = "quantile",
@@ -150,6 +156,130 @@ pi_theta <- fit$summary("pi_theta_1r", ~ quantile(., c(0.10, 0.25, 0.5, 0.75, 0.
     candidate = supvec_names[as.integer(str_match(variable, "(\\d+),")[,2])],
     time = supvec_time[as.integer(str_match(variable, ",(\\d+)")[,2])]
   )
+ppc_obs_theta_bloc_politiques(fit)
+
+
+
+
+
+
+
+
+candidate_list <- supvec_names
+candidate_subset <- c("Marine Le Pen", "Emmanuel Macron")
+candidate_subset_id <- match(candidate_subset, candidate_list)
+NCandidates <- length(candidate_list)
+NCandidates <- 24
+NIter <- 500
+
+#' Determine number of iterations
+iterations <- fit$metadata()$iter_sampling * length(fit$metadata()$id)
+
+#' Sample iterations
+iter_subset <- sort(sample(1:iterations, NIter))
+
+#' Subset transition matrix and turn into data frame
+trans_mat <- fit$draws("transition_matrix") %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  pivot_longer(c(-iter),
+               names_to = "cc",
+               values_to = "val") %>%
+  filter(iter %in% iter_subset) %>%
+  mutate(
+    p1 = as.integer(str_match(cc, "(\\d+),")[,2]),
+    p2 = as.integer(str_match(cc, ",(\\d+)")[,2])
+  ) %>%
+  dplyr::select(-cc) %>%
+  filter(!is.na(p1))
+#' Shape into matrizes
+trans_mat_list <- lapply(unique(trans_mat$iter), function(ii){
+  trans_mat %>%
+    filter(iter == ii) %>%
+    dplyr::select(-iter) %>%
+    pivot_wider(id_cols = p1,
+                names_from = p2,
+                values_from = val) %>%
+    dplyr::select(-p1) %>%
+    as.matrix() %>%
+    return()
+})
+#' Save into array
+trans_mat_array <- array(NA, dim = c(nrow(trans_mat_list[[1]]),
+                  ncol(trans_mat_list[[1]]),
+                  length(trans_mat_list)))
+for (jj in 1:length(trans_mat_list)){
+  trans_mat_array[,,jj] <- trans_mat_list[[jj]]
+}
+
+## Extract theta
+theta <- fit$draws("pi_theta_1r") %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  pivot_longer(c(-iter),
+               names_to = "ct",
+               values_to = "val") %>%
+  filter(iter %in% iter_subset) %>%
+  mutate(
+    candidate_id = as.integer(str_match(ct, "(\\d+),")[,2]),
+    time_id = as.integer(str_match(ct, ",(\\d+)")[,2])
+  ) %>%
+  filter(!is.na(time_id)) %>%
+  filter(time_id == max(time_id)) %>%
+  dplyr::select(-time_id, -ct) %>%
+  pivot_wider(id_cols = candidate_id,
+              names_from = iter,
+              values_from = val) %>%
+  dplyr::select(-candidate_id) %>%
+  as.matrix()
+
+#' subset vector
+included <- candidate_subset_id
+excluded <- seq(1, NCandidates)[!seq(1, NCandidates) %in% included]
+
+df_out <- lapply(1:NIiter, function(j){
+  theta_cond <- theta[included, j] + trans_mat_array[included, excluded, j] %*% solve(trans_mat_array[excluded,  excluded, j]) %*% (0 - theta[excluded,j])
+  out <- data.frame(theta_cond = theta_cond,
+             candidate_id = candidate_list[included],
+             j = iter_subset[j]) %>%
+  return(out)
+}) %>%
+  do.call("bind_rows", .)
+
+
+
+
+
+
+
+
+
+
+
+
+
+pi_theta <- fit$draws("pi_theta_1r") %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  pivot_longer(c(-iter),
+               names_to = "var",
+               values_to = "val") %>%
+  mutate(
+    candidate = supvec_names[as.integer(str_match(var, "(\\d+),")[,2])],
+    time = supvec_time[as.integer(str_match(var, ",(\\d+)")[,2])]
+  ) %>%
+  filter(!is.na(candidate)) %>%
+  left_join(supvec_bloc) %>%
+  group_by(iter, bloc_politiques, time) %>%
+  summarize(val = sum(val)) %>%
+  group_by(bloc_politiques, time) %>%
+  summarize(
+    q50 = quantile(val, 0.5),
+    q25 = quantile(val, 0.25),
+    q75 = quantile(val, 0.75)
+  )
+
+
 
 ggplot(pi_theta %>% filter(candidate %in% c("Emmanuel Macron", "Marine Le Pen", "Anne Hidalgo")),
        aes(x = time, y = q50, color = candidate)) +
