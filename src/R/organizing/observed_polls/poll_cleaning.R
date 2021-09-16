@@ -14,6 +14,10 @@ remove_question_ids <- df %>%
   unique()
 df <- df %>%
   filter(!question_id %in% remove_question_ids)
+df <- df %>%
+  group_by(survey_id) %>%
+  mutate(survey_id = cur_group_id())
+
 ## Assign value to less than 0.5 observations and rescale percentages
 df <- df %>%
   mutate(
@@ -23,6 +27,8 @@ df <- df %>%
   group_by(question_id) %>%
   mutate(percentage = percentage/sum(percentage)) %>%
   ungroup()
+
+
 ## Unique identifiers for candidates
 #' Load candidates from previous rounds
 #' Create dataframe with identifiers and candidates
@@ -99,13 +105,21 @@ write_rds(t_diff, "dta/polls_dta/t_diff.Rds")
 df <- df %>%
   mutate(y = floor(electoral_list * percentage))
 
+
+## Count number of polls in folder and number of surveys in df
+N_files <- list.files("dta/polls_reports") %>%
+  length()
+N_df <- df %>%
+  distinct(survey_id) %>%
+  nrow()
+if (N_files > N_df){
+  #stop("Warning: There are surveys not included in the dataframe.")
+}
+
+
 ## Save
 write.csv(df, "dta/polls_dta/2020_polls_clean.csv")
 
+
 ## Clean
 rm(list = ls())
-
-
-
-
-
