@@ -3,10 +3,11 @@
 create_y_first_round <- function(df){
   y_first_round <- matrix(-99,
                           nrow = max(df$question_id),
-                          ncol = max(df$p))
+                          ncol = max(df$candidate_id))
   for (ii in 1:max(df$question_id)){
     tmp <- df %>%
       filter(question_id == ii) %>%
+      arrange(candidate_id) %>%
       pull(y)
     y_first_round[ii, 1:length(tmp)] <- tmp
   }

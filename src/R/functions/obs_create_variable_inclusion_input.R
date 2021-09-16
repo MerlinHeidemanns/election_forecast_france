@@ -10,7 +10,7 @@ obs_create_variable_inclusion_input <- function(df){
     summarize(n = n()) %>%
     pull(n)
 
-  ## How combinations exist?
+  ## How many combinations exist?
   #' Sort the df by number of parties
   #' select id and party,
   #' long to wide to get combinations
@@ -27,6 +27,7 @@ obs_create_variable_inclusion_input <- function(df){
                 names_from = candidate_id,
                 names_prefix = "candidate_id",
                 values_from = val,
+                names_sort = TRUE,
                 values_fill = 0) %>%
     as.matrix()
   combinations <- list()
@@ -51,7 +52,7 @@ obs_create_variable_inclusion_input <- function(df){
   df_wide <- df_wide %>%
     as.data.frame() %>%
     arrange(question_id)
-  candidate_id <- df_wide[,ncol(df_wide)][1:max(df$question_id)]
+  combination_id <- df_wide[,ncol(df_wide)][1:max(df$question_id)]
   ## How long is each combination?
   P_N_combinations <- lapply(combinations, length) %>% unlist()
 
@@ -82,7 +83,7 @@ obs_create_variable_inclusion_input <- function(df){
     P_N_combinations = P_N_combinations,
     p_first_round_excluded = p_first_round_excluded,
     p_first_round_included = p_first_round_included,
-    p_id = candidate_id,
+    p_id = combination_id,
     y_first_round = create_y_first_round(df)
   ))
 }
