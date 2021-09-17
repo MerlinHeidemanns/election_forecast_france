@@ -47,7 +47,7 @@ parameters {
   real<lower = lsigma> sigma_tau;
   real<lower = lsigma> sigma_alpha;
   real<lower = lsigma> sigma_xi;
-  matrix[NCandidates, NPolls] raw_tau;
+  matrix[NCandidates, NSurveys] raw_tau;
   matrix[NCandidates, NPollsters] raw_alpha;
   vector[NCandidates] raw_xi;
   // Random walk
@@ -60,7 +60,7 @@ parameters {
 }
 transformed parameters {
   matrix[NCandidates, NTime] theta;
-  matrix[NCandidates, NPolls] tau;
+  matrix[NCandidates, NSurveys] tau;
   matrix[NCandidates, NPollsters] alpha;
   vector[NCandidates] xi;
 
@@ -156,7 +156,7 @@ model {
           id_P_combinations_ii,
           1:(NCandidates - NCandidates_ii)];
       invlogit_theta_complete = softmax(theta[, id_S_time[id_P_survey[ii]]] +
-        //tau[, ii] +
+        tau[, id_P_survey[ii]] +
         alpha[, id_S_pollster[id_P_survey[ii]]] +
         xi);
       invlogit_theta_subset = invlogit_theta_complete[index_included] +
