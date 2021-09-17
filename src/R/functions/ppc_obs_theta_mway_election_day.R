@@ -57,7 +57,7 @@ ppc_obs_theta_mway_election_day <- function(fit, candidate_subset, NIter = 500){
   }
 
   ## Extract theta
-  theta <- fit$draws("pi_theta_1r") %>%
+  theta <- fit$draws("invlogit_theta") %>%
     posterior::as_draws_df() %>%
     mutate(iter = 1:n()) %>%
     pivot_longer(c(-iter),
