@@ -97,6 +97,8 @@ fit$save_object(file = "dta/fits/2021_09_16.Rds")
 
 source("src/R/functions/ppc_obs_alpha.R")
 source("src/R/functions/ppc_obs_xi.R")
+source("src/R/functions/ppc_obs_theta_mway_election_day.R")
+source("src/R/functions/ppc_obs_theta_plt_hist.R")
 fit$summary("sigma_alpha")
 supvec_names <- read.csv("dta/polls_dta/candidate_identifiers.csv") %>%
   pull(candidate)
@@ -106,7 +108,8 @@ supvec_bloc <- read.csv("dta/polls_dta/candidate_party_identifiers.csv")
 ## Obs theta by bloc
 ppc_obs_theta_bloc_politiques(fit)
 ## Obs three-way Bertrand, Macron, Le Pen
-ppc_obs_mway_election_day(fit, c("Xavier Bertrand", "Emmanuel Macron", "Marine Le Pen"), 500)
+df_out <- ppc_obs_theta_mway_election_day(fit, c("Xavier Bertrand", "Emmanuel Macron"), 500)
+ppc_obs_theta_plt_hist(df_out)
 ## Polling error
 ppc_obs_xi(fit, supvec_names = supvec_names)
 ## Polling house deviation

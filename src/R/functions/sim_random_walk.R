@@ -11,24 +11,23 @@ T = 20
 T_prior = 10
 rho <- 0.5
 sigma <- 0.1
-sim_random_walk <- function(N_past_election,
-                            P,
-                            T,
-                            T_prior = 0,
+sim_random_walk <- function(NElections_past,
+                            NCandidates,
+                            NTime,
                             rho,
                             sigma,
                             K_VAR){
 
-  P_past_elections <- rpois(N_past_election, 4)
-  while (min(P_past_elections) <= 2){
-    P_past_elections[P_past_elections <= 2] <- rpois(sum(P_past_elections <= 2), 5)
+  NCandidates_Elections_past <- rpois(NElections_past, 4)
+  while (min(NCandidates_Elections_past) <= 2){
+    NCandidates_Elections_past[NCandidates_Elections_past <= 2] <- rpois(sum(NCandidates_Elections_past <= 2), 5)
   }
-  max_P_past_elections <- max(P_past_elections)
-  pi_past <- matrix(0, nrow = N_past_election, ncol = max_P_past_elections)
-  for (ii in 1:N_past_election){
-    tmp <- runif(P_past_elections[ii], 0.3, 1)
+  NCandidates_Elections_past_max <- max(NCandidates_Elections_past)
+  prob_theta_past <- matrix(0, nrow = NElections_past, ncol = NCandidates_Elections_past_max)
+  for (ii in 1:NElections_past){
+    tmp <- runif(NCandidates_Elections_past[ii], 0.3, 1)
     tmp <- tmp/sum(tmp)
-    pi_past[ii, 1:P_past_elections[ii]] <- tmp
+    prob_theta_past[ii, 1:NCandidates_Elections_past[ii]] <- tmp
   }
 
 
@@ -36,93 +35,102 @@ sim_random_walk <- function(N_past_election,
   #' Set N of parties and time points;
   #' Initial shares and log odds transformation
   #' Transition matrix for the process
-  pi <- runif(P, 0.3, 1)
-  pi <- pi/sum(pi)
-  eta <- c(log(pi[1:length(pi) - 1]/pi[length(pi)]), 0)
-  trans_matr <- matrix(sigma^2 * rho,
-                                  nrow = P,
-                                  ncol = P)
-  diag(trans_matr) <- sigma^2
+  prob_theta <- runif(NCandidates, 0.3, 1)
+  prob_theta <- prob_theta/sum(prob_theta)
+  theta <- c(log(prob_theta[1:length(prob_theta) - 1]/prob_theta[length(prob_theta)]), 0)
+  trans_matrix_rw <- matrix(sigma^2 * rho,
+                                  nrow = NCandidates - 1,
+                                  ncol = NCandidates - 1)
+  diag(trans_matrix_rw) <- sigma^2
 
   ## Random walk / Autoregressive process
   #' Draw parameters
   beta <- matrix(0,
-         nrow = P,
-         ncol = P)
+         nrow = NCandidates - 1,
+         ncol = NCandidates - 1)
   diag(beta) <- 1
 
   #' Setup matrizes
   #' Transformation back into shares
-  eta_matrix <- matrix(NA, nrow = T, ncol = P)
-  pi_matrix <- matrix(NA, nrow = T, ncol = P)
+  theta_matrix <- matrix(NA, nrow = NTime, ncol = NCandidates)
+  prob_theta_matrix <- matrix(NA, nrow = NTime, ncol = NCandidates)
 
   #' Determine start of election season
   #' Project forward
   #' Set disappearing parties to negative value
-  eta_matrix[1, ] = eta
+  theta_matrix[1, ] = theta
+  theta_matrix[, NCandidates] = 0
   #' Random walk
-  for (t in 2:T){
-    eta_matrix[t, ] <- eta_matrix[t - 1, ] %*% beta + MASS::mvrnorm(1, rep(0, P), trans_matr)
+  for (t in 2:NTime){
+    theta_matrix[t, 1:NCandidates - 1] <- theta_matrix[t - 1, 1:NCandidates - 1] %*% beta +
+      MASS::mvrnorm(1, rep(0, NCandidates - 1), trans_matrix_rw)
   }
-  for (t in 1:T){
-    pi_matrix[t, ] <- exp(eta_matrix[t, ])/sum(exp(eta_matrix[t, ]))
+  for (t in 1:NTime){
+    prob_theta_matrix[t, ] <- exp(theta_matrix[t, ])/sum(exp(theta_matrix[t, ]))
   }
 
-  #' Create collapsed data frame
-  eta_matrix_coll <- matrix(NA, nrow = T, ncol = 2)
-  pi_matrix_coll <- matrix(NA, nrow = T, ncol = 2)
-  for (t in 1:T){
-    eta_matrix_coll[t, ] <- eta_matrix[t, 1:2] +
-      trans_matr[1:2, 3:(P)] %*%
-      solve(trans_matr[3:(P), 3:(P)]) %*%
-      (rep(-10, P - 2) - eta_matrix[t, 3:(P)])
+  #' -- Create collapsed data frame
+  #' * Create transition matrix
+  trans_matrix_pref <- matrix(0, nrow = NCandidates, ncol = NCandidates)
+  for (jj in 1:NCandidates){
+    included <- seq(1, NCandidates)
+    included <- included[!included %in% jj]
+    trans_matrix_pref[included, jj] <- - DirichletReg::rdirichlet(1, rep(5, NCandidates - 1))
   }
-  for (t in 1:T){
-    pi_matrix_coll[t, ] <- exp(eta_matrix_coll[t, ])/sum(exp(eta_matrix_coll[t, ]))
+  diag(trans_matrix_pref) <- 1
+
+  prob_theta_matrix_coll <- matrix(NA, nrow = NTime, ncol = 2)
+  for (t in 1:NTime){
+    prob_theta_matrix_coll[t, ] <- prob_theta_matrix[t, 1:2] +
+      trans_matrix_pref[1:2, 3:NCandidates] %*%
+      solve(trans_matrix_pref[3:NCandidates, 3:NCandidates]) %*%
+      (rep(0, NCandidates - 2) - prob_theta_matrix[t, 3:NCandidates])
   }
 
   ## Create data frames
   #' true data current all parties
-  data <- pi_matrix %>%
+  data <- prob_theta_matrix %>%
     as.data.frame() %>%
-    mutate(t = 1:n()) %>%
+    mutate(time_id = 1:n()) %>%
     pivot_longer(
-      c(-t),
-      names_to = "p",
+      c(-time_id),
+      names_to = "candidate_id",
       values_to = "share",
       names_prefix = "V"
     )
   #' true data current run off
-  data_coll <- pi_matrix_coll %>%
+  data_coll <- prob_theta_matrix_coll %>%
     as.data.frame() %>%
-    mutate(t = 1:n()) %>%
+    mutate(time_id = 1:n()) %>%
     pivot_longer(
-      c(-t),
-      names_to = "p",
+      c(-time_id),
+      names_to = "candidate_id",
       values_to = "share",
       names_prefix = "V"
-    )
+    ) %>%
+    mutate(candidate_id = as.integer(candidate_id))
   #' past results
-  pi_past_dataframe <- pi_past %>%
+  prob_theta_past_df <- prob_theta_past %>%
     as.data.frame() %>%
-    mutate(t = 1:n()) %>%
-    pivot_longer(c(-t),
-                 names_to = "p",
+    mutate(time_id = 1:n()) %>%
+    pivot_longer(c(-time_id),
+                 names_to = "candidate_id",
                  values_to = "share",
                  names_prefix = "V") %>%
-    mutate(p = as.integer(p)) %>%
+    mutate(candidate_id = as.integer(candidate_id)) %>%
     filter(share > 0)
   return(list(
-              P = P,
+              NCandidates = NCandidates,
               df = data,
-              pi_matrix = pi_matrix,
-              eta_matrix = eta_matrix,
-              transition_matrix = trans_matr,
-              eta_start = eta,
-              pi_start = pi,
+              prob_theta_matrix = prob_theta_matrix,
+              theta_matrix = theta_matrix,
+              transition_matrix_random_walk = trans_matrix_rw,
+              transition_matrix_preferences = trans_matrix_pref,
+              theta_start = theta,
+              prob_theta_start = prob_theta,
               df_coll = data_coll,
-              pi_past = pi_past,
-              pi_past_dataframe = pi_past_dataframe))
+              prob_theta_past = prob_theta_past,
+              prob_theta_past_df = prob_theta_past_df))
 }
 
 
