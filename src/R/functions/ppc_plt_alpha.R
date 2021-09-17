@@ -8,16 +8,16 @@ ppc_plt_alpha <- function(fit, true_alpha = NULL){
     posterior::as_draws_df() %>%
     pivot_longer(
       everything(),
-      names_to = "pr",
+      names_to = "cr",
       values_to = "draws"
     ) %>%
     mutate(
-      p = str_match(pr, "(\\d+),")[, 2],
-      r = as.integer(str_match(pr, ",(\\d+)")[, 2])
+      candidate_id = str_match(cr, "(\\d+),")[, 2],
+      pollster_id = as.integer(str_match(cr, ",(\\d+)")[, 2])
     ) %>%
-    filter(!is.na(r)) %>%
-    dplyr::select(-pr) %>%
-    group_by(p, r) %>%
+    filter(!is.na(pollster_id)) %>%
+    dplyr::select(-cr) %>%
+    group_by(candidate_id, pollster_id) %>%
     summarize(
       q50 = quantile(draws, 0.5),
       q25 = quantile(draws, 0.25),
@@ -28,11 +28,11 @@ ppc_plt_alpha <- function(fit, true_alpha = NULL){
 
   #' Plot
   plt <- ggplot(alpha_hat_true) +
-    geom_point(aes(x = interaction(p, r), y = q50)) +
-    geom_errorbar(aes(x = interaction(p, r),
+    geom_point(aes(x = interaction(candidate_id, pollster_id), y = q50)) +
+    geom_errorbar(aes(x = interaction(candidate_id, pollster_id),
                       ymin = q25, ymax = q75), size = 0.75,
                   width = 0) +
-    geom_errorbar(aes(x = interaction(p, r),
+    geom_errorbar(aes(x = interaction(candidate_id, pollster_id),
                       ymin = q10, ymax = q90), size = 0.5,
                   width = 0) +
     theme_light() +
@@ -46,7 +46,7 @@ ppc_plt_alpha <- function(fit, true_alpha = NULL){
       left_join(true_alpha)
     plt <- plt +
       geom_point(data = alpha_hat_true,
-                 aes(x = interaction(p, r), y = alpha), color = "red", shape = 3)
+                 aes(x = interaction(candidate_id, pollster_id), y = alpha), color = "red", shape = 3)
   }
   return(plt)
 }

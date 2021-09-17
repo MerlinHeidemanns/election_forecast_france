@@ -7,6 +7,7 @@ create_y_first_round <- function(df){
   for (ii in 1:max(df$question_id)){
     tmp <- df %>%
       filter(question_id == ii) %>%
+      arrange(candidate_id) %>%
       pull(y)
     y_first_round[ii, 1:length(tmp)] <- tmp
   }

@@ -1,0 +1,27 @@
+candidate,candidate_id,party,party_short,bloc_politiques
+Xavier Bertrand,1,Les Republicains,LR,Centre droit a droite
+Marine Le Pen,2,Rassemblement National,RN,Droite a extreme droite
+Valerie P√©cresse,3,Soyons Libres,SL,Centre droit a droite
+Emmanuel Macron,4,La République En Marche,LREM,Centre gauche a centre droit
+Anne Hidalgo,5,Parti socialiste,PS,Gauche a centre gauche
+Yannick Jadot,6,Europe Écologie Les Verts,EELV,Gauche a centre gauche
+Jean-Luc M√©lenchon,7,La France Insoumise,LFI,Extreme gauche a gauche
+Laurent Wauquiez,8,Les Republicains,LR,Centre droit a droite
+Fran√ßois Baroin,9,Les Republicains,LR,Centre droit a droite
+√âric Zemmour,10,Other,Other,Droite a extreme droite
+Michel Barnier,11,Les Republicains,LR,Centre droit a droite
+Bruno Retailleau,12,Les Republicains,LR,Centre droit a droite
+Nicolas Dupont-Aignan,13,Debout la France,DLF,Droite a extreme droite
+Eric Ciotti,14,Les Republicains,LR,Centre droit a droite
+Arnaud Montebourg,15,Parti socialiste,PS,Gauche a centre gauche
+Philippe Juvin,16,Les Republicains,LR,Centre droit a droite
+Fran√ßois Asselineau,17,Union Populaire Républicaine,UPR,Droite a extreme droite
+Fabien Roussel,18,Parti communiste français,PCF,Extreme gauche a gauche
+Jean Lassalle,19,Groupe Libertés et territoires,LT,Gauche a centre gauche
+Nathalie Arthaud,20,Lutte Ouvrière,LO,Extreme gauche a gauche
+Philippe Poutou,21,Nouveau Parti Anticapitaliste,NPA,Extreme gauche a gauche
+Florian Philippot,22,Les Patriotes,LP,Droite a extreme droite
+√âric Piolle,23,Europe Écologie Les Verts,EELV,Gauche a centre gauche
+Jean-Christophe Lagarde,24,Union des démocrates et indépendants,UDI,Centre droit a droite
+Jean-Fr√©d√©ric Poisson,25,"VIA, la voie du peuple",VIA,Centre droit a droite
+Denis Payre,26,Nous Citoyens,NC,Centre gauche a centre droit

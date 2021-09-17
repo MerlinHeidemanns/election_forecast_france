@@ -6,13 +6,13 @@ ppc_plt_xi <- function(fit, true_xi = NULL){
     posterior::as_draws_df() %>%
     pivot_longer(
       everything(),
-      names_to = "p",
+      names_to = "candidate_id",
       values_to = "draws",
       names_pattern = "(\\d+)"
     ) %>%
-    mutate(p = as.integer(p)) %>%
-    filter(!is.na(p)) %>%
-    group_by(p) %>%
+    mutate(candidate_id = as.integer(candidate_id)) %>%
+    filter(!is.na(candidate_id)) %>%
+    group_by(candidate_id) %>%
     summarize(
       q50 = quantile(draws, 0.5),
       q25 = quantile(draws, 0.25),
@@ -20,7 +20,7 @@ ppc_plt_xi <- function(fit, true_xi = NULL){
       q10 = quantile(draws, 0.10),
       q90 = quantile(draws, 0.90)
     )
-  plt <- ggplot(data = xi_hat, aes(x = p)) +
+  plt <- ggplot(data = xi_hat, aes(x = candidate_id)) +
     geom_point(aes(y = q50)) +
     geom_errorbar(aes(ymin = q25, ymax = q75), size = 0.5, width = 0) +
     geom_errorbar(aes(ymin = q10, ymax = q90), size = 0.2, width = 0) +

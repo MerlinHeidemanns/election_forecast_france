@@ -15,81 +15,82 @@
 # eta_matrix = data$eta_matrix
 # transition_matrix = data$transition_matrix
 # pi_past = data$pi_past
-sim_polling_data <- function(N_first_round_surveys,
-                             N_second_round,
-                             N_first_round_past,
-                             N_R,
-                             N_combinations,
+sim_polling_data <- function(NPolls,
+                             NPolls_past,
+                             NPollsters,
+                             NCombinations,
                              sigma_alpha,
                              sigma_tau,
                              sigma_xi,
-                             eta_matrix,
+                             theta_matrix,
                              transition_matrix,
-                             pi_past){
+                             prob_theta_past){
   #' Determine number of parties and time points from input
-  P <- dim(eta_matrix)[2]
-  T <- dim(eta_matrix)[1]
+  NCandidates <- dim(theta_matrix)[2]
+  NTime <- dim(theta_matrix)[1]
 
   #' Draw polling house deviations, excess variance, and polling error
-  alpha <- matrix(rnorm(P * N_R, 0, sigma_alpha), nrow = N_R, ncol = P)
+  alpha <- matrix(rnorm(NCandidates * NPollsters, 0, sigma_alpha), nrow = NPollsters, ncol = NCandidates)
   alpha <- demean_by_row(alpha)
-  tau <- matrix(rnorm((N_first_round_surveys + N_second_round) * P, 0, sigma_tau),
-                nrow = (N_first_round_surveys + N_second_round),
-                ncol = P)
+  tau <- matrix(rnorm(NPolls * NCandidates, 0, sigma_tau),
+                nrow = NPolls,
+                ncol = NCandidates)
   tau <- demean_by_row(tau)
-  xi <- matrix(rnorm(P, 0, sigma_xi), nrow = 1, ncol = P)
+  xi <- matrix(rnorm(NCandidates, 0, sigma_xi), nrow = 1, ncol = NCandidates)
   xi <- demean_by_row(xi)
 
-  p_combinations <- list()
+  candidate_combinations <- list()
 
-  for (ii in 1:N_combinations){
-    p_combinations[[ii]] <- sort(sample(1:P, sample((P - 3):(P - 1), 1)))
+  for (ii in 1:NCombinations){
+    candidate_combinations[[ii]] <- sort(sample(1:NCandidates, sample((NCandidates - 3):(NCandidates - 1), 1)))
   }
+  candidate_combinations[[NCombinations + 1]] <- c(1, 2)
+
   #' Simulate polls
-  polls_first_round <- lapply(1:N_first_round_surveys, function(x){
+  polls <- lapply(1:NPolls, function(x){
     #x = sample(1:N_first_round, 1)
-    r <- sample(1:N_R, 1)
-    t <- sample(1:T, 1)
-    eta <- eta_matrix[t, ] +
-      alpha[r, ] +
+    pollster_id <- sample(1:NPollsters, 1)
+    time_id <- sample(1:NTime, 1)
+    eta <- theta_matrix[time_id, ] +
+      alpha[pollster_id, ] +
       tau[x, ] +
       xi
-    N_questions <- sample(2:4, 1)
-    out_survey <- lapply(1:N_questions, function(jj){
-      p_included <- p_combinations[[sample(1:N_combinations, 1)]]
-      p_excluded <- (1:P)[!((1:P) %in% p_included)]
-      P_included = length(p_included)
-      P_excluded = P - P_included
-      if (P_included < P){
+    NQuestions <- sample(2:4, 1)
+    out_survey <- lapply(1:NQuestions, function(jj){
+      candidates_included <- candidate_combinations[[sample(1:NCombinations, 1)]]
+      candidates_excluded <- (1:NCandidates)[!((1:NCandidates) %in% candidates_included)]
+      NCandidates_included = length(candidates_included)
+      NCandidates_excluded = NCandidates - NCandidates_included
+      if (NCandidates_included < NCandidates){
         mat1 <- matrix(NA,
-                       nrow = P_included,
-                       ncol = P_excluded)
-        mat2 <- matrix(NA, nrow = P_excluded,
-                       ncol = P_excluded)
-        for (j in 1:P_included){
-          mat1[j,] = transition_matrix[p_included[j],][p_excluded]
+                       nrow = NCandidates_included,
+                       ncol = NCandidates_excluded)
+        mat2 <- matrix(NA, nrow = NCandidates_excluded,
+                       ncol = NCandidates_excluded)
+        for (j in 1:NCandidates_included){
+          mat1[j,] = transition_matrix[candidates_included[j],][candidates_excluded]
         }
-        for (j in 1:P_excluded){
-          mat2[j,] = transition_matrix[p_excluded[j],][p_excluded]
+        for (j in 1:NCandidates_excluded){
+          mat2[j,] = transition_matrix[candidates_excluded[j],][candidates_excluded]
         }
-        eta_ss <- eta[p_included] +
+        theta_ss <- eta[candidates_included] +
           mat1 %*%
           solve(mat2) %*%
-          (rep(0, P_excluded) - eta[p_excluded])
-      } else if (P_included == P){
-        eta_ss = eta
+          (rep(0, NCandidates_excluded) - eta[NCandidates_excluded])
+      } else if (NCandidates_included == NCandidates){
+        theta_ss = theta
       }
 
-      pi <- exp_softmax(eta_ss)
-      y <- rmultinom(1, 1000, pi)
+      prob_theta <- exp_softmax(theta_ss)
+      y <- rmultinom(1, 1000, prob_theta)
       out_question <- data.frame(
         question_id = jj,
         y = y,
-        p = p_included,
-        t = t,
-        r = rep(r, P_included),
-        n = rep(1000, P_included),
-        id = x
+        candidate_id = candidates_included,
+        time_id = time_id,
+        pollster_id = rep(pollster_id, NCandidates_included),
+        n = rep(1000, NCandidates_included),
+        survey_id = x
       )
       return(out_question)
     })
@@ -97,103 +98,81 @@ sim_polling_data <- function(N_first_round_surveys,
     return(out_survey)
   }) %>%
     do.call("bind_rows", .)
-  polls_first_round <- polls_first_round %>%
-    group_by(id, question_id) %>%
+
+  polls <- polls %>%
+    group_by(survey_id, question_id) %>%
     mutate(question_id = cur_group_id()) %>%
     ungroup()
-
-  polls_second_round <- lapply(1:N_second_round, function(x){
-    r <- sample(1:N_R, 1)
-    t = sample(1:T, 1)
-    eta <- eta_matrix[t, ] +
-      alpha[r, ] +
-      tau[x + N_first_round_surveys, ] +
-      xi
-    eta_coll <- eta[1:2] +
-      transition_matrix[1:2, 3:P] %*%
-        solve(transition_matrix[3:P, 3:P]) %*%
-        (rep(0, P - 2) - eta[3:P])
-    pi <- exp_softmax(eta_coll)
-    y <- rbinom(1, 1000, pi[1])
-    out <- data.frame(
-      y = y,
-      t = t,
-      r = r,
-      n = 1000,
-      id = x
-    )
-  }) %>%
-    do.call("bind_rows", .)
 
   #' -- Past polls --
   #' Draw an election
   #' Sample poll result
   #' Same format as first round polls
-  N_past_elections <- dim(pi_past)[1]
-  P_past_elections <- rep(NA, N_past_election)
-  R_past <- N_past_elections + rpois(1, 5)
-  rt_past <- c(sample(c(1:N_past_elections), N_past_elections),
-               sample(1:N_past_elections, R_past - N_past_elections, replace = TRUE))
-  for (ii in 1:N_past_elections) P_past_elections[ii] <- sum(pi_past[ii,] > 0)
+  NElections_past <- dim(prob_theta_past)[1]
+  NCandidates_past <- rep(NA, NElections_past)
+  NPollsters_past <- NElections_past + rpois(1, 5)
+  id_rt_past <- c(sample(c(1:NElections_past), NElections_past),
+               sample(1:NElections_past, NPollsters_past - NElections_past, replace = TRUE))
+  for (ii in 1:NElections_past) NCandidates_past[ii] <- sum(prob_theta_past[ii,] > 0)
   #' parameters
   #' Create matrix for alpha_past
   alpha_past <- matrix(-10,
-                       ncol = max(P_past_elections),
-                       nrow = R_past)
+                       ncol = max(NCandidates_past),
+                       nrow = NPollsters_past)
   #' Demean each row, rows = polling houses, columns = parties
-  for (ii in 1:R_past){
-    tmp <- rnorm(P_past_elections[rt_past[ii]], 0, sigma_alpha)
+  for (ii in 1:NPollsters_past){
+    tmp <- rnorm(NCandidates_past[id_rt_past[ii]], 0, sigma_alpha)
     tmp <- tmp - mean(tmp)
-    alpha_past[ii, 1:P_past_elections[rt_past[ii]]] <- tmp
+    alpha_past[ii, 1:NCandidates_past[id_rt_past[ii]]] <- tmp
   }
   #' Create matrix for xi_past
   xi_past <- matrix(-10,
-                    ncol = max(P_past_elections),
-                    nrow = N_past_elections)
+                    ncol = max(NCandidates_past),
+                    nrow = NElections_past)
   #' Demean each row, rows = polling houses, columns = parties
-  for (ii in 1:N_past_elections){
-    tmp <- rnorm(P_past_elections[ii], 0, sigma_xi)
+  for (ii in 1:NElections_past){
+    tmp <- rnorm(NCandidates_past[ii], 0, sigma_xi)
     tmp <- tmp - mean(tmp)
-    xi_past[ii, 1:P_past_elections[ii]] <- tmp
+    xi_past[ii, 1:NCandidates_past[ii]] <- tmp
   }
 
   #' Turn past results into log-odds ratios
-  eta_past <- matrix(-10, nrow = dim(pi_past)[1],
-                     ncol = dim(pi_past)[2])
-  for (ii in 1:dim(pi_past)[1]){
-    tmp <- pi_past[ii,1:P_past_elections[ii]]
+  theta_past <- matrix(-10, nrow = dim(prob_theta_past)[1],
+                     ncol = dim(prob_theta_past)[2])
+  for (ii in 1:dim(prob_theta_past)[1]){
+    tmp <- prob_theta_past[ii,1:NCandidates_past[ii]]
     tmp <- log(tmp/tmp[length(tmp)])
-    eta_past[ii,1:P_past_elections[ii]] <- tmp
+    theta_past[ii,1:NCandidates_past[ii]] <- tmp
   }
   #' Simulate polls
-  polls_first_round_past <- lapply(1:N_first_round_past, function(x){
-    t <- sample(1:N_past_elections, 1)
-    r <- sample(seq(1:R_past)[rt_past == t], 1)
-    N_p <- P_past_elections[t]
-    tau <- rnorm(N_p, 0, sigma_tau)
+  polls_past <- lapply(1:NPolls_past, function(x){
+    time_id <- sample(1:NElections_past, 1)
+    pollster_id <- sample(seq(1:NPollsters_past)[id_rt_past == time_id], 1)
+    NCandidates_past_t <- NCandidates_past[time_id]
+    tau <- rnorm(NCandidates_past_t, 0, sigma_tau)
     tau <- tau - mean(tau)
-    tmp <- exp_softmax(eta_past[t, 1:N_p] +
-      alpha_past[r, 1:P_past_elections[t]] +
+    tmp <- exp_softmax(theta_past[time_id, 1:NCandidates_past_t] +
+      alpha_past[pollster_id, 1:NCandidates_past_t] +
       tau +
-      xi_past[t, 1:N_p])
+      xi_past[time_id, 1:NCandidates_past_t])
     y <- rmultinom(1, 1000, tmp)
     out <- data.frame(
       y = y,
-      p = 1:N_p,
-      t = t,
-      r = r,
-      n = rep(1000, N_p),
-      id = x,
+      candidate_id = 1:NCandidates_past_t,
+      t = time_id,
+      pollster_id = pollster_id,
+      n = rep(1000, NCandidates_past_t),
+      survey_id = x,
       tau = tau,
-      xi = xi_past[t, 1:N_p]
+      xi = xi_past[time_id, 1:NCandidates_past_t]
     )
     return(out)
   }) %>%
-  do.call("bind_rows", .)
+    do.call("bind_rows", .)
 
-  polls_first_round_past <- polls_first_round_past %>%
-    group_by(r, t) %>%
-    mutate(r_id = cur_group_id()) %>%
+  polls_past <- polls_past %>%
+    group_by(pollster_id, t) %>%
+    mutate(pollster_id = cur_group_id()) %>%
     ungroup()
 
   #' Output
@@ -202,25 +181,32 @@ sim_polling_data <- function(N_first_round_surveys,
                sigma_tau = sd(tau),
                sigma_alpha = sd(c(alpha, alpha_past[alpha_past != -10])))
   alpha <- data.frame(alpha) %>%
-    mutate(r = 1:N_R) %>%
+    mutate(pollster_id = 1:NPollsters) %>%
     pivot_longer(
-      c(-r),
-      names_to = "p",
+      c(-pollster_id),
+      names_to = "candidate_id",
       values_to = "alpha",
       names_prefix = "X"
     )
   xi <- data.frame(xi = t(xi)) %>%
-    mutate(p = 1:P)
+    mutate(candidate_id = 1:NCandidates)
 
-  return(list(polls_first_round = polls_first_round,
-              polls_second_round = polls_second_round,
-              polls_first_round_past = polls_first_round_past,
-              P_past_elections = P_past_elections,
-              N_elections_past = N_past_elections,
+  xi_past <- as.data.frame(xi_past) %>%
+    mutate(election_id = 1:n()) %>%
+    pivot_longer(everything(),
+                 names_to = "candidate_id",
+                 values_to = "xi_logodds") %>%
+      mutate(candidate_id = as.integer(candidate_id))
+  return(list(polls = polls,
+              polls_past = polls_past,
+              NCandidates_past = NCandidates_past,
+              NPollsters_past = NPollsters_past,
+              NElections_past = NElections_past,
               sigma_parameters = sigma_parameters,
               alpha = alpha,
               tau = tau,
-              xi = xi))
+              xi = xi,
+              xi_past = xi_past))
 }
 #' Example
 # source("src/R/functions/sim_random_walk.R")
