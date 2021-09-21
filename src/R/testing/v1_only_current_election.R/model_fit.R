@@ -28,7 +28,7 @@ source("src/R/functions/data_list_check_y_1r.R")
 NTime <- 50
 NPolls<- 40
 NPolls_past <- 10
-NElections_past <- 1
+NElections_past <- 3
 NCandidates <- 10
 NPollsters <- 3
 NCombinations <- 5

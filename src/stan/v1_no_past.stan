@@ -10,6 +10,7 @@ data {
   int<lower = 1, upper = NSurveys> id_P_survey[NPolls];
   int id_S_pollster[NSurveys];
   int id_S_time[NSurveys];
+  int absentee_omitted[NPolls]; //0-1 absentee treated as last candidate;
 
   // variable inclusion
   int NCandidates_Poll[NPolls];
@@ -141,6 +142,8 @@ model {
   // * Create a container for the complete vector
   // * Create a subset of those observed for the specific poll using the
   // * correct left_inv of the transition matrix
+  // * If absentee is included the indicator is 0 and absentee is estimated
+  // * If absentee is omitted the indicator is 1 and we take one last element and normalize the rest.
   for (ii in 1:NPolls){
     {
       vector[NCandidates] invlogit_theta_complete;
@@ -155,18 +158,22 @@ model {
         candidates_excluded[
           id_P_combinations_ii,
           1:(NCandidates - NCandidates_ii)];
+      int NCandidatesC_ii = NCandidate_Combinations[id_P_combinations_ii];
+      int NCandidatesC_neg_ii = NCandidate_Combinations_neg[id_P_combinations_ii];
       invlogit_theta_complete = softmax(theta[, id_S_time[id_P_survey[ii]]] +
         tau[, id_P_survey[ii]] +
         alpha[, id_S_pollster[id_P_survey[ii]]] +
         xi);
       invlogit_theta_subset = invlogit_theta_complete[index_included] +
         left_inv_trans_comb[id_P_combinations_ii,
-          1:NCandidate_Combinations[id_P_combinations_ii],
-          1:NCandidate_Combinations_neg[id_P_combinations_ii]] *
-          (zeros[1:NCandidate_Combinations_neg[id_P_combinations_ii]] -
+          1:NCandidatesC_ii,
+          1:NCandidatesC_neg_ii] *
+          (zeros[1:NCandidatesC_neg_ii] -
           invlogit_theta_complete[index_excluded]);
-      target += multinomial_lpmf(y[1:NCandidate_Combinations[id_P_combinations_ii], ii] |
-          invlogit_theta_subset);
+      target += multinomial_lpmf(
+          y[(1 + absentee_omitted):NCandidatesC_ii, ii] |
+          invlogit_theta_subset[(1 + absentee_omitted):NCandidatesC_ii] *
+          sum(invlogit_theta_subset[(1 + absentee_omitted):NCandidatesC_ii]));
     }
   }
 }
