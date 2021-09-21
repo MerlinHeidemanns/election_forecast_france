@@ -53,6 +53,48 @@ candidates_included <- inclusion_input$p_first_round_included
 candidates_excluded <- inclusion_input$p_first_round_excluded
 id_P_combinations <- inclusion_input$p_id
 y <- inclusion_input$y_first_round
+
+## Load past data
+df_past <- read.csv(file = "dta/polls_dta/2017_polls_clean.csv")
+election_date <- read_csv("dta/polls_dta/election_dates.csv") %>%
+  filter(year == 2017) %>%
+  pull(date_first_round)
+df_past <- df_past %>%
+  filter(difftime(election_date, end_day) < 21,
+         difftime(election_date, end_day) > 0) %>%
+  group_by(poll_id) %>%
+  filter(n() > 2)
+df_past <- df_past %>%
+  arrange(poll_id, candidate_long_id)
+
+NElections_past <- 1
+NPolls_past <- df_past %>%
+  distinct(poll_id) %>%
+  nrow()
+NCandidates_past <- df_past %>%
+  distinct(candidate_long_id) %>%
+  nrow()
+id_r_past <- df_past %>%
+  distinct(poll_id, pollster_id) %>%
+  group_by(pollster_id) %>%
+  mutate(pollster_id_model = cur_group_id()) %>%
+  pull(pollster_id_model)
+
+id_t_past <- df_past %>%
+  distinct(poll_id) %>%
+  mutate(i = 1) %>%
+  pull(i)
+
+y_past <-
+df_past %>%
+  arrange(poll_id, candidate_long_id) %>%
+  dplyr::select(poll_id, candidate_long_id, y) %>%
+  pivot_wider(id_cols = poll_id,
+              names_from = candidate_long_id,
+              names_prefix = "c",
+              values_from = y) %>%
+  View()
+
 ## data list
 data_list <- list(
   NSurveys = NSurveys,
@@ -70,7 +112,22 @@ data_list <- list(
   candidates_included = candidates_included,
   candidates_excluded = candidates_excluded,
   id_P_combinations = id_P_combinations,
-  y = y %>% t()
+  y = y %>% t(),
+
+  NElections_past = 1,
+  NPolls_past = ,
+  NCandidates_past,
+  NPollsters_past,
+  id_r_past,
+  id_rt_past,
+  id_t_past,
+  results,
+  y_past
+  int<lower = 1, upper = NPollsters_past> id_r_past[NPolls_past]; // which pollster
+  int<lower = 1, upper = NElections_past> id_rt_past[NPollsters_past]; // which election the pollster belongs to
+  int<lower = 1, upper = NElections_past> id_t_past[NPolls_past];
+  matrix[max(NCandidates_past), NElections_past] results;
+  int<lower = 0> y_past[max(NCandidates_past), NPolls_past];
 )
 for (j in 1:length(data_list)){
   if (data_list[[j]] %>% is.na() %>% any()){
@@ -80,7 +137,7 @@ for (j in 1:length(data_list)){
 
 ## Model
 # -- Load
-mod <- cmdstan_model("src/stan/v1_current_election_transition_matrix_no_round_no_past.stan")
+mod <- cmdstan_model("src/stan/v1_with_past.stan")
 # -- Fit
 fit <- mod$sample(
   data = data_list,
@@ -93,7 +150,7 @@ fit <- mod$sample(
 )
 fit$save_object(file = "dta/fits/2021_09_16.Rds")
 # -- Posterior Predictive Checks
-
+fit <- read_rds("dta/fits/2021_09_16.Rds")
 
 source("src/R/functions/ppc_obs_alpha.R")
 source("src/R/functions/ppc_obs_xi.R")
@@ -116,6 +173,27 @@ ppc_obs_xi(fit, supvec_names = supvec_names)
 supvec_pollster <- read_csv("dta/polls_dta/pollster_identifiers.csv") %>%
   pull(pollName)
 ppc_obs_alpha(fit, supvec_names = supvec_names, supvec_pollster)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
