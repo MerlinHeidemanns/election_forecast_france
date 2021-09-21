@@ -229,7 +229,9 @@ sim_polling_data <- function(NPolls,
               alpha = alpha,
               tau = tau,
               xi = xi,
-              xi_past = xi_past))
+              xi_past = xi_past,
+              abstention_omitted = abstention_omitted,
+              abstention_omitted_past = abstention_omitted_past))
 }
 #' Example
 # source("src/R/functions/sim_random_walk.R")

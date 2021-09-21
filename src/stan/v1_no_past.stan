@@ -10,7 +10,7 @@ data {
   int<lower = 1, upper = NSurveys> id_P_survey[NPolls];
   int id_S_pollster[NSurveys];
   int id_S_time[NSurveys];
-  int absentee_omitted[NPolls]; //0-1 absentee treated as last candidate;
+  int abstention_omitted[NPolls]; //0-1 absentee treated as last candidate;
 
   // variable inclusion
   int NCandidates_Poll[NPolls];
@@ -119,15 +119,15 @@ transformed parameters {
 model {
   // -- Current polling data
   // Standard deviations
-  sigma_xi ~ normal(0, 0.01);
-  sigma_alpha ~ normal(0, 0.01);
-  sigma_tau ~ normal(0, 0.01);
-  sigma_cov ~ normal(0, 0.001);
+  sigma_xi ~ normal(0, 0.1);
+  sigma_alpha ~ normal(0, 0.1);
+  sigma_tau ~ normal(0, 0.1);
+  sigma_cov ~ normal(0, 0.1);
   // Adjustment parameters
   // * Implement sum to zero constraints
   raw_xi ~ normal(0, inv(sqrt(1 - inv(NCandidates))));
   for (ii in 1:NPollsters) raw_alpha[,ii] ~ normal(0, inv(sqrt(1 - inv(NCandidates))));
-  for (ii in 1:NPolls) raw_tau[,ii] ~ normal(0, inv(sqrt(1 - inv(NCandidates))));
+  for (ii in 1:NSurveys) raw_tau[,ii] ~ normal(0, inv(sqrt(1 - inv(NCandidates))));
 
   // -- Random walk
   theta_prior ~ dirichlet(rep_vector(1, NCandidates)) ;
@@ -146,8 +146,8 @@ model {
   // * If absentee is omitted the indicator is 1 and we take one last element and normalize the rest.
   for (ii in 1:NPolls){
     {
-      vector[NCandidates] invlogit_theta_complete;
-      vector[NCandidates_Poll[ii]] invlogit_theta_subset;
+      vector[NCandidates] prob_theta_complete;
+      vector[NCandidates_Poll[ii]] prob_theta_subset;
       int id_P_combinations_ii = id_P_combinations[ii];
       int NCandidates_ii = NCandidates_Poll[ii];
       int index_included[NCandidates_ii] =
@@ -160,39 +160,39 @@ model {
           1:(NCandidates - NCandidates_ii)];
       int NCandidatesC_ii = NCandidate_Combinations[id_P_combinations_ii];
       int NCandidatesC_neg_ii = NCandidate_Combinations_neg[id_P_combinations_ii];
-      invlogit_theta_complete = softmax(theta[, id_S_time[id_P_survey[ii]]] +
+      prob_theta_complete = softmax(theta[, id_S_time[id_P_survey[ii]]] +
         tau[, id_P_survey[ii]] +
         alpha[, id_S_pollster[id_P_survey[ii]]] +
         xi);
-      invlogit_theta_subset = invlogit_theta_complete[index_included] +
+      prob_theta_subset = prob_theta_complete[index_included] +
         left_inv_trans_comb[id_P_combinations_ii,
           1:NCandidatesC_ii,
           1:NCandidatesC_neg_ii] *
           (zeros[1:NCandidatesC_neg_ii] -
-          invlogit_theta_complete[index_excluded]);
+          prob_theta_complete[index_excluded]);
       target += multinomial_lpmf(
-          y[(1 + absentee_omitted):NCandidatesC_ii, ii] |
-          invlogit_theta_subset[(1 + absentee_omitted):NCandidatesC_ii] *
-          sum(invlogit_theta_subset[(1 + absentee_omitted):NCandidatesC_ii]));
+          y[(1 + abstention_omitted[ii]):NCandidatesC_ii, ii] |
+          prob_theta_subset[(1 + abstention_omitted[ii]):NCandidatesC_ii]/
+          sum(prob_theta_subset[(1 + abstention_omitted[ii]):NCandidatesC_ii]));
     }
   }
 }
 generated quantities {
-  matrix[NCandidates, NTime] invlogit_theta;
-  vector[NCandidates] invlogit_xi;
-  matrix[NCandidates, NPollsters] invlogit_alpha;
-  vector[NCandidates] invlogit_sigma_cov;
+  matrix[NCandidates, NTime] prob_theta;
+  vector[NCandidates] prob_xi;
+  matrix[NCandidates, NPollsters] prob_alpha;
+  vector[NCandidates] prob_sigma_cov;
   for (tt in 1:NTime){
-    invlogit_theta[, tt] = softmax(theta[, tt]);
+    prob_theta[, tt] = softmax(theta[, tt]);
   }
-  invlogit_xi = softmax(theta[,NTime] + xi) - softmax(theta[,NTime]);
+  prob_xi = softmax(theta[,NTime] + xi) - softmax(theta[,NTime]);
   for (jj in 1:NPollsters)
-    invlogit_alpha[,jj] = softmax(theta[, NTime] + alpha[,jj]) - softmax(theta[, NTime]);
+    prob_alpha[,jj] = softmax(theta[, NTime] + alpha[,jj]) - softmax(theta[, NTime]);
   {
     vector[NCandidates] tmp = append_row(theta[1:NCandidates - 1,NTime] +
       chol_cov_theta * to_vector(normal_rng(
         rep_vector(0.0, NCandidates - 1), 1)), 0);
-    invlogit_sigma_cov = softmax(tmp) - softmax(theta[, NTime]);
+    prob_sigma_cov = softmax(tmp) - softmax(theta[, NTime]);
   }
 
 }

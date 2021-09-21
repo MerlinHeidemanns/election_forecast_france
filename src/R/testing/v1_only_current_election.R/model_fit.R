@@ -83,7 +83,7 @@ data_list <- list(
   id_P_survey = df$polls %>%
     distinct(survey_id, question_id) %>%
     pull(survey_id),
-  NCandidates = NCandidates,
+  NCandidates = NCandidates + 1,
   NPollsters = NPollsters,
   NTime = nrow(t_unit_df),
   t_unit = t_unit_skip,
@@ -132,12 +132,15 @@ data_list <- list(
                 values_fill = 0) %>%
     select(-survey_id) %>%
     as.matrix() %>%
-    t()
+    t(),
+  abstention_omitted = df$polls %>%
+    distinct(question_id, abstention_omitted) %>%
+    pull(abstention_omitted)
 )
 
 
 ## Load model
-mod <- cmdstan_model("src/stan/v1_with_past.stan")
+mod <- cmdstan_model("src/stan/v1_no_past.stan")
 
 
 ## Fit model
