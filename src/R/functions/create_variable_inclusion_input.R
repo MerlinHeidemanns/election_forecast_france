@@ -21,6 +21,7 @@ create_variable_inclusion_input <- function(df){
     arrange(-n, question_id, candidate_id) %>%
     dplyr::select(question_id, candidate_id) %>%
     mutate(val = 1) %>%
+    arrange(candidate_id) %>%
     pivot_wider(id_cols = question_id,
                 names_from = candidate_id,
                 names_prefix = "candidate_id",

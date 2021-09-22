@@ -14,6 +14,7 @@ source("src/R/functions/ppc_plt_sigma_alpha.R")
 source("src/R/functions/ppc_plt_sigma_xi.R")
 source("src/R/functions/ppc_plt_alpha.R")
 source("src/R/functions/ppc_plt_xi.R")
+source("src/R/functions/ppc_plt_xi_past.R")
 source("src/R/functions/ppc_plt_cov_theta.R")
 source("src/R/functions/create_y_first_round.R")
 source("src/R/functions/create_variable_inclusion_input.R")
@@ -26,12 +27,13 @@ source("src/R/functions/data_list_check_y_1r.R")
 #' Fake true data
 #' Observed polls
 NTime <- 50
-NPolls<- 40
-NPolls_past <- 10
-NElections_past <- 3
-NCandidates <- 10
+NPolls <- 20
+NPolls_past <- 100
+NElections_past <- 2
+NCandidates <- 5
 NPollsters <- 3
-NCombinations <- 5
+NCombinations <- 4
+NPollsters_past <- 5
 data <- sim_random_walk(NElections_past = NElections_past,
                         NCandidates = NCandidates,
                         NTime = NTime,
@@ -41,6 +43,7 @@ data <- sim_random_walk(NElections_past = NElections_past,
 df <- sim_polling_data(NPolls = NPolls,
                        NPolls_past = NPolls_past,
                        NPollsters = NPollsters,
+                       NPollsters_past = NPollsters_past,
                        NCombinations = NCombinations,
                        sigma_alpha = 0.2,
                        sigma_tau = 0.2,
@@ -105,13 +108,19 @@ data_list <- list(
   ## -- past data
   NElections_past = df$NElections_past,
   NPolls_past = df$polls_past %>%
-    distinct(survey_id) %>%
-    nrow(),
+    distinct(t, survey_id) %>%
+    arrange(t) %>%
+    group_by(t) %>%
+    summarize(n = n()) %>%
+    pull(n),
   NCandidates_past = df$NCandidates_past %>%
     array(),
   NPollsters_past = df$polls_past %>%
-    distinct(pollster_id) %>%
-    nrow(),
+    distinct(t, pollster_id) %>%
+    arrange(t) %>%
+    group_by(t) %>%
+    summarize(n = n()) %>%
+    pull(n),
   id_r_past = df$polls_past %>%
     distinct(survey_id, pollster_id) %>%
     pull(pollster_id),
@@ -135,21 +144,24 @@ data_list <- list(
     t(),
   abstention_omitted = df$polls %>%
     distinct(question_id, abstention_omitted) %>%
+    pull(abstention_omitted),
+  abstention_omitted_past = df$polls_past %>%
+    distinct(survey_id, abstention_omitted) %>%
     pull(abstention_omitted)
 )
 
 
 ## Load model
-mod <- cmdstan_model("src/stan/v1_no_past.stan")
+mod <- cmdstan_model("src/stan/v1_with_past.stan")
 
 
 ## Fit model
 fit <- mod$sample(
   data = data_list,
-  chains = 4,
-  iter_sampling = 200,
-  iter_warmup = 400,
-  parallel_chains = 4,
+  chains = 6,
+  iter_sampling = 300,
+  iter_warmup = 300,
+  parallel_chains = 6,
   refresh = 100
 )
 
@@ -173,5 +185,12 @@ ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
 ppc_plt_alpha_sum_to_0(fit)
 # sigma_cov
 ppc_plt_sigma_cov(fit, data$transition_matrix_random_walk)
-##
+## Xi against sum of polling house deviations
 ppc_plt_sum_alpha_xi(fit)
+## Plot xi_past_hat
+ppc_plt_xi_past(fit, df$xi_past)
+## Pair plot for xi_past
+ppc_plt_xi_past_pair(fit, past_election = 1, 300)
+## Pair plot for xi
+ppc_plt_xi_pair(fit, 300)
+

@@ -18,6 +18,7 @@
 sim_polling_data <- function(NPolls,
                              NPolls_past,
                              NPollsters,
+                             NPollsters_past,
                              NCombinations,
                              sigma_alpha,
                              sigma_tau,
@@ -122,9 +123,8 @@ sim_polling_data <- function(NPolls,
   #' Same format as first round polls
   NElections_past <- dim(prob_theta_past)[1]
   NCandidates_past <- rep(NA, NElections_past)
-  NPollsters_past <- NElections_past + rpois(1, 5)
-  id_rt_past <- c(sample(c(1:NElections_past), NElections_past),
-               sample(1:NElections_past, NPollsters_past - NElections_past, replace = TRUE))
+  NPollsters_past <- NElections_past * NPollsters_past
+  id_rt_past <- rep(1:NElections_past, NPollsters_past/NElections_past)
   for (ii in 1:NElections_past) NCandidates_past[ii] <- sum(prob_theta_past[ii,] > 0)
   #' parameters
   #' Create matrix for alpha_past
@@ -141,7 +141,6 @@ sim_polling_data <- function(NPolls,
   xi_past <- matrix(-10,
                     ncol = max(NCandidates_past),
                     nrow = NElections_past)
-  print(dim(xi_past))
   #' Demean each row, rows = polling houses, columns = parties
   for (ii in 1:NElections_past){
     tmp <- rnorm(NCandidates_past[ii], 0, sigma_xi)
@@ -192,8 +191,11 @@ sim_polling_data <- function(NPolls,
     do.call("bind_rows", .)
 
   polls_past <- polls_past %>%
-    group_by(pollster_id, t) %>%
+    arrange(t) %>%
+    group_by(t, pollster_id) %>%
     mutate(pollster_id = cur_group_id()) %>%
+    group_by(t) %>%
+    arrange(pollster_id) %>%
     ungroup()
 
   #' Output
@@ -212,7 +214,6 @@ sim_polling_data <- function(NPolls,
   xi <- data.frame(xi = t(xi)) %>%
     mutate(candidate_id = 1:NCandidates)
 
-  print(xi_past)
   xi_past <- as.data.frame(xi_past) %>%
     mutate(election_id = 1:n()) %>%
     pivot_longer(-c(election_id),
