@@ -3,7 +3,7 @@
 #' @param supvec_names vector with candidate names in correct order
 #' @param supvec_pollster vector with pollster names in correct order
 ppc_obs_alpha <- function(fit, supvec_names, supvec_pollster){
-  alpha <- fit$draws("invlogit_alpha") %>%
+  alpha <- fit$draws("prob_alpha") %>%
     posterior::as_draws_df() %>%
     pivot_longer(everything(),
                  names_to = "cr",

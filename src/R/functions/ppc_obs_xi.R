@@ -2,7 +2,7 @@
 #' @param fit cmdstanr fit
 #' @param supvec_names vector with candidate names in correct order
 ppc_obs_xi <- function(fit, supvec_names){
-  xi <- fit$summary("invlogit_xi", ~ quantile(., c(0.10, 0.25, 0.5, 0.75, 0.9))) %>%
+  xi <- fit$summary("prob_xi", ~ quantile(., c(0.10, 0.25, 0.5, 0.75, 0.9))) %>%
     pivot_longer(c(-variable),
                  names_to = "q",
                  values_to = "val",

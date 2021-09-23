@@ -5,10 +5,15 @@ obs_create_variable_inclusion_input <- function(df){
 
   ## How many parties did the poll ask for?
   #' Group by id and find number of observation as number of parties
+  includes_abstention <- df %>%
+    distinct(question_id, includes_abstention) %>%
+    arrange(question_id) %>%
+    pull(includes_abstention)
   P_first_round <- df %>%
     group_by(question_id) %>%
     summarize(n = n()) %>%
     pull(n)
+  P_first_round <- P_first_round + c(1, 0)[includes_abstention + 1]
 
   ## How many combinations exist?
   #' Sort the df by number of parties
@@ -29,10 +34,13 @@ obs_create_variable_inclusion_input <- function(df){
                 values_from = val,
                 names_sort = TRUE,
                 values_fill = 0) %>%
+    mutate(candidate_id1 = 1) %>%
     as.matrix()
   combinations <- list()
   for (ii in 1:nrow(df_wide)){
-    combinations[[ii]] <- seq(1, ncol(df_wide) - 1)[1 == c(df_wide[ii, 2:ncol(df_wide)])]
+    tmp <- seq(1, ncol(df_wide) - 1)[1 == c(df_wide[ii, 2:ncol(df_wide)])]
+    tmp <- unique(c(1, tmp))
+    combinations[[ii]] <- tmp
   }
   combinations <- combinations %>% unique()
   N_combinations <- length(combinations)
@@ -84,6 +92,7 @@ obs_create_variable_inclusion_input <- function(df){
     p_first_round_excluded = p_first_round_excluded,
     p_first_round_included = p_first_round_included,
     p_id = combination_id,
-    y_first_round = create_y_first_round(df)
+    y_first_round = create_y_first_round(df),
+    abstention_omitted = c(1, 0)[includes_abstention + 1]
   ))
 }
