@@ -34,7 +34,7 @@ table <- table %>%
                              "%Y_%m_%d"),
          end_day = as.Date(paste(year, end_month, end_day, sep = "_"),
                              "%Y_%m_%d"),
-         Candidate = ifelse(Candidate == "Abs.", "ZZZ_Abstention", Candidate)) %>%
+         Candidate = ifelse(Candidate == "Abs.", "_Abstention", Candidate)) %>%
   dplyr::select(-FieldworkDate, -end_month, -start_month, -year)
 # * Save
 write.csv(table, "dta/polls_dta/2017_polls_compiled.csv")

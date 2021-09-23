@@ -13,7 +13,7 @@ table(field_time)
 
 ## Percentage
 df %>%
-  filter(Candidate != "ZZZ_Abstention") %>%
+  filter(Candidate != "_Abstention") %>%
   group_by(poll_id) %>%
   summarize(total_percentage = sum(Percentage)) %>%
   filter(total_percentage != 100)
@@ -26,7 +26,7 @@ candidates <- df %>%
   sort()
 candidates_crosswalk <- data.frame(short_name = candidates,
            long_name = NA)
-election_results_2017 <- read_csv("dta/polls_dta/election_results_2017.csv")
+election_results_2017 <- read_csv("dta/polls_dta/election_results_2017_clean.csv")
 for (j in 1:nrow(candidates_crosswalk)){
   if (any(grepl(candidates_crosswalk[j, 1],
                 election_results_2017$candidate))){
@@ -80,9 +80,9 @@ ggplot(df, aes(x = start_day, y = Percentage)) +
 ## Turn percentages into integers
 df <- df %>%
   group_by(poll_id) %>%
-  mutate(abstention = ifelse(Candidate == "ZZZ_Abstention", Percentage, 0),
+  mutate(abstention = ifelse(Candidate == "_Abstention", Percentage, 0),
          abstention = max(abstention),
-         Percentage = ifelse(Candidate == "ZZZ_Abstention",
+         Percentage = ifelse(Candidate == "_Abstention",
                              Percentage/100,
                              Percentage/100 * (100 - abstention)/100
                              ),

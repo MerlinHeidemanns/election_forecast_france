@@ -63,37 +63,61 @@ df_past <- df_past %>%
   filter(difftime(election_date, end_day) < 21,
          difftime(election_date, end_day) > 0) %>%
   group_by(poll_id) %>%
-  filter(n() > 2)
+  filter(n() > 2) %>%
+  ungroup()
 df_past <- df_past %>%
   arrange(poll_id, candidate_long_id)
+
 
 NElections_past <- 1
 NPolls_past <- df_past %>%
   distinct(poll_id) %>%
-  nrow()
+  nrow() %>%
+  array()
+NPollsters_past <- df_past %>%
+  distinct(pollster_id) %>%
+  nrow() %>%
+  array()
 NCandidates_past <- df_past %>%
   distinct(candidate_long_id) %>%
-  nrow()
+  nrow() %>%
+  array()
 id_r_past <- df_past %>%
   distinct(poll_id, pollster_id) %>%
   group_by(pollster_id) %>%
   mutate(pollster_id_model = cur_group_id()) %>%
   pull(pollster_id_model)
 
+id_rt_past <- df_past %>%
+  distinct(pollster_id) %>%
+  mutate(i = 1) %>%
+  pull(i)
+
 id_t_past <- df_past %>%
   distinct(poll_id) %>%
   mutate(i = 1) %>%
   pull(i)
 
-y_past <-
-df_past %>%
+results <- read_csv("dta/polls_dta/election_results_2017_clean.csv") %>%
+  left_join(read_csv("dta/polls_dta/candidate_identifiers_2017_long.csv"),
+            by = c("candidate" = "long_name")) %>%
+  arrange(candidate_long_id) %>%
+  pull(percentage) %>%
+  matrix()
+
+
+y_past <- df_past %>%
   arrange(poll_id, candidate_long_id) %>%
   dplyr::select(poll_id, candidate_long_id, y) %>%
   pivot_wider(id_cols = poll_id,
               names_from = candidate_long_id,
               names_prefix = "c",
-              values_from = y) %>%
-  View()
+              values_from = y,
+              values_fill = -999) %>%
+  dplyr::select(-poll_id)
+
+abstention_omitted <- inclusion_input$abstention_omitted
+abstention_omitted_past <- as.integer(-999 == y_past[,1])
 
 ## data list
 data_list <- list(
@@ -115,19 +139,18 @@ data_list <- list(
   y = y %>% t(),
 
   NElections_past = 1,
-  NPolls_past = ,
-  NCandidates_past,
-  NPollsters_past,
-  id_r_past,
-  id_rt_past,
-  id_t_past,
-  results,
-  y_past
-  int<lower = 1, upper = NPollsters_past> id_r_past[NPolls_past]; // which pollster
-  int<lower = 1, upper = NElections_past> id_rt_past[NPollsters_past]; // which election the pollster belongs to
-  int<lower = 1, upper = NElections_past> id_t_past[NPolls_past];
-  matrix[max(NCandidates_past), NElections_past] results;
-  int<lower = 0> y_past[max(NCandidates_past), NPolls_past];
+  NPolls_past = NPolls_past,
+  NCandidates_past = NCandidates_past,
+  NPollsters_past = NPollsters_past,
+  id_r_past = id_r_past,
+  id_rt_past  = id_rt_past,
+  id_t_past = id_t_past,
+  results = results,
+  y_past = y_past %>% t(),
+
+  abstention_omitted = abstention_omitted,
+  abstention_omitted_past = abstention_omitted_past
+
 )
 for (j in 1:length(data_list)){
   if (data_list[[j]] %>% is.na() %>% any()){
@@ -142,21 +165,20 @@ mod <- cmdstan_model("src/stan/v1_with_past.stan")
 fit <- mod$sample(
   data = data_list,
   chains = 6,
-  iter_sampling = 250,
-  iter_warmup = 750,
+  iter_sampling = 400,
+  iter_warmup = 300,
   parallel_chains = 6,
-  refresh = 50,
+  refresh = 25,
   init = 0.2
 )
-fit$save_object(file = "dta/fits/2021_09_16.Rds")
+fit$save_object(file = "dta/fits/2021_09_22.Rds")
 # -- Posterior Predictive Checks
-fit <- read_rds("dta/fits/2021_09_16.Rds")
+fit <- read_rds("dta/fits/2021_09_22.Rds")
 
 source("src/R/functions/ppc_obs_alpha.R")
 source("src/R/functions/ppc_obs_xi.R")
 source("src/R/functions/ppc_obs_theta_mway_election_day.R")
 source("src/R/functions/ppc_obs_theta_plt_hist.R")
-fit$summary("sigma_alpha")
 supvec_names <- read.csv("dta/polls_dta/candidate_identifiers.csv") %>%
   pull(candidate)
 supvec_time <- read_csv("dta/polls_dta/time_identifiers.csv") %>%
@@ -165,7 +187,7 @@ supvec_bloc <- read.csv("dta/polls_dta/candidate_party_identifiers.csv")
 ## Obs theta by bloc
 ppc_obs_theta_bloc_politiques(fit)
 ## Obs three-way Bertrand, Macron, Le Pen
-df_out <- ppc_obs_theta_mway_election_day(fit, c("Xavier Bertrand", "Emmanuel Macron"), 500)
+df_out <- ppc_obs_theta_mway_election_day(fit, c("_Abstention", "Xavier Bertrand", "Emmanuel Macron"), 500)
 ppc_obs_theta_plt_hist(df_out)
 ## Polling error
 ppc_obs_xi(fit, supvec_names = supvec_names)
@@ -173,12 +195,14 @@ ppc_obs_xi(fit, supvec_names = supvec_names)
 supvec_pollster <- read_csv("dta/polls_dta/pollster_identifiers.csv") %>%
   pull(pollName)
 ppc_obs_alpha(fit, supvec_names = supvec_names, supvec_pollster)
-
-
-
-
-
-
+## Prob sigma cov
+ppc_obs_prob_sigma_cov(fit, supvec_names)
+## Transition matrix
+ppc_obs_transition_matrix(fit, supvec_names)
+## two-way win probability second round
+ppc_obs_theta_twoway_plt(fit, NIter = 300)
+## Sigma
+ppc_obs_sigma(fit)
 
 
 
