@@ -1,6 +1,5 @@
 
 ppc_obs_theta_twoway_plt <- function(fit, NIter = 500){
-  NIter <- 200
   candidate_list <- read.csv("dta/polls_dta/candidate_identifiers.csv") %>%
     pull(candidate)
   NCandidates <- length(candidate_list)
@@ -49,7 +48,7 @@ ppc_obs_theta_twoway_plt <- function(fit, NIter = 500){
   }
 
   ## Extract theta
-  theta <- fit$draws("invlogit_theta") %>%
+  theta <- fit$draws("prob_theta") %>%
     posterior::as_draws_df() %>%
     mutate(iter = 1:n()) %>%
     pivot_longer(c(-iter),
@@ -72,12 +71,12 @@ ppc_obs_theta_twoway_plt <- function(fit, NIter = 500){
 
   count <- 0
   matchup_probabilities <- data.frame()
-  for (aa in 1:(length(candidate_list) - 1)){
+  for (aa in 2:(length(candidate_list) - 1)){
     for (bb in (aa + 1):length(candidate_list)){
       print(count)
       count = count + 1
-      included <- c(aa, bb)
-      excluded <- seq(1, NCandidates)[!seq(1, NCandidates) %in% included]
+      included <- c(1, aa, bb)
+      excluded <- seq(2, NCandidates)[!seq(2, NCandidates) %in% included]
       #' Conditioning
       df_out <- lapply(1:NIter, function(j){
         theta_cond <- theta[included, j] + trans_mat_array[included, excluded, j] %*% solve(trans_mat_array[excluded,  excluded, j]) %*% (0 - theta[excluded,j])
@@ -86,6 +85,10 @@ ppc_obs_theta_twoway_plt <- function(fit, NIter = 500){
                           j = iter_subset[j])
       }) %>%
         do.call("bind_rows", .)
+      df_out <- df_out %>%
+        filter(candidate != "_Abstention") %>%
+        group_by(j) %>%
+        mutate(theta_cond = theta_cond / sum(theta_cond))
       out <- df_out %>%
         group_by(candidate) %>%
         summarize(win_prob = mean(theta_cond > 0.5)) %>%
@@ -118,8 +121,7 @@ ppc_obs_theta_twoway_plt <- function(fit, NIter = 500){
   m1 <- m1[,2:ncol(m1)]
   m1 <- m1[candidate_list,candidate_list]
   m1 <- as.numeric(m1)
-  ggcorrplot(m1, colors = c("blue", "blue", "red")) +
-    labs(title = "Win probability")
+
 
   m2 <- m1 %>%
     rownames_to_column(var = "candidate_1") %>%
@@ -127,10 +129,12 @@ ppc_obs_theta_twoway_plt <- function(fit, NIter = 500){
                  names_to = "candidate_2",
                  values_to = "prob")
 
+  m2 <- m2 %>%
+    mutate(prob_cat = round(prob, 1))
   plt <- ggplot(data = m2,
-                aes(x = candidate_1, y = candidate_2, fill = prob)) +
+                aes(x = candidate_1, y = candidate_2, fill = prob_cat)) +
     geom_tile(alpha = 0.5) +
-    labs(fill = "Win probability")+
+    labs(fill = "Win probability (row v col")+
     theme_light() +
     ggplot2::theme(axis.text.x =
                      ggplot2::element_text(angle = 45,
@@ -138,7 +142,9 @@ ppc_obs_theta_twoway_plt <- function(fit, NIter = 500){
                                            size = 12,
                                            hjust = 1),
                    axis.text.y = ggplot2::element_text(size = 12)) +
-    ggplot2::scale_fill_gradient2(low = "yellow", high = "red", midpoint = 0.5, limit = c(0, 1), space = "Lab")+
-    ggplot2::coord_fixed()
+    #scale_fill_brewer(palette = "Blues") +
+    ggplot2::scale_fill_gradient2(low = "blue", high = "red", midpoint = 0.5, limit = c(0, 1), space = "Lab")+
+    ggplot2::coord_fixed() +
+    theme(axis.title = element_blank())
   return(plt)
 }
