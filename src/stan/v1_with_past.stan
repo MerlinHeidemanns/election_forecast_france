@@ -30,7 +30,7 @@ data {
   int<lower = 1, upper = NElections_past> id_rt_past[sum(NPollsters_past)]; // which election the pollster belongs to
   int<lower = 1, upper = NElections_past> id_t_past[sum(NPolls_past)];
   matrix[max(NCandidates_past), NElections_past] results;
-  int<lower = 0> y_past[max(NCandidates_past), sum(NPolls_past)];
+  int y_past[max(NCandidates_past), sum(NPolls_past)];
   int abstention_omitted_past[sum(NPolls_past)];
 
 }
@@ -140,19 +140,13 @@ transformed parameters {
   xi = append_row(raw_xi, -sum(raw_xi));
 
   alpha = raw_alpha;
-  for (ii in 2:NCandidates){
-    alpha[ii, 1] = - sum(alpha[ii, 2:NPollsters]);
-  }
-  for (ii in 1:NPollsters){
-    alpha[1, ii] = -sum(alpha[2:NCandidates, ii]);
-  }
+  for (ii in 2:NCandidates) alpha[ii, 1] = - sum(alpha[ii, 2:NPollsters]);
+  for (ii in 1:NPollsters) alpha[1, ii] = -sum(alpha[2:NCandidates, ii]);
+
   tau = raw_tau;
-  for (ii in 2:NCandidates){
-    tau[ii, 1] = -sum(tau[ii, 2:NSurveys]);
-  }
-  for (ii in 1:NSurveys){
-    tau[1, ii] = -sum(tau[2:NCandidates, ii]);
-  }
+  for (ii in 2:NCandidates) tau[ii, 1] = -sum(tau[ii, 2:NSurveys]);
+  for (ii in 1:NSurveys)    tau[1, ii] = -sum(tau[2:NCandidates, ii]);
+
 
   // -- Random walk
   // Determine current covariance matrix
@@ -167,17 +161,7 @@ transformed parameters {
   theta[NCandidates] = zeros_theta;
 
   // -- Past polling data
-  // * Scale parameters
-  // for (jj in 1:NPollsters_past){
-  //   alpha_past[1:NCandidates_past[id_rt_past[jj]], jj] = append_row(
-  //     raw_alpha_past[1:(NCandidates_past[id_rt_past[jj]] - 1), jj],
-  //     -sum(raw_alpha_past[1:(NCandidates_past[id_rt_past[jj]] - 1), jj])
-  //   );
-  // }
-  //
-  // [max(NCandidates_past), sum(NPollsters_past)] alpha_past
-
-  //alpha_past = raw_alpha_past;
+  // * Sum to zero constraints
   for (jj in 1:NElections_past){
     alpha_past[1:NCandidates_past[jj], (1 + supvec_NPollsters_past[jj]):(NPollsters_past[jj] + supvec_NPollsters_past[jj])] =
       raw_alpha_past[1:NCandidates_past[jj], (1 + supvec_NPollsters_past[jj]):(NPollsters_past[jj] + supvec_NPollsters_past[jj])];
@@ -212,10 +196,10 @@ transformed parameters {
 model {
   // -- Current polling data
   // Standard deviations
-  sigma_xi ~ normal(0, 0.1);
-  sigma_alpha ~ normal(0, 0.1);
-  sigma_tau ~ normal(0, 0.1);
-  sigma_cov ~ normal(0, 0.1);
+  sigma_xi ~ normal(0, 0.01);
+  sigma_alpha ~ normal(0, 0.01);
+  sigma_tau ~ normal(0, 0.01);
+  sigma_cov ~ normal(0, 0.01);
   // Adjustment parameters
   // * Implement sum to zero constraints
   raw_xi ~ normal(0, sigma_xi);
@@ -282,8 +266,8 @@ model {
       vector[NCandidates_past_ii] theta_past =
         softmax(theta_results[1:NCandidates_past_ii, id_t_past[ii]] +
                 alpha_past[1:NCandidates_past[id_rt_past[id_r_past[ii]]], id_r_past[ii]] +
-         xi_past[1:NCandidates_past_ii, id_t_past[ii]]); //+
-         //tau_past[1:NCandidates_past_ii, ii]);
+         xi_past[1:NCandidates_past_ii, id_t_past[ii]]+
+         tau_past[1:NCandidates_past_ii, ii]);
       target += multinomial_lpmf(y_past[start:NCandidates_past_ii, ii] |
         theta_past[start:NCandidates_past_ii] / sum(theta_past[start:NCandidates_past_ii])
       );
@@ -308,7 +292,6 @@ generated quantities {
         rep_vector(0.0, NCandidates - 1), 1)), 0);
     prob_sigma_cov = softmax(tmp) - softmax(theta[, NTime]);
   }
-
 }
 
 
