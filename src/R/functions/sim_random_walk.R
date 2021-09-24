@@ -17,8 +17,9 @@ sim_random_walk <- function(NElections_past,
                             rho,
                             sigma,
                             K_VAR){
+  NCandidates <- NCandidates + 1
 
-  NCandidates_Elections_past <- rpois(NElections_past, 4)
+  NCandidates_Elections_past <- rpois(NElections_past, 5)
   while (min(NCandidates_Elections_past) <= 2){
     NCandidates_Elections_past[NCandidates_Elections_past <= 2] <- rpois(sum(NCandidates_Elections_past <= 2), 5)
   }
@@ -26,6 +27,8 @@ sim_random_walk <- function(NElections_past,
   prob_theta_past <- matrix(0, nrow = NElections_past, ncol = NCandidates_Elections_past_max)
   for (ii in 1:NElections_past){
     tmp <- runif(NCandidates_Elections_past[ii], 0.3, 1)
+    tmp <- tmp/sum(tmp)
+    tmp[1] <- runif(1, 0.15, 0.25)
     tmp <- tmp/sum(tmp)
     prob_theta_past[ii, 1:NCandidates_Elections_past[ii]] <- tmp
   }

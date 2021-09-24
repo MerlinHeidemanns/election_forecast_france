@@ -5,11 +5,22 @@ create_y_first_round <- function(df){
                           nrow = max(df$question_id),
                           ncol = max(df$candidate_id))
   for (ii in 1:max(df$question_id)){
-    tmp <- df %>%
+    candidates <- df %>%
       filter(question_id == ii) %>%
-      arrange(candidate_id) %>%
-      pull(y)
-    y_first_round[ii, 1:length(tmp)] <- tmp
+      pull(candidate_id)
+    if (1 %in% candidates){
+      tmp <- df %>%
+        filter(question_id == ii) %>%
+        arrange(candidate_id) %>%
+        pull(y)
+      y_first_round[ii, 1:length(tmp)] <- tmp
+    } else {
+      tmp <- df %>%
+        filter(question_id == ii) %>%
+        arrange(candidate_id) %>%
+        pull(y)
+      y_first_round[ii, 2:(length(tmp) + 1)] <- tmp
+    }
   }
   return(y_first_round)
 }

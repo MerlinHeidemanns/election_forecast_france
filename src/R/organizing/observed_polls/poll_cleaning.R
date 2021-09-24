@@ -4,8 +4,7 @@ library(tidyverse)
 ## Load and check data
 source("src/R/organizing/observed_polls/poll_checks.R")
 ## Remove specific questions
-remove <- c("Abstention",
-            "Un candidate d'extrême-gauch",
+remove <- c("Un candidate d'extrême-gauch",
             "François Hollande",
             "Le ou la candidate vainqueur de la primaire écologiste")
 remove_question_ids <- df %>%
@@ -18,6 +17,12 @@ df <- df %>%
   group_by(survey_id) %>%
   mutate(survey_id = cur_group_id())
 
+## Rename Abstention
+df <- df %>%
+  mutate(candidate = ifelse(candidate == "Abstention",
+                            "_Abstention", candidate))
+
+
 ## Assign value to less than 0.5 observations and rescale percentages
 df <- df %>%
   mutate(
@@ -25,7 +30,11 @@ df <- df %>%
     percentage = as.numeric(percentage)
   ) %>%
   group_by(question_id) %>%
-  mutate(percentage = percentage/sum(percentage)) %>%
+  mutate(abstention = ifelse(candidate == "_Abstention",
+                             percentage,
+                             0),
+         abstention = max(abstention),
+         percentage = percentage/100 * (1 - abstention/100)) %>%
   ungroup()
 
 
@@ -34,9 +43,10 @@ df <- df %>%
 #' Create dataframe with identifiers and candidates
 #' Save
 #' Merge into original dataframe
+
 candidates <- df %>%
-  arrange(-percentage) %>%
   distinct(candidate) %>%
+  arrange(candidate) %>%
   pull(candidate)
 candidates <- data.frame(candidate = candidates,
                              candidate_id = 1:length(candidates))
@@ -116,6 +126,12 @@ if (N_files > N_df){
   #stop("Warning: There are surveys not included in the dataframe.")
 }
 
+
+## Abstentions
+df <- df %>%
+  group_by(question_id) %>%
+  mutate(includes_abstention = ifelse(candidate_id == 1, 1, 0),
+         includes_abstention = max(includes_abstention))
 
 ## Save
 write.csv(df, "dta/polls_dta/2020_polls_clean.csv")

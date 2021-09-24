@@ -18,6 +18,7 @@
 sim_polling_data <- function(NPolls,
                              NPolls_past,
                              NPollsters,
+                             NPollsters_past,
                              NCombinations,
                              sigma_alpha,
                              sigma_tau,
@@ -25,6 +26,7 @@ sim_polling_data <- function(NPolls,
                              theta_matrix,
                              transition_matrix,
                              prob_theta_past){
+
   #' Determine number of parties and time points from input
   NCandidates <- dim(theta_matrix)[2]
   NTime <- dim(theta_matrix)[1]
@@ -42,9 +44,14 @@ sim_polling_data <- function(NPolls,
   candidate_combinations <- list()
 
   for (ii in 1:NCombinations){
-    candidate_combinations[[ii]] <- sort(sample(1:NCandidates, sample((NCandidates - 3):(NCandidates - 1), 1)))
+    candidate_combinations[[ii]] <- c(1, sort(sample(2:NCandidates, sample((NCandidates - 4):(NCandidates - 2), 1))))
   }
-  candidate_combinations[[NCombinations + 1]] <- c(1, 2)
+  candidate_combinations[[NCombinations + 1]] <- c(1, 2, 3)
+
+  #' Determine which pollster omits abstention
+  abstention_omitted <- c(rep(0, ceiling(0.5 * NPollsters)),
+                            rep(1, floor(0.5 * NPollsters)))
+
 
   #' Simulate polls
   polls <- lapply(1:NPolls, function(x){
@@ -82,15 +89,21 @@ sim_polling_data <- function(NPolls,
       }
 
       prob_theta <- exp_softmax(theta_ss)
+      if (abstention_omitted[pollster_id]){
+        prob_theta <- prob_theta[2:NCandidates_included]/sum(prob_theta[2:NCandidates_included])
+      }
       y <- rmultinom(1, 1000, prob_theta)
+      length_omitted <- NCandidates_included - (abstention_omitted[pollster_id])
+
       out_question <- data.frame(
-        question_id = jj,
+        question_id = rep(jj, length_omitted),
         y = y,
-        candidate_id = candidates_included,
-        time_id = time_id,
-        pollster_id = rep(pollster_id, NCandidates_included),
-        n = rep(1000, NCandidates_included),
-        survey_id = x
+        candidate_id = candidates_included[(1 + abstention_omitted[pollster_id]):NCandidates_included],
+        time_id = rep(time_id, length_omitted),
+        pollster_id = rep(pollster_id, length_omitted),
+        n = rep(1000, length_omitted),
+        survey_id = rep(x, length_omitted),
+        abstention_omitted = abstention_omitted[pollster_id]
       )
       return(out_question)
     })
@@ -110,9 +123,8 @@ sim_polling_data <- function(NPolls,
   #' Same format as first round polls
   NElections_past <- dim(prob_theta_past)[1]
   NCandidates_past <- rep(NA, NElections_past)
-  NPollsters_past <- NElections_past + rpois(1, 5)
-  id_rt_past <- c(sample(c(1:NElections_past), NElections_past),
-               sample(1:NElections_past, NPollsters_past - NElections_past, replace = TRUE))
+  NPollsters_past <- NElections_past * NPollsters_past
+  id_rt_past <- rep(1:NElections_past, NPollsters_past/NElections_past)
   for (ii in 1:NElections_past) NCandidates_past[ii] <- sum(prob_theta_past[ii,] > 0)
   #' parameters
   #' Create matrix for alpha_past
@@ -136,6 +148,9 @@ sim_polling_data <- function(NPolls,
     xi_past[ii, 1:NCandidates_past[ii]] <- tmp
   }
 
+  abstention_omitted_past <- c(rep(0, ceiling(0.5 * NPollsters_past)),
+                               rep(1,   floor(0.5 * NPollsters_past)))
+
   #' Turn past results into log-odds ratios
   theta_past <- matrix(-10, nrow = dim(prob_theta_past)[1],
                      ncol = dim(prob_theta_past)[2])
@@ -155,24 +170,32 @@ sim_polling_data <- function(NPolls,
       alpha_past[pollster_id, 1:NCandidates_past_t] +
       tau +
       xi_past[time_id, 1:NCandidates_past_t])
+    if (abstention_omitted_past[pollster_id]){
+      tmp <- tmp[2:NCandidates_past_t]/sum(tmp[2:NCandidates_past_t])
+    }
     y <- rmultinom(1, 1000, tmp)
+    length_omitted <- NCandidates_past_t - abstention_omitted_past[pollster_id]
     out <- data.frame(
       y = y,
-      candidate_id = 1:NCandidates_past_t,
-      t = time_id,
-      pollster_id = pollster_id,
-      n = rep(1000, NCandidates_past_t),
-      survey_id = x,
-      tau = tau,
-      xi = xi_past[time_id, 1:NCandidates_past_t]
+      candidate_id = seq(1 + abstention_omitted_past[pollster_id], NCandidates_past_t),
+      t = rep(time_id, length_omitted),
+      pollster_id = rep(pollster_id, length_omitted),
+      n = rep(1000, length_omitted),
+      survey_id = rep(x, length_omitted),
+      tau = tau[(1 + abstention_omitted_past[pollster_id]):NCandidates_past_t],
+      xi = xi_past[time_id, (1 + abstention_omitted_past[pollster_id]):NCandidates_past_t],
+      abstention_omitted = rep(abstention_omitted_past[pollster_id], length_omitted)
     )
     return(out)
   }) %>%
     do.call("bind_rows", .)
 
   polls_past <- polls_past %>%
-    group_by(pollster_id, t) %>%
+    arrange(t) %>%
+    group_by(t, pollster_id) %>%
     mutate(pollster_id = cur_group_id()) %>%
+    group_by(t) %>%
+    arrange(pollster_id) %>%
     ungroup()
 
   #' Output
@@ -193,10 +216,11 @@ sim_polling_data <- function(NPolls,
 
   xi_past <- as.data.frame(xi_past) %>%
     mutate(election_id = 1:n()) %>%
-    pivot_longer(everything(),
+    pivot_longer(-c(election_id),
                  names_to = "candidate_id",
-                 values_to = "xi_logodds") %>%
-      mutate(candidate_id = as.integer(candidate_id))
+                 values_to = "xi_logodds",
+                 names_prefix = "V") %>%
+    mutate(candidate_id = as.integer(candidate_id))
   return(list(polls = polls,
               polls_past = polls_past,
               NCandidates_past = NCandidates_past,
@@ -206,7 +230,9 @@ sim_polling_data <- function(NPolls,
               alpha = alpha,
               tau = tau,
               xi = xi,
-              xi_past = xi_past))
+              xi_past = xi_past,
+              abstention_omitted = abstention_omitted,
+              abstention_omitted_past = abstention_omitted_past))
 }
 #' Example
 # source("src/R/functions/sim_random_walk.R")
