@@ -177,11 +177,34 @@ ppc_obs_alpha(fit, supvec_names = supvec_names, supvec_pollster)
 
 
 
+prob_theta <- fit$draws('prob_theta') %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  filter(iter < 100) %>%
+  pivot_longer(c(-iter),
+               names_to = "variable",
+               values_to = "draws") %>%
+  mutate(
+    time = as.integer(str_match(variable, ",([\\d+]+)")[,2]),
+    candidate_id = as.integer(str_match(variable, "([\\d+]+),")[,2])
+  ) %>%
+  filter(!is.na(time)) %>%
+  filter(time == max(time)) %>%
+  dplyr::select(-variable, -time)
 
+prob_theta <- prob_theta %>%
+  rename(draws_a = draws) %>%
+  full_join(prob_theta %>%
+              rename(draws_b = draws),
+            by = "iter")
 
-
-
-
+prob_theta %>%
+  filter((candidate_id.x < 10) | (candidate_id.x == max(candidate_id.x)),
+         (candidate_id.y < 10) | (candidate_id.y == max(candidate_id.y)),
+         candidate_id.y != candidate_id.x) %>%
+  ggplot(aes(x = draws_a, y = draws_b)) +
+    geom_point(alpha = 0.5) +
+    facet_grid(candidate_id.y ~ candidate_id.x)
 
 
 
