@@ -55,56 +55,89 @@ id_P_combinations <- inclusion_input$p_id
 y <- inclusion_input$y_first_round
 
 ## Load past data
-df_past <- read.csv(file = "dta/polls_dta/2017_polls_clean.csv")
-election_date <- read_csv("dta/polls_dta/election_dates.csv") %>%
-  filter(year == 2017) %>%
-  pull(date_first_round)
+candidate_id_df <- read_csv("dta/polls_dta/candidate_identifiers_long.csv")
+
+
+df_past <- read.csv(file = "dta/polls_dta/past_polls_clean.csv")
+election_dates <- read_csv("dta/polls_dta/election_dates.csv")
 df_past <- df_past %>%
-  filter(difftime(election_date, end_day) < 21,
-         difftime(election_date, end_day) > 0) %>%
+  left_join(election_dates, by = c("election_year" = "year"))
+df_past <- df_past %>%
+  mutate(diff_time = difftime(date_first_round, end_day, units = "days")) %>%
+  filter(diff_time < 21,
+         diff_time > 0) %>%
+  left_join(candidate_id_df %>%
+              group_by(year) %>%
+              mutate(NCandidates = n(),
+                     included = 1), by =
+              c("election_year" = "year",
+                "candidate_long_id" = "candidate_long_id")) %>%
   group_by(poll_id) %>%
-  filter(n() > 2) %>%
+  filter(n() > 3,
+         sum(!is.na(included)) == NCandidates |
+         (sum(!is.na(included)) + 1) == NCandidates) %>%
   ungroup()
+
 df_past <- df_past %>%
-  arrange(poll_id, candidate_long_id)
+  arrange(election_year, poll_id, pollster_id, candidate_long_id)
 
+NElections_past <- df_past %>%
+  distinct(election_year) %>%
+  nrow()
 
-NElections_past <- 1
+NCandidates_past <- df_past %>%
+  distinct(election_year, candidate_long_id) %>%
+  group_by(election_year) %>%
+  summarize(n = max(candidate_long_id)) %>%
+  pull(n) %>%
+  array()
+
 NPolls_past <- df_past %>%
-  distinct(poll_id) %>%
-  nrow() %>%
+  distinct(election_year, poll_id) %>%
+  group_by(election_year) %>%
+  summarize(n = n()) %>%
+  pull(n) %>%
   array()
 NPollsters_past <- df_past %>%
-  distinct(pollster_id) %>%
-  nrow() %>%
+  distinct(election_year, pollster_id) %>%
+  group_by(election_year) %>%
+  summarize(n = n()) %>%
+  pull(n) %>%
   array()
-NCandidates_past <- df_past %>%
-  distinct(candidate_long_id) %>%
-  nrow() %>%
-  array()
+
 id_r_past <- df_past %>%
-  distinct(poll_id, pollster_id) %>%
-  group_by(pollster_id) %>%
+  distinct(election_year, poll_id, pollster_id) %>%
+  group_by(election_year, pollster_id) %>%
   mutate(pollster_id_model = cur_group_id()) %>%
   pull(pollster_id_model)
 
 id_rt_past <- df_past %>%
-  distinct(pollster_id) %>%
-  mutate(i = 1) %>%
+  distinct(election_year, pollster_id) %>%
+  group_by(election_year) %>%
+  mutate(i = cur_group_id()) %>%
   pull(i)
 
 id_t_past <- df_past %>%
-  distinct(poll_id) %>%
-  mutate(i = 1) %>%
+  distinct(election_year, poll_id) %>%
+  group_by(election_year) %>%
+  mutate(i = cur_group_id()) %>%
   pull(i)
 
-results <- read_csv("dta/polls_dta/election_results_2017_clean.csv") %>%
-  left_join(read_csv("dta/polls_dta/candidate_identifiers_2017_long.csv"),
-            by = c("candidate" = "long_name")) %>%
-  arrange(candidate_long_id) %>%
-  pull(percentage) %>%
-  matrix()
-
+results <- matrix(-999, nrow = NElections_past,
+                  ncol = max(NCandidates_past))
+years <- c(2002, 2007, 2012, 2017)
+for (jj in 1:length(years)){
+   tmp <- read_csv("dta/polls_dta/election_results_clean.csv") %>%
+    filter(year == years[jj]) %>%
+    left_join(read_csv("dta/polls_dta/candidate_identifiers_long.csv") %>%
+                filter(year == years[jj]),
+              by = c("candidate" = "long_name",
+                     "year" = "year")) %>%
+    arrange(candidate_long_id) %>%
+    pull(percentage)
+  print(tmp)
+  results[jj,1:NCandidates_past[jj]] <- tmp
+}
 
 y_past <- df_past %>%
   arrange(poll_id, candidate_long_id) %>%
@@ -115,9 +148,41 @@ y_past <- df_past %>%
               values_from = y,
               values_fill = -999) %>%
   dplyr::select(-poll_id)
+y_past <- y_past[, paste0("c", seq(1, ncol(y_past)))]
 
 abstention_omitted <- inclusion_input$abstention_omitted
 abstention_omitted_past <- as.integer(-999 == y_past[,1])
+
+
+## Transition probability prior
+#' Get bloc data
+bloc_vector <- c("Abstention",
+                 "Extreme gauche a gauche",
+                 "Gauche a centre gauche",
+                 "Centre gauche a centre droit",
+                 "Centre droit a droite",
+                 "Droite a extreme droite")
+horseshoe <- matrix(
+       rbind(c(2,2,2,2,2,2),
+       c(2,5,3,1,3,5),
+       c(2,3,5,3,1,3),
+       c(2,1,3,5,3,1),
+       c(2,3,1,3,5,5),
+       c(2,5,3,1,3,5)),
+       ncol = 6,
+       nrow = 6)
+candidate_party_id <- read_csv("dta/polls_dta/candidate_party_identifiers.csv") %>%
+  mutate(bloc_politiques = as.integer(factor(bloc_politiques, levels = bloc_vector)))
+candidate_vector <- candidate_party_id %>% pull(long_name)
+bloc <- candidate_party_id %>% pull(bloc_politiques)
+transition_probability_prior <- matrix(NA, nrow = NCandidates,
+                                       ncol = NCandidates - 1)
+for (jj in 1:NCandidates){
+  blow_own <- bloc[jj]
+  bloc_other <- bloc[seq(1, NCandidates) != jj]
+  transition_probability_prior[jj,] <- horseshoe[blow_own, bloc_other]
+}
+
 
 ## data list
 data_list <- list(
@@ -130,6 +195,9 @@ data_list <- list(
   id_P_survey = id_P_survey,
   id_S_pollster = id_S_pollster,
   id_S_time = id_S_time,
+
+  transition_probability_prior = transition_probability_prior,
+
   NCandidates_Poll = NCandidates_Poll,
   NCombinations = NCombinations,
   NCandidate_Combinations = NCandidate_Combinations,
@@ -138,14 +206,14 @@ data_list <- list(
   id_P_combinations = id_P_combinations,
   y = y %>% t(),
 
-  NElections_past = 1,
+  NElections_past = NElections_past,
   NPolls_past = NPolls_past,
   NCandidates_past = NCandidates_past,
   NPollsters_past = NPollsters_past,
   id_r_past = id_r_past,
   id_rt_past  = id_rt_past,
   id_t_past = id_t_past,
-  results = results,
+  results = results %>% t(),
   y_past = y_past %>% t(),
 
   abstention_omitted = abstention_omitted,
@@ -165,16 +233,24 @@ mod <- cmdstan_model("src/stan/v1_with_past.stan")
 fit <- mod$sample(
   data = data_list,
   chains = 6,
-  iter_sampling = 400,
-  iter_warmup = 300,
+  iter_sampling = 100,
+  iter_warmup = 200,
   parallel_chains = 6,
   refresh = 25,
   init = 0.2
 )
-fit$save_object(file = "dta/fits/2021_09_22.Rds")
-# -- Posterior Predictive Checks
-fit <- read_rds("dta/fits/2021_09_22.Rds")
+fit$save_object(file = "dta/fits/2021_09_28.Rds")
+# -- Diagnostics
+fit <- read_rds("dta/fits/2021_09_28.Rds")
+fit$profiles()
 
+
+fit$sampler_diagnostics() %>%
+  posterior::as_draws_df() %>%
+  pull(treedepth__) %>%
+  table()
+fit <- read_rds("dta/fits/2021_09_28.Rds")
+# -- Posterior Predictive Checks
 source("src/R/functions/ppc_obs_alpha.R")
 source("src/R/functions/ppc_obs_xi.R")
 source("src/R/functions/ppc_obs_theta_mway_election_day.R")
@@ -185,74 +261,127 @@ supvec_time <- read_csv("dta/polls_dta/time_identifiers.csv") %>%
   pull(end_date)
 supvec_bloc <- read.csv("dta/polls_dta/candidate_party_identifiers.csv")
 ## Obs theta by bloc
+source("src/R/functions/ppc_obs_theta_bloc_politiques.R")
 ppc_obs_theta_bloc_politiques(fit)
 ## Obs three-way Bertrand, Macron, Le Pen
+source("src/R/functions/ppc_obs_theta_mway_election_day.R")
+source("src/R/functions/ppc_obs_theta_plt_hist.R")
 df_out <- ppc_obs_theta_mway_election_day(fit, c("_Abstention", "Xavier Bertrand", "Emmanuel Macron"), 500)
 ppc_obs_theta_plt_hist(df_out)
 ## Polling error
+source("src/R/functions/ppc_obs_xi.R")
 ppc_obs_xi(fit, supvec_names = supvec_names)
 ## Polling house deviation
+source("src/R/functions/ppc_obs_alpha.R")
 supvec_pollster <- read_csv("dta/polls_dta/pollster_identifiers.csv") %>%
   pull(pollName)
 ppc_obs_alpha(fit, supvec_names = supvec_names, supvec_pollster)
-<<<<<<< HEAD
-
-
-
-
-prob_theta <- fit$draws('prob_theta') %>%
-  posterior::as_draws_df() %>%
-  mutate(iter = 1:n()) %>%
-  filter(iter < 100) %>%
-  pivot_longer(c(-iter),
-               names_to = "variable",
-               values_to = "draws") %>%
-  mutate(
-    time = as.integer(str_match(variable, ",([\\d+]+)")[,2]),
-    candidate_id = as.integer(str_match(variable, "([\\d+]+),")[,2])
-  ) %>%
-  filter(!is.na(time)) %>%
-  filter(time == max(time)) %>%
-  dplyr::select(-variable, -time)
-
-prob_theta <- prob_theta %>%
-  rename(draws_a = draws) %>%
-  full_join(prob_theta %>%
-              rename(draws_b = draws),
-            by = "iter")
-
-prob_theta %>%
-  filter((candidate_id.x < 10) | (candidate_id.x == max(candidate_id.x)),
-         (candidate_id.y < 10) | (candidate_id.y == max(candidate_id.y)),
-         candidate_id.y != candidate_id.x) %>%
-  ggplot(aes(x = draws_a, y = draws_b)) +
-    geom_point(alpha = 0.5) +
-    facet_grid(candidate_id.y ~ candidate_id.x)
-=======
 ## Prob sigma cov
+source("src/R/functions/ppc_obs_prob_sigma_cov.R")
 ppc_obs_prob_sigma_cov(fit, supvec_names)
 ## Transition matrix
+source("src/R/functions/ppc_obs_transition_matrix.R")
 ppc_obs_transition_matrix(fit, supvec_names)
 ## two-way win probability second round
+source("src/R/functions/ppc_obs_theta_twoway_plt.R")
 ppc_obs_theta_twoway_plt(fit, NIter = 300)
 ## Sigma
+source("src/R/functions/ppc_obs_sigma.R")
 ppc_obs_sigma(fit)
+## Polling error past
+source("src/R/functions/ppc_obs_prob_xi_past.R")
+ppc_obs_prob_xi_past(fit)
+## Polling error by bloc
+ppc_obs_prob_xi_past_bloc(fit)
+ppc_obs_prob_xi_past_bloc <- function(fit){
+  ## Load candidate and election result vectors
+  candidate_id_df <- read_csv("dta/polls_dta/candidate_identifiers_long.csv")
+  election_results <- read_csv("dta/polls_dta/election_results_clean.csv") %>%
+    mutate(candidate = str_replace_all(candidate, "\\-", " "))
+  party_association <- read_csv("dta/polls_dta/party_association_clean.csv") %>%
+    arrange(year, candidate_long_id)
 
+  ## Get draws
+  #' indicate iterations,
+  #' get candidate_id, election_year from variable
+  #' get candidate from the candidate_id link
+  #' create candidate_year given that candidates take part more than once
+  #' replace - to allow join w/o issues
+  xi_past <- fit$draws("xi_past") %>%
+    posterior::as_draws_df() %>%
+    mutate(iter = 1:n()) %>%
+    pivot_longer(c(-iter),
+                 names_to = "variable",
+                 values_to = "draws") %>%
+    filter(draws > -300) %>%
+    mutate(
+      candidate_id = as.integer(str_match(variable, "([\\d]+),")[,2]),
+      election_year = 2002 + 5 * (as.integer(str_match(variable, ",([\\d]+)")[,2]) - 1),
+      candidate =
+        ifelse(election_year == 2002,
+               candidate_id_df$long_name[candidate_id_df$year == 2002][candidate_id],
+               ifelse(election_year == 2007,
+                      candidate_id_df$long_name[candidate_id_df$year == 2007][candidate_id],
+                      ifelse(election_year == 2012,
+                             candidate_id_df$long_name[candidate_id_df$year == 2012][candidate_id],
+                             ifelse(election_year == 2017,
+                                    candidate_id_df$long_name[candidate_id_df$year == 2017][candidate_id],
+                                    NA)))),
+      bloc =
+        ifelse(election_year == 2002,
+        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2002)][candidate_id],
+        ifelse(election_year == 2007,
+        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2007)][candidate_id],
+        ifelse(election_year == 2012,
+        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2012)][candidate_id],
+        ifelse(election_year == 2017,
+        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2017)][candidate_id],
+        NA)))),
+      candidate_year = paste0(candidate, election_year),
+      bloc_year = paste0(bloc, election_year),
+      candidate = str_replace_all(candidate, "\\-", " ")
+    ) %>%
+    left_join(election_results %>%
+                dplyr::select(candidate, percentage, year),
+              by = c("election_year" = "year",
+                     "candidate" = "candidate")) %>%
+    filter(!is.na(candidate))
 
+  ## combine election results and error and get error on
+  ## percentage point scale
+  ## summarize
+  # create levels
+  xi_past <- xi_past %>%
+    filter(!is.na(candidate)) %>%
+    group_by(iter, election_year) %>%
+    mutate(divide_by = ifelse(candidate_id == max(candidate_id),
+                              percentage, 0),
+           divide_by = max(divide_by),
+           logodds = log(percentage/divide_by),
+           polling_error_percentage = 100 * (percentage -
+                                               exp(logodds + draws)/sum(exp(logodds + draws)))) %>%
+    group_by(bloc, election_year) %>%
+    summarize(
+      q10 = quantile(polling_error_percentage, 0.1),
+      q25 = quantile(polling_error_percentage, 0.25),
+      q50 = quantile(polling_error_percentage, 0.5),
+      q75 = quantile(polling_error_percentage, 0.75),
+      q90 = quantile(polling_error_percentage, 0.9)
+    ) %>%
+    arrange(bloc, election_year)
+  ## Plot
+  plt <- ggplot(xi_past, aes(x = interaction(election_year, bloc), y = q50)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = q25, ymax = q75), size = 0.5, width = 0) +
+    geom_errorbar(aes(ymin = q10, ymax = q90), size = 0.25, width = 0) +
+    coord_flip() +
+    theme_light() +
+    theme(axis.title.y = element_blank()) +
+    labs(y = "Polling error (percentage points)")
 
->>>>>>> efe07e49776d6659be19d2ff400b156246386fee
-
-
-
-
-
-
-
-
-
-
-
-
+  ## return
+  return(plt)
+}
 
 
 
