@@ -34,14 +34,6 @@ print(N_summary)
 cat("\n")
 
 
-## Check previous results
-previous_election_sum <- read.csv("dta/polls_dta/election_results_2017.csv") %>%
-  summarize(total = sum(percentage)) %>%
-  pull(total)
-if (previous_election_sum != 100){
-  stop("Previous election result sum different from 100 percent.")
-}
-
 ## Distribution by candidate
 dist_by_candidate <- df %>%
   filter(round == 1) %>%

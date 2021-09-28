@@ -1,30 +1,31 @@
-rm(list = ls())
-## Libraries
+# --- Libraries
 library(tidyverse)
-## Load data
-df <- read_csv("dta/polls_dta/polls_2012/table_01.csv")
+# --- Adjust
 # * Support vector and files
 months <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-path <- "dta/polls_dta/polls_2012"
+path <- "dta/polls_dta/polls_2017"
 files <- list.files(path)
 # * Merge files
 table <- lapply(1:length(files), function(j){
   table <- read.csv(paste(path, files[j], sep = "/"), encoding = "UTF-8")
   table %>%
-    mutate(poll_id = paste0(2012, "_", j, "_", 1:n())) %>%
+    mutate(poll_id = paste0(2017, "_", j, "", 1:n()),
+           SampleSize = as.integer(str_replace_all(SampleSize, "[^0-9]", ""))) %>%
+    rename(pollName = PollingFirm,
+           dates = FieldworkDate,
+           sampleSize = SampleSize) %>%
     pivot_longer(c(-poll_id, -pollName, -dates, -sampleSize),
                  names_to = "candidate",
                  values_to = "percentage") %>%
     mutate(percentage = str_remove(percentage, "[%]"),
            percentage = ifelse(percentage == "<0.5", "0", percentage),
            percentage = ifelse(percentage == "–", NA, percentage),
-           percentage = as.numeric(as.character(percentage)),
-           sampleSize = as.integer(str_remove_all(sampleSize, "[^0-9]"))) %>%
+           percentage = as.numeric(as.character(percentage))) %>%
     filter(!is.na(percentage)) %>%
     return()
 }) %>%
   do.call("bind_rows", .)
-## Adjust dates
+# * Adjust dates
 table <- table %>%
   mutate(year = as.integer(str_match(dates, "[\\d]+$")[,1]),
          year = ifelse(year < 1000, year + 2000, year),
@@ -43,7 +44,5 @@ table <- table %>%
   mutate(candidate = stringi::stri_trans_general(candidate, "Latin-ASCII"))
 
 # * Save
-write.csv(table, "dta/polls_dta/2012_polls_compiled.csv")
-
-
+write.csv(table, "dta/polls_dta/2017_polls_compiled.csv")
 
