@@ -2,15 +2,19 @@ rm(list = ls())
 ## Libraries
 library(tidyverse)
 ## Load data
-election_results_2017 <- read_csv("dta/polls_dta/election_results_2017.csv")
+election_results <- read.csv("dta/polls_dta/election_results.csv", encoding = "UTF-8")
+
 ## Normalize
-election_results_2017 <- election_results_2017 %>%
+election_results <- election_results %>%
+  group_by(year) %>%
   mutate(abstention = ifelse(candidate == "Abstention", percentage, 0),
          abstention = max(abstention),
          percentage = ifelse(candidate != "Abstention",
                              percentage/100 * (100 - abstention)/100, percentage/100)) %>%
   dplyr::select(-abstention) %>%
-  mutate(candidate = ifelse(candidate == "Abstention", "_Abstention", candidate))
+  mutate(candidate = ifelse(candidate == "Abstention", "_Abstention", candidate),
+         candidate = stringi::stri_trans_general(candidate, "Latin-ASCII"),
+         candidate = str_replace_all(candidate, "-", " "))
 
 ## Save
-write_csv(election_results_2017, "dta/polls_dta/election_results_2017_clean.csv")
+write_csv(election_results, "dta/polls_dta/election_results_clean.csv")
