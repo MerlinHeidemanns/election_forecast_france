@@ -12,7 +12,7 @@ ppc_obs_theta_bloc_politiques <- function(fit){
   supvec_bloc <- read.csv("dta/polls_dta/candidate_party_identifiers.csv")
   #' Pull out theta, add names/times
 
-  pi_theta <- fit$draws("pi_theta_1r") %>%
+  pi_theta <- fit$draws("prob_theta") %>%
     posterior::as_draws_df() %>%
     mutate(iter = 1:n()) %>%
     pivot_longer(c(-iter),
@@ -55,7 +55,8 @@ ppc_obs_theta_bloc_politiques <- function(fit){
       q90 = quantile(val, 0.90)
     ) %>%
     mutate(bloc_politiques = factor(bloc_politiques,
-                                    levels = c("Extreme gauche a gauche",
+                                    levels = c("Abstention",
+                                               "Extreme gauche a gauche",
                                                "Gauche a centre gauche",
                                                "Centre gauche a centre droit",
                                                "Centre droit a droite",
