@@ -11,7 +11,6 @@ data {
   int id_S_pollster[NSurveys];
   int id_S_time[NSurveys];
   int abstention_omitted[NPolls]; //0-1 absentee treated as last candidate;
-  matrix[NCandidates, NCandidates - 1] transition_probability_prior;
 
   // variable inclusion
   int NCandidates_Poll[NPolls];
@@ -33,8 +32,6 @@ data {
   matrix[max(NCandidates_past), NElections_past] results;
   int y_past[max(NCandidates_past), sum(NPolls_past)];
   int abstention_omitted_past[sum(NPolls_past)];
-
-
 
 }
 transformed data {
@@ -119,7 +116,7 @@ transformed parameters {
     transition_matrix[corr_mat_positions[ii], ii] = -trans_prob[ii];
   }
 
-  profile("left_inverse"){
+  profile("left_inverse") {
     // * Determine and store the left inverse
     for (ii in 1:NCombinations){
       {
@@ -201,10 +198,10 @@ transformed parameters {
 model {
   // -- Current polling data
   // Standard deviations
-  sigma_xi ~ normal(0, 0.01);
-  sigma_alpha ~ normal(0, 0.01);
-  sigma_tau ~ normal(0, 0.01);
-  sigma_cov ~ normal(0, 0.01);
+  sigma_xi ~ normal(0, 0.1);
+  sigma_alpha ~ normal(0, 0.1);
+  sigma_tau ~ normal(0, 0.1);
+  sigma_cov ~ normal(0, 0.1);
   // Adjustment parameters
   // * Implement sum to zero constraints
   raw_xi ~ normal(0, sigma_xi);
@@ -217,7 +214,7 @@ model {
   chol_corr_theta ~ lkj_corr_cholesky(1.0);
 
   // -- Transition probabilities
-  for (ii in 1:NCandidates) trans_prob[ii] ~ dirichlet(transition_probability_prior[ii]);
+  for (ii in 1:NCandidates) trans_prob[ii] ~ dirichlet(rep_vector(1.0, NCandidates - 1));
 
   // -- Likelihood (first round)
   // * Get the indexes for the included and excluded candidates
@@ -265,7 +262,7 @@ model {
   to_vector(raw_tau_past) ~ normal(0, sigma_tau);
 
   // * Likelihood
-  profile("past_likelihood"){
+  profile("past polls") {
     for (ii in 1:sum(NPolls_past)){
       {
         int start = 1 + abstention_omitted_past[ii];
@@ -275,8 +272,10 @@ model {
                   alpha_past[1:NCandidates_past[id_rt_past[id_r_past[ii]]], id_r_past[ii]] +
            xi_past[1:NCandidates_past_ii, id_t_past[ii]]+
            tau_past[1:NCandidates_past_ii, ii]);
-        target += multinomial_lpmf(y_past[start:NCandidates_past_ii, ii] |
-          theta_past[start:NCandidates_past_ii] / sum(theta_past[start:NCandidates_past_ii])
+        y_past[start:NCandidates_past_ii, ii] ~ binomial(
+          sum(y_past[start:NCandidates_past_ii, ii]),
+          theta_past[start:NCandidates_past_ii] /
+          sum(theta_past[start:NCandidates_past_ii])
         );
       }
     }
