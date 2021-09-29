@@ -31,13 +31,31 @@ sim_fundamentals <- function(NElections, NBlocs){
   for (tt in 1:NElections)
     prob_alpha[tt,] = exp_softmax(logodds_alpha[tt, ])
 
+  ## Support in election
+  logodds_mu <- matrix(NA, nrow = NElections, ncol = NBlocs)
+  prob_mu <- matrix(NA, nrow = NElections, ncol = NBlocs)
+  incumbency <- matrix(0, nrow = NElections, ncol = NBlocs)
+
+  ## Coefficients
+  beta_incumbency <- -abs(rnorm(1, 0, 0.3))
+
   ## Generate election outcomes
   #' population size
   populace <- runif(1, 1000000, 2000000)
 
   y <- matrix(NA, nrow = NElections, ncol = NBlocs)
-  for (tt in 1:NElections)
-    y[tt, ] <- rmultinom(1, populace, prob_alpha[tt, ])
+
+
+  incumbency[1, ] <- c(0, rmultinom(1, 1, rep(1, NBlocs - 1)/(NBlocs - 1)))
+  logodds_mu[1, ] <- logodds_alpha[1, ] + beta_incumbency * incumbency[1, ]
+  prob_mu[1, ] <- exp_softmax(logodds_mu[1, ])
+  y[1, ] <- rmultinom(1, populace, prob_mu[1, ])
+  for (tt in 2:NElections){
+    incumbency[tt, ] <- c(0, as.integer(y[tt - 1, 2:NBlocs] == max(y[tt - 1, 2:NBlocs])))
+    logodds_mu[tt, ] <- logodds_alpha[tt, ] + beta_incumbency * incumbency[tt, ]
+    prob_mu[tt, ] <- exp_softmax(logodds_mu[tt, ])
+    y[tt, ] <- rmultinom(1, populace, prob_mu[tt, ])
+  }
 
   y_df <- y %>%
     as.data.frame() %>%
@@ -62,6 +80,9 @@ sim_fundamentals <- function(NElections, NBlocs){
     NBlocs = NBlocs,
     y = y,
     y_df = y_df,
-    y_plt = y_plt
+    y_plt = y_plt,
+    incumbency = incumbency,
+    sigma_alpha = data.frame(sigma_alpha = sigma_alpha,
+                             bloc_id = 2:NBlocs)
   )
 }
