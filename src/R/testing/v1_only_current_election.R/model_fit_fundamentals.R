@@ -10,11 +10,15 @@ NElections <- 10
 NBlocs <- 6
 list_df <- sim_fundamentals(NElections = NElections,
                             NBlocs = NBlocs)
+## Plot data
+list_df$y_plt
+
 ## Prepare data frame
 data_list <- list(
   NElections_past_fundamentals = list_df$NElections,
   NBlocs = list_df$NBlocs,
-  y_fundamentals = list_df$y
+  y_fundamentals = list_df$y,
+  incumbency = list_df$incumbency
 )
 ## Compile model
 mod <- cmdstan_model("src/stan/v1_fundamentals.stan")
@@ -27,22 +31,22 @@ fit <- mod$sample(
   parallel_chains = 6,
   refresh = 100
 )
-## Posterior Predictive Checks
-prob_alpha <- fit$summary("prob_alpha", ~ quantile(., c(0.10, 0.25, 0.5, 0.75, 0.9)))
-colnames(prob_alpha) <- c("variable", "q10", "q25", "q50", "q75", "q90")
-prob_alpha <- prob_alpha %>%
-  mutate(
-    election_id = as.integer(str_match(variable, ",([\\d]+)")[,2]),
-    bloc_id = as.integer(str_match(variable, "([\\d]+),")[,2])
-  ) %>%
-  dplyr::select(-variable)
+## --- Posterior Predictive Checks
+## prob_alpha
+source("src/R/functions/ppc_fundamentals_prob_alpha.R")
+ppc_fundamentals_prob_alpha(fit, list_df$y_df)
+## sigma_alpha
+source("src/R/functions/ppc_fundamentals_sigma_alpha.R")
+ppc_fundamentals_sigma_alpha(fit, list_df$sigma_alpha)
+## errors
+fit$draws("epsilon") %>%
+  posterior::as_draws_df()
 
-ggplot(prob_alpha, aes(x = election_id, y = bloc_id))
-  geom_line() +
-  geom_ribbon(aes(ymin = q25, ymax = q75), color = "blue", alpha = 0.5) +
-  geom_ribbon(aes(ymin = q25, ymax = q75), color = "blue", alpha = 0.5) +
-  theme_light() +
-  labs(x = "Election", y = "Share") +
-  geom_line(data = list_df$y_df, aes(x = election_id, y = share),
-            linetype = 2, color = "red")
+
+
+
+
+
+
+
 
