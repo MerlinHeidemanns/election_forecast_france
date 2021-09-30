@@ -39,10 +39,11 @@ ppc_fundamentals_prob_alpha(fit, list_df$y_df)
 source("src/R/functions/ppc_fundamentals_sigma_alpha.R")
 ppc_fundamentals_sigma_alpha(fit, list_df$sigma_alpha)
 ## errors
-fit$draws("epsilon") %>%
-  posterior::as_draws_df()
-
-
+source("src/R/functions/ppc_fundamentals_epsilon.R")
+ppc_fundamentals_epsilon(fit)
+## beta
+source("src/R/functions/ppc_fundamentals_beta_incumbency.R")
+ppc_fundamentals_beta_incumbency(fit, true_beta = list_df$beta_incumbency)
 
 
 

@@ -83,6 +83,7 @@ sim_fundamentals <- function(NElections, NBlocs){
     y_plt = y_plt,
     incumbency = incumbency,
     sigma_alpha = data.frame(sigma_alpha = sigma_alpha,
-                             bloc_id = 2:NBlocs)
+                             bloc_id = 2:NBlocs),
+    beta_incumbency = beta_incumbency
   )
 }
