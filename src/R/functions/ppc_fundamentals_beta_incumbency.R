@@ -2,9 +2,9 @@
 #' @param fit
 #' @param true_beta true beta value
 ppc_fundamentals_beta_incumbency <- function(fit, true_beta = NULL){
-  plt <- fit$draws("beta") %>%
+  plt <- fit$draws("beta_incumbency") %>%
     posterior::as_draws_df() %>%
-    ggplot(aes(x = beta)) +
+    ggplot(aes(x = beta_incumbency)) +
     geom_histogram(bins = 50) +
     theme_light() +
     theme(axis.title.y = element_blank(),
