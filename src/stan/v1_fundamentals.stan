@@ -3,6 +3,8 @@ data {
   int NBlocs;
   int y_fundamentals[NElections_past_fundamentals, NBlocs];
   matrix[NElections_past_fundamentals, NBlocs] incumbency;
+  int K;
+  matrix[NElections_past_fundamentals, K] x_fundamentals;
 }
 transformed data {
   real lsigma = 0.00001;
@@ -13,7 +15,8 @@ parameters {
   vector<lower = lsigma>[NBlocs - 1] sigma_cov_fundamentals;
   cholesky_factor_corr[NBlocs - 1] chol_corr_alpha;
   simplex[NBlocs] alpha_prior;
-  real beta;
+  real beta_incumbency;
+  vector[K] beta_fundamentals;
 }
 transformed parameters {
   matrix[NBlocs, NElections_past_fundamentals] alpha;
@@ -29,7 +32,10 @@ transformed parameters {
   }
 }
 model {
-  beta ~ normal(0, 1);
+  vector[NElections_past_fundamentals] mu_beta;
+  mu_beta = x_fundamentals * beta_fundamentals;
+  beta_incumbency ~ normal(0, 1);
+  beta_fundamentals ~ normal(0, 1);
   to_vector(raw_alpha) ~ std_normal();
   sigma_sigma_cov_fundamentals ~ normal(0, 0.1);
   sigma_cov_fundamentals ~ normal(0, sigma_sigma_cov_fundamentals);
@@ -38,7 +44,9 @@ model {
   for (nn in 1:NElections_past_fundamentals){
     {
       vector[NBlocs] mu;
-      mu = softmax(alpha[,nn] + beta * incumbency[nn, ]');
+      mu = softmax(alpha[,nn] +
+          beta_incumbency * incumbency[nn, ]' +
+          mu_beta[nn] * incumbency[nn, ]');
       target += multinomial_lpmf(y_fundamentals[nn] | mu);
     }
   }
@@ -53,7 +61,8 @@ generated quantities {
     {
       vector[NBlocs] prob_y = to_vector(y_fundamentals[tt])/sum(y_fundamentals[tt]);
       vector[NBlocs] prob_y_hat = softmax(alpha[,tt - 1] + append_col(0.0, to_vector(normal_rng(rep_vector(0.0, NBlocs - 1), 1))' * chol_cov_alpha)' +
-      incumbency[tt]' * beta);
+      incumbency[tt]' * beta_incumbency +
+      incumbency[tt]' * (x_fundamentals[tt] * beta_fundamentals));
       epsilon[, tt - 1] = prob_y - prob_y_hat;
     }
   }
