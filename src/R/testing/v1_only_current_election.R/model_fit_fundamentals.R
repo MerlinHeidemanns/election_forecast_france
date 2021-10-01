@@ -19,8 +19,7 @@ data_list <- list(
   NBlocs = list_df$NBlocs,
   y_fundamentals = list_df$y,
   incumbency = list_df$incumbency,
-  K = dim(list_df$x_fundamentals)[2],
-  x_fundamentals = list_df$x_fundamentals
+  K = dim(list_df$x_fundamentals)[2]
 )
 ## Compile model
 mod <- cmdstan_model("src/stan/v1_fundamentals.stan")
@@ -28,8 +27,8 @@ mod <- cmdstan_model("src/stan/v1_fundamentals.stan")
 fit <- mod$sample(
   data = data_list,
   chains = 6,
-  iter_sampling = 100,
-  iter_warmup = 400,
+  iter_sampling = 800,
+  iter_warmup = 800,
   parallel_chains = 6,
   refresh = 100
 )
@@ -49,8 +48,6 @@ ppc_fundamentals_beta_incumbency(fit, true_beta = list_df$beta_incumbency)
 ## beta fundamentals
 source("src/R/functions/ppc_fundamentals_beta.R")
 ppc_fundamentals_beta(fit, list_df$beta_fundamentals)
-
-
 
 
 
