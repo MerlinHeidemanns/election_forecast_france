@@ -17,29 +17,35 @@ parameters {
   simplex[NBlocs] alpha_prior;
   real beta_incumbency;
   vector[K] beta_fundamentals;
+  matrix[NBlocs - 1, NElections_past_fundamentals] raw_eta;
 }
 transformed parameters {
   matrix[NBlocs, NElections_past_fundamentals] alpha;
+  matrix[NBlocs, NElections_past_fundamentals] eta;
   cholesky_factor_cov[NBlocs - 1] chol_cov_alpha;
-  chol_cov_alpha = diag_pre_multiply(sigma_cov_fundamentals, chol_corr_alpha);
 
+  chol_cov_alpha = diag_pre_multiply(sigma_cov_fundamentals, chol_corr_alpha);
   alpha[,1] = log(alpha_prior/alpha_prior[1]);
   alpha[1] = rep_vector(0.0, NElections_past_fundamentals)';
-
   for (tt in 2:NElections_past_fundamentals){
     alpha[2:NBlocs, tt] = chol_cov_alpha * raw_alpha[:,tt] +
         alpha[2:NBlocs, tt - 1];
   }
+  for (nn in 1:NElections_past_fundamentals){
+    eta[,nn] = append_row(raw_eta[,nn], - sum(raw_eta[,nn]));
+  }
+
 }
 model {
   vector[NElections_past_fundamentals] mu_beta;
   mu_beta = x_fundamentals * beta_fundamentals;
-  beta_incumbency ~ normal(0, 1);
-  beta_fundamentals ~ normal(0, 1);
+  beta_incumbency ~ normal(0, 0.1);
+  beta_fundamentals ~ normal(0, 0.1);
   to_vector(raw_alpha) ~ std_normal();
-  sigma_sigma_cov_fundamentals ~ normal(0, 0.1);
+  to_vector(eta) ~ normal(0, 0.4);
+  sigma_sigma_cov_fundamentals ~ normal(0, 0.01);
   sigma_cov_fundamentals ~ normal(0, sigma_sigma_cov_fundamentals);
-  chol_corr_alpha ~ lkj_corr_cholesky(1.0);
+  chol_corr_alpha ~ lkj_corr_cholesky(10.0);
   alpha_prior ~ dirichlet(rep_vector(2, NBlocs));
   for (nn in 1:NElections_past_fundamentals){
     {

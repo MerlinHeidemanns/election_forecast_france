@@ -19,7 +19,8 @@ data_list <- list(
   NBlocs = list_df$NBlocs,
   y_fundamentals = list_df$y,
   incumbency = list_df$incumbency,
-  K = dim(list_df$x_fundamentals)[2]
+  K = dim(list_df$x_fundamentals)[2],
+  x_fundamentals = list_df$x_fundamentals
 )
 ## Compile model
 mod <- cmdstan_model("src/stan/v1_fundamentals.stan")
@@ -27,8 +28,8 @@ mod <- cmdstan_model("src/stan/v1_fundamentals.stan")
 fit <- mod$sample(
   data = data_list,
   chains = 6,
-  iter_sampling = 800,
-  iter_warmup = 800,
+  iter_sampling = 400,
+  iter_warmup = 400,
   parallel_chains = 6,
   refresh = 100
 )
@@ -48,6 +49,45 @@ ppc_fundamentals_beta_incumbency(fit, true_beta = list_df$beta_incumbency)
 ## beta fundamentals
 source("src/R/functions/ppc_fundamentals_beta.R")
 ppc_fundamentals_beta(fit, list_df$beta_fundamentals)
+
+bayesplot::mcmc_trace(fit$draws("raw_alpha[1,2]"))
+
+mcmc_nuts_treedepth(fit$cmdstan_diagnose())
+
+
+alpha <- fit$draws("alpha") %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  filter(iter < 600) %>%
+  pivot_longer(c(-iter),
+               names_to = "var",
+               values_to = "draws") %>%
+  mutate(
+    bloc_id = str_match(var, "([\\d]+),")[,2],
+    election_id = str_match(var, ",([\\d]+)")[,2]
+  ) %>%
+  filter(!is.na(bloc_id)) %>%
+  dplyr::select(-var)
+alpha_join <- full_join(alpha %>%
+            rename(draws_a = draws,
+                   bloc_id_a = bloc_id),
+          alpha %>%
+            rename(draws_b = draws,
+                   bloc_id_b = bloc_id)) %>%
+  filter(election_id == 2,
+         draws_a != 0,
+         draws_b != 0,
+         bloc_id_a != bloc_id_b)
+ggplot(alpha_join, aes(x = draws_a, y = draws_b)) +
+  geom_point(alpha = 0.3) +
+  facet_grid(bloc_id_b ~ bloc_id_a)
+
+
+
+
+
+
+
 
 
 

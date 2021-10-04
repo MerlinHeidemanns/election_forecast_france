@@ -56,32 +56,25 @@ sim_fundamentals <- function(NElections, NBlocs){
 
   y <- matrix(NA, nrow = NElections, ncol = NBlocs)
 
-  incumbency_distance <- matrix(rep(seq(1, NBlocs), NBlocs - 1), ncol = NBlocs, byrow = TRUE)
-  incumbency_distance[,2:NBlocs] <- abs(incumbency_distance[,2:NBlocs] - seq(2, 6))
-  incumbency_distance[,1] <- 5
-  incumbency_distance = incumbency_distance + 1
+  beta_popularity <- abs(rnorm(1, 0.1, 0.01))
+  beta_unemployment <- -abs(rnorm(1, 0.1, 0.01))
 
-  beta_popularity <- c(abs(rnorm(1, 0.1, 0.01)),
-                       sort(-abs(rnorm(4, 0.05, 0.02))),
-                       -abs(rnorm(1, 0.05, 0.1)))
-  beta_unemployment <- c(-abs(rnorm(1, 0.1, 0.01)),
-                         sort(abs(rnorm(4, 0.05, 0.02)), decreasing = TRUE),
-                         abs(rnorm(1, 0.05, 0.1)))
-
-  beta_fundamentals <- rbind(beta_popularity,
+  beta_fundamentals <- c(beta_popularity,
                              beta_unemployment)
 
   incumbency[1, ] <- c(0, rmultinom(1, 1, rep(1, NBlocs - 1)/(NBlocs - 1)))
   logodds_mu[1, ] <- logodds_alpha[1, ] + beta_incumbency * incumbency[1, ]
   prob_mu[1, ] <- exp_softmax(
     logodds_mu[1, ] +
-      x_fundamentals[1, ] %*% beta_fundamentals * incumbency[1, ])
+      c(x_fundamentals[1, ] %*% beta_fundamentals) * incumbency[1, ] +
+      rnorm(NBlocs, 0, 0.04))
   y[1, ] <- rmultinom(1, populace, prob_mu[1, ])
   for (tt in 2:NElections){
     incumbency[tt, ] <- c(0, as.integer(y[tt - 1, 2:NBlocs] == max(y[tt - 1, 2:NBlocs])))
     logodds_mu[tt, ] <- logodds_alpha[tt, ] +
       beta_incumbency * incumbency[tt, ] +
-      x_fundamentals[tt, ] %*% beta_fundamentals * incumbency[tt, ]
+      rnorm(NBlocs, 0, 0.04) +
+      c(x_fundamentals[tt, ] %*% beta_fundamentals) * incumbency[tt, ]
     prob_mu[tt, ] <- exp_softmax(logodds_mu[tt, ])
     y[tt, ] <- rmultinom(1, populace, prob_mu[tt, ])
   }
