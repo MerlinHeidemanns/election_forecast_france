@@ -244,6 +244,7 @@ fit$save_object(file = "dta/fits/2021_09_28.Rds")
 fit <- read_rds("dta/fits/2021_09_28.Rds")
 fit$profiles()
 
+fit$cmdstan_diagnose()
 
 fit$sampler_diagnostics() %>%
   posterior::as_draws_df() %>%
@@ -292,99 +293,137 @@ ppc_obs_sigma(fit)
 source("src/R/functions/ppc_obs_prob_xi_past.R")
 ppc_obs_prob_xi_past(fit)
 ## Polling error by bloc
+source("src/R/functions/ppc_obs_prob_xi_past.")
 ppc_obs_prob_xi_past_bloc(fit)
-ppc_obs_prob_xi_past_bloc <- function(fit){
-  ## Load candidate and election result vectors
-  candidate_id_df <- read_csv("dta/polls_dta/candidate_identifiers_long.csv")
-  election_results <- read_csv("dta/polls_dta/election_results_clean.csv") %>%
-    mutate(candidate = str_replace_all(candidate, "\\-", " "))
-  party_association <- read_csv("dta/polls_dta/party_association_clean.csv") %>%
-    arrange(year, candidate_long_id)
 
-  ## Get draws
-  #' indicate iterations,
-  #' get candidate_id, election_year from variable
-  #' get candidate from the candidate_id link
-  #' create candidate_year given that candidates take part more than once
-  #' replace - to allow join w/o issues
-  xi_past <- fit$draws("xi_past") %>%
+
+candidate_subset <- c("_Abstention",
+                      "Arnaud Montebourg",
+                      "Anne Hidalgo",
+                      "Emmanuel Macron")
+ppc_obs_theta_mway_time_plt <- function(fit, candidate_subset, NIter = 500){
+  candidate_list <- read.csv("dta/polls_dta/candidate_identifiers.csv") %>%
+    pull(candidate)
+  if (!all(candidate_subset %in% candidate_list)){
+    stop("Please check the spelling of the candidates' names.")
+  }
+  candidate_subset_id <- match(candidate_subset, candidate_list)
+  NCandidates <- length(candidate_list)
+
+  #' Determine number of iterations
+  iterations <- fit$metadata()$iter_sampling * length(fit$metadata()$id)
+
+  #' Sample iterations
+  iter_subset <- sort(sample(1:iterations, NIter))
+
+  ## Transition matrix
+  #' Subset transition matrix and turn into data frame
+  trans_mat <- fit$draws("transition_matrix") %>%
     posterior::as_draws_df() %>%
     mutate(iter = 1:n()) %>%
     pivot_longer(c(-iter),
-                 names_to = "variable",
-                 values_to = "draws") %>%
-    filter(draws > -300) %>%
+                 names_to = "cc",
+                 values_to = "val") %>%
+    filter(iter %in% iter_subset) %>%
     mutate(
-      candidate_id = as.integer(str_match(variable, "([\\d]+),")[,2]),
-      election_year = 2002 + 5 * (as.integer(str_match(variable, ",([\\d]+)")[,2]) - 1),
-      candidate =
-        ifelse(election_year == 2002,
-               candidate_id_df$long_name[candidate_id_df$year == 2002][candidate_id],
-               ifelse(election_year == 2007,
-                      candidate_id_df$long_name[candidate_id_df$year == 2007][candidate_id],
-                      ifelse(election_year == 2012,
-                             candidate_id_df$long_name[candidate_id_df$year == 2012][candidate_id],
-                             ifelse(election_year == 2017,
-                                    candidate_id_df$long_name[candidate_id_df$year == 2017][candidate_id],
-                                    NA)))),
-      bloc =
-        ifelse(election_year == 2002,
-        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2002)][candidate_id],
-        ifelse(election_year == 2007,
-        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2007)][candidate_id],
-        ifelse(election_year == 2012,
-        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2012)][candidate_id],
-        ifelse(election_year == 2017,
-        c("Abstention", party_association$bloc)[c(TRUE, party_association$year == 2017)][candidate_id],
-        NA)))),
-      candidate_year = paste0(candidate, election_year),
-      bloc_year = paste0(bloc, election_year),
-      candidate = str_replace_all(candidate, "\\-", " ")
+      p1 = as.integer(str_match(cc, "(\\d+),")[,2]),
+      p2 = as.integer(str_match(cc, ",(\\d+)")[,2])
     ) %>%
-    left_join(election_results %>%
-                dplyr::select(candidate, percentage, year),
-              by = c("election_year" = "year",
-                     "candidate" = "candidate")) %>%
-    filter(!is.na(candidate))
+    dplyr::select(-cc) %>%
+    filter(!is.na(p1))
 
-  ## combine election results and error and get error on
-  ## percentage point scale
-  ## summarize
-  # create levels
-  xi_past <- xi_past %>%
-    filter(!is.na(candidate)) %>%
-    group_by(iter, election_year) %>%
-    mutate(divide_by = ifelse(candidate_id == max(candidate_id),
-                              percentage, 0),
-           divide_by = max(divide_by),
-           logodds = log(percentage/divide_by),
-           polling_error_percentage = 100 * (percentage -
-                                               exp(logodds + draws)/sum(exp(logodds + draws)))) %>%
-    group_by(bloc, election_year) %>%
+  #' Shape into matrizes
+  trans_mat_list <- lapply(unique(trans_mat$iter), function(ii){
+    trans_mat %>%
+      filter(iter == ii) %>%
+      dplyr::select(-iter) %>%
+      pivot_wider(id_cols = p1,
+                  names_from = p2,
+                  values_from = val) %>%
+      dplyr::select(-p1) %>%
+      as.matrix() %>%
+      return()
+  })
+
+  #' Save into array
+  trans_mat_array <- array(NA, dim = c(nrow(trans_mat_list[[1]]),
+                                       ncol(trans_mat_list[[1]]),
+                                       length(trans_mat_list)))
+  for (jj in 1:length(trans_mat_list)){
+    trans_mat_array[,,jj] <- trans_mat_list[[jj]]
+  }
+
+  ## Extract theta
+  theta <- fit$draws("prob_theta") %>%
+    posterior::as_draws_df() %>%
+    mutate(iter = 1:n()) %>%
+    pivot_longer(c(-iter),
+                 names_to = "ct",
+                 values_to = "val") %>%
+    filter(iter %in% iter_subset) %>%
+    mutate(
+      candidate_id = as.integer(str_match(ct, "(\\d+),")[,2]),
+      time_id = as.integer(str_match(ct, ",(\\d+)")[,2])
+    ) %>%
+    filter(!is.na(time_id)) %>%
+    dplyr::select(-ct) %>%
+    pivot_wider(id_cols = c(time_id, candidate_id),
+                names_from = iter,
+                values_from = val)
+
+  #' subset vector
+  included <- candidate_subset_id
+  excluded <- seq(1, NCandidates)[!seq(1, NCandidates) %in% included]
+
+  theta_time <- lapply(1:max(theta$time_id), function(ii){
+    theta_subset <- theta %>%
+      filter(time_id == ii) %>%
+      dplyr::select(-time_id, -candidate_id) %>%
+      as.matrix()
+    #' Conditioning
+    df_out <- lapply(1:NIter, function(j){
+      theta_cond <- theta_subset[included, j] + trans_mat_array[included, excluded, j] %*% solve(trans_mat_array[excluded,  excluded, j]) %*% (0 - theta_subset[excluded,j])
+      out <- data.frame(theta_cond = theta_cond,
+                        candidate_id = candidate_list[included],
+                        j = iter_subset[j],
+                        time_id = ii) %>%
+        return(out)
+    }) %>%
+      do.call("bind_rows", .) %>%
+    return(df_out)
+  }) %>%
+    do.call("bind_rows", .)
+
+  ## Load time ids
+  time <- read_csv("dta/polls_dta/time_identifiers.csv")
+
+  ## Summarize and merge time ids in
+  theta_time <- theta_time %>%
+    group_by(candidate_id, time_id) %>%
     summarize(
-      q10 = quantile(polling_error_percentage, 0.1),
-      q25 = quantile(polling_error_percentage, 0.25),
-      q50 = quantile(polling_error_percentage, 0.5),
-      q75 = quantile(polling_error_percentage, 0.75),
-      q90 = quantile(polling_error_percentage, 0.9)
+      q50 = quantile(theta_cond, 0.5),
+      q25 = quantile(theta_cond, 0.25),
+      q75 = quantile(theta_cond, 0.75),
+      q10 = quantile(theta_cond, 0.1),
+      q90 = quantile(theta_cond, 0.9),
     ) %>%
-    arrange(bloc, election_year)
-  ## Plot
-  plt <- ggplot(xi_past, aes(x = interaction(election_year, bloc), y = q50)) +
-    geom_point() +
-    geom_errorbar(aes(ymin = q25, ymax = q75), size = 0.5, width = 0) +
-    geom_errorbar(aes(ymin = q10, ymax = q90), size = 0.25, width = 0) +
-    coord_flip() +
-    theme_light() +
-    theme(axis.title.y = element_blank()) +
-    labs(y = "Polling error (percentage points)")
+    left_join(time, by = c("time_id" = "t_unit"))
 
-  ## return
+  ## Return plt
+  plt <- ggplot(theta_time, aes(x = end_date, y = q50)) +
+    geom_line(aes(color = candidate_id)) +
+    geom_ribbon(aes(ymin = q25, ymax = q75, fill = candidate_id), alpha = 0.3) +
+    theme_light() +
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          axis.title.x = element_blank()) +
+    labs(y = "Support",
+         caption = "Median, 50%")
+
   return(plt)
 }
 
 
-
-
+ppc_obs_theta_mway_time_plt(fit, candidate_subset, 400)
 
 
