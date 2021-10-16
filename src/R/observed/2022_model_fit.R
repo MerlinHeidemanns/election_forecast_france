@@ -267,7 +267,9 @@ ppc_obs_theta_bloc_politiques(fit)
 ## Obs three-way Bertrand, Macron, Le Pen
 source("src/R/functions/ppc_obs_theta_mway_election_day.R")
 source("src/R/functions/ppc_obs_theta_plt_hist.R")
-df_out <- ppc_obs_theta_mway_election_day(fit, c("_Abstention", "Xavier Bertrand", "Emmanuel Macron"), 500)
+df_out <- ppc_obs_theta_mway_election_day(fit, c("_Abstention",
+                                                 "Anne Hidalgo",
+                                                 "Xavier Bertrand"), 500)
 ppc_obs_theta_plt_hist(df_out)
 ## Polling error
 source("src/R/functions/ppc_obs_xi.R")
