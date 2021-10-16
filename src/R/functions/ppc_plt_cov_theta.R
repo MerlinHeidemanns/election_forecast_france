@@ -3,7 +3,7 @@
 #' @param transition_matrix True transition matrix if running on
 #' simulated data
 ppc_plt_cov_theta <- function(fit, transition_matrix = NULL){
-  cov_theta <- fit$draws("cov_theta") %>%
+  cov_theta <- fit$draws("sigma_cov") %>%
     posterior::as_draws_df() %>%
     pivot_longer(
       everything(),
