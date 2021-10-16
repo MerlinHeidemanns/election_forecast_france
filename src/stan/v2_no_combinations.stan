@@ -275,6 +275,17 @@ transformed parameters {
 
 }
 model {
+  prior_theta_candidates ~ dirichlet(rep_vector(2, NCandidates));
+  {
+    vector[NBlocs - 1] sum_prior_theta_candidates;
+    vector[NBlocs] prob_prior_theta_candidates = rep_vector(0.0, NBlocs);
+    for (ii in 1:NCandidates){
+      prob_prior_theta_candidates[id_C_blocs[ii]] += prior_theta_candidates[ii];
+    }
+    sum_prior_theta_candidates = log(prob_prior_theta_candidates[2:NBlocs]/prob_prior_theta_candidates[1]);
+    sum_prior_theta_candidates ~ multi_normal_cholesky(theta_blocs[2:NBlocs, NTime_past], sqrt(t_bloc_unit_sqrt_prior) * chol_cov_theta_blocs);
+  }
+
   // -- Current polling data
   // Standard deviations
   sigma_xi ~ normal(0, prior_sigma_xi);
@@ -289,7 +300,6 @@ model {
   to_vector(raw_tau) ~ std_normal();
 
   // -- Random walk (candidates)
-  prior_theta_candidates ~ dirichlet(rep_vector(2, NCandidates));
   to_vector(raw_theta_candidates) ~ std_normal();
   chol_corr_theta_candidates ~ lkj_corr_cholesky(10.0);
 

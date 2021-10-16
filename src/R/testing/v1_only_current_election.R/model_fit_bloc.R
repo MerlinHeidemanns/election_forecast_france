@@ -26,7 +26,7 @@ source("src/R/functions/data_list_check_y_1r.R")
 #' Parameters
 #' Fake true data
 #' Observed polls
-NElections_past <- 1
+NElections_past <- 2
 NCandidates <- 8
 NTime <- 100
 rho <- 0.1
