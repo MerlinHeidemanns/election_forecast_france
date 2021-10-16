@@ -22,7 +22,7 @@ data {
   int<lower = 1, upper = NCombinations> id_P_combinations[NPolls];
   int y[NCandidates, NPolls];
 
-    // past
+  // past
   int NElections_past;
   int NPolls_past[NElections_past];
   int NCandidates_past[NElections_past];
@@ -49,7 +49,7 @@ transformed data {
   int supvec_NPollsters_past[NElections_past];
   int supvec_NPolls_past[NElections_past];
 
-  vector[NTime] t_unit_sqrt = sqrt(t_unit);
+  vector[NTime - 1] t_unit_sqrt = sqrt(t_unit);
   for (ii in 1:NCombinations)
     NCandidate_Combinations_neg[ii] = NCandidates - NCandidate_Combinations[ii];
   for (ii in 1:NCandidates){
@@ -70,6 +70,7 @@ transformed data {
   supvec_NPolls_past[1] = 0;
   for (jj in 2:NElections_past) supvec_NPolls_past[jj] = sum(NPolls_past[1:(jj - 1)]);
 }
+
 parameters {
   real<lower = lsigma> sigma_tau;
   real<lower = lsigma> sigma_alpha;
@@ -183,7 +184,7 @@ transformed parameters {
     );
   }
 
-    for (jj in 1:NElections_past){
+  for (jj in 1:NElections_past){
     tau_past[1:NCandidates_past[jj], (1 + supvec_NPolls_past[jj]):(NPolls_past[jj] + supvec_NPolls_past[jj])] =
       raw_tau_past[1:NCandidates_past[jj], (1 + supvec_NPolls_past[jj]):(NPolls_past[jj] + supvec_NPolls_past[jj])];
     for (ii in 2:NCandidates_past[jj]){
@@ -238,16 +239,19 @@ model {
             1:(NCandidates - NCandidates_ii)];
         int NCandidatesC_ii = NCandidate_Combinations[id_P_combinations_ii];
         int NCandidatesC_neg_ii = NCandidate_Combinations_neg[id_P_combinations_ii];
+
         prob_theta_complete = softmax(theta[, id_S_time[id_P_survey[ii]]] +
           tau[, id_P_survey[ii]] +
           alpha[, id_S_pollster[id_P_survey[ii]]] +
           xi);
+
         prob_theta_subset = prob_theta_complete[index_included] +
           left_inv_trans_comb[id_P_combinations_ii,
             1:NCandidate_Combinations[id_P_combinations_ii],
             1:NCandidate_Combinations_neg[id_P_combinations_ii]] *
             (zeros[1:NCandidate_Combinations_neg[id_P_combinations_ii]] -
             prob_theta_complete[index_excluded]);
+
         target += multinomial_lpmf(
             y[(1 + abstention_omitted[ii]):NCandidatesC_ii, ii] |
             prob_theta_subset[(1 + abstention_omitted[ii]):NCandidatesC_ii]/
