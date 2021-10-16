@@ -6,15 +6,10 @@
 * ifop: https://www.ifop.com/opinion/?id_category=9#isotope
 
 
-### To do
+### FAQ
 
-* Integrate past polling data
-* Compile polling data
+**Why does the model use a multinomial distribution rather than an approximation through a binomial or normal distribution?**
 
-### Features
+**Why does the model implement so many sum-to-zero constraints on the parameters?**
 
-* What if a party from the previous election disappears or a new party appears?
-    * Appearance: Party previously received 0
-    * Disappearance: Party currently receives 0
-    * Ergo: Bigger covariance matrix initially that covers the whole set, at the
-    start conditional matrix with disappearing parties being set to 0, 
+Neither $\tau$ nor $\alpha$ are identifiable without the sum to zero constraints. Within the surveys/polls of a specific pollster the sum of the survey/poll specific $\tau$ parameters can substitute for alpha.
