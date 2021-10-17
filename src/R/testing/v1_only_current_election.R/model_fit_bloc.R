@@ -23,7 +23,7 @@ source("src/R/functions/ppc_plt_sigma_cov.R")
 source("src/R/functions/ppc_plt_sum_alpha_xi.R")
 source("src/R/functions/data_list_check_y_1r.R")
 ## Simulate true data
-NElections_past <- 3
+NElections_past <- 6
 NCandidates <- 8
 NTime <- 100
 rho <- 0.1
@@ -33,7 +33,7 @@ data_true <- sim_random_walk_blocs(NElections_past, NCandidates, NTime, rho, sig
 
 ## Simulate polls
 NPolls <- 40
-NPolls_past <- 100
+NPolls_past <- 200
 NPollsters <- 5
 NCombinations <- 7
 sigma_alpha <- 0.08
@@ -242,7 +242,7 @@ data_list <- list(
   id_P_time_past = id_P_time_past,
   id_P_pollster_past = id_P_pollster_past,
   id_P_elections_past = id_P_elections_past,
-  elections_results = round(election_results/100000) %>% t(),
+  elections_results = round(election_results) %>% t(),
   id_T_election = id_T_election,
   id_E_time = id_E_time,
   y_past = y_past %>% t(),
@@ -306,42 +306,10 @@ if (FALSE){
 
 ## Abstention omitted correct
 all((data_list$y_past[1,] < 0) == data_list$abstention_omitted_past)
-## Election results
-# all(data_list$elections_results == data_polls$election_df %>%
-#   group_by(time_id) %>%
-#   mutate(share = y_result/sum(y_result)) %>%
-#   dplyr::select(time_id, bloc_id, share) %>%
-#   pivot_wider(id_cols = bloc_id,
-#               names_from = time_id,
-#               values_from = share) %>%
-#   dplyr::select(-bloc_id) %>%
-#   as.matrix())
-# ## Election result vs walk
-# data_true$df_blocs %>%
-#   filter(time_id %% 100 == 0 | time_id == 1) %>%
-#   dplyr::select(time_id, bloc_id, share) %>%
-#   pivot_wider(id_cols = bloc_id,
-#               names_from = time_id,
-#               values_from = share) %>%
-#   dplyr::select(-bloc_id) %>%
-#   as.matrix()
-
 
 
 ## Load model
-mod <- cmdstan_model("src/stan/v2_no_combinations.stan")
 mod <- cmdstan_model("src/stan/v2_intercept.stan")
-
-# tabulate polls by pollsters and election
-
-data_polls$polls_past %>%
-  distinct(poll_id, pollster_election_id) %>%
-  pull(pollster_election_id) %>%
-  table()
-data_polls$polls_past %>%
-  distinct(election_id, poll_id) %>%
-  pull(election_id) %>%
-  table()
 
 ## Fit model
 fit <- mod$sample(
@@ -353,114 +321,22 @@ fit <- mod$sample(
   refresh = 100,
   init = 1
 )
-fit <- mod$sample(
-  data = data_list,
-  chains = 1,
-  iter_sampling = 1,
-  iter_warmup = 10,
-  parallel_chains = 1,
-  refresh = 100,
-  init = 0.5
-)
-
-
-data.frame(
-  time_id = names(table(data_polls$polls_past$time_id)),
-  count = as.integer(table(data_polls$polls_past$time_id))/6
-)
 
 
 ## Posterior Predictive Checks
 
-rhat_exceeded <- fit$summary() %>%
-  filter(rhat > 1.01)
-
-data_polls$polls_past %>%
-  distinct(true_tau) %>%
-  pull(true_tau) %>%
-  sd()
-
-data_polls$polls %>%
-  distinct(true_tau) %>%
-  pull(true_tau) %>%
-  sd()
-
-source("src/R/functions/functionality_check_tau.R")
-functionality_check_tau(fit, data_list)
-functionality_check_tau_past(fit, data_list)
-data_polls$polls_past %>%
-  pull(true_tau) %>%
-  sd()
-
-
 ## Performance and behavior checks
 source("src/R/functions/performance_check.R")
 performance_check(fit)
-
-
-ppc_plt_epsilon <- function(fit, data_list){
-  epsilon_past <- fit$summary("epsilon_past",
-                              ~ quantile(.,
-                                         c(0.1, 0.25, 0.5, 0.75, 0.9)))
-  colnames(epsilon_past) <- c("variable", "q10", "q25", "q50", "q75", "q90")
-  epsilon_past <- epsilon_past %>%
-    mutate(
-      bloc_id = str_match(variable, "([\\d]+),")[,2],
-      order_id = as.integer(str_match(variable, ",([\\d]+)")[,2])
-    ) %>%
-    left_join(
-      data.frame(
-        order_id = 1:sum(data_list$NPolls_Pollster_past),
-        pollster_id = data_list$id_P_pollster_past,
-        time_id = data_list$id_P_time_past
-      )
-    )
-
-  ggplot(epsilon_past, aes(x = time_id, y = q50, color = as.factor(pollster_id))) +
-    geom_point() +
-    geom_errorbar(aes(ymin = q25, ymax = q75), width = 0, size = 0.5) +
-    geom_errorbar(aes(ymin = q10, ymax = q90), width = 0, size = 0.25) +
-    facet_wrap(bloc_id ~ .) +
-    theme_light() +
-    geom_vline(data = data.frame(
-      election_time_id = data_list$id_E_time
-    ),aes(xintercept = election_time_id))
-}
-ppc_plt_epsilon(fit, data_list)
-ppc_plt_epsilon <- function(fit, data_list){
-  epsilon_past <- fit$summary("epsilon_past",
-                              ~ quantile(.,
-                                         c(0.1, 0.25, 0.5, 0.75, 0.9)))
-  colnames(epsilon_past) <- c("variable", "q10", "q25", "q50", "q75", "q90")
-  epsilon_past <- epsilon_past %>%
-    mutate(
-      bloc_id = str_match(variable, "([\\d]+),")[,2],
-      order_id = as.integer(str_match(variable, ",([\\d]+)")[,2])
-    ) %>%
-    left_join(
-      data.frame(
-        order_id = 1:sum(data_list$NPolls_Pollster_past),
-        pollster_id = data_list$id_P_pollster_past,
-        time_id = data_list$id_P_time_past
-      )
-    )
-
-  ggplot(epsilon_past, aes(x = time_id, y = q50, color = as.factor(pollster_id))) +
-    geom_point() +
-    geom_errorbar(aes(ymin = q25, ymax = q75), width = 0, size = 0.5) +
-    geom_errorbar(aes(ymin = q10, ymax = q90), width = 0, size = 0.25) +
-    facet_wrap(bloc_id ~ .) +
-    theme_light() +
-    geom_vline(data = data.frame(
-      election_time_id = data_list$id_E_time
-    ),aes(xintercept = election_time_id))
-}
-
-
-
+## Tau
+source("src/R/functions/functionality_check_tau.R")
+functionality_check_tau(fit, data_list)
+functionality_check_tau_past(fit, data_list)
 
 
 ## Qualitative evaluation
+source("src/R/functions/ppc_plt_epsilon.R")
+ppc_plt_epsilon(fit, data_list)
 # Plot prob_theta by blocs for past
 source("src/R/functions/ppc_plt_theta_blocs.R")
 ppc_plt_theta_blocs(fit, data_polls$polls_past, t_unit_df_past, data_true$df_blocs)
@@ -518,103 +394,6 @@ bayesplot::mcmc_trace(fit$draws(c("sigma_tau", "sigma_alpha", "sigma_xi")))
 bayesplot::mcmc_pairs(fit$draws(c("sigma_alpha", "sigma_xi",
                                   "lp__")),
                       np = np)
-## Taus
-bayesplot::mcmc_pairs(fit$draws(c("tau[1,1]",
-                                  "tau[2,1]",
-                                  "tau[3,1]",
-                                  "tau[4,1]",
-                                  "tau[5,1]",
-                                  "tau[6,1]",
-                                  "tau[7,1]",
-                                  "tau[8,1]",
-                                  "tau[9,1]",
-                                  "lp__")),
-                      np = np)
-bayesplot::mcmc_pairs(fit$draws(c("tau[1,1]",
-                                  "tau[1,2]",
-                                  "tau[1,3]",
-                                  "tau[1,4]",
-                                  "tau[1,5]",
-                                  "tau[1,6]",
-                                  "tau[1,7]",
-                                  "tau[1,8]",
-                                  "tau[1,9]",
-                                  "lp__")),
-                      np = np)
-## theta_blocs
-bayesplot::mcmc_pairs(fit$draws(c("theta_blocs[2,1]",
-                                  "theta_blocs[2,10]",
-                                  "theta_blocs[2,20]",
-                                  "theta_blocs[2,30]",
-                                  "theta_blocs[2,40]",
-                                  "theta_blocs[2,50]",
-                                  "theta_blocs[2,60]",
-                                  "theta_blocs[2,70]",
-                                  "theta_blocs[2,80]",
-                                  "theta_blocs[2,90]",
-                                  "theta_blocs[2,97]",
-                                  "theta_blocs[2,98]",
-                                  "theta_blocs[2,99]",
-                                  "lp__")))
-## theta_blocs x theta_candidates
-
-bayesplot::mcmc_pairs(fit$draws(c("theta_candidates[2,1]",
-                                  "theta_candidates[3,1]",
-                                  "theta_candidates[4,1]",
-                                  "theta_candidates[5,1]",
-                                  "theta_candidates[6,1]",
-                                  "theta_candidates[7,1]",
-                                  "theta_blocs[2,99]",
-                                  "theta_blocs[3,99]",
-                                  "lp__")))
-
-## Pair plots
-bayesplot::mcmc_pairs(fit$draws(c("sigma_cov", "lp__")),
-                      np = np)
-
-bayesplot::mcmc_pairs(fit$draws(c("alpha_past[1,1]", "sigma_tau_past", "sigma_xi_past","lp__")),
-                      np = np,
-                      max_treedepth =
-                        with(np, -1 + max(Value[Parameter == "treedepth__"])))
-
-bayesplot::mcmc_pairs(fit$draws(c("sigma_tau", "lp__")))
-
-bayesplot::mcmc_scatter(fit$draws(c("sigma_tau", "sigma_alpha")))
-
-
-bayesplot::mcmc_pairs(fit$draws(c("tau_past[1,1]",
-                                  "tau_past[2,1]",
-                                  "tau_past[3,1]",
-                                  "tau_past[4,1]",
-                                  "tau_past[5,1]",
-                                  "tau_past[6,1]",
-                                  "lp__")),
-                      np = np,
-                      max_treedepth =
-                        with(np, -1 + max(Value[Parameter == "treedepth__"])))
-
-bayesplot::mcmc_pairs(fit$draws(c("sigma_cov_blocs", "lp__")),
-                      np = np,
-                      max_treedepth =
-                        with(np, -1 + max(Value[Parameter == "treedepth__"])))
-
-bayesplot::mcmc_pairs(fit$draws(c("sigma_cov[1]",
-                                  "sigma_cov[2]",
-                                  "sigma_cov[3]",
-                                  "sigma_cov[4]",
-                                  "lp__")),
-                      np = np,
-                      max_treedepth =
-                        with(np, -1 + max(Value[Parameter == "treedepth__"])))
-
-
-bayesplot::mcmc_pairs(fit$draws(c("trans_prob[1,1]",
-                                "trans_prob[1,2]",
-                                "trans_prob[1,3]",
-                                "trans_prob[1,4]",
-                                "trans_prob[1,5]",
-                                "trans_prob[1,6]",
-                                "lp__")))
 
 
 
