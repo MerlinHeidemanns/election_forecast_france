@@ -14,7 +14,7 @@ sim_random_walk_blocs <- function(NElections_past,
 
   ## Assign blocs
   id_C_blocs <- c(1, sort(sample(2:6, NCandidates - 1, replace = TRUE)))
-  while (length(unique(id_C_blocs)) != 6){
+  while ((length(unique(id_C_blocs)) != 6) | (max(table(id_C_blocs)) > ceiling(NCandidates/NBlocs))){
     id_C_blocs <- c(1, sort(sample(2:6, NCandidates - 1, replace = TRUE)))
   }
 
@@ -46,7 +46,7 @@ sim_random_walk_blocs <- function(NElections_past,
   # trans_matrix_rw_logodds <- (log(sigma_odds + 1) * identity_candidates) %*% trans_matrix_rw %*% (identity_candidates * log(sigma_odds + 1))
 
   ## only logodds
-  sigma_logodds <- abs(rnorm(NCandidates - 1, 0, sigma))
+  sigma_logodds <- abs(rnorm(NCandidates - 1, 0, sigma)) + 0.025
   trans_matrix_rw <- matrix(rho,
                             nrow = NCandidates - 1,
                             ncol = NCandidates - 1)
@@ -71,14 +71,14 @@ sim_random_walk_blocs <- function(NElections_past,
   theta_matrix_blocs <- matrix(NA, nrow = NTime_past, ncol = NBlocs)
   prob_theta_matrix_blocs <- matrix(NA, nrow = NTime_past, ncol = NBlocs)
 
-  prob_theta_matrix_blocs[1, ] <- DirichletReg::rdirichlet(1, rep(10, NBlocs))
+  prob_theta_matrix_blocs[1, ] <- DirichletReg::rdirichlet(1, rep(30, NBlocs))
   theta_matrix_blocs[1, ] <- log(prob_theta_matrix_blocs[1, ]/prob_theta_matrix_blocs[1, 1])
   for (tt in 2:NTime_past){
     proposal_accepted <- FALSE
     while (proposal_accepted == FALSE){
       update <- MASS::mvrnorm(1, rep(0, NBlocs - 1), coll_trans_matrix_rw_logodds)
       previous <- theta_matrix_blocs[tt - 1, 2:NBlocs]
-      if (all(exp_softmax(previous + update) > 0.005)){
+      if (all(exp_softmax(previous + update) > (0.05 * max(table(id_C_blocs))))){
         proposal_accepted <- TRUE
       }
     }
@@ -108,7 +108,7 @@ sim_random_walk_blocs <- function(NElections_past,
     while (proposal_accepted == FALSE){
       update <- MASS::mvrnorm(1, rep(0, NCandidates - 1), trans_matrix_rw_logodds)
       previous <- theta_matrix_candidates[tt - 1, 2:NCandidates]
-      if (all(exp_softmax(previous + update) > 0.005)){
+      if (all(exp_softmax(previous + update) > 0.01)){
         proposal_accepted <- TRUE
       }
     }

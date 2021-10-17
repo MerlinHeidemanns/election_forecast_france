@@ -21,4 +21,6 @@ Hypotheses
   7.1 Past model continues to fail recovering sigma_tau and sigma_alpha properly; more data does not seem to immediately help; similar problems with variance terms for covariance matrix
   7.2 Assess tau_past x alpha_past relation as with current polls
   7.3 Sum to zero constraints within pollster implemented
-
+8. It is not about the sigmas being too different
+9. Is it about the lower limit? Do these not interact well between blocs and candidates because the limits are the same?
+  9.1 That doesnt fix it either.

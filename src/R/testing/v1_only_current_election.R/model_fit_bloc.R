@@ -22,23 +22,23 @@ source("src/R/functions/ppc_plt_alpha_sum_to_0.R")
 source("src/R/functions/ppc_plt_sigma_cov.R")
 source("src/R/functions/ppc_plt_sum_alpha_xi.R")
 source("src/R/functions/data_list_check_y_1r.R")
-## Generate data
-#' Parameters
-#' Fake true data
-#' Observed polls
-NElections_past <- 2
+## Simulate true data
+NElections_past <- 3
 NCandidates <- 8
 NTime <- 100
 rho <- 0.1
 sigma <- 0.07
 data_true <- sim_random_walk_blocs(NElections_past, NCandidates, NTime, rho, sigma)
-NPolls <- 20
-NPolls_past <- 150
+
+
+## Simulate polls
+NPolls <- 40
+NPolls_past <- 100
 NPollsters <- 5
 NCombinations <- 7
-sigma_alpha <- 0.1
-sigma_tau <- 0.05
-sigma_xi <- 0.2
+sigma_alpha <- 0.08
+sigma_tau <- 0.03
+sigma_xi <- 0.1
 theta_matrix_blocs <- data_true$theta_matrix_blocs
 prob_theta_matrix_blocs <- data_true$prob_theta_matrix_blocs
 theta_matrix_candidates <- data_true$theta_matrix_candidates
@@ -182,7 +182,10 @@ data_polls$polls <- data_polls$polls %>%
 
 inclusion_data <- create_variable_inclusion_input(data_polls$polls)
 
-
+id_T_election <- rep(NA, nrow(t_unit_df_past))
+for (ii in 1:nrow(t_unit_df_past)){
+  id_T_election[ii] <- min(seq(1:length(id_E_time))[ii <= id_E_time])
+}
 
 
 data_list <- list(
@@ -239,8 +242,8 @@ data_list <- list(
   id_P_time_past = id_P_time_past,
   id_P_pollster_past = id_P_pollster_past,
   id_P_elections_past = id_P_elections_past,
-  #elections_results = t(election_results/apply(election_results, 1, sum)),
   elections_results = round(election_results/100000) %>% t(),
+  id_T_election = id_T_election,
   id_E_time = id_E_time,
   y_past = y_past %>% t(),
   abstention_omitted_past = abstention_omitted_past,
@@ -250,8 +253,8 @@ data_list <- list(
 
   prior_sigma_xi = sigma_xi + 0.0001,
   prior_sigma_alpha = sigma_alpha + 0.0001,
-  prior_sigma_tau = sigma_tau + 0.1,
-  prior_sigma_cov = 0.07
+  prior_sigma_tau = sigma_tau,
+  prior_sigma_cov = sigma
 )
 ## Notes
 #' * Assignment of pollsters appears to be correct
@@ -301,13 +304,6 @@ if (FALSE){
     pull(survey_id)
 }
 
-data_list$id_S_time
-data_polls$polls %>%
-  distinct(survey_id, t_unit) %>%
-  pull(t_unit)
-
-
-
 ## Abstention omitted correct
 all((data_list$y_past[1,] < 0) == data_list$abstention_omitted_past)
 ## Election results
@@ -333,10 +329,19 @@ all((data_list$y_past[1,] < 0) == data_list$abstention_omitted_past)
 
 
 ## Load model
-#mod <- cmdstan_model("src/stan/v2_with_past_bloc_separate.stan")
 mod <- cmdstan_model("src/stan/v2_no_combinations.stan")
-#mod <- cmdstan_model("src/stan/v3_blocs_interpolated_random_walk.stan")
+mod <- cmdstan_model("src/stan/v2_intercept.stan")
 
+# tabulate polls by pollsters and election
+
+data_polls$polls_past %>%
+  distinct(poll_id, pollster_election_id) %>%
+  pull(pollster_election_id) %>%
+  table()
+data_polls$polls_past %>%
+  distinct(election_id, poll_id) %>%
+  pull(election_id) %>%
+  table()
 
 ## Fit model
 fit <- mod$sample(
@@ -346,7 +351,22 @@ fit <- mod$sample(
   iter_warmup = 400,
   parallel_chains = 6,
   refresh = 100,
-  init = 0.2
+  init = 1
+)
+fit <- mod$sample(
+  data = data_list,
+  chains = 1,
+  iter_sampling = 1,
+  iter_warmup = 10,
+  parallel_chains = 1,
+  refresh = 100,
+  init = 0.5
+)
+
+
+data.frame(
+  time_id = names(table(data_polls$polls_past$time_id)),
+  count = as.integer(table(data_polls$polls_past$time_id))/6
 )
 
 
@@ -376,6 +396,68 @@ data_polls$polls_past %>%
 ## Performance and behavior checks
 source("src/R/functions/performance_check.R")
 performance_check(fit)
+
+
+ppc_plt_epsilon <- function(fit, data_list){
+  epsilon_past <- fit$summary("epsilon_past",
+                              ~ quantile(.,
+                                         c(0.1, 0.25, 0.5, 0.75, 0.9)))
+  colnames(epsilon_past) <- c("variable", "q10", "q25", "q50", "q75", "q90")
+  epsilon_past <- epsilon_past %>%
+    mutate(
+      bloc_id = str_match(variable, "([\\d]+),")[,2],
+      order_id = as.integer(str_match(variable, ",([\\d]+)")[,2])
+    ) %>%
+    left_join(
+      data.frame(
+        order_id = 1:sum(data_list$NPolls_Pollster_past),
+        pollster_id = data_list$id_P_pollster_past,
+        time_id = data_list$id_P_time_past
+      )
+    )
+
+  ggplot(epsilon_past, aes(x = time_id, y = q50, color = as.factor(pollster_id))) +
+    geom_point() +
+    geom_errorbar(aes(ymin = q25, ymax = q75), width = 0, size = 0.5) +
+    geom_errorbar(aes(ymin = q10, ymax = q90), width = 0, size = 0.25) +
+    facet_wrap(bloc_id ~ .) +
+    theme_light() +
+    geom_vline(data = data.frame(
+      election_time_id = data_list$id_E_time
+    ),aes(xintercept = election_time_id))
+}
+ppc_plt_epsilon(fit, data_list)
+ppc_plt_epsilon <- function(fit, data_list){
+  epsilon_past <- fit$summary("epsilon_past",
+                              ~ quantile(.,
+                                         c(0.1, 0.25, 0.5, 0.75, 0.9)))
+  colnames(epsilon_past) <- c("variable", "q10", "q25", "q50", "q75", "q90")
+  epsilon_past <- epsilon_past %>%
+    mutate(
+      bloc_id = str_match(variable, "([\\d]+),")[,2],
+      order_id = as.integer(str_match(variable, ",([\\d]+)")[,2])
+    ) %>%
+    left_join(
+      data.frame(
+        order_id = 1:sum(data_list$NPolls_Pollster_past),
+        pollster_id = data_list$id_P_pollster_past,
+        time_id = data_list$id_P_time_past
+      )
+    )
+
+  ggplot(epsilon_past, aes(x = time_id, y = q50, color = as.factor(pollster_id))) +
+    geom_point() +
+    geom_errorbar(aes(ymin = q25, ymax = q75), width = 0, size = 0.5) +
+    geom_errorbar(aes(ymin = q10, ymax = q90), width = 0, size = 0.25) +
+    facet_wrap(bloc_id ~ .) +
+    theme_light() +
+    geom_vline(data = data.frame(
+      election_time_id = data_list$id_E_time
+    ),aes(xintercept = election_time_id))
+}
+
+
+
 
 
 ## Qualitative evaluation
@@ -433,7 +515,7 @@ bayesplot::mcmc_trace(fit$draws(c("prior_theta_candidates")))
 bayesplot::mcmc_pairs(fit$draws(c("prior_theta_candidates", "lp__")))
 ## Sigmas
 bayesplot::mcmc_trace(fit$draws(c("sigma_tau", "sigma_alpha", "sigma_xi")))
-bayesplot::mcmc_pairs(fit$draws(c("sigma_tau", "sigma_alpha", "sigma_xi",
+bayesplot::mcmc_pairs(fit$draws(c("sigma_alpha", "sigma_xi",
                                   "lp__")),
                       np = np)
 ## Taus
@@ -459,6 +541,33 @@ bayesplot::mcmc_pairs(fit$draws(c("tau[1,1]",
                                   "tau[1,9]",
                                   "lp__")),
                       np = np)
+## theta_blocs
+bayesplot::mcmc_pairs(fit$draws(c("theta_blocs[2,1]",
+                                  "theta_blocs[2,10]",
+                                  "theta_blocs[2,20]",
+                                  "theta_blocs[2,30]",
+                                  "theta_blocs[2,40]",
+                                  "theta_blocs[2,50]",
+                                  "theta_blocs[2,60]",
+                                  "theta_blocs[2,70]",
+                                  "theta_blocs[2,80]",
+                                  "theta_blocs[2,90]",
+                                  "theta_blocs[2,97]",
+                                  "theta_blocs[2,98]",
+                                  "theta_blocs[2,99]",
+                                  "lp__")))
+## theta_blocs x theta_candidates
+
+bayesplot::mcmc_pairs(fit$draws(c("theta_candidates[2,1]",
+                                  "theta_candidates[3,1]",
+                                  "theta_candidates[4,1]",
+                                  "theta_candidates[5,1]",
+                                  "theta_candidates[6,1]",
+                                  "theta_candidates[7,1]",
+                                  "theta_blocs[2,99]",
+                                  "theta_blocs[3,99]",
+                                  "lp__")))
+
 ## Pair plots
 bayesplot::mcmc_pairs(fit$draws(c("sigma_cov", "lp__")),
                       np = np)

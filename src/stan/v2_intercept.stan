@@ -38,6 +38,7 @@ data {
   int<lower = 1, upper = NElections - 1> id_P_elections_past[sum(NPolls_Pollster_past)];
 
   int elections_results[NBlocs, NElections];
+  int id_T_election[NTime_past];
   int id_E_time[NElections];
   int y_past[NBlocs, sum(NPolls_Pollster_past)];
   int abstention_omitted_past[sum(NPolls_Pollster_past)];
@@ -65,7 +66,7 @@ transformed data {
   int supvec_NBlocs[NBlocs + 1];
   matrix[NBlocs - 1, NCandidates - 1] identity_bloc = rep_matrix(0.0, NBlocs - 1, NCandidates - 1);
 
-  matrix[NBlocs, NElections] election_results_prob;
+  matrix[NBlocs, NElections] election_results_logodds;
 
   vector[NTime - 1] t_unit_sqrt = sqrt(t_unit);
   vector[NTime_past - 1] t_unit_past_sqrt = sqrt(t_unit_past);
@@ -97,6 +98,13 @@ transformed data {
 
   supvec_NBlocs[1] = 0;
   for (jj in 1:NBlocs) supvec_NBlocs[jj + 1] = sum(NBlocs_Candidates[1:jj]);
+
+  for (nn in 1:NElections){
+    {
+      vector[NBlocs] prob = to_vector(elections_results[,nn])/sum(to_vector(elections_results[,nn]));
+      election_results_logodds[,nn] = log(prob/prob[1]);
+    }
+  }
 }
 parameters {
   real<lower = lsigma> sigma_tau;
@@ -235,15 +243,29 @@ transformed parameters {
   }
 
   // // * Random walk over blocs
+  // theta_blocs[1] = rep_vector(0.0, NTime_past)';
+  // profile ("random walk blocs"){
+  //   for (jj in 2:NElections){
+  //     theta_blocs[,id_E_time[jj - 1]] = election_results_logodds[, jj - 1] - election_results_logodds[, jj];
+  //     for (tt in (id_E_time[jj - 1] + 1):id_E_time[jj]){
+  //       theta_blocs[2:NBlocs, tt] = theta_blocs[2:NBlocs,tt - 1] + t_unit_past_sqrt[tt - 1] * chol_cov_theta_blocs * raw_theta_blocs[, tt];
+  //     }
+  //     theta_blocs[,id_E_time[jj - 1]] = rep_vector(0.0, NBlocs);
+  //   }
+  // }
+  theta_blocs[1] = rep_vector(0.0, NTime_past)';
+  theta_blocs[,id_E_time[1]] = election_results_logodds[, 1];
   profile ("random walk blocs"){
-    theta_blocs[,1] = log(theta_blocs_prior/theta_blocs_prior[1]);
-    theta_blocs[1] = rep_vector(0.0, NTime_past)';
-    for (tt in 2:NTime_past){
-      theta_blocs[2:NBlocs, tt] = theta_blocs[2:NBlocs,tt - 1] +
-        t_unit_past_sqrt[tt - 1] * chol_cov_theta_blocs * raw_theta_blocs[, tt];
+    for (jj in 2:NElections){
+      theta_blocs[,id_E_time[jj]] = election_results_logodds[, jj];
+      //print("election");
+      //print(id_E_time[jj]);
+      for (tt in 2:(id_E_time[jj] - id_E_time[jj - 1])){
+        //print(id_E_time[jj] - tt + 1);
+        theta_blocs[2:NBlocs, id_E_time[jj] - tt + 1] = theta_blocs[2:NBlocs,id_E_time[jj] - tt + 2] + t_unit_past_sqrt[id_E_time[jj] - tt + 1] * chol_cov_theta_blocs * raw_theta_blocs[, id_E_time[jj] - tt + 1];
+      }
     }
   }
-
 
   // Determine current covariance matrix
   // * Premultiply
@@ -267,8 +289,15 @@ model {
       prob_prior_theta_candidates[id_C_blocs[ii]] += prior_theta_candidates[ii];
     }
     sum_prior_theta_candidates = log(prob_prior_theta_candidates[2:NBlocs]/prob_prior_theta_candidates[1]);
-    sum_prior_theta_candidates ~ multi_normal_cholesky(theta_blocs[2:NBlocs, NTime_past], sqrt(t_bloc_unit_sqrt_prior) * chol_cov_theta_blocs);
+    sum_prior_theta_candidates ~ multi_normal_cholesky(election_results_logodds[2:NBlocs, NElections], sqrt(t_bloc_unit_sqrt_prior) * chol_cov_theta_blocs);
   }
+
+  for (jj in 1:(NElections - 1)){
+    theta_blocs[2:NBlocs, id_E_time[jj] + 1] ~ multi_normal_cholesky(election_results_logodds[2:NBlocs, jj], t_unit_past_sqrt[id_E_time[jj]] * chol_cov_theta_blocs);
+  }
+
+
+
 
   // -- Current polling data
   // Standard deviations
@@ -355,14 +384,6 @@ model {
            theta_past[start:NBlocs] / sum(theta_past[start:NBlocs])
           );
         }
-      }
-    }
-  }
-  profile ("election likelihood"){
-    for (ii in 1:NElections){
-      {
-        vector[NBlocs] theta_election = softmax(theta_blocs[, id_E_time[ii]]);
-        logit(to_vector(elections_results[,ii])/sum(to_vector(elections_results[,ii]))) ~ normal(logit(theta_election), 0.001);
       }
     }
   }
