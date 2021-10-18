@@ -6,10 +6,11 @@
 ppc_plt_alpha_past <- function(fit, data_list, data_polls){
   pollster_election_crosswalk <- data.frame(
     pollster_election_id = data_list$id_P_pollster_past,
-    election_id = data_list$id_P_elections_past
+    election_id = data_list$id_P_elections_past,
+    abstention_omitted = data_list$abstention_omitted_past
   ) %>%
     distinct() %>%
-    arrange(election_id, pollster_election_id) %>%
+    arrange(election_id, pollster_election_id, abstention_omitted) %>%
     group_by(election_id) %>%
     mutate(pollster_id = 1:n())
 
@@ -38,7 +39,7 @@ ppc_plt_alpha_past <- function(fit, data_list, data_polls){
 
 
   plt1_data <- alpha_hat_true %>%
-    group_by(election_id, bloc_id, pollster_id) %>%
+    group_by(election_id, bloc_id, pollster_id, abstention_omitted) %>%
     summarize(
       q50 = quantile(true_alpha - draws, 0.5),
       q25 = quantile(true_alpha - draws, 0.25),
@@ -52,9 +53,11 @@ ppc_plt_alpha_past <- function(fit, data_list, data_polls){
            election_bloc_pollster = factor(election_bloc_pollster, levels = election_bloc_pollster))
 
   #' Plot
-  plt1 <- ggplot(plt1_data, aes(x = election_bloc_pollster,
-                                color = as.factor(election_id),
-                                shape = as.factor(pollster_id))) +
+  plt1 <- ggplot(plt1_data %>%
+                   mutate(bloc_abstention = ifelse(bloc_id == 1, "Abstention", "Other"),
+                          omitted = ifelse(abstention_omitted == 1, "Omitted", "Included")),
+                 aes(x = election_bloc_pollster,
+                                color = interaction(bloc_abstention, omitted))) +
     geom_point(aes(y = q50)) +
     geom_errorbar(aes(ymin = q25, ymax = q75), size = 0.75,
                   width = 0) +
@@ -65,15 +68,14 @@ ppc_plt_alpha_past <- function(fit, data_list, data_polls){
     theme(axis.title.x = element_blank()) +
     labs(
       y = "Polling house deviation",
-      color = "Election",
-      shape = "Bloc",
+      color = "Abstention omitted",
       caption = "Log-odds scale"
     ) +
     theme(axis.title.x = element_blank(),
           axis.text.x = element_blank())
 
   plt2_data <- alpha_hat_true %>%
-    group_by(election_id, bloc_id, pollster_id) %>%
+    group_by(election_id, bloc_id, pollster_id, abstention_omitted) %>%
     summarize(
       q50 = quantile(abs(true_alpha - draws), 0.5),
       q25 = quantile(abs(true_alpha - draws), 0.25),
@@ -87,9 +89,11 @@ ppc_plt_alpha_past <- function(fit, data_list, data_polls){
            election_bloc_pollster = factor(election_bloc_pollster, levels = election_bloc_pollster))
 
   #' Plot
-  plt2 <- ggplot(plt2_data, aes(x = election_bloc_pollster,
-                                color = as.factor(election_id),
-                                shape = as.factor(pollster_id))) +
+  plt2 <- ggplot(plt2_data %>%
+                   mutate(bloc_abstention = ifelse(bloc_id == 1, "Abstention", "Other"),
+                          omitted = ifelse(abstention_omitted == 1, "Omitted", "Included")),
+                 aes(x = election_bloc_pollster,
+                                color = interaction(bloc_abstention, omitted))) +
     geom_point(aes(y = q50)) +
     geom_errorbar(aes(ymin = q25, ymax = q75), size = 0.75,
                   width = 0) +
@@ -99,8 +103,7 @@ ppc_plt_alpha_past <- function(fit, data_list, data_polls){
     theme_light() +
     labs(
       y = "Polling house deviation",
-      color = "Election",
-      shape = "Bloc",
+      color = "Bloc id x abstention omitted",
       caption = "Log-odds scale"
     ) +
     theme(axis.title.x = element_blank(),
