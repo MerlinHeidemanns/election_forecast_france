@@ -32,6 +32,7 @@ sim_polling_data_blocs <- function(NPolls,
                              id_C_blocs,
                              combinations = TRUE){
 
+  ##############################################################################
   #' Determine number of parties and time points from input
   NCandidates <- dim(theta_matrix_candidates)[2]
   NTime <- dim(theta_matrix_candidates)[1]
@@ -40,6 +41,7 @@ sim_polling_data_blocs <- function(NPolls,
   NTime_past <- dim(theta_matrix_blocs)[1]
 
 
+  ##############################################################################
   #' Draw polling house deviations, excess variance, and polling error
   alpha <- matrix(rnorm(NCandidates * NPollsters, 0, sigma_alpha), nrow = NPollsters, ncol = NCandidates)
   alpha <- demean_by_row(alpha)
@@ -51,6 +53,8 @@ sim_polling_data_blocs <- function(NPolls,
   xi <- demean_by_row(xi)
 
 
+  ##############################################################################
+  #' Combinations in the polls
   candidate_combinations <- list()
   if (combinations){
     for (ii in 1:NCombinations){
@@ -64,22 +68,31 @@ sim_polling_data_blocs <- function(NPolls,
     candidate_combinations[[NCombinations + 1]] <- seq(1, NCandidates)
   }
 
+
+  ##############################################################################
   #' Determine which pollster omits abstention
   abstention_omitted <- c(rep(0, ceiling(0.5 * NPollsters)),
                             rep(1, floor(0.5 * NPollsters)))
-  abstention_omitted <- rep(0, NPollsters)
 
 
+  ##############################################################################
+  #' Determine pollster id
+  pollster_survey_crosswalk <- sample(1:NPollsters, NPolls, replace = TRUE)
+  while (min(table(pollster_survey_crosswalk)) == 1){
+    pollster_survey_crosswalk <- sample(1:NPollsters, NPolls, replace = TRUE)
+  }
+
+
+  ##############################################################################
   #' Simulate polls
   polls <- lapply(1:NPolls, function(x){
-    #x = sample(1:N_first_round, 1)
-    pollster_id <- sample(1:NPollsters, 1)
+    pollster_id <- pollster_survey_crosswalk[x]
     time_id <- sample(1:NTime, 1)
     eta <- theta_matrix_candidates[time_id, ] +
       alpha[pollster_id, ] +
       tau[x, ] +
       xi
-    NQuestions <- 1#sample(2:4, 1)
+    NQuestions <- sample(2:4, 1)
     out_survey <- lapply(1:NQuestions, function(jj){
       candidates_included <- candidate_combinations[[sample(1:NCombinations, 1)]]
       candidates_excluded <- (1:NCandidates)[!((1:NCandidates) %in% candidates_included)]
@@ -118,7 +131,6 @@ sim_polling_data_blocs <- function(NPolls,
       ## How many candidates were excluded
       length_omitted <- NCandidates_included - (abstention_omitted[pollster_id])
 
-
       ## Create a dataframe
       out_question <- data.frame(
         question_id = rep(jj, length_omitted),
@@ -130,7 +142,7 @@ sim_polling_data_blocs <- function(NPolls,
         n = rep(1000, length_omitted),
         survey_id = rep(x, length_omitted),
         abstention_omitted = abstention_omitted[pollster_id],
-        true_tau = tau[x, ]
+        true_tau = tau[x, (1 + abstention_omitted[pollster_id]):NCandidates_included]
       )
       return(out_question)
     })
@@ -145,7 +157,8 @@ sim_polling_data_blocs <- function(NPolls,
     ungroup()
 
 
-  #' -- Past polls --
+  ##############################################################################
+  #' Past elections
   #' Draw election results for population
   populace <- as.integer(runif(NElections_past + 1, 5e+07, 6e+07))
   results_matrix <- matrix(NA, nrow = NElections_past + 1, ncol = NBlocs)
@@ -153,7 +166,6 @@ sim_polling_data_blocs <- function(NPolls,
   for (jj in 1:(NElections_past + 1)){
     results_matrix[jj,] <- rmultinom(1, populace[jj], prob_theta_matrix_blocs[election_time_points[jj],])
   }
-
 
   #' Put elections into a nice dataframe
   results_df <- results_matrix %>%
@@ -164,6 +176,8 @@ sim_polling_data_blocs <- function(NPolls,
                  names_to = "bloc_id",
                  names_prefix = "V")
 
+  ##############################################################################
+  #' Draw vector and parameters for past polls
   #' Assign polls to time points
   #poll_time_points_potential <- seq(1,100 * NElections_past)[!seq(1, 100 * NElections_past) %in% election_time_points]
   poll_time_points_potential <- seq(1,100 * NElections_past)[(!seq(1, 100 * NElections_past) %in% election_time_points) &
@@ -174,7 +188,8 @@ sim_polling_data_blocs <- function(NPolls,
   poll_pollster_id <- sample(1:NPollsters, NPolls_past, replace = TRUE)
   NPolls_Elections <- table(poll_election_id)
 
-
+  #' Abstentions
+  abstention_omitter_pollster <- sample(c(rep(0,floor(NPollsters * NElections_past/2)), rep(1, ceiling(NPollsters * NElections_past/2))))
 
   #' Draw parameters for the past
   ## Xi past
@@ -185,13 +200,13 @@ sim_polling_data_blocs <- function(NPolls,
     xi_past[nn, ] <- xi_past[nn, ] - mean(xi_past[nn, ])
   }
 
-
   ## Alpha past
   alpha_past <- matrix(rnorm(NElections_past * NBlocs * NPollsters, 0, sigma_alpha),
                     nrow = NElections_past * NPollsters,
                     ncol = NBlocs)
+  alpha_past[seq(1,(NElections_past * NPollsters))[1 == abstention_omitter_pollster],1] <- 0
   for (jj in 1:nrow(alpha_past)){
-    alpha_past[jj, 1:NBlocs] <- alpha_past[jj, 1:NBlocs] - mean(alpha_past[jj, 1:NBlocs])
+    alpha_past[jj, (1 + abstention_omitter_pollster[jj]):NBlocs] <- alpha_past[jj, (1 + abstention_omitter_pollster[jj]):NBlocs] - mean(alpha_past[jj, (1 + abstention_omitter_pollster[jj]):NBlocs])
   }
   for (ii in 1:NElections_past){
     for (jj in 1:NPollsters){
@@ -201,13 +216,11 @@ sim_polling_data_blocs <- function(NPolls,
     }
   }
 
-
   ## Tau past
   tau_past <- matrix(rnorm(NBlocs * NPolls_past, 0, sigma_tau),
                        nrow = NPolls_past,
                        ncol = NBlocs)
-
-    for (jj in 1:nrow(tau_past)){
+  for (jj in 1:nrow(tau_past)){
     tau_past[jj, ] <- tau_past[jj, ] - mean(tau_past[jj, ])
   }
   for (ii in 1:NElections_past){
@@ -218,10 +231,7 @@ sim_polling_data_blocs <- function(NPolls,
   }
 
 
-  abstention_omitter_pollster <- sample(c(rep(0,floor(NPollsters/2)), rep(1, ceiling(NPollsters/2))))
-  abstention_omitter_pollster <- rep(0, NPollsters)
-
-
+  ##############################################################################
   #' Create polls
   polls_past <- lapply(1:NPolls_past, function(ii){
     pi <- theta_matrix_blocs[poll_time_id[ii],] +

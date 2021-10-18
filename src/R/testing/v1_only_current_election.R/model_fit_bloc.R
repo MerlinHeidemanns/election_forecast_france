@@ -23,7 +23,7 @@ source("src/R/functions/ppc_plt_sigma_cov.R")
 source("src/R/functions/ppc_plt_sum_alpha_xi.R")
 source("src/R/functions/data_list_check_y_1r.R")
 ## Simulate true data
-NElections_past <- 6
+NElections_past <- 3
 NCandidates <- 8
 NTime <- 100
 rho <- 0.1
@@ -32,7 +32,7 @@ data_true <- sim_random_walk_blocs(NElections_past, NCandidates, NTime, rho, sig
 
 
 ## Simulate polls
-NPolls <- 40
+NPolls <- 20
 NPolls_past <- 200
 NPollsters <- 5
 NCombinations <- 7
@@ -163,7 +163,9 @@ y_past <- data_polls$polls_past %>%
   dplyr::select(-poll_id) %>%
   as.matrix()
 
-abstention_omitted_past <- data_polls$abstention_omitted_past
+abstention_omitted_past <- data_polls$polls_past %>%
+  distinct(poll_id, abstention_omitted) %>%
+  pull(abstention_omitted)
 
 
 transition_probability_prior <- matrix(20,
@@ -251,6 +253,16 @@ data_list <- list(
     distinct(question_id, abstention_omitted) %>%
     pull(abstention_omitted),
 
+  abstention_omitted_pollster = data_polls$polls %>%
+    distinct(pollster_id, abstention_omitted) %>%
+    arrange(pollster_id) %>%
+    pull(abstention_omitted),
+
+  abstention_omitted_pollster_past = data_polls$polls_past %>%
+    distinct(pollster_election_id, abstention_omitted) %>%
+    arrange(pollster_election_id) %>%
+    pull(abstention_omitted),
+
   prior_sigma_xi = sigma_xi + 0.0001,
   prior_sigma_alpha = sigma_alpha + 0.0001,
   prior_sigma_tau = sigma_tau,
@@ -307,9 +319,25 @@ if (FALSE){
 ## Abstention omitted correct
 all((data_list$y_past[1,] < 0) == data_list$abstention_omitted_past)
 
+##
+df_abstention_past <-
+  data.frame(
+    abstention = data_list$abstention_omitted_past,
+    pollster_id = data_list$id_P_pollster_past,
+    election_id = data_list$id_P_elections_past)
+
+df_abstention_past %>%
+  group_by(pollster_id, election_id) %>%
+  summarize(n_w_abstention = sum(abstention == 1),
+            n_wo_abstention = sum(abstention == 0)) %>%
+  group_by(election_id) %>%
+  mutate(N = sum(n_w_abstention) + sum(n_wo_abstention),
+            ratio = sum(n_w_abstention)/N)
+
+
 
 ## Load model
-mod <- cmdstan_model("src/stan/v2_intercept.stan")
+mod <- cmdstan_model("src/stan/v2_adding_stuff_back_in.stan")
 
 ## Fit model
 fit <- mod$sample(
@@ -368,7 +396,7 @@ ppc_plt_sum_alpha_xi(fit)
 ppc_plt_xi_past(fit, data_polls$true_xi_past)
 ## Pair plot for xi_past
 source("src/R/functions/ppc_plt_xi_past_pair.R")
-ppc_plt_xi_past_pair(fit, past_election = 1, 300)
+ppc_plt_xi_past_pair(fit, past_election = 2, 300)
 ## Pair plot for xi
 source("src/R/functions/ppc_plt_xi_pair.R")
 ppc_plt_xi_pair(fit, 300)
@@ -391,7 +419,7 @@ bayesplot::mcmc_trace(fit$draws(c("prior_theta_candidates")))
 bayesplot::mcmc_pairs(fit$draws(c("prior_theta_candidates", "lp__")))
 ## Sigmas
 bayesplot::mcmc_trace(fit$draws(c("sigma_tau", "sigma_alpha", "sigma_xi")))
-bayesplot::mcmc_pairs(fit$draws(c("sigma_alpha", "sigma_xi",
+bayesplot::mcmc_pairs(fit$draws(c("sigma_tau", "sigma_alpha", "sigma_xi",
                                   "lp__")),
                       np = np)
 

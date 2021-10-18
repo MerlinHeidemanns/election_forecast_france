@@ -9,42 +9,21 @@ sim_random_walk_blocs <- function(NElections_past,
                             NTime,
                             rho,
                             sigma){
+  ##############################################################################
+  #' Prespecify blocs
+  #' Add one candidate for abstention
   NBlocs <- 6
   NCandidates <- NCandidates + 1
 
+  ##############################################################################
   ## Assign blocs
   id_C_blocs <- c(1, sort(sample(2:6, NCandidates - 1, replace = TRUE)))
   while ((length(unique(id_C_blocs)) != 6) | (max(table(id_C_blocs)) > ceiling(NCandidates/NBlocs))){
     id_C_blocs <- c(1, sort(sample(2:6, NCandidates - 1, replace = TRUE)))
   }
 
+  ##############################################################################
   ## Create random walk matrix
-  # sigma_logodds <- abs(rnorm(NCandidates - 1, sigma, sigma))
-  # sigma_odds <- exp(sigma_logodds) - 1
-  # trans_matrix_rw <- matrix(rho,
-  #                           nrow = NCandidates - 1,
-  #                           ncol = NCandidates - 1)
-  # diag(trans_matrix_rw) <- 1
-  # identity_candidates <- matrix(0,
-  #                               nrow = NCandidates - 1,
-  #                               ncol = NCandidates - 1)
-  # diag(identity_candidates) <- 1
-  # trans_matrix_rw_odds <- (sigma_odds * identity_candidates) %*% trans_matrix_rw %*% (identity_candidates * sigma_odds)
-  #
-  # collapse_matrix <- matrix(0,
-  #                           nrow = NBlocs - 1,
-  #                           ncol = NCandidates - 1)
-  # for (jj in 2:NCandidates){
-  #   collapse_matrix[id_C_blocs[jj] - 1, jj - 1] <- 1
-  # }
-  # coll_trans_matrix_rw_odds <- collapse_matrix %*% trans_matrix_rw_odds %*% t(collapse_matrix)
-  # coll_sigma <- sqrt(diag(coll_trans_matrix_rw_odds))
-  # identity <- matrix(0, nrow = NBlocs - 1, ncol = NBlocs - 1)
-  # diag(identity) <- 1
-  # coll_cov_matrix_rw <- (log(coll_sigma + 1)/coll_sigma * identity) %*% coll_trans_matrix_rw_odds %*% t(log(coll_sigma + 1)/coll_sigma * identity)
-  #
-  # trans_matrix_rw_logodds <- (log(sigma_odds + 1) * identity_candidates) %*% trans_matrix_rw %*% (identity_candidates * log(sigma_odds + 1))
-
   ## only logodds
   sigma_logodds <- abs(rnorm(NCandidates - 1, 0, sigma)) + 0.025
   trans_matrix_rw <- matrix(rho,
@@ -65,14 +44,19 @@ sim_random_walk_blocs <- function(NElections_past,
   }
   coll_trans_matrix_rw_logodds <- collapse_matrix %*% trans_matrix_rw_logodds %*% t(collapse_matrix)
 
-  ## Simulate a multinomial random walk for the blocs
-  ## Setup matrizes and start
+
+
+  ##############################################################################
+  ## Random walk over blocs
+  #' Determine NTime_past
   NTime_past <- NElections_past * 100
+  #' Containers
   theta_matrix_blocs <- matrix(NA, nrow = NTime_past, ncol = NBlocs)
   prob_theta_matrix_blocs <- matrix(NA, nrow = NTime_past, ncol = NBlocs)
-
+  #' Start
   prob_theta_matrix_blocs[1, ] <- DirichletReg::rdirichlet(1, rep(30, NBlocs))
   theta_matrix_blocs[1, ] <- log(prob_theta_matrix_blocs[1, ]/prob_theta_matrix_blocs[1, 1])
+  #' Random walk
   for (tt in 2:NTime_past){
     proposal_accepted <- FALSE
     while (proposal_accepted == FALSE){
@@ -92,6 +76,8 @@ sim_random_walk_blocs <- function(NElections_past,
   }
 
 
+  ##############################################################################
+  ## Candidates
   #' Transform from blocs to candidates
   theta_matrix_candidates <- matrix(NA, nrow = NTime, ncol = NCandidates)
   prob_theta_matrix_candidates <- matrix(NA, nrow = NTime, ncol = NCandidates)
@@ -100,9 +86,9 @@ sim_random_walk_blocs <- function(NElections_past,
     prob_theta_matrix_candidates[1,id_C_blocs == jj] <- prob_theta_matrix_blocs[NTime_past, jj] * DirichletReg::rdirichlet(1, rep(4, sum(id_C_blocs == jj)))
   }
 
-
+  #' Fill first row of the logodds candidate matrix
+  #' Run rw for remaining rows
   theta_matrix_candidates[1,] <- log(prob_theta_matrix_candidates[1,]/prob_theta_matrix_candidates[1, 1])
-
   for (tt in 2:NTime){
     proposal_accepted <- FALSE
     while (proposal_accepted == FALSE){
@@ -122,7 +108,8 @@ sim_random_walk_blocs <- function(NElections_past,
   }
 
 
-  #' * Create transition matrix
+  ##############################################################################
+  #' Create transition matrix
   trans_matrix_pref <- matrix(0, nrow = NCandidates, ncol = NCandidates)
   for (jj in 1:NCandidates){
     included <- seq(1, NCandidates)
@@ -132,6 +119,7 @@ sim_random_walk_blocs <- function(NElections_past,
   diag(trans_matrix_pref) <- 1
 
 
+  ##############################################################################
   ## Create data frames
   #' true data current all parties
   data_candidates <- prob_theta_matrix_candidates %>%
