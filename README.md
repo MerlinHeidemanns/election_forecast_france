@@ -13,3 +13,8 @@
 **Why does the model implement so many sum-to-zero constraints on the parameters?**
 
 Neither $\tau$ nor $\alpha$ are identifiable without the sum to zero constraints. Within the surveys/polls of a specific pollster the sum of the survey/poll specific $\tau$ parameters can substitute for alpha.
+
+
+### Problems
+
+* The model does not implement sum to zero restrictions correctly for pollsters with only one poll. The restriction over their number of polls does not work.
