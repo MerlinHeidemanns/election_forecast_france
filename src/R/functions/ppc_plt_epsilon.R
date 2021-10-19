@@ -7,6 +7,7 @@ ppc_plt_epsilon <- function(fit, data_list){
                                          c(0.1, 0.25, 0.5, 0.75, 0.9)))
   colnames(epsilon_past) <- c("variable", "q10", "q25", "q50", "q75", "q90")
   epsilon_past <- epsilon_past %>%
+    filter(q50 > -2) %>%
     mutate(
       bloc_id = str_match(variable, "([\\d]+),")[,2],
       order_id = as.integer(str_match(variable, ",([\\d]+)")[,2])
