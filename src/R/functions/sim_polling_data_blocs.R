@@ -73,7 +73,7 @@ sim_polling_data_blocs <- function(NPolls,
   #' Determine which pollster omits abstention
   abstention_omitted <- c(rep(0, ceiling(0.5 * NPollsters)),
                             rep(1, floor(0.5 * NPollsters)))
-
+  # abstention_omitted <- rep(0, NPollsters)
 
   ##############################################################################
   #' Determine pollster id
@@ -182,14 +182,15 @@ sim_polling_data_blocs <- function(NPolls,
   #poll_time_points_potential <- seq(1,100 * NElections_past)[!seq(1, 100 * NElections_past) %in% election_time_points]
   poll_time_points_potential <- seq(1,100 * NElections_past)[(!seq(1, 100 * NElections_past) %in% election_time_points) &
                                                                (seq(1, 100 * NElections_past) %% 100 > 50)]
-  poll_time_id <- sample(poll_time_points_potential, NPolls_past, replace = TRUE) %>%
+  poll_time_id <- sample(poll_time_points_potential, NPolls_past, replace = TRUE, prob = (poll_time_points_potential %% 50)/sum(poll_time_points_potential %% 50)) %>%
                          sort()
   poll_election_id <- ceiling(poll_time_id/(NTime_past/NElections_past))
   poll_pollster_id <- sample(1:NPollsters, NPolls_past, replace = TRUE)
   NPolls_Elections <- table(poll_election_id)
 
   #' Abstentions
-  abstention_omitter_pollster <- sample(c(rep(0,floor(NPollsters * NElections_past/2)), rep(1, ceiling(NPollsters * NElections_past/2))))
+  abstention_omitter_pollster <- sample(c(rep(0,floor(NPollsters * NElections_past * 3/4)), rep(1, ceiling(NPollsters * NElections_past/4))))
+  #abstention_omitter_pollster <- rep(0, NPollsters * NElections_past)
 
   #' Draw parameters for the past
   ## Xi past
@@ -204,9 +205,8 @@ sim_polling_data_blocs <- function(NPolls,
   alpha_past <- matrix(rnorm(NElections_past * NBlocs * NPollsters, 0, sigma_alpha),
                     nrow = NElections_past * NPollsters,
                     ncol = NBlocs)
-  alpha_past[seq(1,(NElections_past * NPollsters))[1 == abstention_omitter_pollster],1] <- 0
   for (jj in 1:nrow(alpha_past)){
-    alpha_past[jj, (1 + abstention_omitter_pollster[jj]):NBlocs] <- alpha_past[jj, (1 + abstention_omitter_pollster[jj]):NBlocs] - mean(alpha_past[jj, (1 + abstention_omitter_pollster[jj]):NBlocs])
+    alpha_past[jj, 1:NBlocs] <- alpha_past[jj, 1:NBlocs] - mean(alpha_past[jj, 1:NBlocs])
   }
   for (ii in 1:NElections_past){
     for (jj in 1:NPollsters){

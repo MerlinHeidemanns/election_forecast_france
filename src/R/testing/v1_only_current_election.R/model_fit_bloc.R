@@ -23,7 +23,7 @@ source("src/R/functions/ppc_plt_sigma_cov.R")
 source("src/R/functions/ppc_plt_sum_alpha_xi.R")
 source("src/R/functions/data_list_check_y_1r.R")
 ## Simulate true data
-NElections_past <- 3
+NElections_past <- 4
 NCandidates <- 8
 NTime <- 100
 rho <- 0.1
@@ -33,7 +33,7 @@ data_true <- sim_random_walk_blocs(NElections_past, NCandidates, NTime, rho, sig
 
 ## Simulate polls
 NPolls <- 20
-NPolls_past <- 200
+NPolls_past <- 400
 NPollsters <- 5
 NCombinations <- 7
 sigma_alpha <- 0.08
@@ -50,7 +50,7 @@ data_polls <- sim_polling_data_blocs(NPolls, NPolls_past, NPollsters, NCombinati
                                  sigma_xi, theta_matrix_blocs,
              prob_theta_matrix_blocs, theta_matrix_candidates, transition_matrix,
              id_C_blocs = id_C_blocs,
-             combinations = FALSE)
+             combinations = TRUE)
 
 
 ## Plot simulated data
@@ -93,68 +93,62 @@ data_polls$polls_past <- data_polls$polls_past %>%
 
 data_polls$election_df <- data_polls$election_df %>%
   left_join(t_unit_df_past, by = "time_id")
-
-
-
-
-
-
-## Should show that there is no overlap
-data_polls$polls_past %>%
-  group_by(election_id) %>%
-  summarize(min_t = min(t_unit),
-            max_t = max(t_unit))
-
-## Arrange in correct order
+###############################################################################
+## Past polls
+#' Should show that there is no overlap
+all(data_polls$polls_past %>%
+      arrange(election_id) %>%
+      group_by(election_id) %>%
+      summarize(min_t = min(t_unit),
+                max_t = max(t_unit)) %>%
+      ungroup() %>%
+      mutate(lead_min_t = lead(min_t)) %>%
+      filter(!is.na(lead_min_t)) %>%
+      mutate(okay = lead_min_t > min_t) %>%
+      pull(okay))
+#' Arrange in correct order
 data_polls$polls_past <- data_polls$polls_past %>%
   arrange(election_id, pollster_id, poll_id, bloc_id) %>%
   group_by(election_id, pollster_id) %>%
   mutate(pollster_election_id = cur_group_id()) %>%
   ungroup() %>%
   arrange(election_id, pollster_election_id, poll_id, bloc_id)
-
-
-## How many polls by pollster x election
+#' How many polls by pollster x election
 NPolls_Pollster_past <- data_polls$polls_past %>%
   distinct(election_id, pollster_election_id, poll_id) %>%
   group_by(election_id, pollster_election_id) %>%
   summarize(n = n()) %>%
   pull(n)
-
-## How many pollsters per election
+#' Count of pollsters per election
 NPollsters_past <- data_polls$polls_past %>%
   distinct(election_id, pollster_id) %>%
   group_by(election_id) %>%
   summarize(n = n()) %>%
   pull(n)
-
-
-
-
+#' Skip vector distances
 t_unit_past <- t_unit_skip_past
-
+#' time of pollst in unit time
 id_P_time_past <- data_polls$polls_past %>%
   distinct(poll_id, t_unit) %>%
   pull(t_unit)
+#' id of pollster
+#' Create new pollster id that is unique overall
 id_P_pollster_past <- data_polls$polls_past %>%
   distinct(poll_id, pollster_id, election_id) %>%
   group_by(pollster_id, election_id) %>%
   mutate(pollster_election_id = pollster_id + NPollsters_past[1] * (election_id - 1)) %>%
   pull(pollster_election_id)
-
-b <- data_polls$polls_past %>%
-  distinct(poll_id, pollster_election_id) %>%
-  pull(pollster_election_id)
-
+#' index for which election polls belong to
 id_P_elections_past <- data_polls$polls_past %>%
   distinct(poll_id, election_id) %>%
   pull(election_id)
-
+#' past election results
 election_results <- data_polls$results_matrix
+#' Time in unit time of elections
 id_E_time <- data_polls$election_df %>%
   distinct(time_id, t_unit) %>%
   pull(t_unit)
-
+#' y_past
 y_past <- data_polls$polls_past %>%
   dplyr::select(poll_id, bloc_id, y) %>%
   pivot_wider(id_cols = poll_id,
@@ -162,34 +156,38 @@ y_past <- data_polls$polls_past %>%
             values_from = y) %>%
   dplyr::select(-poll_id) %>%
   as.matrix()
-
+#' Abstention omitted in the past
+#' 1 = omitted, 0 included
 abstention_omitted_past <- data_polls$polls_past %>%
   distinct(poll_id, abstention_omitted) %>%
   pull(abstention_omitted)
-
-
-transition_probability_prior <- matrix(20,
-                                       nrow = NCandidates + 1,
-                                       ncol = NCandidates)
-
-## Closest time point to the previous election
+###############################################################################
+## Current data
+#' Closest time point to the previous election
 t_bloc_unit_prior <- data_polls$polls %>%
   pull(time_id) %>%
   min()
-
-
+#' Arrange the survey id such that correct elements are grabbed
+#' by the indexes
 data_polls$polls <- data_polls$polls %>%
   arrange(pollster_id, survey_id, question_id) %>%
   mutate(survey_id = as.integer(factor(survey_id, levels = unique(survey_id))))
-
+#' Create inclusion data
 inclusion_data <- create_variable_inclusion_input(data_polls$polls)
-
-id_T_election <- rep(NA, nrow(t_unit_df_past))
-for (ii in 1:nrow(t_unit_df_past)){
-  id_T_election[ii] <- min(seq(1:length(id_E_time))[ii <= id_E_time])
+#' Check whether inclusion data is in the right order
+inclusion_data_order <- all(inclusion_data$combination_df$question_id == data_polls$polls %>%
+  distinct(question_id) %>%
+  pull(question_id))
+if (inclusion_data_order == FALSE){
+  stop('Inclusion data in the incorrect order.')
 }
-
-
+#' Transition probability prior
+#' Add 1 to candidates because datalist also adds 1 for abstentions
+transition_probability_prior <- matrix(20,
+                                       nrow = NCandidates + 1,
+                                       ncol = NCandidates)
+###############################################################################
+## Data list
 data_list <- list(
   NElections = NElections_past + 1,
   NBlocs = 6,
@@ -232,7 +230,7 @@ data_list <- list(
   NCandidate_Combinations = inclusion_data$NCandidate_Combinations %>% array(),
   candidates_included = inclusion_data$candidates_included,
   candidates_excluded = inclusion_data$candidates_excluded,
-  id_P_combinations = inclusion_data$combination_id,
+  id_P_combinations = inclusion_data$combination_df$combination_id,
   y = inclusion_data$y %>% t(),
 
   ## -- past data
@@ -263,14 +261,13 @@ data_list <- list(
     arrange(pollster_election_id) %>%
     pull(abstention_omitted),
 
-  prior_sigma_xi = sigma_xi + 0.0001,
-  prior_sigma_alpha = sigma_alpha + 0.0001,
+  prior_sigma_xi = sigma_xi,
+  prior_sigma_alpha = sigma_alpha,
   prior_sigma_tau = sigma_tau,
   prior_sigma_cov = sigma
 )
-## Notes
-#' * Assignment of pollsters appears to be correct
-#' * Check y; this should show a straight line
+###############################################################################
+## Input checks
 if (FALSE){
   y_share_data_list <- data_list$y %>%
     as.data.frame() %>%
@@ -315,30 +312,11 @@ if (FALSE){
     distinct(survey_id, question_id) %>%
     pull(survey_id)
 }
-
 ## Abstention omitted correct
 all((data_list$y_past[1,] < 0) == data_list$abstention_omitted_past)
-
-##
-df_abstention_past <-
-  data.frame(
-    abstention = data_list$abstention_omitted_past,
-    pollster_id = data_list$id_P_pollster_past,
-    election_id = data_list$id_P_elections_past)
-
-df_abstention_past %>%
-  group_by(pollster_id, election_id) %>%
-  summarize(n_w_abstention = sum(abstention == 1),
-            n_wo_abstention = sum(abstention == 0)) %>%
-  group_by(election_id) %>%
-  mutate(N = sum(n_w_abstention) + sum(n_wo_abstention),
-            ratio = sum(n_w_abstention)/N)
-
-
-
+###############################################################################
 ## Load model
-mod <- cmdstan_model("src/stan/v2_adding_stuff_back_in.stan")
-
+mod <- cmdstan_model("src/stan/v2_main_add_combinations_back_in.stan")
 ## Fit model
 fit <- mod$sample(
   data = data_list,
@@ -349,20 +327,17 @@ fit <- mod$sample(
   refresh = 100,
   init = 1
 )
-
-
+###############################################################################
 ## Posterior Predictive Checks
-
-## Performance and behavior checks
+#' Performance and behavior checks
 source("src/R/functions/performance_check.R")
 performance_check(fit)
 ## Tau
 source("src/R/functions/functionality_check_tau.R")
 functionality_check_tau(fit, data_list)
+source("src/R/functions/functionality_check_tau_past.R")
 functionality_check_tau_past(fit, data_list)
-
-
-## Qualitative evaluation
+#' Qualitative evaluation
 source("src/R/functions/ppc_plt_epsilon.R")
 ppc_plt_epsilon(fit, data_list)
 # Plot prob_theta by blocs for past
@@ -396,7 +371,7 @@ ppc_plt_sum_alpha_xi(fit)
 ppc_plt_xi_past(fit, data_polls$true_xi_past)
 ## Pair plot for xi_past
 source("src/R/functions/ppc_plt_xi_past_pair.R")
-ppc_plt_xi_past_pair(fit, past_election = 2, 300)
+ppc_plt_xi_past_pair(fit, past_election = 3, 300)
 ## Pair plot for xi
 source("src/R/functions/ppc_plt_xi_pair.R")
 ppc_plt_xi_pair(fit, 300)
@@ -423,9 +398,15 @@ bayesplot::mcmc_pairs(fit$draws(c("sigma_tau", "sigma_alpha", "sigma_xi",
                                   "lp__")),
                       np = np)
 
-
-
-
-
-
-
+fit$draws("tau_past") %>%
+  posterior::as_draws_df() %>%
+  pivot_longer(everything(),
+               names_to = "var",
+               values_to = "draws") %>%
+  mutate(
+    bloc = str_match(var, "([\\d]+)," )[,2]
+  ) %>%
+  filter(!is.na(bloc)) %>%
+  ggplot(aes(x = draws)) +
+    geom_histogram(bins = 100) +
+    facet_wrap(bloc ~ .)
