@@ -9,6 +9,7 @@ data {
 
   // Current election
   int<lower = 1, upper = NSurveys> NSurveys_Pollster[NPollsters];
+  int<lower = 1, upper = NCandidates> NBlocs_Candidates[NBlocs];
   int<lower = 1, upper = NBlocs> id_C_blocs[NCandidates];
   int<lower = 1, upper = NSurveys> id_P_survey[NPolls];
   int id_S_pollster[NSurveys];
@@ -36,10 +37,12 @@ data {
   int<lower = 1, upper = NTime_past> id_P_pollster_past[sum(NPolls_Pollster_past)];
   int<lower = 1, upper = NElections - 1> id_P_elections_past[sum(NPolls_Pollster_past)];
 
-  matrix[NBlocs, NElections] elections_results;
+  int elections_results[NBlocs, NElections];
   int id_E_time[NElections];
   int y_past[NBlocs, sum(NPolls_Pollster_past)];
   int abstention_omitted_past[sum(NPolls_Pollster_past)];
+  int abstention_omitted_pollster[NPollsters];
+  int abstention_omitted_pollster_past[sum(NPollsters_past)];
 
   // priors
   real<lower = 0> prior_sigma_xi;
@@ -61,20 +64,6 @@ transformed data {
   vector[NTime - 1] t_unit_sqrt = sqrt(t_unit);
   vector[NTime_past - 1] t_unit_past_sqrt = sqrt(t_unit_past);
   real t_bloc_unit_sqrt_prior = sqrt(t_bloc_unit_prior);
-  for (ii in 1:NCombinations)
-    NCandidate_Combinations_neg[ii] = NCandidates - NCandidate_Combinations[ii];
-  for (ii in 1:NCandidates){
-    for (jj in 1:NCandidates - 1){
-      if (jj >= ii){
-        corr_mat_positions[ii, jj] = jj + 1;
-      } else {
-        corr_mat_positions[ii, jj] = jj;
-      }
-    }
-  }
-  for (nn in 2:NCandidates){
-    identity_bloc[id_C_blocs[nn] - 1, nn - 1] = 1;
-  }
 
   // Support vectors to correctly implement sum to zero constraints within the subgroups
   // * Pollster past
@@ -83,9 +72,6 @@ transformed data {
   // * Polls past
   supvec_NPolls_Pollster_past[1] = 0;
   for (jj in 2:(sum(NPollsters_past))) supvec_NPolls_Pollster_past[jj] = sum(NPolls_Pollster_past[1:(jj - 1)]);
-  // * Surveys current
-  supvec_NSurveys_Pollsters[1] = 0;
-  for (jj in 2:(NPollsters)) supvec_NSurveys_Pollsters[jj] = sum(NSurveys_Pollster[1:(jj - 1)]);
 
   // Past election results to shares
   for (nn in 1:NElections){
@@ -99,10 +85,6 @@ parameters {
   real<lower = lsigma> sigma_tau;
   real<lower = lsigma> sigma_alpha;
   real<lower = lsigma> sigma_xi;
-
-  matrix[NCandidates, NSurveys] raw_tau;
-  matrix[NCandidates, NPollsters] raw_alpha;
-  vector[NCandidates - 1] raw_xi;
   // Random walk
   vector<lower = lsigma>[NCandidates - 1] sigma_cov;
   cholesky_factor_corr[NCandidates - 1] chol_corr_theta_candidates;
@@ -186,11 +168,9 @@ transformed parameters {
     tau = raw_tau * sigma_tau;
     for (jj in 1:NPollsters){
       // By rows
-      if (NSurveys_Pollster[jj] > 1){
-        for (ii in 1:(NCandidates - 1)){
-          tau[ii, 1 + supvec_NSurveys_Pollsters[jj]] =
-            - sum(tau[ii, (2 + supvec_NSurveys_Pollsters[jj]):(NSurveys_Pollster[jj] + supvec_NSurveys_Pollsters[jj])]);
-        }
+      for (ii in 1:(NCandidates - 1)){
+        tau[ii, 1 + supvec_NSurveys_Pollsters[jj]] =
+          - sum(tau[ii, (2 + supvec_NSurveys_Pollsters[jj]):(NSurveys_Pollster[jj] + supvec_NSurveys_Pollsters[jj])]);
       }
       // By columns
       for (ii in (1 + supvec_NSurveys_Pollsters[jj]):(NSurveys_Pollster[jj] + supvec_NSurveys_Pollsters[jj])){
@@ -370,6 +350,18 @@ model {
            theta_past[start:NBlocs] / sum(theta_past[start:NBlocs])
           );
         }
+        // vector[NBlocs - abstention_omitted_past[ii]] theta_past =
+        //   softmax(
+        //     theta_blocs[1 + abstention_omitted_past[ii]:NBlocs, id_P_time_past[ii]] +    // trend
+        //     alpha_past[1 + abstention_omitted_past[ii]:NBlocs, id_P_pollster_past[ii]] + // pollster
+        //     tau_past[1 + abstention_omitted_past[ii]:NBlocs, ii] +                    // nonsampling error
+        //     xi_past[1 + abstention_omitted_past[ii]:NBlocs, id_P_elections_past[ii]]//   // polling error
+        //           );
+        // profile("multinomial"){
+        //   target += multinomial_lpmf(y_past[1 + abstention_omitted_past[ii]:NBlocs, ii] |
+        //     theta_past);
+        // }
+        //
       }
     }
   }

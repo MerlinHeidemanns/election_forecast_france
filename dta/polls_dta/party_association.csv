@@ -1,141 +1,181 @@
-﻿candidate,party,bloc,year
-Alliot-Marie,UMP,Droite,2007
-Arthaud,LO,Gauche radicale et extrême gauche,2012
-Arthaud,LO,Gauche radicale et extrême gauche,2017
-Asselineau,UPR,Droite,2017
-Asselineau,UPR,Droite,2017
-Aubry,PS,Gauche,2012
-Balladur,UDF,Droite,2002
-Bayrou,MoDem,Centre,2012
-Bayrou,PS,Gauche,2017
-Bayrou,UDF,Droite,2002
-Bayrou,UDF,Droite,2007
-Bayrou,UDF,Droite,2007
-Besancenot,LCR,Gauche radicale et extrême gauche,2002
-Besancenot,LCR,Gauche radicale et extrême gauche,2007
-Besancenot,LCR,Gauche radicale et extrême gauche,2007
-Besancenot,NPA,Gauche radicale et extrême gauche,2012
-Besancenot,NPA,Gauche radicale et extrême gauche,2017
-Borloo,PR,Centre,2012
-Boutin,FRS,Droite,2002
-Boutin,FRS,Droite,2002
-Boutin,PCD,Droite,2012
-Bove,SE,Gauche,2012
-Bove,SE,Gauche,2002
-Bove,SE,Gauche,2007
-Bove,SE,Gauche,2007
-Bove,SE,Gauche,2007
-Braouezec,PCF,Gauche radicale et extrême gauche,2007
-Buffet,PCF,Gauche radicale et extrême gauche,2012
-Buffet,PCF,Gauche radicale et extrême gauche,2007
-Buffet,PCF,Gauche radicale et extrême gauche,2007
-Cheminade,S&P,Autre,2012
-Cheminade,S&P,Autre,2017
-Chevenement,MDC,Gauche,2002
-Chevenement,MDC,Gauche,2002
-Chevenement,MRC,Gauche,2012
-Chevenement,MRC,Gauche,2007
-Chirac,RPR,Droite,2002
-Chirac,UMP,Droite,2007
-Chirac,UMP,Droite,2007
-Cope,LR,Droite,2017
-Copé,UMP,Droite,2012
-Delanoe,PS,Gauche,2012
-Dieudonne,LU,Autre,2002
-Duflot,EELV,Gauche,2012
-Duflot,EELV,Gauche,2017
-Dupont-Aignan,DLF,Droite radicale et extreme droite,2017
-Dupont-Aignan,DLR,Droite radicale et extreme droite,2012
-Dupont-Aignan,DLR,Droite radicale et extreme droite,2007
-Fabius,PS,Gauche,2012
-Fabius,PS,Gauche,2007
-Fillon,FR,Droite,2017
-Fillon,LR,Droite,2017
-Gluckstein,PT,Gauche radicale et extrême gauche,2002
-Hamon,PS,Gauche,2017
-Hamon,PS,Gauche,2017
-Hollande,PS,Gauche,2012
-Hollande,PS,Gauche,2017
-Hollande,PS,Gauche,2007
-Hue,PCF,Gauche radicale et extrême gauche,2002
-Hulot,SE,Gauche,2012
-Hulot,SE,Gauche,2017
-Hulot,SE,Gauche,2007
-Jadot,EELV,Gauche,2017
-Joly,EELV,Gauche,2012
-Jospin,PS,Gauche,2002
-Jospin,PS,Gauche,2002
-Jospin,PS,Gauche,2007
-Juppe,LR,Droite,2017
-Juppe,LR,Droite,2017
-Juppe,UMP,Droite,2012
-Laguiller,LO,Gauche radicale et extrême gauche,2002
-Laguiller,LO,Gauche radicale et extrême gauche,2007
-Laguiller,LO,Gauche radicale et extrême gauche,2007
-Laguiller,LO,Gauche radicale et extrême gauche,2007
-Lalonde,GE,Gauche,2002
-Lang,PS,Gauche,2007
-Larrouturou,ND,Gauche,2002
-Lassalle,Resistons!,Droite,2017
-Le Maire,LR,Droite,2017
-Le Pen,FN,Droite radicale et extreme droite,2012
-Le Pen,FN,Droite radicale et extreme droite,2017
-Le Pen,FN,Droite radicale et extreme droite,2002
-Le Pen,FN,Droite radicale et extreme droite,2007
-Leotard,UDF,Droite,2002
-Lepage,Cap21,Gauche,2012
-Lepage,Cap21,Gauche,2002
-Lepage,Cap21,Gauche,2007
-Lipietz,LV,Gauche,2002
-Macron,EM,Centre,2017
-Macron,EM,Centre,2017
-Madelin,DL,Centre,2002
-Mamere,LV,Gauche,2002
-Mamere,LV,Gauche,2002
-Mamere,LV,Gauche,2007
-Martin,NPA,Gauche radicale et extrême gauche,2012
-Megret,MNR,Droite radicale et extreme droite,2002
-Melenchon,FG,Gauche radicale et extrême gauche,2012
-Melenchon,FI,Gauche radicale et extrême gauche,2017
-Montebourgh,PS,Gauche,2012
-Montebourgh,PS,Gauche,2017
-Morin,NC,Centre,2012
-Muget,RCF,Gauche radicale et extrême gauche,2002
-Nihous,CPNT,Droite,2012
-Nihous,CPNT,Droite,2007
-NKM,LR,Droite,2017
-Pasqua,RPF,Droite,2002
-Peillon,PS,Gauche,2017
-Pinel,PRG,Gauche,2017
-Poutou,NPA,Gauche radicale et extrême gauche,2012
-Poutou,NPA,Gauche radicale et extrême gauche,2017
-Royal,PS,Gauche,2012
-Royal,PS,Gauche,2007
-Royal,PS,Gauche,2007
-Saint Josse,CPNT,Droite,2002
-Sarkozy,LR,Droite,2017
-Sarkozy,UMP,Droite,2012
-Sarkozy,UMP,Droite,2007
-Sarkozy,UMP,Droite,2007
-Schivardi,POI,Gauche radicale et extrême gauche,2012
-Schivardi,PT,Gauche radicale et extrême gauche,2007
-Seguin,RPR,Droite,2002
-Strauss-Kahn,PS,Gauche,2012
-Strauss-Kahn,PS,Gauche,2007
-Tapie,PRG,Gauche,2012
-Taubira,PRG,Gauche,2002
-Taubira,PRG,Gauche,2007
-Valls,PS,Gauche,2017
-Villepin,RS,Droite,2012
-Villepin,UMP,Droite,2007
-Villiers,MPF,Gauche,2012
-Villiers,MPF,Gauche,2017
-Villiers,MPF,Gauche,2002
-Villiers,MPF,Gauche,2007
-Villiers,MPF,Gauche,2007
-Voynet,LV,Gauche,2012
-Voynet,LV,Gauche,2002
-Voynet,LV,Gauche,2007
-Voynet,LV,Gauche,2007
-Voynet,LV,Gauche,2007
-Waechter,MEI,Centre,2002
+candidate,party,bloc,year,long_name
+Alliot-Marie,UMP,Droite,2007,
+Arthaud,LO,Gauche radicale et extreme gauche,2012,
+Arthaud,LO,Gauche radicale et extreme gauche,2017,
+Arthaud,LO,Gauche radicale et extreme gauche,2022,Nathalie Arthaud
+Asselineau,UPR,Droite,2017,
+Asselineau,UPR,Droite,2017,
+Asselineau,UPR,Droite,2022,
+Aubry,PS,Gauche,2012,
+Autain,GA,Gauche radicale et extreme gauche,2007,
+Balladur,UDF,Droite,2002,
+Balladur,RPR,Droite,1995,Edouard Balladur
+Barnier,LR,Droite,2022,Michel Barnier
+Baroin,LR,Droite,2022,Francois Baroin
+Bayrou,MoDem,Centre,2012,
+Bayrou,PS,Gauche,2017,
+Bayrou,UDF,Droite,2002,
+Bayrou,UDF,Droite,2007,
+Bayrou,UDF,Droite,2007,
+Bertrand,LR,Droite,2022,Xavier Bertrand
+Besancenot,LCR,Gauche radicale et extreme gauche,2002,
+Besancenot,LCR,Gauche radicale et extreme gauche,2007,
+Besancenot,LCR,Gauche radicale et extreme gauche,2007,
+Besancenot,NPA,Gauche radicale et extreme gauche,2012,
+Besancenot,NPA,Gauche radicale et extreme gauche,2017,
+Borloo,PR,Centre,2012,
+Boutin,FRS,Droite,2002,
+Boutin,FRS,Droite,2002,
+Boutin,PCD,Droite,2012,
+Bove,SE,Gauche,2012,
+Bove,SE,Gauche,2002,
+Bove,SE,Gauche,2007,
+Bove,SE,Gauche,2007,
+Bove,SE,Gauche,2007,
+Braouezec,PCF,Gauche radicale et extreme gauche,2007,
+Buffet,PCF,Gauche radicale et extreme gauche,2012,
+Buffet,PCF,Gauche radicale et extreme gauche,2007,
+Buffet,PCF,Gauche radicale et extreme gauche,2007,
+Cheminade,S&P,Autre,2012,
+Cheminade,S&P,Autre,2017,
+Cheminade,,Autre,1995,Jacques Cheminade
+Chevenement,MDC,Gauche,2002,
+Chevenement,MDC,Gauche,2002,
+Chevenement,MRC,Gauche,2012,
+Chevenement,MRC,Gauche,2007,
+Chirac,RPR,Droite,2002,
+Chirac,UMP,Droite,2007,
+Chirac,UMP,Droite,2007,
+Chirac,RPR,Droite,1995,Jacques Chirac
+Ciotti,LR,Droite,2022,Eric Ciotti
+Cope,UMP,Droite,2012,
+Cope,LR,Droite,2017,
+Delanoe,PS,Gauche,2012,
+Dieudonne,LU,Autre,2002,
+Duflot,EELV,Gauche,2012,
+Duflot,EELV,Gauche,2017,
+Dupont-Aignan,DLF,Droite radicale et extreme droite,2022,Nicolas Dupont Aignan
+Dupont-Aignan,DLF,Droite radicale et extreme droite,2017,
+Dupont-Aignan,DLR,Droite radicale et extreme droite,2012,
+Dupont-Aignan,DLR,Droite radicale et extreme droite,2007,
+Emmanuelli,PS,Gauche,2012,
+Fabius,PS,Gauche,2012,
+Fabius,PS,Gauche,2007,
+Fillon,FR,Droite,2017,
+Fillon,LR,Droite,2017,
+Gluckstein,PT,Gauche radicale et extreme gauche,2002,
+Hamon,PS,Gauche,2017,
+Hamon,PS,Gauche,2017,
+Hidalgo,PS,Gauche,2022,Anne Hidalgo
+Hollande,PS,Gauche,2012,
+Hollande,PS,Gauche,2017,
+Hollande,PS,Gauche,2007,
+Hue,PCF,Gauche radicale et extreme gauche,2002,
+Hue,PCF,Gauche radicale et extreme gauche,1995,Robert Hue
+Hulot,SE,Gauche,2012,
+Hulot,SE,Gauche,2017,
+Hulot,SE,Gauche,2007,
+Jadot,EELV,Gauche,2017,
+Jadot,EELV,Gauche,2022,Yannick Jadot
+Joly,EELV,Gauche,2012,
+Jospin,PS,Gauche,2002,
+Jospin,PS,Gauche,2002,
+Jospin,PS,Gauche,2007,
+Jospin,PS,Gauche,1995,Lionel Jospin
+Juppe,LR,Droite,2017,
+Juppe,LR,Droite,2017,
+Juppe,UMP,Droite,2012,
+Juvin,LR,Droite,2022,Philippe Juvin
+Lagarde,UDI,Centre,2022,Jean Christophe Lagarde
+Laguiller,LO,Gauche radicale et extreme gauche,2002,
+Laguiller,LO,Gauche radicale et extreme gauche,2007,
+Laguiller,LO,Gauche radicale et extreme gauche,2007,
+Laguiller,LO,Gauche radicale et extreme gauche,2007,
+Laguiller,LO,Gauche radicale et extreme gauche,1995,Arlette Laguiller
+Lalonde,GE,Gauche,2002,
+Lang,PS,Gauche,2007,
+Larrouturou,ND,Gauche,2002,
+Lassalle,Resistons!,Droite,2017,
+Lassalle,Resistons!,Droite,2022,Jean Lassalle
+Le Maire,LR,Droite,2017,
+Le Pen,FN,Droite radicale et extreme droite,2012,
+Le Pen,FN,Droite radicale et extreme droite,2017,
+Le Pen,FN,Droite radicale et extreme droite,2002,
+Le Pen,FN,Droite radicale et extreme droite,2007,
+Le Pen,FN,Droite radicale et extreme droite,1995,Jean Marie Le Pen
+Le Pen,FN,Droite radicale et extreme droite,2022,Marine Le Pen
+Leotard,UDF,Droite,2002,
+Lepage,Cap21,Gauche,2012,
+Lepage,Cap21,Gauche,2002,
+Lepage,Cap21,Gauche,2007,
+Lipietz,LV,Gauche,2002,
+Macron,EM,Centre,2017,
+Macron,EM,Centre,2017,
+Macron,EM,Centre,2022,Emmanuel Macron
+Madelin,DL,Centre,2002,
+Mamere,LV,Gauche,2002,
+Mamere,LV,Gauche,2002,
+Mamere,LV,Gauche,2007,
+Martin,NPA,Gauche radicale et extreme gauche,2012,
+Megret,MNR,Droite radicale et extreme droite,2002,
+Melenchon,FG,Gauche radicale et extreme gauche,2012,
+Melenchon,FI,Gauche radicale et extreme gauche,2017,
+Melenchon,FI,Gauche radicale et extreme gauche,2022,Jean Luc Melenchon
+Miguet,,Droite radicale et extreme droite,2002,
+Miguet,,Droite radicale et extreme droite,2007,
+Miguet,,Droite radicale et extreme droite,2012,
+Miguet,,Droite radicale et extreme droite,2017,
+Montebourg,PS,Gauche,2012,
+Montebourg,PS,Gauche,2017,
+Montebourg,PS,Gauche,2022,Arnaud Montebourg
+Morin,NC,Centre,2012,
+Muget,RCF,Gauche radicale et extreme gauche,2002,
+Nihous,CPNT,Droite,2012,
+Nihous,CPNT,Droite,2007,
+NKM,LR,Droite,2017,
+Pasqua,RPF,Droite,2002,
+Payre,LR,Droite,2022,Denis Payre
+Peillon,PS,Gauche,2017,
+Pecresse,LR,Droite,2022,Valerie Pecresse
+Philippot,LP,Droite radicale et extreme droite,2022,Florian Philippot
+Pinel,PRG,Gauche,2017,
+Poisson,VIA,Droite,2022,Jean Frederic Poisson
+Poutou,NPA,Gauche radicale et extreme gauche,2012,
+Poutou,NPA,Gauche radicale et extreme gauche,2017,
+Poutou,NPA,Gauche radicale et extreme gauche,2022,Philippe Poutou
+Rousseau,EELV,Gauche,2022,Sandrine Rousseau
+Roussel,PCF,Gauche radicale et extreme gauche,2022,Fabien Roussel
+Royal,PS,Gauche,2012,
+Royal,PS,Gauche,2007,
+Royal,PS,Gauche,2007,
+Saint Josse,CPNT,Droite,2002,
+Sarkozy,LR,Droite,2017,
+Sarkozy,UMP,Droite,2012,
+Sarkozy,UMP,Droite,2007,
+Sarkozy,UMP,Droite,2007,
+Schivardi,POI,Gauche radicale et extreme gauche,2012,
+Schivardi,PT,Gauche radicale et extreme gauche,2007,
+Seguin,RPR,Droite,2002,
+Strauss-Kahn,PS,Gauche,2012,
+Strauss-Kahn,PS,Gauche,2007,
+Tapie,PRG,Gauche,2012,
+Taubira,PRG,Gauche,2002,
+Taubira,PRG,Gauche,2007,
+Valls,PS,Gauche,2017,
+Villepin,RS,Droite,2012,
+Villepin,UMP,Droite,2007,
+Villiers,MPF,Gauche,2012,
+Villiers,MPF,Gauche,2017,
+Villiers,MPF,Gauche,2002,
+Villiers,MPF,Gauche,2007,
+Villiers,MPF,Gauche,2007,
+Villiers,MPF,Gauche,1995,Philippe de Villiers
+Voynet,LV,Gauche,2012,
+Voynet,LV,Gauche,2002,
+Voynet,LV,Gauche,2007,
+Voynet,LV,Gauche,2007,
+Voynet,LV,Gauche,2007,
+Voynet,LV,Gauche,1995,Dominique Voynet
+Waechter,MEI,Centre,2002,
+Wauquiez,LR,Droite,2022,Laurent Wauquiez
+Zemmour,,Droite radicale et extreme droite,2022,Eric Zemmour
