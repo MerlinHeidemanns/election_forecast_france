@@ -13,6 +13,7 @@ data {
   int<lower = 1, upper = NPollsters> NPollsters_Season[NSeasons];
   int<lower = 1, upper = NBlocs> id_C_blocs[NSeasons, max(NCandidates)];
   int<lower = 1, upper = NSurveys> id_P_survey[NPolls];
+  int<lower = 1, upper = NSeasons> id_S_season[NSurveys];
   int<lower = 1, upper = NSeasons> id_P_season[NPollsters];
   int id_S_pollster[NSurveys];
   int id_S_time[NSurveys];
@@ -78,7 +79,6 @@ transformed data {
 parameters {
   real<lower = lsigma> sigma_tau;
   real<lower = lsigma> sigma_alpha;
-  real<lower = lsigma> sigma_xi;
 
   matrix[max(NCandidates), NSurveys] raw_tau;
   matrix[max(NCandidates), NPollsters] raw_alpha;
@@ -94,7 +94,7 @@ parameters {
   simplex[max(NCandidates)] prior_theta_candidates[NSeasons]; // because a subset of the elements of a dirichlet is also dirichlet
   matrix[max(NCandidates) - 1, max(NTime)] raw_theta_candidates[NSeasons];
   simplex[max(NCandidates) - 1] trans_prob[NSeasons, max(NCandidates)];
-  simplex[NBlocs] sum_bloc_prob;
+  simplex[NBlocs] sum_bloc_prob[NBlocs];
 
 }
 transformed parameters {
@@ -127,13 +127,13 @@ transformed parameters {
         matrix[NCandidate_Combinations[jj, ii],
                NCandidates[jj] - NCandidate_Combinations[jj, ii]] mat1 =
             transition_matrix[jj,
-               candidates_included[jj, ii, 1:NCandidate_Combinations[jj, ii]],
-               candidates_excluded[jj, ii, 1:NCandidate_Combinations_neg[jj, ii]]];
+               candidates_included[ii, jj, 1:NCandidate_Combinations[jj, ii]],
+               candidates_excluded[ii, jj, 1:NCandidate_Combinations_neg[jj, ii]]];
         matrix[NCandidates[jj] - NCandidate_Combinations[jj, ii],
                NCandidates[jj] - NCandidate_Combinations[jj, ii]] mat2 =
             transition_matrix[jj,
-               candidates_excluded[jj, ii, 1:NCandidate_Combinations_neg[jj, ii]],
-               candidates_excluded[jj, ii, 1:NCandidate_Combinations_neg[jj, ii]]];
+               candidates_excluded[ii, jj, 1:NCandidate_Combinations_neg[jj, ii]],
+               candidates_excluded[ii, jj, 1:NCandidate_Combinations_neg[jj, ii]]];
         left_inv_trans_comb[
           ii,
           jj,
@@ -158,11 +158,9 @@ transformed parameters {
   tau = raw_tau * sigma_tau;
   for (jj in 1:NPollsters){
     // By rows
-    if (NSurveys_Pollster[jj] > 1){
-      for (ii in 1:(NCandidates[id_P_season[jj]] - 1)){
-        tau[ii, 1 + supvec_NSurveys_Pollsters[jj]] =
-          - sum(tau[ii, (2 + supvec_NSurveys_Pollsters[jj]):(NSurveys_Pollster[jj] + supvec_NSurveys_Pollsters[jj])]);
-      }
+    for (ii in 1:(NCandidates[id_P_season[jj]] - 1)){
+      tau[ii, 1 + supvec_NSurveys_Pollsters[jj]] =
+        - sum(tau[ii, (2 + supvec_NSurveys_Pollsters[jj]):(NSurveys_Pollster[jj] + supvec_NSurveys_Pollsters[jj])]);
     }
     // By columns
     for (ii in (1 + supvec_NSurveys_Pollsters[jj]):(NSurveys_Pollster[jj] + supvec_NSurveys_Pollsters[jj])){
@@ -174,9 +172,9 @@ transformed parameters {
   // -- Random walk
   // * Determine big covariance matrix for candidates
   for (jj in 1:NSeasons){
-    chol_cov_theta_candidates[jj, 1:NCandidates[jj], 1:NCandidates[jj]] =
-      diag_pre_multiply(sigma_cov[jj, 1:NCandidates[jj]],
-        chol_corr_theta_candidates[jj, 1:NCandidates[jj], 1:NCandidates[jj]]);
+    chol_cov_theta_candidates[jj, 1:NCandidates[jj] - 1, 1:NCandidates[jj] - 1] =
+      diag_pre_multiply(sigma_cov[1:NCandidates[jj] - 1, jj],
+        chol_corr_theta_candidates[jj, 1:NCandidates[jj] - 1, 1:NCandidates[jj] - 1]);
   }
 
 
@@ -187,8 +185,8 @@ transformed parameters {
   for (jj in 1:NSeasons){
     theta_candidates[jj, , 1] = log(prior_theta_candidates[jj, 1:NCandidates[jj]]/prior_theta_candidates[jj, 1]);
     for (tt in 2:NTime[jj])
-      theta_candidates[jj, 2:NCandidates[jj], tt] = t_unit_sqrt[jj, tt - 1] * chol_cov_theta_candidates[jj, 1:NCandidates[jj], 1:NCandidates[jj]] * raw_theta_candidates[jj, 2:NCandidates[jj], tt] + theta_candidates[jj, 2:NCandidates[jj], tt - 1];
-    theta_candidates[jj, 1] = zeros_theta[1:NCandidates[jj]];
+      theta_candidates[jj, 2:NCandidates[jj], tt] = t_unit_sqrt[jj, tt - 1] * chol_cov_theta_candidates[jj, 1:NCandidates[jj] - 1, 1:NCandidates[jj] - 1] * raw_theta_candidates[jj, 1:NCandidates[jj] - 1, tt - 1] + theta_candidates[jj, 2:NCandidates[jj], tt - 1];
+    theta_candidates[jj, 1, 1:NTime[jj]] = zeros_theta[1:NTime[jj]];
   }
 
 
@@ -206,6 +204,8 @@ model {
   to_vector(raw_tau) ~ std_normal();
 
   // -- Random walk (candidates)
+  for (jj in 1:NSeasons)
+    prior_theta_candidates[jj] ~ dirichlet(rep_vector(10, max(NCandidates)));
   for (jj in 1:NSeasons){
     to_vector(raw_theta_candidates[jj]) ~ std_normal();
     chol_corr_theta_candidates[jj] ~ lkj_corr_cholesky(10.0);
@@ -220,15 +220,18 @@ model {
   for (jj in 1:NSeasons){
     for (ii in 1:NCandidates[jj]){
       {
-        vector[NBlocs] tmp;
-        for (rr in 1:ii){
-          tmp[id_C_blocs[jj, rr]] = trans_prob[jj, ii, rr];
+        vector[NBlocs] tmp = rep_vector(1, NBlocs);
+        for (rr in 1:ii - 1){
+          //id_C_blocs
+          //simplex[max(NCandidates) - 1] trans_prob[NSeasons, max(NCandidates)];
+
+          tmp[id_C_blocs[jj, rr]] = tmp[id_C_blocs[jj, rr]] + trans_prob[jj, ii, rr]/sum(trans_prob[jj, ii, 1:NCandidates[jj] - 1]);
         }
         for (rr in (ii + 1):NCandidates[jj]){
-          tmp[id_C_blocs[jj, rr]] = trans_prob[jj, ii, rr - 1];
+          tmp[id_C_blocs[jj, rr]] = tmp[id_C_blocs[jj, rr]] + trans_prob[jj, ii, rr - 1]/sum(trans_prob[jj, ii, 1:NCandidates[jj] -1]);
         }
-        sum_bloc_prob ~ dirichlet(tmp * 10);
-      }
+        // row = blocs from, col = blocs to
+        sum_bloc_prob[id_C_blocs[jj, ii]] ~ dirichlet(tmp * 10);
       }
     }
   }
@@ -238,45 +241,43 @@ model {
   // * Create a container for the complete vector
   // * Create a subset of those observed for the specific poll using the
   // * correct left_inv of the transition matrix
-  profile("current_polls"){
-    for (ii in 1:NPolls){
-      {
-        int start = 1 + abstention_omitted[ii];
-        vector[NCandidates[id_P_season[ii]]] prob_theta_complete;
-        int NCandidates_ii = NCandidates_Poll[ii];
-        vector[NCandidates_ii] prob_theta_subset;
-        int id_P_combinations_ii = id_P_combinations[ii];
-        int index_included[NCandidates_ii] =
-          candidates_included[
-            id_P_combinations_ii,
-            id_P_seasonp[ii],
-            1:NCandidates_ii];
-        int index_excluded[NCandidates[id_P_season[ii]] - NCandidates_ii] =
-          candidates_excluded[
-            id_P_combinations_ii,
-            id_P_seasonp[ii],
-            1:(NCandidates[id_P_season[ii]] - NCandidates_ii)];
+  for (ii in 1:NPolls){
+    {
+      int start = 1 + abstention_omitted[ii];
+      int id_S_season_ii = id_S_season[id_P_survey[ii]];
+      vector[NCandidates[id_S_season_ii]] prob_theta_complete;
+      int NCandidates_ii = NCandidates_Poll[ii];
+      vector[NCandidates_ii] prob_theta_subset;
+      int id_P_combinations_ii = id_P_combinations[ii];
+      int index_included[NCandidates_ii] =
+        candidates_included[
+          id_P_combinations_ii,
+          id_S_season_ii,
+          1:NCandidates_ii];
+      int index_excluded[NCandidates[id_S_season_ii] - NCandidates_ii] =
+        candidates_excluded[
+          id_P_combinations_ii,
+          id_S_season_ii,
+          1:(NCandidates[id_S_season_ii] - NCandidates_ii)];
 
-        int NCandidatesC_ii = NCandidate_Combinations[id_P_season[ii], id_P_combinations_ii];
-        int NCandidatesC_neg_ii = NCandidate_Combinations_neg[id_P_season[ii], id_P_combinations_ii];
-        prob_theta_complete = softmax(
-          theta_candidates[id_P_season[ii], ,id_S_time[id_P_survey[ii]]] +
-          tau[, id_P_survey[ii]] +
-          alpha[, id_S_pollster[id_P_survey[ii]]]
-          );
+      int NCandidatesC_ii = NCandidate_Combinations[id_S_season_ii, id_P_combinations_ii];
+      int NCandidatesC_neg_ii = NCandidate_Combinations_neg[id_S_season_ii, id_P_combinations_ii];
+      prob_theta_complete = softmax(
+        theta_candidates[id_S_season_ii, ,id_S_time[id_P_survey[ii]]] +
+        tau[, id_P_survey[ii]] +
+        alpha[, id_S_pollster[id_P_survey[ii]]]
+        );
+      prob_theta_subset = prob_theta_complete[index_included] +
+          left_inv_trans_comb[id_P_combinations_ii, id_S_season_ii,
+          1:NCandidatesC_ii,
+          1:NCandidatesC_neg_ii] *
+          (zeros[1:NCandidatesC_neg_ii] -
+          prob_theta_complete[index_excluded]);
 
-        prob_theta_subset = prob_theta_complete[index_included] +
-            left_inv_trans_comb[id_P_season[ii], id_P_combinations_ii,
-            1:NCandidate_Combinations[id_P_season[ii], id_P_combinations_ii],
-            1:NCandidate_Combinations_neg[id_P_season[ii], id_P_combinations_ii]] *
-            (zeros[1:NCandidate_Combinations_neg[id_P_season[ii], id_P_combinations_ii]] -
-            prob_theta_complete[index_excluded]);
-
-        target += multinomial_lpmf(
-            y[(1 + abstention_omitted[ii]):NCandidatesC_ii, ii] |
-            prob_theta_subset[(1 + abstention_omitted[ii]):NCandidatesC_ii]/
-            sum(prob_theta_subset[(1 + abstention_omitted[ii]):NCandidatesC_ii]));
-      }
+      target += multinomial_lpmf(
+          y[(1 + abstention_omitted[ii]):NCandidatesC_ii, ii] |
+          prob_theta_subset[(1 + abstention_omitted[ii]):NCandidatesC_ii]/
+          sum(prob_theta_subset[(1 + abstention_omitted[ii]):NCandidatesC_ii]));
     }
   }
 }
