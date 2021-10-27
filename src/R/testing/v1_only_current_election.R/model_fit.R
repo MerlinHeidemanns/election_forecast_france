@@ -76,6 +76,12 @@ df$polls <- df$polls %>%
   left_join(t_unit_df, by = "time_id")
 
 inclusion_data <- create_variable_inclusion_input(df$polls)
+
+transition_probability_prior <- matrix(1,
+                                       nrow = NCandidates + 1,
+                                       ncol = NCandidates)
+
+
 data_list <- list(
   NSurveys = df$polls %>%
     distinct(survey_id) %>%
@@ -149,13 +155,14 @@ data_list <- list(
     pull(abstention_omitted),
   abstention_omitted_past = df$polls_past %>%
     distinct(survey_id, abstention_omitted) %>%
-    pull(abstention_omitted)
+    pull(abstention_omitted),
+
+  transition_probability_prior = transition_probability_prior
 )
 
 
 ## Load model
 mod <- cmdstan_model("src/stan/v1_with_past.stan")
-mod <- cmdstan_model("src/stan/v1_with_past_binomial_model.stan")
 
 
 ## Fit model
@@ -170,20 +177,22 @@ fit <- mod$sample(
 
 
 ## Posterior Predictive Checks
+
+
+
+df$sigma_parameters
 # Plot pi_theta
 ppc_plt_pi_theta_first_round(fit, df$polls, t_unit_df, data$df)
 # Plot sigma_tau
-ppc_plt_sigma_tau(fit, 0.2)
+ppc_plt_sigma_tau(fit, df$sigma_parameters$sigma_tau)
 # Plot sigma_alpha
-ppc_plt_sigma_alpha(fit, 0.2)
+ppc_plt_sigma_alpha(fit, df$sigma_parameters$sigma_alpha)
 # Plot sigma_xi
-ppc_plt_sigma_xi(fit, 0.2)
+ppc_plt_sigma_xi(fit, df$sigma_parameters$sigma_xi)
 # Plot alpha
 ppc_plt_alpha(fit, true_alpha = df$alpha)
 # Plot xi
 ppc_plt_xi(fit, true_xi = df$xi)
-# cov_theta
-ppc_plt_cov_theta(fit, transition_matrix = data$transition_matrix)
 # Sum to zero constraint
 ppc_plt_alpha_sum_to_0(fit)
 # sigma_cov
@@ -193,6 +202,7 @@ ppc_plt_sum_alpha_xi(fit)
 ## Plot xi_past_hat
 ppc_plt_xi_past(fit, df$xi_past)
 ## Pair plot for xi_past
+source("src/R/functions/ppc_plt_xi_past_pair.R")
 ppc_plt_xi_past_pair(fit, past_election = 1, 300)
 ## Pair plot for xi
 source("src/R/functions/ppc_plt_xi_pair.R")

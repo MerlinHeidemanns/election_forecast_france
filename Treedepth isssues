@@ -1,0 +1,26 @@
+Hypotheses
+
+1. It's the combinations. --> FALSE
+2. It's alpha. --> Fixed past vector --> FALSE
+3. It's alpha still. --> Taking out alpha fixes it.
+  3.1 Putting elections back in. --> Treedepth issues at 50%
+  3.2 Tau very unhappy
+  3.3 Taking elections back out --> Still treedepth issues.
+4. Increasing prior on covariance matrix and taking out tau --> zero treedepth issues
+  4.1 Put elections back in (0.02) --> Model works fine with zero issues
+  4.2 Decrease standard deviation to 0.01 --> Model works fine with some issues 19%
+    4.2.1 0.01 ~ 0.25 of a percentage point
+5. Put alpha back in --> Max treedepth
+  5.1 Just have one previous election plus the initial one
+    5.1.1 If it has something to do with incorrect indexing the error shouldn't occur when incorrect indexing can't happen.
+  5.2 Fixed alpha generation in the simulation --> no treedepth issues
+    5.2.1 Doing it repeatedly sometimes gives treedepth issues; sigma_alpha does not get recovered properly
+  5.3 Trying with NElections_past > 1
+6. The connection between blocs and candidates didnt work well --> Current model works well
+7. Remove current model, test past model
+  7.1 Past model continues to fail recovering sigma_tau and sigma_alpha properly; more data does not seem to immediately help; similar problems with variance terms for covariance matrix
+  7.2 Assess tau_past x alpha_past relation as with current polls
+  7.3 Sum to zero constraints within pollster implemented
+8. It is not about the sigmas being too different
+9. Is it about the lower limit? Do these not interact well between blocs and candidates because the limits are the same?
+  9.1 That doesnt fix it either.
