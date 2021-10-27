@@ -17,7 +17,7 @@ data_true_list <- list()
 data_polls_list <- list()
 for (jj in 1:2){
   NElections_past <- 1
-  NCandidates <- 8
+  NCandidates <- 10
   NTime <- 100
   rho <- 0.1
   sigma <- 0.07
@@ -227,9 +227,12 @@ data_list <- list(
   id_P_combinations = id_P_combinations,
   y = y,
 
-  prior_sigma_alpha = prior_sigma_alpha,
-  prior_sigma_tau = prior_sigma_tau,
-  prior_sigma_cov = prior_sigma_cov
+  # prior_sigma_alpha = prior_sigma_alpha + 1,
+  # prior_sigma_tau = prior_sigma_tau + 1,
+  # prior_sigma_cov = prior_sigma_cov + 1
+  prior_sigma_alpha = 0.001,
+  prior_sigma_tau = 0.001,
+  prior_sigma_cov = 0.001
 )
 ################################################################################
 ## Model
@@ -247,6 +250,10 @@ fit <- mod$sample(
 )
 ################################################################################
 ## Evaluate
+#' Time
+source("src/R/functions/performance_check.R")
+performance_check(fit)
+#' Recovery check
 fit$summary("sigma_alpha")
 fit$summary("sigma_tau")
 fit$summary("sigma_cov")

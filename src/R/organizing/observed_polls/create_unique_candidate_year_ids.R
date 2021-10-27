@@ -49,8 +49,9 @@ candidates_blocs <- bind_rows(
   full_join(df_bloc_id %>%
              select(bloc,
                     party,
-                    candidate),
-           by = c("candidate" = "candidate")) %>%
+                    candidate, year),
+           by = c("candidate" = "candidate",
+                  "election_year" = "year")) %>%
   mutate(bloc = ifelse(candidate == "_Abstention", "Abstention", bloc)) %>%
 #' Clean names
   mutate(long_name = ifelse(candidate == "Hollande", "Francois Hollande", long_name),

@@ -35,12 +35,12 @@ create_variable_inclusion_input <- function(df){
     mutate(val = 1) %>%
     pivot_wider(id_cols = question_id,
                 names_from = candidate_id,
-                names_prefix = "candidate_id",
                 values_from = val,
                 names_sort = TRUE,
                 values_fill = 0) %>%
-    mutate(candidate_id1 = 1) %>%
+    mutate(`1` = 1) %>%
     as.matrix()
+  df_wide <- df_wide[, c("question_id", sort(as.integer(colnames(df_wide)[2:dim(df_wide)[2]])))]
   combinations <- list()
   for (ii in 1:nrow(df_wide)){
     tmp <- seq(1, ncol(df_wide) - 1)[1 == c(df_wide[ii, 2:ncol(df_wide)])]
@@ -84,6 +84,7 @@ create_variable_inclusion_input <- function(df){
   #' Create matrizes
   #' Fill by row with combinations
   NCandidates <- df %>% pull(candidate_id) %>% unique() %>% length()
+  NCandidates <- NCandidates + all(abstention_omitted == 1)
   NCandidates_included_max <- lapply(combinations, length) %>% unlist() %>% max()
   NCandidates_included_max <- lapply(combinations, length) %>% unlist() %>% min()
   candidates_included <- matrix(-99,

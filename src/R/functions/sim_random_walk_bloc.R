@@ -62,7 +62,7 @@ sim_random_walk_blocs <- function(NElections_past,
     while (proposal_accepted == FALSE){
       update <- MASS::mvrnorm(1, rep(0, NBlocs - 1), coll_trans_matrix_rw_logodds)
       previous <- theta_matrix_blocs[tt - 1, 2:NBlocs]
-      if (all(exp_softmax(previous + update) > (0.05 * max(table(id_C_blocs))))){
+      if (all(exp_softmax(previous + update) > (0.001 * max(table(id_C_blocs))))){
         proposal_accepted <- TRUE
       }
     }
@@ -94,7 +94,7 @@ sim_random_walk_blocs <- function(NElections_past,
     while (proposal_accepted == FALSE){
       update <- MASS::mvrnorm(1, rep(0, NCandidates - 1), trans_matrix_rw_logodds)
       previous <- theta_matrix_candidates[tt - 1, 2:NCandidates]
-      if (all(exp_softmax(previous + update) > 0.01)){
+      if (all(exp_softmax(previous + update) > 0.001)){
         proposal_accepted <- TRUE
       }
     }

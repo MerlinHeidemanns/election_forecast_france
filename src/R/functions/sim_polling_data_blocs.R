@@ -71,9 +71,9 @@ sim_polling_data_blocs <- function(NPolls,
 
   ##############################################################################
   #' Determine which pollster omits abstention
-  abstention_omitted <- c(rep(0, ceiling(0.5 * NPollsters)),
-                            rep(1, floor(0.5 * NPollsters)))
-  # abstention_omitted <- rep(0, NPollsters)
+  #abstention_omitted <- c(rep(0, ceiling(0.5 * NPollsters)),
+  #                          rep(1, floor(0.5 * NPollsters)))
+  abstention_omitted <- c(0, rep(1, NPollsters - 1))
 
   ##############################################################################
   #' Determine pollster id
@@ -189,8 +189,8 @@ sim_polling_data_blocs <- function(NPolls,
   NPolls_Elections <- table(poll_election_id)
 
   #' Abstentions
-  abstention_omitter_pollster <- sample(c(rep(0,floor(NPollsters * NElections_past * 3/4)), rep(1, ceiling(NPollsters * NElections_past/4))))
-  #abstention_omitter_pollster <- rep(0, NPollsters * NElections_past)
+  #abstention_omitter_pollster <- sample(c(rep(0,floor(NPollsters * NElections_past * 3/4)), rep(1, ceiling(NPollsters * NElections_past/4))))
+  abstention_omitter_pollster <- rep(c(0, rep(1, NPollsters - 1)), NElections_past)
 
   #' Draw parameters for the past
   ## Xi past
