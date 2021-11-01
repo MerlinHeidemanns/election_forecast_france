@@ -26,3 +26,12 @@ Filling the first slot of abstention allows the model to choose arbitrary values
 ### Problems
 
 * The model does not implement sum to zero restrictions correctly for pollsters with only one poll. The restriction over their number of polls does not work.
+
+* Polls report data on subsets of the voting population. So separate on whom they report from those who do not express a vote intention given options: 
+  * reported as having a vote intention
+  * no vote choice given selection
+
+### Abbreviations
+
+* I = interroges
+

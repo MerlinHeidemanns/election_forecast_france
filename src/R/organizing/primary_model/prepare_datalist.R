@@ -170,9 +170,9 @@ for (jj in 1:NSeasons){
 
 abstention_omitted <- as.integer(y[1, ] == -99)
 
-prior_sigma_alpha = 0.04
-prior_sigma_tau = 0.01
-prior_sigma_cov = 0.1
+prior_sigma_alpha = 0.01
+prior_sigma_tau = 0.005
+prior_sigma_cov = 0.01
 ################################################################################
 ## Datalist
 data_list <- list(
@@ -214,16 +214,28 @@ for (jj in 1:length(data_list)){
 }
 ################################################################################
 ## Model
-mod <- cmdstanr::cmdstan_model("src/stan/primary_model.stan")
+mod <- cmdstanr::cmdstan_model("src/stan/models_primary_model/primary_model.stan")
 ################################################################################
 ## Fit model
 fit <- mod$sample(
   data = data_list,
   chains = 6,
-  iter_sampling = 300,
+  iter_sampling = 500,
   iter_warmup = 300,
   parallel_chains = 6,
   refresh = 25,
   init = 0.2
 )
-fit$save_object(file = "dta/fits/2021_10_23_primary.Rds")
+fit$save_object(file = "dta/fits/2021_10_29_primary.Rds")
+
+fit <- read_rds(file = "dta/fits/2021_10_29_primary.Rds")
+write_rds(list(
+  fit = fit,
+  data_list = data_list,
+  data_polls = data_polls,
+  df_cleaned = df_cleaned[[5]]
+),
+file = "dta/fits/2021_10_29_primary.Rds")
+
+
+

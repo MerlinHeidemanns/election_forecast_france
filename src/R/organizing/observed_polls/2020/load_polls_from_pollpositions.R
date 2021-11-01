@@ -20,6 +20,7 @@ all_polls <- lapply(1:length(data[[1]]), function(jj){
   date_fin <- survey$date_fin
   methode <- survey$methode
   interroges <- survey$interroges
+  lien <- survey$source
 
   polls <- data.frame()
   if ("premier_tour" %in% names(survey)){
@@ -44,8 +45,23 @@ all_polls <- lapply(1:length(data[[1]]), function(jj){
         base = base,
         intentions_exprimees = intentions_exprimees,
         candidates = names,
-        percentages = values
+        percentages = values,
+        lien = lien
       )
+
+      if ("certitude" %in% names(question)){
+        if ("detail" %in% names(question$certitude)){
+          certitude <- data.frame(candidates = names(question$certitude$detail),
+                                  certitude = as.numeric(question$certitude$detail))
+          df <- df  %>%
+            left_join(certitude)
+        }
+      }
+      if (any(df$nspp == -1)){
+        return()
+      } else {
+        return(df)
+      }
     }) %>%
       do.call("bind_rows", .)
 
@@ -65,6 +81,7 @@ all_polls <- lapply(1:length(data[[1]]), function(jj){
       if (is.null(intentions_exprimees)) intentions_exprimees <- -1
       values <- question$intentions %>% as.numeric()
       names <- names(question$intentions)
+
       df <- data.frame(
         institute = institute,
         date_debut = date_debut,
@@ -76,9 +93,25 @@ all_polls <- lapply(1:length(data[[1]]), function(jj){
         base = base,
         intentions_exprimees = intentions_exprimees,
         candidates = names,
-        percentages = values
+        percentages = values,
+        lien = lien
       )
-      return(df)
+
+      if ("certitude" %in% names(question)){
+        if ("detail" %in% names(question$certitude)){
+          certitude <- data.frame(candidates = names(question$certitude$detail),
+                                  certitude = as.numeric(question$certitude$detail))
+          df <- df  %>%
+            left_join(certitude)
+        }
+      }
+
+
+      if (any(df$nspp == -1)){
+        return()
+      } else {
+        return(df)
+      }
     }) %>%
       do.call("bind_rows", .)
 
@@ -102,9 +135,23 @@ all_polls <- all_polls %>%
          candidates = str_replace(candidates, "-", " "))
 #' Remove the extreme gauche poll
 all_polls <- all_polls %>%
-  group_by(survey_id, question_id) %>%
-  mutate(remove = max(candidates == "Extr^eme Gauche")) %>%
+  group_by(survey_id, question_id, institute, date_fin) %>%
+  mutate(remove = max(candidates %in%
+                        c("Extr^eme Gauche",
+                          "Arnaud Montebourg",
+                          "Sandrine Rousseau",
+                          "Eric Ciotti",
+                          "Philippe Juvin")) ) %>%
   filter(remove == 0)
+institutes_remove <- all_polls %>%
+  distinct(institute, survey_id, date_fin) %>%
+  group_by(institute) %>%
+  summarize(n = n()) %>%
+  filter(n == 1) %>%
+  pull(institute)
+all_polls <- all_polls %>%
+  filter(!institute %in% institutes_remove)
+
 ## Save
 write.csv(all_polls,
           file = "dta/polls_dta/polls_2020/polls_position_polls_2022_raw.csv")

@@ -79,9 +79,10 @@ df_current <- df_current %>%
 df_current <- lapply(1:max(df_current$question_id), function(j){
   poll <- df_current %>%
     filter(question_id == j) %>%
-    mutate(percentages = percentages * (1 - intentions_exprimees/interroges))
+    mutate(percentages = percentages * (1 - nspp/100),
+           sample_size = ifelse(base == "I", interroges, intentions_exprimees))
   abstention_share <- poll %>%
-    mutate(abstention = 1 - intentions_exprimees/interroges) %>%
+    mutate(abstention = nspp/100) %>%
     distinct(abstention) %>%
     pull(abstention)
   poll <- poll %>%
@@ -90,7 +91,7 @@ df_current <- lapply(1:max(df_current$question_id), function(j){
       date_debut = poll$date_debut[1],
       date_fin = poll$date_fin[1],
       methode = poll$methode[1],
-      interroges = poll$interroges[1],
+      sample_size = poll$sample_size[1],
       question_id = poll$question_id[1],
       nspp = poll$nspp[1],
       base = poll$base[1],
@@ -115,7 +116,7 @@ df_current <- df_current %>%
               distinct(),
             by = c("candidate" = "long_name")) %>%
   #' y
-  mutate(y = ceiling(interroges * percentages)) %>%
+  mutate(y = ceiling(sample_size * percentages)) %>%
   #' period_start_day period_end_day
   mutate(period_start_day = as.Date(paste(as.character(election_year - 1),
                                           "/06/01",

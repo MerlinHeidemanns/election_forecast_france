@@ -14,7 +14,10 @@ election_results <- election_results %>%
   dplyr::select(-abstention) %>%
   mutate(candidate = ifelse(candidate == "Abstention", "_Abstention", candidate),
          candidate = stringi::stri_trans_general(candidate, "Latin-ASCII"),
-         candidate = str_replace_all(candidate, "-", " "))
+         candidate = str_replace_all(candidate, "-", " "),
+         long_name = ifelse(long_name == "Abstention", "_Abstention", long_name),
+         long_name = stringi::stri_trans_general(long_name, "Latin-ASCII"),
+         long_name = str_replace_all(long_name, "-", " "))
 
 ## Save
 write_csv(election_results, "dta/polls_dta/election_results_clean.csv")
