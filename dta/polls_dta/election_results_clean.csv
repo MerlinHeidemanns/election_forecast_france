@@ -1,85 +1,85 @@
-candidate,party,bloc,percentage,year
-Nathalie Arthaud,,NA,0.0046662,2017
-Philippe Poutou,,NA,0.0085547,2017
-Jean Luc Melenchon,,NA,0.1524292,2017
-Benoit Hamon,,NA,0.04977279999999999,2017
-Emmanuel Macron,,NA,0.186648,2017
-Jean Lassalle,,NA,0.0093324,2017
-Francois Fillon,,NA,0.15554,2017
-Nicolas Dupont Aignan,,NA,0.0365519,2017
-Marine Le Pen,,NA,0.16565009999999997,2017
-Jacques Cheminade,,NA,0.0015553999999999998,2017
-Francois Asselineau,,NA,0.006999300000000001,2017
-_Abstention,,NA,0.2223,2017
-Francois Hollande,PS,NA,0.22755124000000002,2012
-Nicolas Sarkozy,UMP,NA,0.21602664000000002,2012
-Marine Le Pen,FN,NA,0.14226919999999998,2012
-Jean Luc Melenchon,FG,NA,0.0882228,2012
-Francois Bayrou,MoDem,NA,0.07256524,2012
-Eva Joly,EELV,NA,0.01835988,2012
-Nicolas Dupont Aignan,DLR,NA,0.01422692,2012
-Philippe Poutou,NPA,NA,0.009140200000000001,2012
-Nathalie Arthaud,LO,NA,0.004450880000000001,2012
-Jacques Cheminade,SP,NA,0.001987,2012
-_Abstention,NA,NA,0.2052,2012
-Nicolas Sarkozy,,NA,0.26119486000000003,2007
-Segolene Royal,SP,NA,0.21671298999999997,2007
-Francois Bayrou,UDF,NA,0.15556089,2007
-Jean Marie Le Pen,FN,NA,0.08745588,2007
-Olivier Besancenot,LCR,NA,0.03417816,2007
-Philippe de Villiers,MPF,NA,0.01868071,2007
-Marie George Buffet,PCF,NA,0.016167609999999995,2007
-Dominique Voynet,LV,NA,0.013151890000000001,2007
-Arlette Laguiller,LO,NA,0.011141410000000001,2007
-Jose Bove,,NA,0.01105764,2007
-Federic Nihous,CPNT,NA,0.00963355,2007
-Gerad Schivardi,PT,NA,0.00284818,2007
-_Abstention,,NA,0.1623,2007
-Jacques Chirac,RPR,NA,0.14234079999999996,2002
-Jean Marie Le Pen,FN,NA,0.1207176,2002
-Lionel Jospin,PS,NA,0.11584879999999999,2002
-Francois Bayrou,UDF,NA,0.048974399999999994,2002
-Arlette Laguiller,LO,NA,0.0409552,2002
-Jean Pierre Chevenement,MDC,NA,0.0381628,2002
-Noel Mamere,LV,NA,0.03758999999999999,2002
-Olivier Besancenot,LCR,NA,0.030430000000000002,2002
-Jean Saint Josse,CPNT,NA,0.0302868,2002
-Alain Madelin,DLR,NA,0.0279956,2002
-Robert Hue,PCF,NA,0.024129199999999996,2002
-Bruno Megret,MNR,NA,0.016754399999999996,2002
-Christiane Taubira,PRG,NA,0.016611199999999996,2002
-Corinne Lepage,Cap21,NA,0.013460799999999997,2002
-Christine Boutin,FRS,NA,0.0085204,2002
-Daniel Gluckstein,PT,NA,0.003365199999999999,2002
-_Abstention,NA,NA,0.284,2002
-Lionel Jospin,PS,NA,0.18262540000000002,1995
-Jacques Chirac,RPR,NA,0.16334391999999998,1995
-Edouard Balladur,RPR,NA,0.14563004,1995
-Jean Marie Le Pen,FN,NA,0.11757,1995
-Robert Hue,PCF,NA,0.06772032,1995
-Arlette Laguiller,LO,NA,0.0415414,1995
-Philippe de Villiers,MPF,NA,0.037152120000000004,1995
-Dominique Voynet,LV,NA,0.02602216,1995
-Jacques Cheminade,,NA,0.0021946400000000003,1995
-_Abstention,,NA,0.2162,1995
-Francous Mitterand,PS,NA,0.27750579999999997,1988
-Jacques Chirac,RPR,NA,0.16227172,1988
-Raymond Barre,UDF,NA,0.1346839,1988
-Jean Marie Le Pen,FN,NA,0.11710581999999999,1988
-Andre Lajoinie,PCF,NA,0.055012879999999986,1988
-Antoine Waechter,LV,NA,0.03076164,1988
-Pierre Juquin,,NA,0.0170898,1988
-Arlette Laguiller,LO,NA,0.01619462,1988
-Pierre Boussel,PT,NA,0.0030924399999999997,1988
-_Abstention,,NA,0.1862,1988
-Valery Giscard d'Estaing,UDF,NA,0.22964688000000003,1981
-Francous Mitterand,PS,NA,0.20961765,1981
-Jacques Chirac,RPR,NA,0.145962,1981
-Georges Marchais,PCF,NA,0.12447314999999999,1981
-Brice Lalonde,MEP,NA,0.031462920000000005,1981
-Arlette Laguiller,LO,NA,0.0186507,1981
-Michel Crepeau,PRG,NA,0.01792089,1981
-Michel Debre,RPR,NA,0.013460940000000001,1981
-Marine France Garaud,RPR,NA,0.01078497,1981
-Huguette Bouchardeau,PSU,NA,0.00900099,1981
-_Abstention,,NA,0.1891,1981
+long_name,candidate,party,bloc,percentage,year
+Nathalie Arthaud,Arthaud,,NA,0.0046662,2017
+Philippe Poutou,Poutou,,NA,0.0085547,2017
+Jean Luc Melenchon,Melenchon,,NA,0.1524292,2017
+Benoit Hamon,Hamon,,NA,0.04977279999999999,2017
+Emmanuel Macron,Macron,,NA,0.186648,2017
+Jean Lassalle,Lassalle,,NA,0.0093324,2017
+Francois Fillon,Fillon,,NA,0.15554,2017
+Nicolas Dupont Aignan,Dupont Aignan,,NA,0.0365519,2017
+Marine Le Pen,Le Pen,,NA,0.16565009999999997,2017
+Jacques Cheminade,Cheminade,,NA,0.0015553999999999998,2017
+Francois Asselineau,Asselineau,,NA,0.006999300000000001,2017
+_Abstention,_Abstention,,NA,0.2223,2017
+Francois Hollande,Hollande,PS,NA,0.22755124000000002,2012
+Nicolas Sarkozy,Sarkozy,UMP,NA,0.21602664000000002,2012
+Marine Le Pen,Le Pen,FN,NA,0.14226919999999998,2012
+Jean Luc Melenchon,Melenchon,FG,NA,0.0882228,2012
+Francois Bayrou,Bayrou,MoDem,NA,0.07256524,2012
+Eva Joly,Joly,EELV,NA,0.01835988,2012
+Nicolas Dupont Aignan,Dupont Aignan,DLR,NA,0.01422692,2012
+Philippe Poutou,Poutou,NPA,NA,0.009140200000000001,2012
+Nathalie Arthaud,Arthaud,LO,NA,0.004450880000000001,2012
+Jacques Cheminade,Cheminade,SP,NA,0.001987,2012
+_Abstention,_Abstention,NA,NA,0.2052,2012
+Nicolas Sarkozy,Sarkozy,,NA,0.26119486000000003,2007
+Segolene Royal,Royal,SP,NA,0.21671298999999997,2007
+Francois Bayrou,Bayrou,UDF,NA,0.15556089,2007
+Jean Marie Le Pen,Le Pen,FN,NA,0.08745588,2007
+Olivier Besancenot,Besancenot,LCR,NA,0.03417816,2007
+Philippe de Villiers,Villiers,MPF,NA,0.01868071,2007
+Marie George Buffet,Buffet,PCF,NA,0.016167609999999995,2007
+Dominique Voynet,Voynet,LV,NA,0.013151890000000001,2007
+Arlette Laguiller,Laguiller,LO,NA,0.011141410000000001,2007
+Jose Bove,Bove,,NA,0.01105764,2007
+Federic Nihous,Nihous,CPNT,NA,0.00963355,2007
+Gerad Schivardi,Schivardi,PT,NA,0.00284818,2007
+_Abstention,_Abstention,,NA,0.1623,2007
+Jacques Chirac,Chirac,RPR,NA,0.14234079999999996,2002
+Jean Marie Le Pen,Le Pen,FN,NA,0.1207176,2002
+Lionel Jospin,Jospin,PS,NA,0.11584879999999999,2002
+Francois Bayrou,Bayrou,UDF,NA,0.048974399999999994,2002
+Arlette Laguiller,Laguiller,LO,NA,0.0409552,2002
+Jean Pierre Chevenement,Chevenement,MDC,NA,0.0381628,2002
+Noel Mamere,Mamere,LV,NA,0.03758999999999999,2002
+Olivier Besancenot,Besancenot,LCR,NA,0.030430000000000002,2002
+Jean Saint Josse,Saint Josse,CPNT,NA,0.0302868,2002
+Alain Madelin,Madelin,DLR,NA,0.0279956,2002
+Robert Hue,Hue,PCF,NA,0.024129199999999996,2002
+Bruno Megret,Megret,MNR,NA,0.016754399999999996,2002
+Christiane Taubira,Taubira,PRG,NA,0.016611199999999996,2002
+Corinne Lepage,Lepage,Cap21,NA,0.013460799999999997,2002
+Christine Boutin,Boutin,FRS,NA,0.0085204,2002
+Daniel Gluckstein,Gluckstein,PT,NA,0.003365199999999999,2002
+_Abstention,_Abstention,NA,NA,0.284,2002
+Lionel Jospin,Jospin,PS,NA,0.18262540000000002,1995
+Jacques Chirac,Chirac,RPR,NA,0.16334391999999998,1995
+Edouard Balladur,Balladur,RPR,NA,0.14563004,1995
+Jean Marie Le Pen,Le Pen,FN,NA,0.11757,1995
+Robert Hue,Hue,PCF,NA,0.06772032,1995
+Arlette Laguiller,Laguiller,LO,NA,0.0415414,1995
+Philippe de Villiers,Villiers,MPF,NA,0.037152120000000004,1995
+Dominique Voynet,Voynet,LV,NA,0.02602216,1995
+Jacques Cheminade,Cheminade,,NA,0.0021946400000000003,1995
+_Abstention,_Abstention,,NA,0.2162,1995
+Francous Mitterand,Mitterand,PS,NA,0.27750579999999997,1988
+Jacques Chirac,Chirac,RPR,NA,0.16227172,1988
+Raymond Barre,Barre,UDF,NA,0.1346839,1988
+Jean Marie Le Pen,Le Pen,FN,NA,0.11710581999999999,1988
+Andre Lajoinie,Lajoinie,PCF,NA,0.055012879999999986,1988
+Antoine Waechter,Waechter,LV,NA,0.03076164,1988
+Pierre Juquin,Juquin,,NA,0.0170898,1988
+Arlette Laguiller,Laguiller,LO,NA,0.01619462,1988
+Pierre Boussel,Boussel,PT,NA,0.0030924399999999997,1988
+_Abstention,_Abstention,,NA,0.1862,1988
+Valery Giscard d'Estaing,Estaing,UDF,NA,0.22964688000000003,1981
+Francous Mitterand,Mitterand,PS,NA,0.20961765,1981
+Jacques Chirac,Chirac,RPR,NA,0.145962,1981
+Georges Marchais,Marchais,PCF,NA,0.12447314999999999,1981
+Brice Lalonde,Lalonde,MEP,NA,0.031462920000000005,1981
+Arlette Laguiller,Laguiller,LO,NA,0.0186507,1981
+Michel Crepeau,Crepeau,PRG,NA,0.01792089,1981
+Michel Debre,Debre,RPR,NA,0.013460940000000001,1981
+Marine France Garaud,Garaud,RPR,NA,0.01078497,1981
+Huguette Bouchardeau,Bouchardeau,PSU,NA,0.00900099,1981
+_Abstention,_Abstention,,NA,0.1891,1981
