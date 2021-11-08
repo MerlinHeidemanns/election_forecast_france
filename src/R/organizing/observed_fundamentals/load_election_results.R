@@ -8,6 +8,11 @@ rm(list = ls())
 library(tidyverse)
 library(rvest)
 ###############################################################################
+## Load data
+df_insee_codes <- read_csv("dta/france_classification/departements.csv")
+#https://www.data.gouv.fr/fr/datasets/election-presidentielle-des-23-avril-et-7-mai-2017-resultats-definitifs-du-1er-tour-1/
+df_2017 <- read_csv("dta/election_results/department_2017.csv")
+###############################################################################
 ## Functions
 #' Overview sites
 return_overview_sites <- function(){
@@ -32,6 +37,7 @@ return_sites <- function(site){
   links <- sapply(tables, function(x){
       return(paste("http://www.politiquemania.com/", x, sep = ""))
     })
+  links <- links[grepl("departement", links)]
     return(links)
 }
 #' Return results
@@ -101,15 +107,16 @@ overview_sites <- return_overview_sites()
 candidate_tables <-  vector("list", 1e4)
 total_tables <- vector("list", 1e4)
 count <- 0
-for (i in overview_sites$years[1]){
+for (i in overview_sites$years){
+  print(i)
   year <- i
   site <- overview_sites %>%
     filter(years == year) %>%
     pull(links)
   sites_departments <- return_sites(site)
   for (j in sites_departments){
-    count <- count + 1
     print(count)
+    count <- count + 1
     tables <- return_results(j)
     candidate_tables[[count]] <- tables$candidates_table %>%
       mutate(year = i)
@@ -117,13 +124,135 @@ for (i in overview_sites$years[1]){
       mutate(year = i)
   }
 }
-do.call("bind_rows", total_tables) %>% View()
+## Bind
+total_tables_df <- do.call("bind_rows", total_tables)
+candidate_tables_df <- do.call("bind_rows", candidate_tables)
+## Add insee_codes
+total_tables_df <- total_tables_df %>%
+  mutate(
+    departement = str_replace_all(departement, "\\-", " "),
+    departement = ifelse(departement == "Côtes du Nord",
+                         "Côtes d'Armor",
+                         departement)
+  ) %>%
+  left_join(df_insee_codes) %>%
+  filter(!is.na(insee_code)) %>%
+  mutate(insee_code = as.character(insee_code))
+candidate_tables_df <- candidate_tables_df %>%
+  mutate(
+    departement = str_replace_all(departement, "\\-", " "),
+    departement = ifelse(departement == "Côtes du Nord",
+                         "Côtes d'Armor",
+                         departement)
+  ) %>%
+  left_join(df_insee_codes) %>%
+  filter(!is.na(insee_code)) %>%
+  mutate(insee_code = as.character(insee_code))
+###############################################################################
+## Add 2017
+total_tables_df <- read_csv("dta/election_results/department_total_votes.csv") %>%
+  filter(year != 2017)
+df_2017 <- read_csv("dta/election_results/department_2017.csv")
 
+department_vector <- total_tables_df %>%
+  distinct(departement) %>%
+  pull(departement)
+df_2017_totals <- df_2017 %>%
+  mutate(`Blancs ou nuls` = Blancs + Nuls,
+         ) %>%
+  select(!contains(".exp") & !contains(".ins") & !contains("_ins") & !contains("_vot"), -Blancs, -Nuls) %>%
+  rename(insee_code = `CodeDépartement`,
+         departement = `Département`) %>%
+  pivot_longer(
+    c(-insee_code, -departement),
+    names_to = "categorie",
+    values_to = "votes"
+  ) %>%
+  filter(categorie %in% c(total_tables_df$categorie %>% unique())) %>%
+  mutate(group = ifelse(categorie %in%
+                          c("Abstentions", "Votants"), 1,
+                 ifelse(categorie %in%
+                          c("Blancs ou nuls", "Exprimés"),2, 3)),
+         insee_code = as.character(insee_code)) %>%
+  group_by(group, departement) %>%
+  mutate(percentage = 100 * votes/sum(votes),
+         year = 2017,
+         insee_code = as.numeric(insee_code),
+         departement = str_replace_all(departement, "\\-", " ")) %>%
+  ungroup() %>%
+  select(-group) %>%
+  filter(departement %in% department_vector)
+## Add
+total_tables_df <- total_tables_df %>%
+  bind_rows(df_2017_totals)
+## Candidates
+candidate_tables_df <- read_csv("dta/election_results/department_candidate_votes.csv") %>%
+  filter(year != 2017) %>%
+  mutate(insee_code = as.character(insee_code))
+df_2017 <- read_csv("dta/election_results/department_2017.csv")
 
+department_vector <- total_tables_df %>%
+  distinct(departement) %>%
+  pull(departement)
+candidate_names <- data.frame(
+  names_capitalized = c("LE PEN",
+                        "MACRON",
+                        "MÉLENCHON",
+                        "FILLON",
+                        "HAMON",
+                        'DUPONT-AIGNAN',
+                        "LASSALLE",
+                        "POUTOU",
+                        "ASSELINEAU",
+                        "ARTHAUD",
+                        "CHEMINADE"),
+  candidate = c("Marine Le Pen",
+                "Emmanuel Macron",
+                "Jean-Luc Mélenchon",
+                "Francois Fillon",
+                "Benoit Hamon",
+                'Nicolas Dupont-Aignan',
+                "Ferdinand Lassalle",
+                'Philippe Poutou',
+                "Francois Asselineau",
+                "Nathalie Arthaud",
+                "Jacques Cheminade")
+)
+df_2017_candidates <- df_2017 %>%
+  select(`Département`, `CodeDépartement`,
+          `LE PEN`, `MACRON`,
+         `MÉLENCHON`,
+         `FILLON`,
+         `HAMON`,
+         `DUPONT-AIGNAN`,
+         `LASSALLE`,
+         `POUTOU`,
+         `ASSELINEAU`,
+         `ARTHAUD`,
+         `CHEMINADE`,
+         ) %>%
+  rename(insee_code = `CodeDépartement`,
+         departement = `Département`) %>%
+  pivot_longer(
+    c(-insee_code, -departement),
+    names_to = "names_capitalized",
+    values_to = "votes"
+  ) %>%
+  left_join(
+    candidate_names
+  ) %>%
+  group_by(departement) %>%
+  mutate(percentage = 100 * votes/sum(votes),
+         year = 2017,
+         insee_code = as.character(insee_code)) %>%
+  ungroup() %>%
+  select(-names_capitalized) %>%
+  filter(departement %in% department_vector)
 
-
-
-
-
-
-
+candidate_tables_df <- bind_rows(
+  candidate_tables_df, df_2017_candidates
+)
+## Save
+write_csv(total_tables_df, "dta/election_results/department_total_votes.csv")
+write_csv(candidate_tables_df, "dta/election_results/department_candidate_votes.csv")
+###############################################################################

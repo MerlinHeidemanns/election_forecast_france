@@ -7,13 +7,12 @@ data {
   int NPolls;
   int NPollsters;
   int NPresidents;
-  int NPollsters_Presidents[NPresidents]; // N of pollsters by president
-  int NPolls_Presidents[NPresidents]; // N of polls by president
+  int NPollsters_Presidents;
   int NTime;
   int id_Polls_time[NPolls];
   int<lower = 1, upper = NPresidents> id_Polls_president[NPolls];
   int<lower = 1, upper = NPollsters> id_Polls_pollster[NPolls];
-  int<lower = 1, upper = sum(NPollsters_Presidents)> id_Polls_pollster_president[NPolls];
+  int<lower = 1, upper = NPollsters_Presidents> id_Polls_pollster_president[NPolls];
   int y_approval[NPolls];
   int n_approval[NPolls];
   real beta_prior;
@@ -25,29 +24,20 @@ data {
 
   int<lower = 1, upper = NDepartements> id_Obs_departements[NObs];
   int<lower = 1, upper = NElections> id_Obs_elections[NObs];
-  vector[NObs] y_result;
-  vector[NObs] lag_y_result;
-}
-transformed data {
-  int supvec_NPollsters_Presidents[NPresidents];
-  int supvec_NPolls_Presidents[NPresidents];
-  supvec_NPollsters_Presidents[1] = 0;
-  supvec_NPolls_Presidents[1] = 0;
-  for (jj in 2:NPresidents){
-    supvec_NPollsters_Presidents[jj] = sum(NPollsters_Presidents[1:jj - 1]);
-    supvec_NPolls_Presidents[jj] = sum(NPolls_Presidents[1:jj - 1]);
-  }
+  int y_result[NObs];
+  int n_result[NObs];
 }
 parameters {
-  real<lower = 0> sigma;
   real alpha;
   real gamma;
   vector[M] beta_departments;
   matrix[max(NMiss_X), M] XMiss;
 
   // National predictors
-  real beta_national1;
-  real<lower = 0> beta_national2;
+  vector[2] beta_national[NDepartements];
+  cholesky_factor_corr[2] omega_corr;
+  vector[2] mu_beta_national;
+  vector[2] sigma_beta_national;
 
   // Approval
   matrix[NElections, NTime] raw_theta;
@@ -56,14 +46,14 @@ parameters {
   vector[NElections] mu_theta;
   vector<lower = 0>[NPollsters] sigma_pollster;
   real<lower = 0> sigma_mu_pollster;
-  vector[sum(NPollsters_Presidents)] raw_mu_pollster_president;
+  vector[NPollsters_Presidents] raw_mu_pollster_president;
   vector[NPolls] raw_tau;
 }
 transformed parameters {
   // Approval
   //cholesky_factor_cov[NElections] cov_Theta = diag_pre_multiply(sigma_theta, corr_Theta);
   matrix[NElections, NTime] theta;
-  vector[sum(NPollsters_Presidents)] mu_pollster_president;
+  vector[NPollsters_Presidents] mu_pollster_president;
   vector[NPolls] tau;
   matrix[NElections, 2] Z;
 
@@ -81,20 +71,14 @@ transformed parameters {
   }
   mu_pollster_president = raw_mu_pollster_president * sigma_mu_pollster;
   tau = raw_tau .* sigma_pollster[id_Polls_pollster];
-  // Sum to zero constraints mu_pollster_president
-  // Pollsters are ordered by president
-  for (jj in 1:NPresidents){
-    mu_pollster_president[supvec_NPollsters_Presidents[jj] + 1] =
-      - sum(mu_pollster_president[(supvec_NPollsters_Presidents[jj] + 2):(supvec_NPollsters_Presidents[jj] + NPollsters_Presidents[jj])]);
-    tau[supvec_NPolls_Presidents[jj] + 1] =
-      - sum(tau[(supvec_NPolls_Presidents[jj] + 2):(supvec_NPolls_Presidents[jj] + NPolls_Presidents[jj])]);
-
-  }
 
   // National predictors
-  mu_departements = beta_national1 * logit(lag_y_result)  +
-    beta_national2 * inv_logit(theta[,40])[id_Obs_elections] +
-    XAll * beta_departments;
+  Z = append_col(rep_vector(1.0, NElections),
+                 log(inv_logit(theta[,40])));
+  for (j in 1:NObs){
+    mu_departements[j] = alpha dot_product(beta_national[id_Obs_departements[j]], Z[id_Obs_elections[j]]) +
+      XAll[j] * beta_departments;
+  }
 }
 model {
   vector[NTime * NElections] theta_vector;
@@ -109,33 +93,23 @@ model {
   sigma_mu_pollster ~ normal(0, 0.05);
   raw_mu_pollster_president ~ std_normal();
   raw_tau ~ std_normal();
+  gamma ~ normal(0, 5);
 
   // National predictors
-  beta_national1 ~ normal(0, 1);
-  beta_national2 ~ normal(0, 1);
+  mu_beta_national ~ normal(0, 1);
+  sigma_beta_national ~ normal(0, 1);
+  omega_corr ~ lkj_corr_cholesky(10);
+  beta_national ~ multi_normal_cholesky(mu_beta_national, diag_pre_multiply(sigma_beta_national, omega_corr));
 
   // Department predictors
   to_vector(XMiss) ~ normal(0, 1);
   beta_departments ~ normal(0, 0.1);
 
-  sigma ~ normal(0, 0.1);
-
   // Election results
-  logit(y_result) ~ student_t(NElections, mu_departements, sigma);
+  y_result ~ binomial_logit(n_result, mu_departements);
 
   y_approval ~ binomial_logit(n_approval,
     theta_vector[id_Polls_time] +
     mu_pollster_president[id_Polls_pollster_president] +
     tau);
 }
-generated quantities {
-  vector[NObs] hat_y_result;
-  hat_y_result = inv_logit(to_vector(student_t_rng(NElections,mu_departements, sigma)));
-}
-
-
-
-
-
-
-

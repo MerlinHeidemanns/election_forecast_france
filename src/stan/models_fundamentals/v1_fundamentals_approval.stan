@@ -2,10 +2,12 @@ data {
   int NElections;
   int NPolls[NElections];
   int NPollsters;
+  int NBloc_Presidents;
   int id_Polls_elections[sum(NPolls)];
   int NTime[NElections];
   int id_Polls_time[sum(NPolls)];
-  int id_Polls_pollster[sum(NPolls)];
+  int id_Polls_pollster[NElections];
+  int<lower = 1, upper = NBloc_Presidents> id_Polls_bloc[sum(NPolls)];
   int y[sum(NPolls)];
   int n[sum(NPolls)];
   real beta_prior;
@@ -13,7 +15,7 @@ data {
 parameters {
   matrix[NElections, max(NTime)] raw_theta;
   vector<lower = 0>[NElections] sigma_theta;
-  vector[NPollsters] raw_alpha;
+  matrix[NPollsters, NBloc_Presidents] raw_alpha;
   real<lower = 0> sigma_alpha;
 
   vector[sum(NPolls)] raw_tau;
@@ -22,7 +24,7 @@ parameters {
 transformed parameters {
   matrix[NElections, max(NTime)] theta;
   vector[sum(NPolls)] tau;
-  vector[NPollsters] alpha;
+  matrix[NPollsters, NBloc_Presidents] alpha;
   theta[, 1] = logit(raw_theta[, 1] .* sigma_theta);
   for (tt in 2:max(NTime)){
     theta[,tt] = theta[, tt - 1] + raw_theta[,tt] .* sigma_theta;
@@ -38,11 +40,11 @@ model {
   sigma_theta ~ normal(0, 0.1);
   sigma_alpha ~ normal(0, 0.1);
   sigma_tau ~ normal(0, 0.1);
-  raw_alpha ~ std_normal();
+  to_vector(raw_alpha) ~ std_normal();
 
   y[1:NPolls[1]] ~ binomial_logit(n[1:NPolls[1]],
     theta[1][id_Polls_time[1:NPolls[1]]] +
-    alpha[id_Polls_pollster[1:NPolls[1]]]' +
+    alpha[id_Polls_pollster[1:NPolls[1]],]' +
     tau[1:NPolls[1]]'
   );
   for (jj in 2:NElections){

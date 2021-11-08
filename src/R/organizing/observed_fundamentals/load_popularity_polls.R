@@ -5,15 +5,39 @@
 library(RCurl)
 ###############################################################################
 ## Load data
-url <- getURL("https://raw.githubusercontent.com/pollsposition/models/master/popularity/plot_data/raw_polls.csv")
-df <- read.csv(text = x)
+url <- getURL("https://raw.githubusercontent.com/pollsposition/data/main/sondages/popularite.csv")
+df <- read.csv(text = url)
 election_dates <- read_csv("dta/polls_dta/election_dates.csv")
+###############################################################################
+## President bloc
+bloc_vector <- c("Abstention",
+                 "Gauche radicale et extreme gauche",
+                 "Gauche",
+                 "Centre",
+                 "Droite",
+                 "Droite radicale et extreme droite")
+president_bloc <- data.frame(
+  president = c("vge","mitterrand1" ,"mitterrand2" ,"chirac1" ,
+                "chirac2" ,"sarkozy" ,"hollande" ,"macron"),
+  bloc = c("Droite", "Gauche", "Gauche", "Droite", "Droite",
+           "Droite", "Gauche", "Centre")
+) %>%
+  mutate(bloc_id = match(bloc, bloc_vector))
 ###############################################################################
 ## Clean
 #' column names
 colnames(df) <- c("date", "president", "pollster", "N", "method", "p_approve",
                   "p_disapprove")
+president_vector <- df %>%
+  distinct(president, .keep_all = TRUE) %>%
+  arrange(date) %>%
+  pull(president)
 df <- df %>%
+  #' change scale
+  mutate(
+    p_approve = p_approve/100,
+    p_disapprove = p_disapprove/100
+  ) %>%
   #' term
   mutate(
     term_id = as.integer(str_match(president, "([\\d+]+)")[,2]),
@@ -32,7 +56,7 @@ df <- df %>%
   ungroup() %>%
   #' candidate_id
   mutate(
-    president_id = as.integer(factor(president, levels = c("chirac2", "sarkozy", "hollande", "macron")))
+    president_id = as.integer(factor(president, levels = president_vector))
   ) %>%
   #' integer values
   mutate(
@@ -41,7 +65,10 @@ df <- df %>%
   #' election_date
   left_join(
     election_dates %>%
-      add_column(president = c("", "macron", "hollande", "sarkozy", "chirac2", "chirac1"))
+      mutate(date_next_first_round = lag(date_first_round)) %>%
+      add_column(elected_president =
+                   c("", rev(president_vector), "")),
+      by = c("president" = "elected_president")
   ) %>%
   #' weeks since election
   mutate(three_weeks =
@@ -55,11 +82,9 @@ df <- df %>%
   mutate(
     month = lubridate::month(date),
     years = lubridate::year(date) - lubridate::year(date_second_round) + 1
-  )
+  ) %>%
+  left_join(president_bloc)
 ###############################################################################
 ## Write
 write_csv(df, file = "dta/fundamentals_dta/approval.csv")
-
-
-
-
+###############################################################################
