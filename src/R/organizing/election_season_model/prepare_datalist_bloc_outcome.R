@@ -120,39 +120,29 @@ fit <- mod$sample(
 ###############################################################################
 ## PPC
 source("src/R/functions/ppc_fundamentals_rmse.R")
-ppc_fundamentals_rmse(fit)
-
-
-
-error <- fit$summary("error", ~ quantile(., c(0.1, 0.25, 0.5, 0.75, 0.9)))
-colnames(error) <- c("variable", "q10", "q25", "q50", "q75", "q90")
-error <- error %>%
-  mutate(
-    bloc_id = as.integer(str_match(variable, "([\\d]+)\\]")[,2]),
-    obs_id = as.integer(str_match(variable, "\\[([\\d]+)")[,2])
-  ) %>%
-  select(-variable) %>%
-  left_join(
-    df %>%
-      arrange(bloc_id, election_id, department_id) %>%
-      select(-bloc_id) %>%
-      mutate(obs_id = 1:n())
-  ) %>%
-  mutate(bloc = bloc_vector[bloc_id],
-         year = election_years[election_id])
-
-bloc_error <- error %>%
-  group_by(bloc, year) %>%
-  summarize(rmse = sqrt(mean(error^2)))
-
-
-ggplot(error, aes(x = percentage, y = q50)) +
-  geom_point() +
-  facet_grid(year ~ bloc)
-
-
-
-
-
-
-
+if (FALSE){
+  fit_evaluation <- read_rds("dta/fundamentals_dta/fit_evaluations.Rds")
+  number <- 1
+  description <- "Base model with one value per bloc for all observations."
+  fit_evaluation[["rmse_global"]] <- bind_rows(
+    fit_evaluation[["rmse_global"]],
+    output_rmse_global(fit, number, description)
+  )
+  #' rmse by bloc and election
+  fit_evaluation[["rmse_bloc_election"]] <- bind_rows(
+    fit_evaluation[["rmse_bloc_election"]],
+    output_rmse_bloc_election(
+      fit, bloc_vector, election_years, df, number,
+      description
+    ))
+  #' Error by department
+  fit_evaluation[["error_department"]] <- bind_rows(
+    fit_evaluation[["error_department"]],
+    output_error_department(
+    fit, bloc_vector, election_years, df, number,
+    description
+  ))
+  fit_evaluation[["model_code"]][["N01"]] = mod$code()
+  write_rds(fit_evaluation, "dta/fundamentals_dta/fit_evaluations.Rds")
+}
+###############################################################################
