@@ -55,8 +55,8 @@ Cope,UMP,Droite,2012,
 Cope,LR,Droite,2017,
 Delanoe,PS,Gauche,2012,
 Dieudonne,LU,Autre,2002,
-Duflot,EELV,Gauche,2012,
-Duflot,EELV,Gauche,2017,
+Duflot,EELV,Ecologisme,2012,
+Duflot,EELV,Ecologisme,2017,
 Dupont-Aignan,DLF,Droite radicale et extreme droite,2022,Nicolas Dupont Aignan
 Dupont-Aignan,DLF,Droite radicale et extreme droite,2017,
 Dupont-Aignan,DLR,Droite radicale et extreme droite,2012,
@@ -80,10 +80,10 @@ Hue,PCF,Gauche radicale et extreme gauche,1995,Robert Hue
 Hulot,SE,Gauche,2012,
 Hulot,SE,Gauche,2017,
 Hulot,SE,Gauche,2007,
-Jadot,EELV,Gauche,2017,
-Jadot,EELV,Gauche,2022,Yannick Jadot
-Joly,EELV,Gauche,2012,
-Joly,EELV,Gauche,2017,
+Jadot,EELV,Ecologisme,2017,
+Jadot,EELV,Ecologisme,2022,Yannick Jadot
+Joly,EELV,Ecologisme,2012,
+Joly,EELV,Ecologisme,2017,
 Jospin,PS,Gauche,2002,
 Jospin,PS,Gauche,2002,
 Jospin,PS,Gauche,2007,
@@ -101,7 +101,7 @@ Laguiller,LO,Gauche radicale et extreme gauche,1995,Arlette Laguiller
 Lalonde,GE,Gauche,2002,
 Lang,PS,Gauche,2007,
 Larrouturou,ND,Gauche,2002,
-Lassalle,Resistons!,Droite,2017,
+Lassalle,Resistons!,Droite,2017,Ferdinand Lassalle
 Lassalle,Resistons!,Droite,2022,Jean Lassalle
 Le Maire,LR,Droite,2017,
 Le Pen,FN,Droite radicale et extreme droite,2012,
@@ -114,14 +114,14 @@ Leotard,UDF,Droite,2002,
 Lepage,Cap21,Gauche,2012,
 Lepage,Cap21,Gauche,2002,
 Lepage,Cap21,Gauche,2007,
-Lipietz,LV,Gauche,2002,
+Lipietz,LV,Ecologisme,2002,
 Macron,EM,Centre,2017,
 Macron,EM,Centre,2017,
 Macron,EM,Centre,2022,Emmanuel Macron
 Madelin,DL,Centre,2002,
-Mamere,LV,Gauche,2002,
-Mamere,LV,Gauche,2002,
-Mamere,LV,Gauche,2007,
+Mamere,LV,Ecologisme,2002,
+Mamere,LV,Ecologisme,2002,
+Mamere,LV,Ecologisme,2007,
 Martin,NPA,Gauche radicale et extreme gauche,2012,
 Megret,MNR,Droite radicale et extreme droite,2002,
 Melenchon,FG,Gauche radicale et extreme gauche,2007,
@@ -137,8 +137,8 @@ Montebourg,PS,Gauche,2017,
 Montebourg,PS,Gauche,2022,Arnaud Montebourg
 Morin,NC,Centre,2012,
 Muget,RCF,Gauche radicale et extreme gauche,2002,
-Nihous,CPNT,Droite,2012,
-Nihous,CPNT,Droite,2007,
+Nihous,CPNT,Droite,2012,Frederic Nihous
+Nihous,CPNT,Droite,2007,Frederic Nihous
 NKM,LR,Droite,2017,
 Pasqua,RPF,Droite,2002,
 Payre,LR,Droite,2022,Denis Payre
@@ -150,7 +150,7 @@ Poisson,VIA,Droite,2022,Jean Frederic Poisson
 Poutou,NPA,Gauche radicale et extreme gauche,2012,
 Poutou,NPA,Gauche radicale et extreme gauche,2017,
 Poutou,NPA,Gauche radicale et extreme gauche,2022,Philippe Poutou
-Rousseau,EELV,Gauche,2022,Sandrine Rousseau
+Rousseau,EELV,Ecologisme,2022,Sandrine Rousseau
 Roussel,PCF,Gauche radicale et extreme gauche,2022,Fabien Roussel
 Royal,PS,Gauche,2012,
 Royal,PS,Gauche,2007,
@@ -160,8 +160,8 @@ Sarkozy,LR,Droite,2017,
 Sarkozy,UMP,Droite,2012,
 Sarkozy,UMP,Droite,2007,
 Sarkozy,UMP,Droite,2007,
-Schivardi,POI,Gauche radicale et extreme gauche,2012,
-Schivardi,PT,Gauche radicale et extreme gauche,2007,
+Schivardi,POI,Gauche radicale et extreme gauche,2012,Gerard Schivardi
+Schivardi,PT,Gauche radicale et extreme gauche,2007,Gerard Schivardi
 Seguin,RPR,Droite,2002,
 Strauss-Kahn,PS,Gauche,2012,
 Strauss-Kahn,PS,Gauche,2007,
@@ -177,12 +177,12 @@ Villiers,MPF,Gauche,2002,
 Villiers,MPF,Gauche,2007,
 Villiers,MPF,Gauche,2007,
 Villiers,MPF,Gauche,1995,Philippe de Villiers
-Voynet,LV,Gauche,2012,
-Voynet,LV,Gauche,2002,
-Voynet,LV,Gauche,2007,
-Voynet,LV,Gauche,2007,
-Voynet,LV,Gauche,2007,
-Voynet,LV,Gauche,1995,Dominique Voynet
+Voynet,LV,Ecologisme,2012,
+Voynet,LV,Ecologisme,2002,
+Voynet,LV,Ecologisme,2007,
+Voynet,LV,Ecologisme,2007,
+Voynet,LV,Ecologisme,2007,
+Voynet,LV,Ecologisme,1995,Dominique Voynet
 Waechter,MEI,Centre,2002,
 Wauquiez,LR,Droite,2022,Laurent Wauquiez
 Zemmour,,Droite radicale et extreme droite,2022,Eric Zemmour

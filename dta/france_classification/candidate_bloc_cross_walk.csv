@@ -6,7 +6,7 @@ Hue,Robert Hue,2002,Gauche radicale et extreme gauche,PCF
 Jospin,Lionel Jospin,2002,Gauche,PS
 Taubira,Christiane Taubira,2002,Gauche,PRG
 Chevenement,Jean Pierre Chevenement,2002,Gauche,MDC
-Mamere,Noel Mamere,2002,Gauche,LV
+Mamere,Noel Mamere,2002,Ecologisme,LV
 Lepage,Corinne Lepage,2002,Gauche,Cap21
 Bayrou,Francois Bayrou,2002,Droite,UDF
 Chirac,Jacques Chirac,2002,Droite,RPR
@@ -20,8 +20,8 @@ Miguet,NA,2002,Droite radicale et extreme droite,NA
 Waechter,NA,2002,Centre,MEI
 Larrouturou,NA,2002,Gauche,ND
 Lalonde,NA,2002,Gauche,GE
-Lipietz,NA,2002,Gauche,LV
-Voynet,NA,2002,Gauche,LV
+Lipietz,NA,2002,Ecologisme,LV
+Voynet,NA,2002,Ecologisme,LV
 Villiers,NA,2002,Gauche,MPF
 Bove,NA,2002,Gauche,SE
 Seguin,NA,2002,Droite,RPR
@@ -29,14 +29,14 @@ Leotard,NA,2002,Droite,UDF
 Balladur,NA,2002,Droite,UDF
 Cheminade,NA,2002,Droite radicale et extreme droite,S&P
 Aubry,NA,2002,Gauche,PS
-Schivardi,Gerad Schivardi,2007,Gauche radicale et extreme gauche,PT
+Schivardi,Gerard Schivardi,2007,Gauche radicale et extreme gauche,PT
 Laguiller,Arlette Laguiller,2007,Gauche radicale et extreme gauche,LO
 Besancenot,Olivier Besancenot,2007,Gauche radicale et extreme gauche,LCR
 Buffet,Marie George Buffet,2007,Gauche radicale et extreme gauche,PCF
 Bove,Jose Bove,2007,Gauche,SE
 Royal,Segolene Royal,2007,Gauche,PS
-Voynet,Dominique Voynet,2007,Gauche,LV
-Nihous,Federic Nihous,2007,Droite,CPNT
+Voynet,Dominique Voynet,2007,Ecologisme,LV
+Nihous,Frederic Nihous,2007,Droite,CPNT
 Bayrou,Francois Bayrou,2007,Droite,UDF
 Sarkozy,Nicolas Sarkozy,2007,Droite,UMP
 Villiers,Philippe de Villiers,2007,Gauche,MPF
@@ -57,7 +57,7 @@ Hollande,Francois Hollande,2007,Gauche,PS
 Autain,NA,2007,Gauche radicale et extreme gauche,GA
 Braouezec,NA,2007,Gauche radicale et extreme gauche,PCF
 Melenchon,NA,2007,Gauche radicale et extreme gauche,FG
-Mamere,NA,2007,Gauche,LV
+Mamere,NA,2007,Ecologisme,LV
 _Abstention,_Abstention,2007,Abstention,NA
 Emmanuelli,NA,2007,Gauche,PS
 _Abstention,_Abstention,2012,Abstention,NA
@@ -65,7 +65,7 @@ Arthaud,Nathalie Arthaud,2012,Gauche radicale et extreme gauche,LO
 Poutou,Philippe Poutou,2012,Gauche radicale et extreme gauche,NPA
 Melenchon,Jean Luc Melenchon,2012,Gauche radicale et extreme gauche,FG
 Hollande,Francois Hollande,2012,Gauche,PS
-Joly,Eva Joly,2012,Gauche,EELV
+Joly,Eva Joly,2012,Ecologisme,EELV
 Bayrou,Francois Bayrou,2012,Centre,MoDem
 Sarkozy,Nicolas Sarkozy,2012,Droite,UMP
 Dupont Aignan,Nicolas Dupont Aignan,2012,Droite radicale et extreme droite,DLR
@@ -73,7 +73,7 @@ Le Pen,Marine Le Pen,2012,Droite radicale et extreme droite,FN
 Cheminade,Jacques Cheminade,2012,Droite radicale et extreme droite,S&P
 Lepage,NA,2012,Gauche,Cap21
 Villepin,NA,2012,Droite,RS
-Nihous,NA,2012,Droite,CPNT
+Nihous,Frederic Nihous,2012,Droite,CPNT
 Morin,NA,2012,Centre,NC
 Boutin,NA,2012,Droite,PCD
 Chevenement,NA,2012,Gauche,MRC
@@ -90,13 +90,13 @@ Fabius,NA,2012,Gauche,PS
 Besancenot,NA,2012,Gauche radicale et extreme gauche,NPA
 Cope,NA,2012,Droite,UMP
 Montebourg,NA,2012,Gauche,PS
-Schivardi,NA,2012,Gauche radicale et extreme gauche,POI
-Duflot,NA,2012,Gauche,EELV
+Schivardi,Gerard Schivardi,2012,Gauche radicale et extreme gauche,POI
+Duflot,NA,2012,Ecologisme,EELV
 Buffet,NA,2012,Gauche radicale et extreme gauche,PCF
 Tapie,NA,2012,Gauche,PRG
 Laguiller,NA,2012,Gauche radicale et extreme gauche,LO
 Bove,NA,2012,Gauche,SE
-Voynet,NA,2012,Gauche,LV
+Voynet,NA,2012,Ecologisme,LV
 Villiers,NA,2012,Gauche,MPF
 _Abstention,_Abstention,2017,Abstention,NA
 Arthaud,Nathalie Arthaud,2017,Gauche radicale et extreme gauche,LO
@@ -108,10 +108,10 @@ Fillon,Francois Fillon,2017,Droite,FR
 Dupont Aignan,Nicolas Dupont Aignan,2017,Droite radicale et extreme droite,DLF
 Asselineau,Francois Asselineau,2017,Droite,UPR
 Le Pen,Marine Le Pen,2017,Droite radicale et extreme droite,FN
-Lassalle,Jean Lassalle,2017,Droite,Resistons!
+Lassalle,Ferdinand Lassalle,2017,Droite,Resistons!
 Cheminade,Jacques Cheminade,2017,Droite radicale et extreme droite,S&P
 Juppe,NA,2017,Droite,LR
-Jadot,NA,2017,Gauche,EELV
+Jadot,NA,2017,Ecologisme,EELV
 Bayrou,NA,2017,Gauche,PS
 Valls,NA,2017,Gauche,PS
 Montebourg,NA,2017,Gauche,PS
@@ -119,7 +119,7 @@ Peillon,NA,2017,Gauche,PS
 Pinel,NA,2017,Gauche,PRG
 Hollande,Francois Hollande,2017,Gauche,PS
 Sarkozy,NA,2017,Droite,LR
-Duflot,NA,2017,Gauche,EELV
+Duflot,NA,2017,Ecologisme,EELV
 Le Maire,NA,2017,Droite,LR
 NKM,NA,2017,Droite,LR
 Cope,NA,2017,Droite,LR
@@ -127,27 +127,20 @@ Hulot,NA,2017,Gauche,SE
 Villiers,NA,2017,Gauche,MPF
 Besancenot,NA,2017,Gauche radicale et extreme gauche,NPA
 Aubry,NA,2017,Gauche,PS
-Joly,NA,2017,Gauche,EELV
+Joly,NA,2017,Ecologisme,EELV
 Arthaud,NA,2022,Gauche radicale et extreme gauche,LO
 Asselineau,NA,2022,Droite,UPR
-Balladur,NA,1995,Droite,RPR
 Barnier,NA,2022,Droite,LR
 Baroin,NA,2022,Droite,LR
 Bertrand,NA,2022,Droite,LR
-Cheminade,NA,1995,Droite radicale et extreme droite,S&P
-Chirac,NA,1995,Droite,RPR
 Ciotti,NA,2022,Droite,LR
 Dupont Aignan,NA,2022,Droite radicale et extreme droite,DLF
 Emmanuelli,NA,2012,Gauche,PS
 Hidalgo,NA,2022,Gauche,PS
-Hue,NA,1995,Gauche radicale et extreme gauche,PCF
-Jadot,NA,2022,Gauche,EELV
-Jospin,NA,1995,Gauche,PS
+Jadot,NA,2022,Ecologisme,EELV
 Juvin,NA,2022,Droite,LR
 Lagarde,NA,2022,Centre,UDI
-Laguiller,NA,1995,Gauche radicale et extreme gauche,LO
-Lassalle,NA,2022,Droite,Resistons!
-Le Pen,NA,1995,Droite radicale et extreme droite,FN
+Lassalle,Ferdinand Lassalle,2022,Droite,Resistons!
 Le Pen,NA,2022,Droite radicale et extreme droite,FN
 Macron,NA,2022,Centre,EM
 Melenchon,NA,2022,Gauche radicale et extreme gauche,FI
@@ -161,55 +154,63 @@ Pecresse,NA,2022,Droite,LR
 Philippot,NA,2022,Droite radicale et extreme droite,LP
 Poisson,NA,2022,Droite,VIA
 Poutou,NA,2022,Gauche radicale et extreme gauche,NPA
-Rousseau,NA,2022,Gauche,EELV
+Rousseau,NA,2022,Ecologisme,EELV
 Roussel,NA,2022,Gauche radicale et extreme gauche,PCF
-Villiers,NA,1995,Gauche,MPF
-Voynet,NA,1995,Gauche,LV
 Wauquiez,NA,2022,Droite,LR
 Zemmour,NA,2022,Droite radicale et extreme droite,NA
-De Gaulle,NA,1965,Droite,UNR
-Mitterrand,NA,1965,Gauche,PS
-Lecanuet,NA,1965,Centre,MRP
-Tixier Vignancour,NA,1965,Droite radicale et extreme droite,CTV
-Barbu,NA,1965,Gauche,DG
-Marcilhacy,NA,1965,Droite,PLE
-Krivine,NA,1969,Gauche radicale et extreme gauche,LC
-Poher,NA,1969,Centre,CD
-Defferre,NA,1969,Gauche,SFIO
-Pompidou,NA,1969,Droite,UDR
-Duclos,NA,1969,Gauche radicale et extreme gauche,PCF
-Ducatel,NA,1969,Gauche,DG
-Rocard,NA,1969,Gauche radicale et extreme gauche,PSU
-Krivine,NA,1974,Gauche radicale et extreme gauche,LC
-Laguiller,NA,1974,Gauche radicale et extreme gauche,LO
-Renouvin,NA,1974,Gauche,NAR
-Muller,NA,1974,Centre,MDS
-Mitterrand,NA,1974,Gauche,PS
-Chaban Delmas,NA,1974,Droite,UDR
-Royer,NA,1974,Droite,DR
-Sebag,NA,1974,Droite,MFR
-Le Pen,NA,1974,Droite radicale et extreme droite,FN
-Dumont,NA,1974,Ecologisme,DVG
-d'Estaing,NA,1974,Centre,RI
-Laguiller,NA,1981,Gauche radicale et extreme gauche,LO
-Lalonde,NA,1981,Ecologisme,MEP
-Mitterrand,NA,1981,Gauche,PS
-Marchais,NA,1981,Gauche radicale et extreme gauche,PCF
-Bouchardeau,NA,1981,Gauche radicale et extreme gauche,PSU
-Chirac,NA,1981,Droite,RPR
-Garaud,NA,1981,Droite,DR
-Crepeau,NA,1981,Centre,PRG
-Debre,NA,1981,Droite,DR
-d'Estaing,NA,1981,Centre,UDF
-Lajoinie,NA,1988,Gauche radicale et extreme gauche,PCF
-Waechter,NA,1988,Ecologisme,LV
-Laguiller,NA,1988,Gauche radicale et extreme gauche,LO
-Mitterrand,NA,1988,Gauche,PS
-Chirac,NA,1988,Droite,RPR
-Le Pen,NA,1988,Droite radicale et extreme droite,FN
-Boussel,NA,1988,Gauche radicale et extreme gauche,MPPT
-Juquin,NA,1988,Gauche radicale et extreme gauche,CR
-Barre,NA,1988,Centre,UDF
+Balladur,Edouard Balladur,1995,Droite,RPR
+Cheminade,Jacques Cheminade,1995,Droite radicale et extreme droite,S&P
+Chirac,Jacques Chirac,1995,Droite,RPR
+Hue,Robert Hue,1995,Gauche radicale et extreme gauche,PCF
+Jospin,Lionel Jospin,1995,Gauche,PS
+Laguiller,Arlette Laguiller,1995,Gauche radicale et extreme gauche,LO
+Le Pen,Jean Marie Le Pen,1995,Droite radicale et extreme droite,FN
+Villiers,Philippe de Villiers,1995,Gauche,MPF
+Voynet,Dominique Voynet,1995,Ecologisme,LV
+De Gaulle,Charles de Gaulle,1965,Droite,UNR
+Mitterrand,Francois Mitterrand,1965,Gauche,PS
+Lecanuet,Jean Lecanuet,1965,Centre,MRP
+Tixier Vignancour,Jean Louis Tixier Vignancour,1965,Droite radicale et extreme droite,CTV
+Barbu,Marcel Barbu,1965,Gauche,DG
+Marcilhacy,Pierre Marcilhacy,1965,Droite,PLE
+Krivine,Alain Krivine,1969,Gauche radicale et extreme gauche,LC
+Poher,Alain Poher,1969,Centre,CD
+Defferre,Gaston Defferre,1969,Gauche,SFIO
+Pompidou,Georges Pompidou,1969,Droite,UDR
+Duclos,Jacques Duclos,1969,Gauche radicale et extreme gauche,PCF
+Ducatel,Louis Ducatel,1969,Gauche,DG
+Rocard,Michel Rocard,1969,Gauche radicale et extreme gauche,PSU
+Krivine,Alain Krivine,1974,Gauche radicale et extreme gauche,LC
+Laguiller,Arlette Laguiller,1974,Gauche radicale et extreme gauche,LO
+Renouvin,Bertrand Renouvin,1974,Gauche,NAR
+Muller,Emile Muller,1974,Centre,MDS
+Mitterrand,Francois Mitterrand,1974,Gauche,PS
+Heraud,Guy Heraud,1974,Gauche,In
+Chaban Delmas,Jacques Chaban Delmas,1974,Droite,UDR
+Royer,Jean Royer,1974,Droite,DR
+Sebag,Jean Claude Sebag,1974,Droite,MFR
+Le Pen,Jean Marie Le Pen,1974,Droite radicale et extreme droite,FN
+Dumont,Rene Dumont,1974,Ecologisme,DVG
+d'Estaing,Valery Giscard d'Estaing,1974,Centre,RI
+Laguiller,Arlette Laguiller,1981,Gauche radicale et extreme gauche,LO
+Lalonde,Brice Lalonde,1981,Ecologisme,MEP
+Mitterrand,Francois Mitterrand,1981,Gauche,PS
+Marchais,Georges Marchais,1981,Gauche radicale et extreme gauche,PCF
+Bouchardeau,Huguette Bouchardeau,1981,Gauche radicale et extreme gauche,PSU
+Chirac,Jacques Chirac,1981,Droite,RPR
+Garaud,Marie France Garaud,1981,Droite,DR
+Crepeau,Michel Crepeau,1981,Centre,PRG
+Debre,Michel Debre,1981,Droite,DR
+d'Estaing,Valery Giscard d'Estaing,1981,Centre,UDF
+Lajoinie,Andre Lajoinie,1988,Gauche radicale et extreme gauche,PCF
+Waechter,Antoine Waechter,1988,Ecologisme,LV
+Laguiller,Arlette Laguiller,1988,Gauche radicale et extreme gauche,LO
+Mitterrand,Francois Mitterrand,1988,Gauche,PS
+Chirac,Jacques Chirac,1988,Droite,RPR
+Le Pen,Jean Marie Le Pen,1988,Droite radicale et extreme droite,FN
+Boussel,Pierre Boussel,1988,Gauche radicale et extreme gauche,MPPT
+Juquin,Pierre Juquin,1988,Gauche radicale et extreme gauche,CR
+Barre,Raymond Barre,1988,Centre,UDF
 Abstention,_Abstention,1965,Abstention,NA
 Abstention,_Abstention,1972,Abstention,NA
 Abstention,_Abstention,1979,Abstention,NA
