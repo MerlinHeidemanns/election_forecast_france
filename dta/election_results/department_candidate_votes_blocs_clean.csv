@@ -4663,44 +4663,72 @@ year,bloc,departement,percentage,votes
 2017,Centre,Ain,0.22618853955966717,73692
 2017,Centre,Aisne,0.1793572568890123,51680
 2017,Centre,Allier,0.2371973397069521,45651
+2017,Centre,Alpes de Haute Provence,0.20017249333092646,19960
+2017,Centre,Alpes Maritimes,0.19041827966499528,111953
 2017,Centre,Ardèche,0.21640859907136575,42320
 2017,Centre,Ardennes,0.18332050434936614,26912
 2017,Centre,Ariège,0.20923627633807043,19523
 2017,Centre,Aube,0.18976457148533538,30565
 2017,Centre,Aude,0.2006661659536949,43015
 2017,Centre,Aveyron,0.2583204411123011,45584
+2017,Centre,Bas Rhin,0.2229491477248978,133347
+2017,Centre,Bouches du Rhône,0.19368618402626278,203312
 2017,Centre,Calvados,0.24829317119082123,99720
 2017,Centre,Cantal,0.26731537907083414,24477
 2017,Centre,Charente,0.2506821162436625,49889
+2017,Centre,Charente Maritime,0.23910852865350138,91355
 2017,Centre,Cher,0.22049268614711096,38076
 2017,Centre,Corrèze,0.26933034825187313,39218
+2017,Centre,Corse du Sud,0.17870670253060328,13022
+2017,Centre,Côte d'Or,0.2365146392446795,67436
+2017,Centre,Côtes d'Armor,0.2799404750792732,104969
 2017,Centre,Creuse,0.22500747320322842,15807
+2017,Centre,Deux Sèvres,0.26971333687814253,57826
 2017,Centre,Dordogne,0.22494069398094166,55945
 2017,Centre,Doubs,0.2250482970240588,63954
 2017,Centre,Drôme,0.21875660193737642,63164
 2017,Centre,Essonne,0.26205678707013935,163389
 2017,Centre,Eure,0.19890313174593277,66986
+2017,Centre,Eure et Loir,0.21738741539916262,51038
 2017,Centre,Finistère,0.2945072103520375,164095
 2017,Centre,Gard,0.18780456496831335,79006
 2017,Centre,Gers,0.23402677721324874,27775
 2017,Centre,Gironde,0.2612620765849416,222287
 2017,Centre,Guadeloupe,0.30229325920778316,33930
 2017,Centre,Guyane,0.1874510972838034,5031
+2017,Centre,Haut Rhin,0.19756381372087842,79798
+2017,Centre,Haute Corse,0.19023899494528146,15506
+2017,Centre,Haute Garonne,0.2642894773788458,190128
+2017,Centre,Haute Loire,0.23514619170780285,32821
+2017,Centre,Haute Marne,0.17998828582584928,18438
+2017,Centre,Haute Saône,0.1958974211952237,27332
+2017,Centre,Haute Savoie,0.24225993837938756,100174
+2017,Centre,Haute Vienne,0.2666650672936209,55577
+2017,Centre,Hautes Alpes,0.2179760028529686,18948
+2017,Centre,Hautes Pyrénées,0.25105770676288036,35070
+2017,Centre,Hauts de Seine,0.3229750439756504,256687
 2017,Centre,Hérault,0.205188212697258,128621
+2017,Centre,Ille et Vilaine,0.30262071174840366,181373
 2017,Centre,Indre,0.20850963080636045,27301
+2017,Centre,Indre et Loire,0.24467130521763433,83165
 2017,Centre,Isère,0.24767929432434635,164091
 2017,Centre,Jura,0.21325274622415072,31896
 2017,Centre,La Réunion,0.1891463136270258,66292
 2017,Centre,Landes,0.24627419654167976,61043
+2017,Centre,Loir et Cher,0.20976266917176806,40639
 2017,Centre,Loire,0.2316930144851252,90677
+2017,Centre,Loire Atlantique,0.286647351615674,232602
 2017,Centre,Loiret,0.23484976319845205,83506
 2017,Centre,Lot,0.26652044012384124,29527
+2017,Centre,Lot et Garonne,0.2078836152566968,39253
 2017,Centre,Lozère,0.21731364363304048,10463
+2017,Centre,Maine et Loire,0.2651331930154829,121685
 2017,Centre,Manche,0.24857378697003787,74683
 2017,Centre,Marne,0.2075031742627711,60958
 2017,Centre,Martinique,0.25528078781666425,27893
 2017,Centre,Mayenne,0.26043100004438724,46938
 2017,Centre,Mayotte,0.19209175973437972,6364
+2017,Centre,Meurthe et Moselle,0.22040677680466392,83703
 2017,Centre,Meuse,0.19349806156289412,20713
 2017,Centre,Morbihan,0.2786460055243316,130639
 2017,Centre,Moselle,0.21054080973933195,117738
@@ -4709,12 +4737,23 @@ year,bloc,departement,percentage,votes
 2017,Centre,Oise,0.1979931154678124,86680
 2017,Centre,Orne,0.21567895361231387,35815
 2017,Centre,Paris,0.34833762013972297,375006
+2017,Centre,Pas de Calais,0.18445853817790753,153682
+2017,Centre,Puy de Dôme,0.27146931712693545,96797
+2017,Centre,Pyrénées Atlantiques,0.26275044041116835,103958
+2017,Centre,Pyrénées Orientales,0.18458545581306435,49245
 2017,Centre,Rhône,0.26576681012749404,236137
+2017,Centre,Saône et Loire,0.22329981190575285,69212
 2017,Centre,Sarthe,0.20040068973217054,64618
 2017,Centre,Savoie,0.2312933900206575,55871
+2017,Centre,Seine et Marne,0.23114322698948414,157314
+2017,Centre,Seine Maritime,0.21230951194856423,145756
+2017,Centre,Seine Saint Denis,0.24039637695352198,130103
 2017,Centre,Somme,0.21749740329624948,69520
 2017,Centre,Tarn,0.22140513439169737,51755
+2017,Centre,Tarn et Garonne,0.20653129065878295,30319
 2017,Centre,Territoire de Belfort,0.20637382289658254,14771
+2017,Centre,Val d'Oise,0.25313333503606755,138752
+2017,Centre,Val de Marne,0.2833262310645012,172202
 2017,Centre,Var,0.1773191735326678,108597
 2017,Centre,Vaucluse,0.18524128976412033,58208
 2017,Centre,Vendée,0.2626101282143113,109989
@@ -4725,44 +4764,72 @@ year,bloc,departement,percentage,votes
 2017,Droite,Ain,0.23597985260851015,76882
 2017,Droite,Aisne,0.17839938918581244,51404
 2017,Droite,Allier,0.21232983477086148,40865
+2017,Droite,Alpes de Haute Provence,0.211555047435666,21095
+2017,Droite,Alpes Maritimes,0.29317165930753897,172365
 2017,Droite,Ardèche,0.20122113358833274,39350
 2017,Droite,Ardennes,0.1890901412096483,27759
 2017,Droite,Ariège,0.17142520309519216,15995
 2017,Droite,Aube,0.2458464747808379,39598
 2017,Droite,Aude,0.18056456165067342,38706
 2017,Droite,Aveyron,0.2517751596651989,44429
+2017,Droite,Bas Rhin,0.24213975806923532,144825
+2017,Droite,Bouches du Rhône,0.21618027280227267,226924
 2017,Droite,Calvados,0.21931318503468436,88081
 2017,Droite,Cantal,0.27254657842430596,24956
 2017,Droite,Charente,0.19279645048313426,38369
+2017,Droite,Charente Maritime,0.22759216363707746,86955
 2017,Droite,Cher,0.21061927428975136,36371
 2017,Droite,Corrèze,0.211341020375928,30774
+2017,Droite,Corse du Sud,0.31765658450897516,23147
+2017,Droite,Côte d'Or,0.23048568342194975,65717
+2017,Droite,Côtes d'Armor,0.19988052345660573,74949
 2017,Droite,Creuse,0.20738494825696432,14569
+2017,Droite,Deux Sèvres,0.20649446356775716,44272
 2017,Droite,Dordogne,0.2038036267138434,50688
 2017,Droite,Doubs,0.23080523191368824,65590
 2017,Droite,Drôme,0.20869568228966442,60259
 2017,Droite,Essonne,0.19961923825196032,124460
 2017,Droite,Eure,0.20477942377300112,68965
+2017,Droite,Eure et Loir,0.23626474258771013,55470
 2017,Droite,Finistère,0.19715893284995112,109854
 2017,Droite,Gard,0.19589143343428053,82408
 2017,Droite,Gers,0.23093450620560652,27408
 2017,Droite,Gironde,0.1983451258785642,168756
 2017,Droite,Guadeloupe,0.16274656545678087,18267
 2017,Droite,Guyane,0.1746711874510973,4688
+2017,Droite,Haut Rhin,0.24871382238617515,100458
+2017,Droite,Haute Corse,0.3187662560730235,25982
+2017,Droite,Haute Garonne,0.19322956992909301,139008
+2017,Droite,Haute Loire,0.21578053690794327,30118
+2017,Droite,Haute Marne,0.21016204607575165,21529
+2017,Droite,Haute Saône,0.19998279841172,27902
+2017,Droite,Haute Savoie,0.27745478817309877,114727
+2017,Droite,Haute Vienne,0.18039488520499966,37597
+2017,Droite,Hautes Alpes,0.2189998504492275,19037
+2017,Droite,Hautes Pyrénées,0.201669422789196,28171
+2017,Droite,Hauts de Seine,0.30795915234574545,244753
 2017,Droite,Hérault,0.19896337844822637,124719
+2017,Droite,Ille et Vilaine,0.20448959774151942,122559
 2017,Droite,Indre,0.2161547038966197,28302
+2017,Droite,Indre et Loire,0.2287256733499066,77745
 2017,Droite,Isère,0.19021786709412933,126022
 2017,Droite,Jura,0.21192225661734718,31697
 2017,Droite,La Réunion,0.19537776763296053,68476
 2017,Droite,Landes,0.22134943880967942,54865
+2017,Droite,Loir et Cher,0.2380276455832103,46115
 2017,Droite,Loire,0.2053622303362317,80372
+2017,Droite,Loire Atlantique,0.21179310795273196,171861
 2017,Droite,Loiret,0.2305215258794281,81967
 2017,Droite,Lot,0.20221686659987184,22403
+2017,Droite,Lot et Garonne,0.2254557202020951,42571
 2017,Droite,Lozère,0.27216649012399524,13104
+2017,Droite,Maine et Loire,0.2523324574361924,115810
 2017,Droite,Manche,0.23124621396190995,69477
 2017,Droite,Marne,0.23784674352978022,69872
 2017,Droite,Martinique,0.18923890759994144,20677
 2017,Droite,Mayenne,0.28562630387500554,51479
 2017,Droite,Mayotte,0.34403863567763354,11398
+2017,Droite,Meurthe et Moselle,0.1826071844240927,69348
 2017,Droite,Meuse,0.20026157223597552,21437
 2017,Droite,Morbihan,0.2260262139132104,105969
 2017,Droite,Moselle,0.1926676048832564,107743
@@ -4771,12 +4838,23 @@ year,bloc,departement,percentage,votes
 2017,Droite,Oise,0.1938427521682622,84863
 2017,Droite,Orne,0.2640960633999169,43855
 2017,Droite,Paris,0.2773382601418037,298571
+2017,Droite,Pas de Calais,0.15650565563066524,130393
+2017,Droite,Puy de Dôme,0.19264261695557916,68690
+2017,Droite,Pyrénées Atlantiques,0.2641759319403619,104522
+2017,Droite,Pyrénées Orientales,0.19791818941702555,52802
 2017,Droite,Rhône,0.24948678239573582,221672
+2017,Droite,Saône et Loire,0.21225290449135512,65788
 2017,Droite,Sarthe,0.2992023421121187,96476
 2017,Droite,Savoie,0.2342077918852123,56575
+2017,Droite,Seine et Marne,0.19739461732523644,134345
+2017,Droite,Seine Maritime,0.18633525897052697,127924
+2017,Droite,Seine Saint Denis,0.14959663859335331,80962
 2017,Droite,Somme,0.17667284035590483,56471
 2017,Droite,Tarn,0.21380750095184314,49979
+2017,Droite,Tarn et Garonne,0.21109529226640145,30989
 2017,Droite,Territoire de Belfort,0.19948584681588286,14278
+2017,Droite,Val d'Oise,0.20580218849997628,112808
+2017,Droite,Val de Marne,0.22059372773685518,134074
 2017,Droite,Var,0.26959300369996636,165109
 2017,Droite,Vaucluse,0.2116234072075054,66498
 2017,Droite,Vendée,0.2705608480767853,113319
@@ -4787,44 +4865,72 @@ year,bloc,departement,percentage,votes
 2017,Droite radicale et extreme droite,Ain,0.31257922829720164,101838
 2017,Droite radicale et extreme droite,Aisne,0.40937391545776364,117957
 2017,Droite radicale et extreme droite,Allier,0.2761716720357477,53152
+2017,Droite radicale et extreme droite,Alpes de Haute Provence,0.29613695168181,29529
+2017,Droite radicale et extreme droite,Alpes Maritimes,0.321899471367437,189255
 2017,Droite radicale et extreme droite,Ardèche,0.28432776289144795,55602
 2017,Droite radicale et extreme droite,Ardennes,0.37911350585478504,55655
 2017,Droite radicale et extreme droite,Ariège,0.25460313377489124,23756
 2017,Droite radicale et extreme droite,Aube,0.3686020811086001,59370
 2017,Droite radicale et extreme droite,Aude,0.32281058588082723,69198
 2017,Droite radicale et extreme droite,Aveyron,0.21225412692745793,37455
+2017,Droite radicale et extreme droite,Bas Rhin,0.3146771887879219,188210
+2017,Droite radicale et extreme droite,Bouches du Rhône,0.3130271754352204,328584
 2017,Droite radicale et extreme droite,Calvados,0.2553146988959768,102540
 2017,Droite radicale et extreme droite,Cantal,0.22809776554616346,20886
 2017,Droite radicale et extreme droite,Charente,0.2665956495304327,53056
+2017,Droite radicale et extreme droite,Charente Maritime,0.26641801787653935,101789
 2017,Droite radicale et extreme droite,Cher,0.29910936613274963,51652
 2017,Droite radicale et extreme droite,Corrèze,0.22409400259592208,32631
+2017,Droite radicale et extreme droite,Corse du Sud,0.3182878629851238,23193
+2017,Droite radicale et extreme droite,Côte d'Or,0.2794889241172262,79689
+2017,Droite radicale et extreme droite,Côtes d'Armor,0.2087692582586827,78282
 2017,Droite radicale et extreme droite,Creuse,0.2513985566041764,17661
+2017,Droite radicale et extreme droite,Deux Sèvres,0.23502551329769866,50389
 2017,Droite radicale et extreme droite,Dordogne,0.2571589401310764,63958
 2017,Droite radicale et extreme droite,Doubs,0.28819159754943185,81898
 2017,Droite radicale et extreme droite,Drôme,0.29273986029001775,84526
 2017,Droite radicale et extreme droite,Essonne,0.23816855844628676,148495
 2017,Droite radicale et extreme droite,Eure,0.35161842999967335,118417
+2017,Droite radicale et extreme droite,Eure et Loir,0.31281758589993136,73443
 2017,Droite radicale et extreme droite,Finistère,0.18119655051733263,100960
 2017,Droite radicale et extreme droite,Gard,0.3369623611183744,141754
 2017,Droite radicale et extreme droite,Gers,0.24395237734132103,28953
 2017,Droite radicale et extreme droite,Gironde,0.2261065795350368,192376
 2017,Droite radicale et extreme droite,Guadeloupe,0.15615366796742752,17527
 2017,Droite radicale et extreme droite,Guyane,0.26420507470472077,7091
+2017,Droite radicale et extreme droite,Haut Rhin,0.3448193904582704,139276
+2017,Droite radicale et extreme droite,Haute Corse,0.3013569220199244,24563
+2017,Droite radicale et extreme droite,Haute Garonne,0.20760418853116444,149349
+2017,Droite radicale et extreme droite,Haute Loire,0.2924049091182645,40813
+2017,Droite radicale et extreme droite,Haute Marne,0.39673955486138224,40642
+2017,Droite radicale et extreme droite,Haute Saône,0.3741058757758633,52196
+2017,Droite radicale et extreme droite,Haute Savoie,0.2503784782514063,103531
+2017,Droite radicale et extreme droite,Haute Vienne,0.2286879543219058,47662
+2017,Droite radicale et extreme droite,Hautes Alpes,0.2712275817640089,23577
+2017,Droite radicale et extreme droite,Hautes Pyrénées,0.22924496560215907,32023
+2017,Droite radicale et extreme droite,Hauts de Seine,0.10498164221058487,83435
 2017,Droite radicale et extreme droite,Hérault,0.29540364109730655,185172
+2017,Droite radicale et extreme droite,Ille et Vilaine,0.1876911474436089,112491
 2017,Droite radicale et extreme droite,Indre,0.3013732109306979,39460
+2017,Droite radicale et extreme droite,Indre et Loire,0.24610700048542974,83653
 2017,Droite radicale et extreme droite,Isère,0.2759534138146515,182823
 2017,Droite radicale et extreme droite,Jura,0.30038310077623037,44928
 2017,Droite radicale et extreme droite,La Réunion,0.26616640036521344,93286
 2017,Droite radicale et extreme droite,Landes,0.22733654474595144,56349
+2017,Droite radicale et extreme droite,Loir et Cher,0.31337166689033646,60712
 2017,Droite radicale et extreme droite,Loire,0.3004290090886559,117578
+2017,Droite radicale et extreme droite,Loire Atlantique,0.18373616839832546,149094
 2017,Droite radicale et extreme droite,Loiret,0.29668252843306,105492
 2017,Droite radicale et extreme droite,Lot,0.20436513309323295,22641
+2017,Droite radicale et extreme droite,Lot et Garonne,0.3018980839097139,57005
 2017,Droite radicale et extreme droite,Lozère,0.23650487050075808,11387
+2017,Droite radicale et extreme droite,Maine et Loire,0.22673316512622071,104061
 2017,Droite radicale et extreme droite,Manche,0.26392429920851,79295
 2017,Droite radicale et extreme droite,Marne,0.3400426866006965,99894
 2017,Droite radicale et extreme droite,Martinique,0.13417044955337531,14660
 2017,Droite radicale et extreme droite,Mayenne,0.22693528341249056,40901
 2017,Droite radicale et extreme droite,Mayotte,0.3075762149109568,10190
+2017,Droite radicale et extreme droite,Meurthe et Moselle,0.31139701816381665,118258
 2017,Droite radicale et extreme droite,Meuse,0.3890046242234574,41641
 2017,Droite radicale et extreme droite,Morbihan,0.22660210948414686,106239
 2017,Droite radicale et extreme droite,Moselle,0.34375564405230885,192234
@@ -4833,12 +4939,23 @@ year,bloc,departement,percentage,votes
 2017,Droite radicale et extreme droite,Oise,0.36535760050983,159951
 2017,Droite radicale et extreme droite,Orne,0.29824698748020256,49526
 2017,Droite radicale et extreme droite,Paris,0.06798326891512681,73188
+2017,Droite radicale et extreme droite,Pas de Calais,0.39486432247657094,328982
+2017,Droite radicale et extreme droite,Puy de Dôme,0.22273513813673165,79420
+2017,Droite radicale et extreme droite,Pyrénées Atlantiques,0.17593952276363378,69611
+2017,Droite radicale et extreme droite,Pyrénées Orientales,0.33870840783096623,90363
 2017,Droite radicale et extreme droite,Rhône,0.20748284772743644,184351
+2017,Droite radicale et extreme droite,Saône et Loire,0.30562572793764176,94729
 2017,Droite radicale et extreme droite,Sarthe,0.25209648807234747,81287
 2017,Droite radicale et extreme droite,Savoie,0.2755061910340745,66551
+2017,Droite radicale et extreme droite,Seine et Marne,0.2913247456989587,198273
+2017,Droite radicale et extreme droite,Seine Maritime,0.29898212158024606,205259
+2017,Droite radicale et extreme droite,Seine Saint Denis,0.1685562876707773,91223
 2017,Droite radicale et extreme droite,Somme,0.35390882128421075,113122
 2017,Droite radicale et extreme droite,Tarn,0.27499069546580424,64281
+2017,Droite radicale et extreme droite,Tarn et Garonne,0.3179951090251429,46682
 2017,Droite radicale et extreme droite,Territoire de Belfort,0.3239444491016291,23186
+2017,Droite radicale et extreme droite,Val d'Oise,0.21878796945294798,119926
+2017,Droite radicale et extreme droite,Val de Marne,0.15991786596291135,97196
 2017,Droite radicale et extreme droite,Var,0.3535541556859634,216530
 2017,Droite radicale et extreme droite,Vaucluse,0.353008006924908,110925
 2017,Droite radicale et extreme droite,Vendée,0.24472220232552588,102497
@@ -4849,44 +4966,72 @@ year,bloc,departement,percentage,votes
 2017,Gauche,Ain,0.05129236124113334,16711
 2017,Gauche,Aisne,0.042444644964253486,12230
 2017,Gauche,Allier,0.055175101319754755,10619
+2017,Gauche,Alpes de Haute Provence,0.04997292255851736,4983
+2017,Gauche,Alpes Maritimes,0.035832375172639014,21067
 2017,Gauche,Ardèche,0.06012088608889525,11757
 2017,Gauche,Ardennes,0.049276922133743864,7234
 2017,Gauche,Ariège,0.0785158510706707,7326
 2017,Gauche,Aube,0.040635011299575335,6545
 2017,Gauche,Aude,0.06350968692999193,13614
 2017,Gauche,Aveyron,0.06164465071998096,10878
+2017,Gauche,Bas Rhin,0.05338694710794927,31931
+2017,Gauche,Bouches du Rhône,0.04531208023641085,47564
 2017,Gauche,Calvados,0.06795693463007504,27293
 2017,Gauche,Cantal,0.052530415219623004,4810
 2017,Gauche,Charente,0.06315667820695131,12569
+2017,Gauche,Charente Maritime,0.057642024262887205,22023
 2017,Gauche,Cher,0.053026881160024554,9157
 2017,Gauche,Corrèze,0.06361382568864044,9263
+2017,Gauche,Corse du Sud,0.03493989131031454,2546
+2017,Gauche,Côte d'Or,0.05895680475863133,16810
+2017,Gauche,Côtes d'Armor,0.08603377879238018,32260
 2017,Gauche,Creuse,0.078205292451353,5494
+2017,Gauche,Deux Sèvres,0.06973012807955298,14950
 2017,Gauche,Dordogne,0.06345945076595232,15783
 2017,Gauche,Doubs,0.05742155472431109,16318
 2017,Gauche,Drôme,0.06020966887279603,17385
 2017,Gauche,Essonne,0.06747855207887253,42072
 2017,Gauche,Eure,0.05047553722492926,16999
+2017,Gauche,Eure et Loir,0.05246210265824456,12317
 2017,Gauche,Finistère,0.10908585119843499,60781
 2017,Gauche,Gard,0.048666213434375605,20473
 2017,Gauche,Gers,0.08027265910029238,9527
 2017,Gauche,Gironde,0.07557415199454644,64300
 2017,Gauche,Guadeloupe,0.09947256820085172,11165
 2017,Gauche,Guyane,0.05696933566824398,1529
+2017,Gauche,Haut Rhin,0.04628258770518185,18694
+2017,Gauche,Haute Corse,0.03967708691171419,3234
+2017,Gauche,Haute Garonne,0.08365385818321835,60180
+2017,Gauche,Haute Loire,0.05326808858192969,7435
+2017,Gauche,Haute Marne,0.04189769621241703,4292
+2017,Gauche,Haute Saône,0.04727569845615745,6596
+2017,Gauche,Haute Savoie,0.05273302410168852,21805
+2017,Gauche,Haute Vienne,0.07742245039944341,16136
+2017,Gauche,Hautes Alpes,0.05877345358749295,5109
+2017,Gauche,Hautes Pyrénées,0.07112227877642478,9935
+2017,Gauche,Hauts de Seine,0.07186338482909263,57114
 2017,Gauche,Hérault,0.05771770966939143,36180
+2017,Gauche,Ille et Vilaine,0.08912789213486146,53418
 2017,Gauche,Indre,0.059465074006751495,7786
+2017,Gauche,Indre et Loire,0.06736588164340036,22898
 2017,Gauche,Isère,0.0658884189617125,43652
 2017,Gauche,Jura,0.050739123748905185,7589
 2017,Gauche,La Réunion,0.07667199269573156,26872
 2017,Gauche,Landes,0.08694213809074258,21550
+2017,Gauche,Loir et Cher,0.05655059926292209,10956
 2017,Gauche,Loire,0.057996714081667594,22698
+2017,Gauche,Loire Atlantique,0.0802753565500082,65140
 2017,Gauche,Loiret,0.05747921658623289,20438
 2017,Gauche,Lot,0.07176834827190916,7951
+2017,Gauche,Lot et Garonne,0.056344070076580065,10639
 2017,Gauche,Lozère,0.056763661287307615,2733
+2017,Gauche,Maine et Loire,0.06439151294889728,29553
 2017,Gauche,Manche,0.06403147320982805,19238
 2017,Gauche,Marne,0.04657741286521042,13683
 2017,Gauche,Martinique,0.09757102064723971,10661
 2017,Gauche,Mayenne,0.056854498646189355,10247
 2017,Gauche,Mayotte,0.04328403259885301,1434
+2017,Gauche,Meurthe et Moselle,0.06222779290405144,23632
 2017,Gauche,Meuse,0.04594329487598674,4918
 2017,Gauche,Morbihan,0.07330510734053558,34368
 2017,Gauche,Moselle,0.05271656619881013,29480
@@ -4895,12 +5040,23 @@ year,bloc,departement,percentage,votes
 2017,Gauche,Oise,0.04688288757472139,20525
 2017,Gauche,Orne,0.05214474547896204,8659
 2017,Gauche,Paris,0.1017594019463866,109550
+2017,Gauche,Pas de Calais,0.05171205254263327,43084
+2017,Gauche,Puy de Dôme,0.07239593119946602,25814
+2017,Gauche,Pyrénées Atlantiques,0.0773126957207452,30589
+2017,Gauche,Pyrénées Orientales,0.050433491886786086,13455
 2017,Gauche,Rhône,0.06763442699704675,60094
+2017,Gauche,Saône et Loire,0.061893654158237915,19184
 2017,Gauche,Sarthe,0.053327089355050795,17195
 2017,Gauche,Savoie,0.05693019096783808,13752
+2017,Gauche,Seine et Marne,0.05696813504733386,38772
+2017,Gauche,Seine Maritime,0.06047258224743127,41516
+2017,Gauche,Seine Saint Denis,0.08408320737913016,45506
 2017,Gauche,Somme,0.044613247569109865,14260
 2017,Gauche,Tarn,0.06643651313115756,15530
+2017,Gauche,Tarn et Garonne,0.058357913093235056,8567
 2017,Gauche,Territoire de Belfort,0.05852683935507307,4189
+2017,Gauche,Val d'Oise,0.0684462671808924,37518
+2017,Gauche,Val de Marne,0.07770485383859806,47228
 2017,Gauche,Var,0.034434506023466864,21089
 2017,Gauche,Vaucluse,0.043131102256959916,13553
 2017,Gauche,Vendée,0.050989661676575225,21356
@@ -4911,44 +5067,72 @@ year,bloc,departement,percentage,votes
 2017,Gauche radicale et extreme gauche,Ain,0.1739600182934877,56676
 2017,Gauche radicale et extreme gauche,Aisne,0.1904247935031582,54869
 2017,Gauche radicale et extreme gauche,Allier,0.21912605216668396,42173
+2017,Gauche radicale et extreme gauche,Alpes de Haute Provence,0.24216258499308022,24147
+2017,Gauche radicale et extreme gauche,Alpes Maritimes,0.1586782144873897,93292
 2017,Gauche radicale et extreme gauche,Ardèche,0.2379216183599583,46527
 2017,Gauche radicale et extreme gauche,Ardennes,0.1991989264524567,29243
 2017,Gauche radicale et extreme gauche,Ariège,0.2862195357211755,26706
 2017,Gauche radicale et extreme gauche,Aube,0.15515186132565129,24990
 2017,Gauche radicale et extreme gauche,Aude,0.23244899958481252,49828
 2017,Gauche radicale et extreme gauche,Aveyron,0.21600562157506104,38117
+2017,Gauche radicale et extreme gauche,Bas Rhin,0.16684695830999574,99792
+2017,Gauche radicale et extreme gauche,Bouches du Rhône,0.23179428749983327,243314
 2017,Gauche radicale et extreme gauche,Calvados,0.20912201024844257,83988
 2017,Gauche radicale et extreme gauche,Cantal,0.17950986173907346,16437
 2017,Gauche radicale et extreme gauche,Charente,0.22676910553581928,45130
+2017,Gauche radicale et extreme gauche,Charente Maritime,0.20923926556999461,79943
 2017,Gauche radicale et extreme gauche,Cher,0.21675179227036356,37430
 2017,Gauche radicale et extreme gauche,Corrèze,0.23162080308763638,33727
+2017,Gauche radicale et extreme gauche,Corse du Sud,0.15040895866498327,10960
+2017,Gauche radicale et extreme gauche,Côte d'Or,0.19455394845751323,55472
+2017,Gauche radicale et extreme gauche,Côtes d'Armor,0.22537596441305816,84509
 2017,Gauche radicale et extreme gauche,Creuse,0.23800372948427778,16720
+2017,Gauche radicale et extreme gauche,Deux Sèvres,0.21903655817684864,46961
 2017,Gauche radicale et extreme gauche,Dordogne,0.2506372884081862,62336
 2017,Gauche radicale et extreme gauche,Doubs,0.19853331878851008,56419
 2017,Gauche radicale et extreme gauche,Drôme,0.21959818661014543,63407
 2017,Gauche radicale et extreme gauche,Essonne,0.23267686415274094,145071
 2017,Gauche radicale et extreme gauche,Eure,0.1942234772564635,65410
+2017,Gauche radicale et extreme gauche,Eure et Loir,0.18106815345495125,42511
 2017,Gauche radicale et extreme gauche,Finistère,0.21805145508224377,121495
 2017,Gauche radicale et extreme gauche,Gard,0.23067542704465605,97041
 2017,Gauche radicale et extreme gauche,Gers,0.21081368013953136,25020
 2017,Gauche radicale et extreme gauche,Gironde,0.23871206600691097,203101
 2017,Gauche radicale et extreme gauche,Guadeloupe,0.2793339391671567,31353
 2017,Gauche radicale et extreme gauche,Guyane,0.3167033048921346,8500
+2017,Gauche radicale et extreme gauche,Haut Rhin,0.1626203857294942,65684
+2017,Gauche radicale et extreme gauche,Haute Corse,0.1499607400500564,12223
+2017,Gauche radicale et extreme gauche,Haute Garonne,0.2512229059776784,180728
+2017,Gauche radicale et extreme gauche,Haute Loire,0.2034002736840597,28390
+2017,Gauche radicale et extreme gauche,Haute Marne,0.17121241702459977,17539
+2017,Gauche radicale et extreme gauche,Haute Saône,0.18273820616103553,25496
+2017,Gauche radicale et extreme gauche,Haute Savoie,0.17717377109441884,73261
+2017,Gauche radicale et extreme gauche,Haute Vienne,0.24682964278003022,51443
+2017,Gauche radicale et extreme gauche,Hautes Alpes,0.23302311134630205,20256
+2017,Gauche radicale et extreme gauche,Hautes Pyrénées,0.24690562606933977,34490
+2017,Gauche radicale et extreme gauche,Hauts de Seine,0.1922207766389266,152769
 2017,Gauche radicale et extreme gauche,Hérault,0.2427270580878177,152152
+2017,Gauche radicale et extreme gauche,Ille et Vilaine,0.21607065093160652,129500
 2017,Gauche radicale et extreme gauche,Indre,0.21449738035957047,28085
+2017,Gauche radicale et extreme gauche,Indre et Loire,0.21313013930362892,72444
 2017,Gauche radicale et extreme gauche,Isère,0.22026100580516034,145926
 2017,Gauche radicale et extreme gauche,Jura,0.22370277263336655,33459
 2017,Gauche radicale et extreme gauche,La Réunion,0.2726375256790687,95554
 2017,Gauche radicale et extreme gauche,Landes,0.21809768181194678,54059
+2017,Gauche radicale et extreme gauche,Loir et Cher,0.18228741909176308,35316
 2017,Gauche radicale et extreme gauche,Loire,0.20451903200831953,80042
+2017,Gauche radicale et extreme gauche,Loire Atlantique,0.23754801548326035,192760
 2017,Gauche radicale et extreme gauche,Loiret,0.180466965902827,64169
 2017,Gauche radicale et extreme gauche,Lot,0.2551292119111448,28265
+2017,Gauche radicale et extreme gauche,Lot et Garonne,0.20841851055491414,39354
 2017,Gauche radicale et extreme gauche,Lozère,0.21725133445489855,10460
+2017,Gauche radicale et extreme gauche,Maine et Loire,0.1914096714732067,87849
 2017,Gauche radicale et extreme gauche,Manche,0.19222422664971411,57753
 2017,Gauche radicale et extreme gauche,Marne,0.1680299827415418,49362
 2017,Gauche radicale et extreme gauche,Martinique,0.3237388343827793,35373
 2017,Gauche radicale et extreme gauche,Mayenne,0.1701529140219273,30667
 2017,Gauche radicale et extreme gauche,Mayotte,0.11300935707817686,3744
+2017,Gauche radicale et extreme gauche,Meurthe et Moselle,0.22336122770337521,84825
 2017,Gauche radicale et extreme gauche,Meuse,0.1712924471016862,18336
 2017,Gauche radicale et extreme gauche,Morbihan,0.19542056373777555,91620
 2017,Gauche radicale et extreme gauche,Moselle,0.20031937512629266,112022
@@ -4957,12 +5141,23 @@ year,bloc,departement,percentage,votes
 2017,Gauche radicale et extreme gauche,Oise,0.19592364427937403,85774
 2017,Gauche radicale et extreme gauche,Orne,0.16983325002860464,28202
 2017,Gauche radicale et extreme gauche,Paris,0.20458144885696,220244
+2017,Gauche radicale et extreme gauche,Pas de Calais,0.2124594311722231,177011
+2017,Gauche radicale et extreme gauche,Puy de Dôme,0.24075699658128769,85846
+2017,Gauche radicale et extreme gauche,Pyrénées Atlantiques,0.21982140916409076,86973
+2017,Gauche radicale et extreme gauche,Pyrénées Orientales,0.2283544550521577,60922
 2017,Gauche radicale et extreme gauche,Rhône,0.20962913275228698,186258
+2017,Gauche radicale et extreme gauche,Saône et Loire,0.19692790150701242,61038
 2017,Gauche radicale et extreme gauche,Sarthe,0.19497339072831252,62868
 2017,Gauche radicale et extreme gauche,Savoie,0.20206243609221766,48810
+2017,Gauche radicale et extreme gauche,Seine et Marne,0.22316927493898686,151887
+2017,Gauche radicale et extreme gauche,Seine Maritime,0.2419005252532315,166071
+2017,Gauche radicale et extreme gauche,Seine Saint Denis,0.3573674894032173,193408
 2017,Gauche radicale et extreme gauche,Somme,0.20730768749452502,66263
 2017,Gauche radicale et extreme gauche,Tarn,0.2233601560594977,52212
+2017,Gauche radicale et extreme gauche,Tarn et Garonne,0.20602039495643762,30244
 2017,Gauche radicale et extreme gauche,Territoire de Belfort,0.21166904183083243,15150
+2017,Gauche radicale et extreme gauche,Val d'Oise,0.25383023983011577,139134
+2017,Gauche radicale et extreme gauche,Val de Marne,0.2584573213971342,157087
 2017,Gauche radicale et extreme gauche,Var,0.16509916105793568,101113
 2017,Gauche radicale et extreme gauche,Vaucluse,0.20699619384650636,65044
 2017,Gauche radicale et extreme gauche,Vendée,0.17111715970680227,71669

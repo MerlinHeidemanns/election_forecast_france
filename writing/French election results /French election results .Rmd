@@ -1,0 +1,81 @@
+---
+title: "Exploring French electoral trends"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+    fig_width: 10
+    fig_height: 8
+    thumbnails: FALSE
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+
+df_election_results <- read_csv(file = "dta/election_results/department_candidate_votes_blocs_clean.csv")
+cols <- c("Gauche radicale et extreme gauche" = "brown4",
+          "Gauche" ="brown2",
+          "Ecologisme" = "limegreen",
+          "Centre" ="gold",
+          "Droite" ="blue",
+          "Droite radicale et extreme droite" ="navyblue")
+bloc_vector <- c("Abstention",
+                 "Gauche radicale et extreme gauche",
+                 "Gauche",
+                 "Ecologisme",
+                 "Centre",
+                 "Droite",
+                 "Droite radicale et extreme droite")
+```
+
+French Presidential elections work based on a two round system. If no candidate receives an absolute majority of votes cast in the first round, there will be a run-off between the top two finishers. The number of candidates running is comparatively large though most candidates can be clearly assigned to six different political blocs with each bloc being led by one main party. 
+
+I focus on the far left, left, environmental, center, right, and far right groupings. For example, the Front National belongs to the far right and France Insoumise to the far left.
+
+## Presidential vote shares across elections
+
+I start by examining national level trends in vote intentions across blocs. The graph shows vote share by department with an overlayed LOESS fit for the six blocs. Election outcomes vary substantially indicating that partisanship is weaker and election outcomes further vary largely similarly across departments suggesting a shared trend.
+
+```{r echo=FALSE, warning = FALSE, message= FALSE}
+ggplot(df_election_results %>% 
+         mutate(bloc = factor(bloc, bloc_vector),
+                year = year)) + 
+  geom_line(aes(x = year, y = percentage, color = bloc, group = departement), alpha = 0.1, size = 0.8) + 
+  facet_grid(.~bloc) + 
+  scale_color_manual(values = cols) +
+  scale_fill_manual(values = cols) +
+  scale_x_continuous(breaks = seq(1970, 2020, 10)) +
+  geom_smooth(aes(x = year, y = percentage, fill = bloc, color = bloc)) +
+  theme_light() +
+  labs(y = "Vote share") +
+  theme(legend.title = element_blank(), axis.title.x = element_blank(), legend.position = "none")
+```
+
+
+To see the extent to which the vote share varies by bloc across departments in each election I plot the demeaned vote share by bloc and election. Clearly, the Green party bloc observes very similar results in each department while the results for the other blocs are more varied.
+
+
+```{r echo=FALSE, warning = FALSE, message= FALSE}
+ggplot(df_election_results %>% 
+         mutate(bloc = factor(bloc, bloc_vector),
+                year = year) %>%
+         group_by(bloc, year) %>%
+         mutate(percentage = (percentage - mean(percentage)))) + 
+  geom_histogram(aes(x = percentage, fill = bloc)) + 
+  facet_grid(year~bloc) + 
+  scale_color_manual(values = cols) +
+  scale_fill_manual(values = cols) +
+  theme_light() +
+  labs(x = "Vote share") +
+  theme(legend.title = element_blank(), axis.title.y = element_blank(), legend.position = "none")
+```
+
+
+## Problems
+
+* Blocs might not participate
+* Data is limited to six usable elections
+* Change in electoral timing
+* Strategic voting
+
+
+

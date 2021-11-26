@@ -181,6 +181,7 @@ df_2017_totals <- df_2017 %>%
          departement = str_replace_all(departement, "\\-", " ")) %>%
   ungroup() %>%
   select(-group) %>%
+  mutate(departement = str_replace_all(departement, "\\-", " ")) %>%
   filter(departement %in% department_vector)
 ## Add
 total_tables_df <- total_tables_df %>%
@@ -247,6 +248,7 @@ df_2017_candidates <- df_2017 %>%
          insee_code = as.character(insee_code)) %>%
   ungroup() %>%
   select(-names_capitalized) %>%
+  mutate(departement = str_replace_all(departement, "\\-", " ")) %>%
   filter(departement %in% department_vector)
 
 candidate_tables_df <- bind_rows(

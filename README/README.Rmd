@@ -1,0 +1,39 @@
+---
+title: "Forecasting the Presidential Elections in France with Stan"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+
+## Fundamentals models
+
+### Regular ordinal model
+
+A regular ordinal model for all observations does not work because a number of parties maintain a certain baseline level of support in all departements. If these are at the margins like the extreme right and the extreme right, the model will favor having the outside thresholds be close to the middle because individuals voting for these groups are plausible (and range in and around 10\%). Yet, this forces the model to estimate the location of a department in a very tight space and the threshold parameters become highly correlated.
+
+### Circular ordinal model
+
+The circular ordinal model looping over at plus and minus infinity is more flexible but still constrains the latent outcome into a narrow range with less than meaningful differentiation of the thresholds.
+
+### Modeling party positions
+
+The idea is that we think of the real line representing a left right spectrum on which the parties are ordered. Parties are represented by a mean and a standard deviation and the expectation of party $j$'s support at location $x$ is
+
+$$
+\theta_j(x) = \frac{\text{pdf}(x, mu_j, sigma_j)}{\sum_j(\text{pdf}(x, mu_j, sigma_j))}
+$$
+
+
+
+
