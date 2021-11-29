@@ -216,11 +216,13 @@ lagged_share <- df_election_results %>%
          department_id = match(departement, department_vector)) %>%
   arrange(election_id, department_id) %>%
   ungroup() %>%
-  select(lag_share_droite, lag_share_gauche) %>%
+  group_by(election_id) %>%
   mutate(
     lag_share_droite = (lag_share_droite - mean(lag_share_droite))/sd(lag_share_droite),
     lag_share_gauche = (lag_share_gauche - mean(lag_share_gauche))/sd(lag_share_gauche)
-  )
+  ) %>%
+  ungroup() %>%
+  select(lag_share_droite, lag_share_gauche)
 
 mean(log(unemployment[!is.na(unemployment)]))
 std_log_unemployment <- (log(unemployment) - mean(log(unemployment[!is.na(unemployment)])))/sd(log(unemployment[!is.na(unemployment)]))
@@ -284,6 +286,8 @@ cutpoint_priors_normalized <- array(0, dim = dim(cutpoint_priors))
 for (j in 1:NElections){
   cutpoint_priors_normalized[j,included_blocs[j, 1:NBlocs_Elections[j]]] <- cutpoint_priors[j,included_blocs[j, 1:NBlocs_Elections[j]]]/sum(cutpoint_priors[j,included_blocs[j, 1:NBlocs_Elections[j]]])
 }
+apply(cutpoint_priors[c(1,3,5),],2,mean)
+
 
 ###############################################################################
 ## Datalist
@@ -296,7 +300,7 @@ data_list <- list(
   id_Obs_departments = id_Obs_departments,
   YVoteshare = YVoteshare,
 
-  lag_YVoteshare_national = cutpoint_priors_normalized,
+  lag_YVoteshare_national = apply(cutpoint_priors[c(1,3,5),],2,mean),
 
   NBlocs_Elections = NBlocs_Elections,
   included_blocs = included_blocs,
@@ -324,10 +328,11 @@ data_list <- list(
   y_approval = y_approval,
   n_approval = n_approval
 )
+data_list$XNation <- matrix(1, nrow = 6, ncol = 1)
 ###############################################################################
 ## Model
 #' Load
-mod <- cmdstan_model("src/stan/models_fundamentals/ordinal/ordinal.stan")
+mod <- cmdstan_model("src/stan/models_fundamentals/ordinal/ordinal_nonproportional_odds.stan")
 #' Fit
 fit <- mod$sample(
   data = data_list,
@@ -339,25 +344,65 @@ fit <- mod$sample(
   init = 0.2
 )
 ###############################################################################
+fit$summary(c("bias_error_y_ppc", "bias_error_pred"))
+fit$summary("y_star") %>%
+  add_column(election_id = election_years[data_list$id_Obs_elections]) %>%
+  ggplot(aes(x = mean)) +
+    geom_histogram() +
+    facet_wrap(election_id ~ .)
+
+fit$summary("error_pred")
 
 
 
-
-mcmc_pairs(fit$draws(c("y_star[1]", "theta[1,1]", "theta[1,2]", "c[1,1]", "c[1,2]")))
+fit$summary("c", ~ quantile(., c(0.1, 0.25, 0.5, 0.75, 0.9))) %>%
+  mutate(election_id = as.integer(str_match(variable, "\\[([\\d]+)")[, 2]),
+         party_id = as.integer(str_match(variable, "([\\d]+)\\]")[, 2])
+         ) %>%
+  filter(`50%` < 15) %>%
+  ggplot(aes(x = party_id, y = `50%`)) +
+    geom_point() +
+    facet_wrap(election_id ~ .)
+mcmc_pairs(fit$draws("c"))
 ###############################################################################
 ## PPC
 bayesplot::mcmc_pairs(fit$draws("b"))
-bayesplot::ppc_dens_overlay(c(data_list$YVoteshare), fit$draws("hat_YVoteshare") %>%
+bayesplot::ppc_dens_overlay(c(data_list$YVoteshare), fit$draws("y_ppc") %>%
                       posterior::as_draws_df() %>%
                       filter(1:n() < 100) %>%
-                      select(contains("hat_YVot")) %>%
+                      select(contains("y_ppc")) %>%
                       as.matrix())
-ppc_dens_overlay_grouped(c(data_list$YVoteshare), fit$draws("hat_YVoteshare") %>%
+
+y_pred <- fit$summary("y_ppc",
+                          ~ quantile(., c(0.1, 0.25, 0.5, 0.75, 0.9))) %>%
+  mutate(
+    obs_id = as.integer(str_match(variable, "\\[([\\d]+)")[, 2]),
+    party_id = bloc_vector[as.integer(str_match(variable, "([\\d]+)\\]")[, 2])],
+    election_id = election_years[data_list$id_Obs_elections[obs_id]],
+    department_id = data_list$id_Obs_departments[obs_id]
+  ) %>%
+  add_column(true = c(data_list$YVoteshare))
+ggplot(y_pred, aes(x = true, y = `50%`, color = party_id)) +
+  geom_point() +
+  geom_abline(aes(intercept = 0, slope = 1)) +
+  facet_wrap(election_id ~ .) +
+  scale_color_manual(values = cols)
+
+cols <- c("Gauche radicale et extreme gauche" = "brown4",
+          "Gauche" ="brown2",
+          "Ecologisme" = "limegreen",
+          "Centre" ="gold",
+          "Droite" ="blue",
+          "Droite radicale et extreme droite" ="navyblue")
+
+
+
+ppc_dens_overlay_grouped(c(data_list$YVoteshare), fit$draws("y_ppc") %>%
                            posterior::as_draws_df() %>%
                            filter(1:n() < 100) %>%
-                           select(contains("hat_YVot")) %>%
+                           select(contains("y_ppc")) %>%
                            as.matrix(),
-                         rep(data_list$id_Obs_elections, 5))
+                         rep(data_list$id_Obs_elections, 6))
 mcmc_pairs(fit$draws(c("b_national", "b_department")))
 ###############################################################################
 ## PPC
@@ -549,29 +594,7 @@ if (number > nrow(fit_evaluation$rmse_global)){
   fit_evaluation[["model_code"]][[model_code]] = mod$code()
   write_rds(fit_evaluation, "dta/fundamentals_dta/fit_evaluations.Rds")
 }
-###############################################################################
-## Comparing fit evaluations
-fit_evaluation_test <- read_rds("dta/fundamentals_dta/fit_evaluations.Rds")
-rmse <- fit_evaluation_test$rmse_global
 
-
-ggplot(rmse, aes(x = model_number, y = q50)) +
-  geom_point()
-
-ggplot(fit_evaluation_test$rmse_bloc_election %>%
-         mutate(last = as.integer(max(model_number) == model_number)),
-       aes(x = year, y = rmse,
-                                                   color = as.factor(last),
-                                                   group = model_number)) +
-  geom_line() +
-  facet_wrap(bloc ~ .)
-
-
-ggplot(fit_evaluation_test$error_department %>%
-         filter(model_number == max(model_number)),
-       aes(x = percentage, y = q50, color = as.factor(year))) +
-  geom_point() +
-  facet_wrap(bloc ~.)
 
 
 
