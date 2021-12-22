@@ -123,11 +123,11 @@ parameters {
   // National coefficients
   matrix[2, K] beta;
   // National predictors
-  matrix[NElections, NTime] raw_XApproval;
-  vector<lower = 0>[NElections] sigma_XApproval;
-  vector[NElections] mu_XApproval;
-  real<lower = 0> sigma_mu_pollster;
-  vector[sum(NPollsters_Presidents)] raw_mu_pollster_president;
+  // matrix[NElections, NTime] raw_XApproval;
+  // vector<lower = 0>[NElections] sigma_XApproval;
+  // vector[NElections] mu_XApproval;
+  // real<lower = 0> sigma_mu_pollster;
+  // vector[sum(NPollsters_Presidents)] raw_mu_pollster_president;
 
   real zeta;
   // Department level coefficients
@@ -138,13 +138,12 @@ parameters {
   real disc;
 }
 transformed parameters {
-  matrix[NObs, NBlocs] theta = rep_matrix(0.0, NObs, NBlocs);
   vector[NDepartments] alpha = raw_alpha * sigma_alpha;
   vector[NObs] y_star;
   matrix[NBlocs - 1, NElections] c_star;
   matrix[NObs, M] XDepartment_miss;
-  matrix[NElections, NTime] XApproval;
-  vector[sum(NPollsters_Presidents)] mu_pollster_president;
+  // matrix[NElections, NTime] XApproval;
+  // vector[sum(NPollsters_Presidents)] mu_pollster_president;
   vector[NElections] psi;
   matrix[NElections, K + 1] XNation_;
   // Department level predictors
@@ -154,50 +153,47 @@ transformed parameters {
   // National level predictors
   // Approval
   // -- Random walk
-  for (jj in 1:NElections){
-    XApproval[jj] = mu_XApproval[jj] + cumulative_sum(raw_XApproval[jj] * sigma_XApproval[jj]);
-  }
-  mu_pollster_president = raw_mu_pollster_president * sigma_mu_pollster;
-  // Sum to zero constraints mu_pollster_president
-  // Pollsters are ordered by president
-  for (jj in 1:NPresidents){
-    mu_pollster_president[supvec_NPollsters_Presidents[jj] + 1] =
-      - sum(mu_pollster_president[(supvec_NPollsters_Presidents[jj] + 2):(supvec_NPollsters_Presidents[jj] + NPollsters_Presidents[jj])]);
-  }
+  // for (jj in 1:NElections){
+  //   XApproval[jj] = mu_XApproval[jj] + cumulative_sum(raw_XApproval[jj] * sigma_XApproval[jj]);
+  // }
+  // mu_pollster_president = raw_mu_pollster_president * sigma_mu_pollster;
+  // // Sum to zero constraints mu_pollster_president
+  // // Pollsters are ordered by president
+  // for (jj in 1:NPresidents){
+  //   mu_pollster_president[supvec_NPollsters_Presidents[jj] + 1] =
+  //     - sum(mu_pollster_president[(supvec_NPollsters_Presidents[jj] + 2):(supvec_NPollsters_Presidents[jj] + NPollsters_Presidents[jj])]);
+  // }
   // Add
   XNation_[,1:K] = XNation;
-  XNation_[,K + 1] = inv_logit(XApproval[, 40]);
+  XNation_[,K + 1] = rep_vector(0.0, NElections);
+  //XNation_[,K + 1] = inv_logit(XApproval[, 40]);
   // Latent outcome
   psi = rows_dot_product(XNation, beta[incumbency,]);
   y_star = alpha[id_Obs_departments] +
     XDepartment_miss * gamma + psi[id_Obs_elections] +
     zeta * (1.0 * to_vector(id_Obs_elections));
-  for (j in 1:NElections){
-    c_star[,j] = (sigma_beta_np * raw_beta_np[,incumbency[j]] * inv_logit(XApproval[j, 40]));
-  }
-  for (j in 1:NObs){
-    {
-    }
-  }
+  // for (j in 1:NElections){
+  //   c_star[,j] = (sigma_beta_np * raw_beta_np[,incumbency[j]] * inv_logit(XApproval[j, 40]));
+  // }
 }
 // walk on latent preferences over the blocs
 model {
   vector[NTime * NElections] XApproval_vector;
   // National predictors
-  // Approval
-  for (j in 1:NElections){
-    XApproval_vector[(1 + (j - 1) * NTime):(NTime * j)] = XApproval[j]';
-  }
-  to_vector(raw_XApproval) ~ std_normal();
-  mu_XApproval ~ normal(0, 2);
-  sigma_XApproval ~ normal(0, 0.05);
-  sigma_mu_pollster ~ normal(0, 0.05);
-  raw_mu_pollster_president ~ std_normal();
-  raw_tau ~ std_normal();
-  // Likelihood
-  y_approval ~ binomial_logit(n_approval,
-    XApproval_vector[id_Polls_time] +
-    mu_pollster_president[id_Polls_pollster_president]);
+  // // Approval
+  // for (j in 1:NElections){
+  //   XApproval_vector[(1 + (j - 1) * NTime):(NTime * j)] = XApproval[j]';
+  // }
+  // to_vector(raw_XApproval) ~ std_normal();
+  // mu_XApproval ~ normal(0, 2);
+  // sigma_XApproval ~ normal(0, 0.05);
+  // sigma_mu_pollster ~ normal(0, 0.05);
+  // raw_mu_pollster_president ~ std_normal();
+  // raw_tau ~ std_normal();
+  // // Likelihood
+  // y_approval ~ binomial_logit(n_approval,
+  //   XApproval_vector[id_Polls_time] +
+  //   mu_pollster_president[id_Polls_pollster_president]);
   // National coefficients
   to_vector(beta) ~ normal(0, 1);
   // Department predictors
@@ -214,7 +210,6 @@ model {
 
   disc ~ normal(0, 1);
 
-
   c ~ induced_dirichlet(
     lag_YVoteshare_national * 2,
     0.0);
@@ -222,9 +217,9 @@ model {
     {
       vector[NMiss[j]] theta =
         ordered_logit_discrimination(y_star[j],
-            c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]] +
-            c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
-            id_Obs_elections[j]],
+            c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]],// +
+            // c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
+            // id_Obs_elections[j]],
             exp(disc))';
 
     }
@@ -248,9 +243,9 @@ generated quantities {
       y_pred[j,
             included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]]]] =
         ordered_logit_discrimination(y_star[j],
-                      c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]] +
-                      c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
-                      id_Obs_elections[j]],
+                      c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]],// +
+                      //c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
+                      //id_Obs_elections[j]],
                       exp(disc))';
     }
   }
