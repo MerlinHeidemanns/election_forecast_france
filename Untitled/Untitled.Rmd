@@ -1,0 +1,36 @@
+---
+title: "Forecasting French Presidential elections with Stan and Bayes"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+Forecasting an event can be quite rewarding compared to inferential work as out
+of sample predictions can be compared to the true underlying data, essentially without measurement error or any other nuisances. Others and I have previously worked on presidential elections in the U.S. which is a case with its own unique features, e.g. forecasting the election outcomes in each state, considering the covariation between errors among them, and dealing with low response rates. Doing so in the French case carries over certain features but also presents its own set of unique problems to solve which is what this case study attempts to do.
+
+### French presidential elections
+
+To determine the next president for a five (previously seven) year term, France uses a majoritarian system at the national level that features a run-off between the two top finishers of the first round if no candidate receives more than 50\% of the vote -- the latter has yet to happen. To qualify for the election itself, a prospective candidate has to receive the support of 500 national or local elected officials from at least 30 different departments (mainland or overseas) out of 101. While odd at first the number of candidates is usually around 10 of which a subset has for all sense and purposes no prospect of making it to the second round or for that matter receiving more than 1\% of the vote. These candidates run either under a party label or rely on otherwise loose groupings to support them.
+
+A key feature of French elections is that candidates/parties can be reliably associated with certain blocs that are ordered on a left-right spectrum based on their seating in parliament. In legislative and other elections these parties tend to form voting blocs. While as an outsider one may believe this at first to be a purely academic attribution of political association, parties and candidates directly associate themselves and are similarly designated by the interior ministry as belonging to certain groupings.
+
+### Forecasting
+
+The model relies
+
+
+
+
+
+
+
+
+
+
+
