@@ -255,7 +255,9 @@ id_Obs_departments <- df_wide %>%
 YVoteshare <- df_wide %>%
   select(!contains("id")) %>%
   as.matrix()
-participated <- seq(1,length(c(YVoteshare)))[c(YVoteshare) != 0]
+NMiss <- apply(YVoteshare, 1, function(x){sum(as.logical(x != 0))})
+
+  <- seq(1,length(c(YVoteshare)))[c(YVoteshare) != 0]
 NParticipated <- length(participated)
 NBlocs_Elections <- df_wide %>%
   select(-department_id) %>%
@@ -336,7 +338,7 @@ data_list$XNation <- matrix(1, nrow = 6, ncol = 1)
 ###############################################################################
 ## Model
 #' Load
-mod <- cmdstan_model("src/stan/models_fundamentals/ordinal/ordinal_nonproportional_odds.stan")
+mod <- cmdstan_model("src/stan/models_fundamentals/ordinal/ordinal_nonproportional_odds_v2.stan")
 #' Fit
 fit <- mod$sample(
   data = data_list,

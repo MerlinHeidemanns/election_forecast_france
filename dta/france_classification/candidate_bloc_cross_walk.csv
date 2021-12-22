@@ -8,7 +8,7 @@ Taubira,Christiane Taubira,2002,Gauche,PRG
 Chevenement,Jean Pierre Chevenement,2002,Gauche,MDC
 Mamere,Noel Mamere,2002,Ecologisme,LV
 Lepage,Corinne Lepage,2002,Gauche,Cap21
-Bayrou,Francois Bayrou,2002,Droite,UDF
+Bayrou,Francois Bayrou,2002,Centre,UDF
 Chirac,Jacques Chirac,2002,Droite,RPR
 Madelin,Alain Madelin,2002,Centre,DL
 Boutin,Christine Boutin,2002,Droite,FRS
@@ -37,7 +37,7 @@ Bove,Jose Bove,2007,Gauche,SE
 Royal,Segolene Royal,2007,Gauche,PS
 Voynet,Dominique Voynet,2007,Ecologisme,LV
 Nihous,Frederic Nihous,2007,Droite,CPNT
-Bayrou,Francois Bayrou,2007,Droite,UDF
+Bayrou,Francois Bayrou,2007,Centre,UDF
 Sarkozy,Nicolas Sarkozy,2007,Droite,UMP
 Villiers,Philippe de Villiers,2007,Gauche,MPF
 Le Pen,Jean Marie Le Pen,2007,Droite radicale et extreme droite,FN
@@ -111,6 +111,7 @@ Le Pen,Marine Le Pen,2017,Droite radicale et extreme droite,FN
 Lassalle,Ferdinand Lassalle,2017,Droite,Resistons!
 Cheminade,Jacques Cheminade,2017,Droite radicale et extreme droite,S&P
 Juppe,NA,2017,Droite,LR
+Dieudonne, NA, 2002,Gauche,Autre
 Jadot,NA,2017,Ecologisme,EELV
 Bayrou,NA,2017,Gauche,PS
 Valls,NA,2017,Gauche,PS
