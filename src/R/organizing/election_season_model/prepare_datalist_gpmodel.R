@@ -45,7 +45,9 @@ data_polls <- lapply(1:NSeasons, function(ii){
   group_by(election_id) %>%
   mutate(question_id = as.integer(factor(paste(question_id, election_id, sep = "_" ),
                                        levels = unique(paste(question_id, election_id, sep = "_" ))))) %>%
-  distinct(question_id, election_id, candidate_id, .keep_all = TRUE)
+  distinct(question_id, election_id, candidate_id, .keep_all = TRUE) %>% View()
+  group_by(question_id, election_id, bloc_id, time_unit_id, abstention_omitted) %>%
+  summarize(y = sum(y))
 
 
 
