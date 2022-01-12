@@ -1,257 +1,304 @@
 election_year,p_approve,N,pollster_president_id,president,pollster,pollster_id,president_id,method_id,method,time_id
-1988,0.52,1096,2,mitterrand1,Ifop,2,1,4,phone,3
+1988,0.52,1096,2,mitterrand1,Ifop,4,1,4,phone,3
 1988,0.56,979,1,mitterrand1,BVA,1,1,4,phone,3
-1988,0.54,1094,3,mitterrand1,Kantar,4,1,1,face to face,4
-1988,0.55,1014,2,mitterrand1,Ifop,2,1,4,phone,7
-1988,0.57,917,3,mitterrand1,Kantar,4,1,1,face to face,8
+1988,0.54,1094,3,mitterrand1,Kantar,6,1,1,face to face,4
+1988,0.55,1014,2,mitterrand1,Ifop,4,1,4,phone,7
+1988,0.57,917,3,mitterrand1,Kantar,6,1,1,face to face,8
 1988,0.55,902,1,mitterrand1,BVA,1,1,4,phone,9
-1988,0.52,925,2,mitterrand1,Ifop,2,1,4,phone,12
+1988,0.52,925,2,mitterrand1,Ifop,4,1,4,phone,12
 1988,0.55,1065,1,mitterrand1,BVA,1,1,4,phone,12
-1988,0.59,1004,3,mitterrand1,Kantar,4,1,1,face to face,12
-1988,0.52,975,2,mitterrand1,Ifop,2,1,4,phone,16
-1988,0.61,917,3,mitterrand1,Kantar,4,1,1,face to face,18
-1988,0.56,1061,2,mitterrand1,Ifop,2,1,4,phone,21
-1988,0.6,976,3,mitterrand1,Kantar,4,1,1,face to face,21
+1988,0.59,1004,3,mitterrand1,Kantar,6,1,1,face to face,12
+1988,0.52,975,2,mitterrand1,Ifop,4,1,4,phone,16
+1988,0.61,917,3,mitterrand1,Kantar,6,1,1,face to face,18
+1988,0.56,1061,2,mitterrand1,Ifop,4,1,4,phone,21
+1988,0.6,976,3,mitterrand1,Kantar,6,1,1,face to face,21
 1988,0.57,983,1,mitterrand1,BVA,1,1,4,phone,22
-1988,0.53,964,2,mitterrand1,Ifop,2,1,4,phone,25
-1988,0.58,930,3,mitterrand1,Kantar,4,1,1,face to face,26
+1988,0.53,964,2,mitterrand1,Ifop,4,1,4,phone,25
+1988,0.58,930,3,mitterrand1,Kantar,6,1,1,face to face,26
 1988,0.6,995,1,mitterrand1,BVA,1,1,4,phone,27
-1988,0.51,948,2,mitterrand1,Ifop,2,1,4,phone,30
-1988,0.56,1025,3,mitterrand1,Kantar,4,1,1,face to face,30
+1988,0.51,948,2,mitterrand1,Ifop,4,1,4,phone,30
+1988,0.56,1025,3,mitterrand1,Kantar,6,1,1,face to face,30
 1988,0.58,1066,1,mitterrand1,BVA,1,1,4,phone,31
-1988,0.56,1089,2,mitterrand1,Ifop,2,1,4,phone,34
-1988,0.58,1021,3,mitterrand1,Kantar,4,1,1,face to face,34
+1988,0.56,1089,2,mitterrand1,Ifop,4,1,4,phone,34
+1988,0.58,1021,3,mitterrand1,Kantar,6,1,1,face to face,34
 1988,0.59,1043,1,mitterrand1,BVA,1,1,4,phone,35
-1988,0.6,965,2,mitterrand1,Ifop,2,1,4,phone,38
+1988,0.6,965,2,mitterrand1,Ifop,4,1,4,phone,38
 1988,0.61,991,1,mitterrand1,BVA,1,1,4,phone,39
-1988,0.62,1058,3,mitterrand1,Kantar,4,1,1,face to face,39
-1988,0.55,995,2,mitterrand1,Ifop,2,1,4,phone,43
+1988,0.62,1058,3,mitterrand1,Kantar,6,1,1,face to face,39
+1988,0.55,995,2,mitterrand1,Ifop,4,1,4,phone,43
 1988,0.61,1080,1,mitterrand1,BVA,1,1,4,phone,44
-1988,0.61,927,3,mitterrand1,Kantar,4,1,1,face to face,44
-1988,0.55,1004,2,mitterrand1,Ifop,2,1,4,phone,47
-1988,0.59,921,3,mitterrand1,Kantar,4,1,1,face to face,48
+1988,0.61,927,3,mitterrand1,Kantar,6,1,1,face to face,44
+1988,0.55,1004,2,mitterrand1,Ifop,4,1,4,phone,47
+1988,0.59,921,3,mitterrand1,Kantar,6,1,1,face to face,48
 1988,0.63,1066,1,mitterrand1,BVA,1,1,4,phone,48
-1988,0.54,1059,2,mitterrand1,Ifop,2,1,4,phone,51
-1988,0.57,1067,3,mitterrand1,Kantar,4,1,1,face to face,52
+1988,0.54,1059,2,mitterrand1,Ifop,4,1,4,phone,51
+1988,0.57,1067,3,mitterrand1,Kantar,6,1,1,face to face,52
 1988,0.6,1074,1,mitterrand1,BVA,1,1,4,phone,52
-1995,0.45,961,5,mitterrand2,Ifop,2,2,4,phone,4
-1995,0.43,960,6,mitterrand2,Kantar,4,2,1,face to face,4
+1995,0.45,961,5,mitterrand2,Ifop,4,2,4,phone,4
+1995,0.43,960,6,mitterrand2,Kantar,6,2,1,face to face,4
 1995,0.47,930,4,mitterrand2,BVA,1,2,4,phone,5
-1995,0.46,938,5,mitterrand2,Ifop,2,2,4,phone,8
-1995,0.4,1095,6,mitterrand2,Kantar,4,2,1,face to face,9
+1995,0.46,938,5,mitterrand2,Ifop,4,2,4,phone,8
+1995,0.4,1095,6,mitterrand2,Kantar,6,2,1,face to face,9
 1995,0.47,1003,4,mitterrand2,BVA,1,2,4,phone,9
-1995,0.51,1032,5,mitterrand2,Ifop,2,2,4,phone,12
-1995,0.42,997,6,mitterrand2,Kantar,4,2,1,face to face,13
+1995,0.51,1032,5,mitterrand2,Ifop,4,2,4,phone,12
+1995,0.42,997,6,mitterrand2,Kantar,6,2,1,face to face,13
 1995,0.52,1043,4,mitterrand2,BVA,1,2,4,phone,14
-1995,0.51,992,5,mitterrand2,Ifop,2,2,4,phone,16
-1995,0.43,1082,6,mitterrand2,Kantar,4,2,1,face to face,17
-1995,0.45,1072,5,mitterrand2,Ifop,2,2,4,phone,21
-1995,0.42,1011,6,mitterrand2,Kantar,4,2,1,face to face,22
+1995,0.51,992,5,mitterrand2,Ifop,4,2,4,phone,16
+1995,0.43,1082,6,mitterrand2,Kantar,6,2,1,face to face,17
+1995,0.45,1072,5,mitterrand2,Ifop,4,2,4,phone,21
+1995,0.42,1011,6,mitterrand2,Kantar,6,2,1,face to face,22
 1995,0.51,959,4,mitterrand2,BVA,1,2,4,phone,22
-1995,0.45,1020,5,mitterrand2,Ifop,2,2,4,phone,25
+1995,0.45,1020,5,mitterrand2,Ifop,4,2,4,phone,25
 1995,0.51,907,4,mitterrand2,BVA,1,2,4,phone,26
-1995,0.41,973,6,mitterrand2,Kantar,4,2,1,face to face,26
-1995,0.49,956,5,mitterrand2,Ifop,2,2,4,phone,29
+1995,0.41,973,6,mitterrand2,Kantar,6,2,1,face to face,26
+1995,0.49,956,5,mitterrand2,Ifop,4,2,4,phone,29
 1995,0.53,926,4,mitterrand2,BVA,1,2,4,phone,30
-1995,0.38,982,6,mitterrand2,Kantar,4,2,1,face to face,31
-1995,0.48,924,5,mitterrand2,Ifop,2,2,4,phone,34
+1995,0.38,982,6,mitterrand2,Kantar,6,2,1,face to face,31
+1995,0.48,924,5,mitterrand2,Ifop,4,2,4,phone,34
 1995,0.51,943,4,mitterrand2,BVA,1,2,4,phone,35
-1995,0.42,1045,6,mitterrand2,Kantar,4,2,1,face to face,36
-1995,0.53,1068,5,mitterrand2,Ifop,2,2,4,phone,38
+1995,0.42,1045,6,mitterrand2,Kantar,6,2,1,face to face,36
+1995,0.53,1068,5,mitterrand2,Ifop,4,2,4,phone,38
 1995,0.5,1020,4,mitterrand2,BVA,1,2,4,phone,39
-1995,0.42,904,6,mitterrand2,Kantar,4,2,1,face to face,39
-1995,0.49,1042,5,mitterrand2,Ifop,2,2,4,phone,43
+1995,0.42,904,6,mitterrand2,Kantar,6,2,1,face to face,39
+1995,0.49,1042,5,mitterrand2,Ifop,4,2,4,phone,43
 1995,0.52,1092,4,mitterrand2,BVA,1,2,4,phone,44
-1995,0.41,1033,6,mitterrand2,Kantar,4,2,1,face to face,44
-1995,0.46,945,5,mitterrand2,Ifop,2,2,4,phone,47
+1995,0.41,1033,6,mitterrand2,Kantar,6,2,1,face to face,44
+1995,0.46,945,5,mitterrand2,Ifop,4,2,4,phone,47
 1995,0.51,1009,4,mitterrand2,BVA,1,2,4,phone,48
-1995,0.35,1063,6,mitterrand2,Kantar,4,2,1,face to face,48
-1995,0.45,1086,5,mitterrand2,Ifop,2,2,4,phone,52
-1995,0.34,1084,6,mitterrand2,Kantar,4,2,1,face to face,52
+1995,0.35,1063,6,mitterrand2,Kantar,6,2,1,face to face,48
+1995,0.45,1086,5,mitterrand2,Ifop,4,2,4,phone,52
+1995,0.34,1084,6,mitterrand2,Kantar,6,2,1,face to face,52
 1995,0.51,966,4,mitterrand2,BVA,1,2,4,phone,53
-2002,0.54,931,8,chirac1,Ifop,2,3,4,phone,4
-2002,0.58,923,9,chirac1,Ipsos,3,3,4,phone,4
+2002,0.54,931,8,chirac1,Ifop,4,3,4,phone,4
+2002,0.58,923,9,chirac1,Ipsos,5,3,4,phone,4
 2002,0.57,945,7,chirac1,BVA,1,3,4,phone,5
-2002,0.45,1077,10,chirac1,Kantar,4,3,1,face to face,5
-2002,0.57,974,9,chirac1,Ipsos,3,3,4,phone,8
-2002,0.61,969,8,chirac1,Ifop,2,3,4,phone,9
+2002,0.45,1077,10,chirac1,Kantar,6,3,1,face to face,5
+2002,0.57,974,9,chirac1,Ipsos,5,3,4,phone,8
+2002,0.61,969,8,chirac1,Ifop,4,3,4,phone,9
 2002,0.58,931,7,chirac1,BVA,1,3,4,phone,9
-2002,0.45,981,10,chirac1,Kantar,4,3,1,face to face,9
-2002,0.57,995,9,chirac1,Ipsos,3,3,4,phone,12
-2002,0.54,960,8,chirac1,Ifop,2,3,4,phone,12
-2002,0.45,1087,10,chirac1,Kantar,4,3,1,face to face,13
+2002,0.45,981,10,chirac1,Kantar,6,3,1,face to face,9
+2002,0.57,995,9,chirac1,Ipsos,5,3,4,phone,12
+2002,0.54,960,8,chirac1,Ifop,4,3,4,phone,12
+2002,0.45,1087,10,chirac1,Kantar,6,3,1,face to face,13
 2002,0.55,935,7,chirac1,BVA,1,3,4,phone,13
-2002,0.6,1065,8,chirac1,Ifop,2,3,4,phone,17
-2002,0.55,1072,9,chirac1,Ipsos,3,3,4,phone,17
-2002,0.47,971,10,chirac1,Kantar,4,3,1,face to face,18
-2002,0.5,1095,9,chirac1,Ipsos,3,3,4,phone,20
-2002,0.62,997,8,chirac1,Ifop,2,3,4,phone,21
-2002,0.57,1030,10,chirac1,Kantar,4,3,1,face to face,22
+2002,0.6,1065,8,chirac1,Ifop,4,3,4,phone,17
+2002,0.55,1072,9,chirac1,Ipsos,5,3,4,phone,17
+2002,0.47,971,10,chirac1,Kantar,6,3,1,face to face,18
+2002,0.5,1095,9,chirac1,Ipsos,5,3,4,phone,20
+2002,0.62,997,8,chirac1,Ifop,4,3,4,phone,21
+2002,0.57,1030,10,chirac1,Kantar,6,3,1,face to face,22
 2002,0.61,954,7,chirac1,BVA,1,3,4,phone,22
-2002,0.58,927,8,chirac1,Ifop,2,3,4,phone,25
-2002,0.56,928,10,chirac1,Kantar,4,3,1,face to face,26
-2002,0.65,1051,9,chirac1,Ipsos,3,3,4,phone,27
+2002,0.58,927,8,chirac1,Ifop,4,3,4,phone,25
+2002,0.56,928,10,chirac1,Kantar,6,3,1,face to face,26
+2002,0.65,1051,9,chirac1,Ipsos,5,3,4,phone,27
 2002,0.59,957,7,chirac1,BVA,1,3,4,phone,27
-2002,0.54,1096,8,chirac1,Ifop,2,3,4,phone,30
+2002,0.54,1096,8,chirac1,Ifop,4,3,4,phone,30
 2002,0.58,904,7,chirac1,BVA,1,3,4,phone,30
-2002,0.5,901,10,chirac1,Kantar,4,3,1,face to face,31
-2002,0.63,932,9,chirac1,Ipsos,3,3,4,phone,31
+2002,0.5,901,10,chirac1,Kantar,6,3,1,face to face,31
+2002,0.63,932,9,chirac1,Ipsos,5,3,4,phone,31
 2002,0.55,903,7,chirac1,BVA,1,3,4,phone,34
-2002,0.55,962,9,chirac1,Ipsos,3,3,4,phone,34
-2002,0.54,988,8,chirac1,Ifop,2,3,4,phone,35
-2002,0.46,1096,10,chirac1,Kantar,4,3,1,face to face,35
-2002,0.53,1087,8,chirac1,Ifop,2,3,4,phone,39
-2002,0.46,963,10,chirac1,Kantar,4,3,1,face to face,39
+2002,0.55,962,9,chirac1,Ipsos,5,3,4,phone,34
+2002,0.54,988,8,chirac1,Ifop,4,3,4,phone,35
+2002,0.46,1096,10,chirac1,Kantar,6,3,1,face to face,35
+2002,0.53,1087,8,chirac1,Ifop,4,3,4,phone,39
+2002,0.46,963,10,chirac1,Kantar,6,3,1,face to face,39
 2002,0.57,919,7,chirac1,BVA,1,3,4,phone,39
-2002,0.57,1074,9,chirac1,Ipsos,3,3,4,phone,39
+2002,0.57,1074,9,chirac1,Ipsos,5,3,4,phone,39
 2002,0.55,1081,7,chirac1,BVA,1,3,4,phone,43
-2002,0.5,1004,8,chirac1,Ifop,2,3,4,phone,44
-2002,0.47,959,9,chirac1,Ipsos,3,3,4,phone,44
-2002,0.43,986,10,chirac1,Kantar,4,3,1,face to face,44
-2002,0.43,967,8,chirac1,Ifop,2,3,4,phone,47
-2002,0.43,1093,9,chirac1,Ipsos,3,3,4,phone,48
-2002,0.4,959,10,chirac1,Kantar,4,3,1,face to face,48
+2002,0.5,1004,8,chirac1,Ifop,4,3,4,phone,44
+2002,0.47,959,9,chirac1,Ipsos,5,3,4,phone,44
+2002,0.43,986,10,chirac1,Kantar,6,3,1,face to face,44
+2002,0.43,967,8,chirac1,Ifop,4,3,4,phone,47
+2002,0.43,1093,9,chirac1,Ipsos,5,3,4,phone,48
+2002,0.4,959,10,chirac1,Kantar,6,3,1,face to face,48
 2002,0.5,930,7,chirac1,BVA,1,3,4,phone,49
 2002,0.52,962,7,chirac1,BVA,1,3,4,phone,51
-2002,0.47,1047,8,chirac1,Ifop,2,3,4,phone,51
-2002,0.52,979,10,chirac1,Kantar,4,3,1,face to face,52
-2002,0.47,1056,9,chirac1,Ipsos,3,3,4,phone,52
-2007,0.19,1031,14,chirac2,Kantar,4,4,1,face to face,1
-2007,0.29,964,12,chirac2,Ifop,2,4,4,phone,3
-2007,0.32,1068,13,chirac2,Ipsos,3,4,4,phone,4
-2007,0.17,991,14,chirac2,Kantar,4,4,1,face to face,5
+2002,0.47,1047,8,chirac1,Ifop,4,3,4,phone,51
+2002,0.52,979,10,chirac1,Kantar,6,3,1,face to face,52
+2002,0.47,1056,9,chirac1,Ipsos,5,3,4,phone,52
+2007,0.19,1031,14,chirac2,Kantar,6,4,1,face to face,1
+2007,0.29,964,12,chirac2,Ifop,4,4,4,phone,3
+2007,0.32,1068,13,chirac2,Ipsos,5,4,4,phone,4
+2007,0.17,991,14,chirac2,Kantar,6,4,1,face to face,5
 2007,0.32,1096,11,chirac2,BVA,1,4,4,phone,5
-2007,0.27,927,12,chirac2,Ifop,2,4,4,phone,8
-2007,0.32,1023,13,chirac2,Ipsos,3,4,4,phone,8
-2007,0.16,1092,14,chirac2,Kantar,4,4,1,face to face,9
+2007,0.27,927,12,chirac2,Ifop,4,4,4,phone,8
+2007,0.32,1023,13,chirac2,Ipsos,5,4,4,phone,8
+2007,0.16,1092,14,chirac2,Kantar,6,4,1,face to face,9
 2007,0.35,972,11,chirac2,BVA,1,4,4,phone,9
-2007,0.38,958,12,chirac2,Ifop,2,4,4,phone,12
-2007,0.21,993,14,chirac2,Kantar,4,4,1,face to face,13
-2007,0.38,984,13,chirac2,Ipsos,3,4,4,phone,13
-2007,0.36,1074,12,chirac2,Ifop,2,4,4,phone,16
-2007,0.25,1019,14,chirac2,Kantar,4,4,1,face to face,18
-2007,0.41,904,13,chirac2,Ipsos,3,4,4,phone,18
-2007,0.38,1022,12,chirac2,Ifop,2,4,4,phone,22
-2007,0.41,956,13,chirac2,Ipsos,3,4,4,phone,22
-2007,0.24,1084,14,chirac2,Kantar,4,4,1,face to face,22
-2007,0.42,1038,13,chirac2,Ipsos,3,4,4,phone,26
-2007,0.38,1100,12,chirac2,Ifop,2,4,4,phone,26
-2007,0.24,1084,14,chirac2,Kantar,4,4,1,face to face,26
+2007,0.38,958,12,chirac2,Ifop,4,4,4,phone,12
+2007,0.21,993,14,chirac2,Kantar,6,4,1,face to face,13
+2007,0.38,984,13,chirac2,Ipsos,5,4,4,phone,13
+2007,0.36,1074,12,chirac2,Ifop,4,4,4,phone,16
+2007,0.25,1019,14,chirac2,Kantar,6,4,1,face to face,18
+2007,0.41,904,13,chirac2,Ipsos,5,4,4,phone,18
+2007,0.38,1022,12,chirac2,Ifop,4,4,4,phone,22
+2007,0.41,956,13,chirac2,Ipsos,5,4,4,phone,22
+2007,0.24,1084,14,chirac2,Kantar,6,4,1,face to face,22
+2007,0.42,1038,13,chirac2,Ipsos,5,4,4,phone,26
+2007,0.38,1100,12,chirac2,Ifop,4,4,4,phone,26
+2007,0.24,1084,14,chirac2,Kantar,6,4,1,face to face,26
 2007,0.4,1034,11,chirac2,BVA,1,4,4,phone,27
-2007,0.36,971,12,chirac2,Ifop,2,4,4,phone,30
-2007,0.45,1079,13,chirac2,Ipsos,3,4,4,phone,31
+2007,0.36,971,12,chirac2,Ifop,4,4,4,phone,30
+2007,0.45,1079,13,chirac2,Ipsos,5,4,4,phone,31
 2007,0.43,900,11,chirac2,BVA,1,4,4,phone,31
-2007,0.25,1037,14,chirac2,Kantar,4,4,1,face to face,31
-2007,0.38,941,12,chirac2,Ifop,2,4,4,phone,34
-2007,0.23,1091,14,chirac2,Kantar,4,4,1,face to face,35
-2007,0.46,1036,13,chirac2,Ipsos,3,4,4,phone,35
-2007,0.41,1041,12,chirac2,Ifop,2,4,4,phone,38
-2007,0.41,1018,13,chirac2,Ipsos,3,4,4,phone,39
-2007,0.25,1098,14,chirac2,Kantar,4,4,1,face to face,39
-2007,0.43,1013,12,chirac2,Ifop,2,4,4,phone,43
-2007,0.46,1024,13,chirac2,Ipsos,3,4,4,phone,44
-2007,0.29,1013,14,chirac2,Kantar,4,4,1,face to face,44
-2007,0.46,1026,12,chirac2,Ifop,2,4,4,phone,47
-2007,0.3,950,14,chirac2,Kantar,4,4,1,face to face,48
-2007,0.53,992,13,chirac2,Ipsos,3,4,4,phone,48
-2007,0.47,969,12,chirac2,Ifop,2,4,4,phone,51
-2007,0.53,1011,13,chirac2,Ipsos,3,4,4,phone,52
-2007,0.3,904,14,chirac2,Kantar,4,4,1,face to face,53
+2007,0.25,1037,14,chirac2,Kantar,6,4,1,face to face,31
+2007,0.38,941,12,chirac2,Ifop,4,4,4,phone,34
+2007,0.23,1091,14,chirac2,Kantar,6,4,1,face to face,35
+2007,0.46,1036,13,chirac2,Ipsos,5,4,4,phone,35
+2007,0.41,1041,12,chirac2,Ifop,4,4,4,phone,38
+2007,0.41,1018,13,chirac2,Ipsos,5,4,4,phone,39
+2007,0.25,1098,14,chirac2,Kantar,6,4,1,face to face,39
+2007,0.43,1013,12,chirac2,Ifop,4,4,4,phone,43
+2007,0.46,1024,13,chirac2,Ipsos,5,4,4,phone,44
+2007,0.29,1013,14,chirac2,Kantar,6,4,1,face to face,44
+2007,0.46,1026,12,chirac2,Ifop,4,4,4,phone,47
+2007,0.3,950,14,chirac2,Kantar,6,4,1,face to face,48
+2007,0.53,992,13,chirac2,Ipsos,5,4,4,phone,48
+2007,0.47,969,12,chirac2,Ifop,4,4,4,phone,51
+2007,0.53,1011,13,chirac2,Ipsos,5,4,4,phone,52
+2007,0.3,904,14,chirac2,Kantar,6,4,1,face to face,53
 2012,0.31,989,15,sarkozy,BVA,1,5,4,phone,1
-2012,0.29,1009,16,sarkozy,Ifop,2,5,4,phone,3
-2012,0.31,1055,17,sarkozy,Ipsos,3,5,4,phone,4
-2012,0.22,1100,18,sarkozy,Kantar,4,5,1,face to face,4
+2012,0.29,1009,16,sarkozy,Ifop,4,5,4,phone,3
+2012,0.31,1055,17,sarkozy,Ipsos,5,5,4,phone,4
+2012,0.22,1100,18,sarkozy,Kantar,6,5,1,face to face,4
 2012,0.35,942,15,sarkozy,BVA,1,5,4,phone,4
-2012,0.3,980,17,sarkozy,Ipsos,3,5,4,phone,7
+2012,0.3,980,17,sarkozy,Ipsos,5,5,4,phone,7
 2012,0.37,923,15,sarkozy,BVA,1,5,4,phone,8
-2012,0.3,917,16,sarkozy,Ifop,2,5,4,phone,8
-2012,0.25,913,18,sarkozy,Kantar,4,5,1,face to face,8
-2012,0.35,953,17,sarkozy,Ipsos,3,5,4,phone,11
-2012,0.36,939,16,sarkozy,Ifop,2,5,4,phone,13
-2012,0.33,927,16,sarkozy,Ifop,2,5,4,phone,17
-2012,0.35,1043,17,sarkozy,Ipsos,3,5,4,phone,17
-2012,0.24,950,18,sarkozy,Kantar,4,5,1,face to face,17
-2012,0.35,1017,17,sarkozy,Ipsos,3,5,4,phone,20
-2012,0.32,1097,16,sarkozy,Ifop,2,5,4,phone,21
+2012,0.3,917,16,sarkozy,Ifop,4,5,4,phone,8
+2012,0.25,913,18,sarkozy,Kantar,6,5,1,face to face,8
+2012,0.35,953,17,sarkozy,Ipsos,5,5,4,phone,11
+2012,0.36,939,16,sarkozy,Ifop,4,5,4,phone,13
+2012,0.33,927,16,sarkozy,Ifop,4,5,4,phone,17
+2012,0.35,1043,17,sarkozy,Ipsos,5,5,4,phone,17
+2012,0.24,950,18,sarkozy,Kantar,6,5,1,face to face,17
+2012,0.35,1017,17,sarkozy,Ipsos,5,5,4,phone,20
+2012,0.32,1097,16,sarkozy,Ifop,4,5,4,phone,21
 2012,0.32,1061,15,sarkozy,BVA,1,5,4,phone,21
-2012,0.24,970,18,sarkozy,Kantar,4,5,1,face to face,22
-2012,0.35,936,17,sarkozy,Ipsos,3,5,4,phone,25
-2012,0.31,1044,16,sarkozy,Ifop,2,5,4,phone,25
-2012,0.3,1042,18,sarkozy,Kantar,4,5,1,face to face,26
+2012,0.24,970,18,sarkozy,Kantar,6,5,1,face to face,22
+2012,0.35,936,17,sarkozy,Ipsos,5,5,4,phone,25
+2012,0.31,1044,16,sarkozy,Ifop,4,5,4,phone,25
+2012,0.3,1042,18,sarkozy,Kantar,6,5,1,face to face,26
 2012,0.32,980,15,sarkozy,BVA,1,5,4,phone,27
-2012,0.34,958,16,sarkozy,Ifop,2,5,4,phone,30
+2012,0.34,958,16,sarkozy,Ifop,4,5,4,phone,30
 2012,0.38,1092,15,sarkozy,BVA,1,5,4,phone,30
-2012,0.29,1065,18,sarkozy,Kantar,4,5,1,face to face,30
-2012,0.37,958,17,sarkozy,Ipsos,3,5,4,phone,31
-2012,0.36,942,17,sarkozy,Ipsos,3,5,4,phone,34
-2012,0.34,1026,16,sarkozy,Ifop,2,5,4,phone,34
-2012,0.29,1004,18,sarkozy,Kantar,4,5,1,face to face,35
-2012,0.34,1080,17,sarkozy,Ipsos,3,5,4,phone,39
-2012,0.32,934,16,sarkozy,Ifop,2,5,4,phone,39
+2012,0.29,1065,18,sarkozy,Kantar,6,5,1,face to face,30
+2012,0.37,958,17,sarkozy,Ipsos,5,5,4,phone,31
+2012,0.36,942,17,sarkozy,Ipsos,5,5,4,phone,34
+2012,0.34,1026,16,sarkozy,Ifop,4,5,4,phone,34
+2012,0.29,1004,18,sarkozy,Kantar,6,5,1,face to face,35
+2012,0.34,1080,17,sarkozy,Ipsos,5,5,4,phone,39
+2012,0.32,934,16,sarkozy,Ifop,4,5,4,phone,39
 2012,0.32,1056,15,sarkozy,BVA,1,5,4,phone,39
-2012,0.29,1064,18,sarkozy,Kantar,4,5,1,face to face,39
-2012,0.36,980,17,sarkozy,Ipsos,3,5,4,phone,42
+2012,0.29,1064,18,sarkozy,Kantar,6,5,1,face to face,39
+2012,0.36,980,17,sarkozy,Ipsos,5,5,4,phone,42
 2012,0.32,955,15,sarkozy,BVA,1,5,4,phone,43
-2012,0.33,1043,16,sarkozy,Ifop,2,5,4,phone,43
-2012,0.26,1024,18,sarkozy,Kantar,4,5,1,face to face,44
-2012,0.36,1087,16,sarkozy,Ifop,2,5,4,phone,47
-2012,0.33,998,18,sarkozy,Kantar,4,5,1,face to face,48
+2012,0.33,1043,16,sarkozy,Ifop,4,5,4,phone,43
+2012,0.26,1024,18,sarkozy,Kantar,6,5,1,face to face,44
+2012,0.36,1087,16,sarkozy,Ifop,4,5,4,phone,47
+2012,0.33,998,18,sarkozy,Kantar,6,5,1,face to face,48
 2012,0.33,912,15,sarkozy,BVA,1,5,4,phone,48
-2012,0.38,1093,17,sarkozy,Ipsos,3,5,4,phone,48
-2012,0.36,989,16,sarkozy,Ifop,2,5,4,phone,51
-2012,0.37,1004,18,sarkozy,Kantar,4,5,1,face to face,52
-2012,0.4,992,17,sarkozy,Ipsos,3,5,4,phone,53
-2017,0.18,935,21,hollande,Ipsos,3,6,4,phone,3
-2017,0.15,977,20,hollande,Ifop,2,6,4,phone,4
-2017,0.16,944,23,hollande,Odoxa,5,6,3,internet,4
+2012,0.38,1093,17,sarkozy,Ipsos,5,5,4,phone,48
+2012,0.36,989,16,sarkozy,Ifop,4,5,4,phone,51
+2012,0.37,1004,18,sarkozy,Kantar,6,5,1,face to face,52
+2012,0.4,992,17,sarkozy,Ipsos,5,5,4,phone,53
+2017,0.18,935,21,hollande,Ipsos,5,6,4,phone,3
+2017,0.15,977,20,hollande,Ifop,4,6,4,phone,4
+2017,0.16,944,23,hollande,Odoxa,7,6,3,internet,4
 2017,0.19,906,19,hollande,BVA,1,6,3,internet,4
-2017,0.13,1095,22,hollande,Kantar,4,6,1,face to face,5
-2017,0.16,916,21,hollande,Ipsos,3,6,4,phone,7
-2017,0.16,961,23,hollande,Odoxa,5,6,3,internet,8
-2017,0.14,1063,20,hollande,Ifop,2,6,4,phone,8
+2017,0.13,1095,22,hollande,Kantar,6,6,1,face to face,5
+2017,0.16,916,21,hollande,Ipsos,5,6,4,phone,7
+2017,0.16,961,23,hollande,Odoxa,7,6,3,internet,8
+2017,0.14,1063,20,hollande,Ifop,4,6,4,phone,8
 2017,0.18,1075,19,hollande,BVA,1,6,3,internet,9
-2017,0.12,1052,22,hollande,Kantar,4,6,1,face to face,9
-2017,0.17,1001,20,hollande,Ifop,2,6,4,phone,12
+2017,0.12,1052,22,hollande,Kantar,6,6,1,face to face,9
+2017,0.17,1001,20,hollande,Ifop,4,6,4,phone,12
 2017,0.19,1095,19,hollande,BVA,1,6,3,internet,13
-2017,0.18,931,21,hollande,Ipsos,3,6,4,phone,16
-2017,0.16,995,20,hollande,Ifop,2,6,4,phone,16
-2017,0.17,986,22,hollande,Kantar,4,6,1,face to face,17
-2017,0.15,1051,21,hollande,Ipsos,3,6,4,phone,20
-2017,0.15,929,20,hollande,Ifop,2,6,4,phone,21
-2017,0.16,1055,23,hollande,Odoxa,5,6,3,internet,21
+2017,0.18,931,21,hollande,Ipsos,5,6,4,phone,16
+2017,0.16,995,20,hollande,Ifop,4,6,4,phone,16
+2017,0.17,986,22,hollande,Kantar,6,6,1,face to face,17
+2017,0.15,1051,21,hollande,Ipsos,5,6,4,phone,20
+2017,0.15,929,20,hollande,Ifop,4,6,4,phone,21
+2017,0.16,1055,23,hollande,Odoxa,7,6,3,internet,21
 2017,0.18,1054,19,hollande,BVA,1,6,3,internet,21
-2017,0.13,1056,22,hollande,Kantar,4,6,1,face to face,22
-2017,0.16,995,23,hollande,Odoxa,5,6,3,internet,25
-2017,0.18,1065,21,hollande,Ipsos,3,6,4,phone,25
-2017,0.14,1058,20,hollande,Ifop,2,6,4,phone,26
-2017,0.11,1071,22,hollande,Kantar,4,6,1,face to face,26
+2017,0.13,1056,22,hollande,Kantar,6,6,1,face to face,22
+2017,0.16,995,23,hollande,Odoxa,7,6,3,internet,25
+2017,0.18,1065,21,hollande,Ipsos,5,6,4,phone,25
+2017,0.14,1058,20,hollande,Ifop,4,6,4,phone,26
+2017,0.11,1071,22,hollande,Kantar,6,6,1,face to face,26
 2017,0.15,966,19,hollande,BVA,1,6,3,internet,27
-2017,0.18,1003,21,hollande,Ipsos,3,6,4,phone,29
-2017,0.15,1045,20,hollande,Ifop,2,6,4,phone,30
+2017,0.18,1003,21,hollande,Ipsos,5,6,4,phone,29
+2017,0.15,1045,20,hollande,Ifop,4,6,4,phone,30
 2017,0.18,989,19,hollande,BVA,1,6,3,internet,30
-2017,0.13,958,22,hollande,Kantar,4,6,1,face to face,31
-2017,0.17,972,23,hollande,Odoxa,5,6,3,internet,31
-2017,0.21,1058,21,hollande,Ipsos,3,6,4,phone,33
-2017,0.18,1009,23,hollande,Odoxa,5,6,3,internet,34
-2017,0.19,927,20,hollande,Ifop,2,6,4,phone,34
-2017,0.19,935,22,hollande,Kantar,4,6,1,face to face,34
-2017,0.2,982,23,hollande,Odoxa,5,6,3,internet,38
-2017,0.2,975,20,hollande,Ifop,2,6,4,phone,38
-2017,0.18,1097,22,hollande,Kantar,4,6,1,face to face,39
+2017,0.13,958,22,hollande,Kantar,6,6,1,face to face,31
+2017,0.17,972,23,hollande,Odoxa,7,6,3,internet,31
+2017,0.21,1058,21,hollande,Ipsos,5,6,4,phone,33
+2017,0.18,1009,23,hollande,Odoxa,7,6,3,internet,34
+2017,0.19,927,20,hollande,Ifop,4,6,4,phone,34
+2017,0.19,935,22,hollande,Kantar,6,6,1,face to face,34
+2017,0.2,982,23,hollande,Odoxa,7,6,3,internet,38
+2017,0.2,975,20,hollande,Ifop,4,6,4,phone,38
+2017,0.18,1097,22,hollande,Kantar,6,6,1,face to face,39
 2017,0.24,995,19,hollande,BVA,1,6,3,internet,39
-2017,0.22,921,21,hollande,Ipsos,3,6,4,phone,39
-2017,0.21,1079,23,hollande,Odoxa,5,6,3,internet,42
-2017,0.2,980,21,hollande,Ipsos,3,6,4,phone,42
+2017,0.22,921,21,hollande,Ipsos,5,6,4,phone,39
+2017,0.21,1079,23,hollande,Odoxa,7,6,3,internet,42
+2017,0.2,980,21,hollande,Ipsos,5,6,4,phone,42
 2017,0.22,1084,19,hollande,BVA,1,6,3,internet,43
-2017,0.19,915,20,hollande,Ifop,2,6,4,phone,43
-2017,0.16,983,22,hollande,Kantar,4,6,1,face to face,44
+2017,0.19,915,20,hollande,Ifop,4,6,4,phone,43
+2017,0.16,983,22,hollande,Kantar,6,6,1,face to face,44
 2017,0.24,1057,19,hollande,BVA,1,6,3,internet,47
-2017,0.22,1036,20,hollande,Ifop,2,6,4,phone,47
-2017,0.25,1042,21,hollande,Ipsos,3,6,4,phone,47
-2017,0.21,964,22,hollande,Kantar,4,6,1,face to face,48
-2017,0.21,933,23,hollande,Odoxa,5,6,3,internet,48
-2017,0.22,921,20,hollande,Ifop,2,6,4,phone,51
-2017,0.23,918,21,hollande,Ipsos,3,6,4,phone,52
-2017,0.22,1016,23,hollande,Odoxa,5,6,3,internet,52
-2017,0.14,934,22,hollande,Kantar,4,6,1,face to face,53
+2017,0.22,1036,20,hollande,Ifop,4,6,4,phone,47
+2017,0.25,1042,21,hollande,Ipsos,5,6,4,phone,47
+2017,0.21,964,22,hollande,Kantar,6,6,1,face to face,48
+2017,0.21,933,23,hollande,Odoxa,7,6,3,internet,48
+2017,0.22,921,20,hollande,Ifop,4,6,4,phone,51
+2017,0.23,918,21,hollande,Ipsos,5,6,4,phone,52
+2017,0.22,1016,23,hollande,Odoxa,7,6,3,internet,52
+2017,0.14,934,22,hollande,Kantar,6,6,1,face to face,53
 2017,0.25,985,19,hollande,BVA,1,6,3,internet,53
+2022,0.39,1002,24,macron,BVA,1,7,3,internet,2
+2022,0.38,1005,30,macron,Odoxa,7,7,3,internet,2
+2022,0.35,1000,29,macron,Kantar,6,7,3,internet,2
+2022,0.46,1041,26,macron,Harris,3,7,3,internet,3
+2022,0.41,1002,27,macron,Ifop,4,7,3,internet,3
+2022,0.31,1001,31,macron,Yougov,8,7,3,internet,3
+2022,0.33,1000,25,macron,Elabe,2,7,3,internet,4
+2022,0.4,1928,27,macron,Ifop,4,7,5,phone&internet,5
+2022,0.42,1004,24,macron,BVA,1,7,3,internet,6
+2022,0.41,1005,30,macron,Odoxa,7,7,3,internet,6
+2022,0.48,1025,26,macron,Harris,3,7,3,internet,7
+2022,0.41,1015,27,macron,Ifop,4,7,3,internet,7
+2022,0.4,1000,28,macron,Ipsos,5,7,3,internet,7
+2022,0.35,1000,29,macron,Kantar,6,7,3,internet,7
+2022,0.36,1002,25,macron,Elabe,2,7,3,internet,8
+2022,0.3,1003,31,macron,Yougov,8,7,3,internet,8
+2022,0.41,1005,30,macron,Odoxa,7,7,3,internet,11
+2022,0.5,1050,26,macron,Harris,3,7,3,internet,11
+2022,0.41,1006,27,macron,Ifop,4,7,3,internet,11
+2022,0.39,1000,29,macron,Kantar,6,7,3,internet,11
+2022,0.31,1081,31,macron,Yougov,8,7,3,internet,12
+2022,0.39,1004,24,macron,BVA,1,7,3,internet,12
+2022,0.36,1003,25,macron,Elabe,2,7,3,internet,13
+2022,0.39,1000,28,macron,Ipsos,5,7,3,internet,13
+2022,0.39,1005,30,macron,Odoxa,7,7,3,internet,14
+2022,0.47,1044,26,macron,Harris,3,7,3,internet,16
+2022,0.34,1003,25,macron,Elabe,2,7,3,internet,17
+2022,0.28,1107,31,macron,Yougov,8,7,3,internet,18
+2022,0.41,992,27,macron,Ifop,4,7,5,phone&internet,19
+2022,0.48,1054,26,macron,Harris,3,7,3,internet,20
+2022,0.4,1003,24,macron,BVA,1,7,3,internet,20
+2022,0.38,1000,29,macron,Kantar,6,7,3,internet,20
+2022,0.37,1000,25,macron,Elabe,2,7,3,internet,21
+2022,0.38,1003,27,macron,Ifop,4,7,5,phone&internet,21
+2022,0.4,1000,28,macron,Ipsos,5,7,3,internet,21
+2022,0.38,1939,27,macron,Ifop,4,7,3,internet,23
+2022,0.46,1000,24,macron,BVA,1,7,3,internet,24
+2022,0.42,1005,30,macron,Odoxa,7,7,3,internet,24
+2022,0.34,1000,29,macron,Kantar,6,7,3,internet,24
+2022,0.39,1018,27,macron,Ifop,4,7,3,internet,25
+2022,0.35,1309,25,macron,Elabe,2,7,3,internet,26
+2022,0.4,1000,28,macron,Ipsos,5,7,3,internet,26
+2022,0.4,1887,27,macron,Ifop,4,7,5,phone&internet,26
+2022,0.42,1007,24,macron,BVA,1,7,3,internet,28
+2022,0.4,1005,30,macron,Odoxa,7,7,3,internet,28
+2022,0.36,1000,29,macron,Kantar,6,7,3,internet,29
+2022,0.34,1001,25,macron,Elabe,2,7,3,internet,30

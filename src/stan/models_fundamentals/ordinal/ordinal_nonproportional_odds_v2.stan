@@ -69,11 +69,8 @@ data {
   int YVoteshare[NObs, NBlocs];
   vector[NBlocs] lag_YVoteshare_national;
 
-  // Bloc participation
-  int NBlocs_Elections[NElections];
-  array[NElections, NBlocs] int included_blocs;
-  int NParticipated;
-  int participated[NParticipated];
+  int NMiss[NObs];
+  int miss[NObs, NBlocs];
 
   // National level predictors
   int K;
@@ -217,48 +214,53 @@ model {
     {
       vector[NMiss[j]] theta =
         ordered_logit_discrimination(y_star[j],
-            c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]],// +
+            c[miss[NMiss[j]][1:NMiss[j] - 1]],// +
             // c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
             // id_Obs_elections[j]],
-            exp(disc))';
-
-    }
-    YVoteshare[j, miss[j, 1:NMiss[j]]] ~ multinomial(theta);
-  }
-}
-generated quantities {
-  matrix[NObs, NBlocs] y_ppc;
-  matrix[NObs, NBlocs] y_pred = rep_matrix(0.0, NObs, NBlocs);
-  matrix[NObs, NBlocs] error_y_ppc;
-  matrix[NObs, NBlocs] error_pred;
-  real bias_error_y_ppc;
-  real bias_error_pred;
-  vector[NBlocs] bias_error_pred_bloc;
-  vector[NBlocs] bias_error_y_ppc_bloc;
-  real variance_error_y_ppc;
-  real variance_error_pred;
-  y_ppc = theta;
-  {
-    for (j in 1:NObs){
-      y_pred[j,
-            included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]]]] =
-        ordered_logit_discrimination(y_star[j],
-                      c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]],// +
-                      //c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
-                      //id_Obs_elections[j]],
-                      exp(disc))';
+            exp(disc));
+      YVoteshare[j, miss[j, 1:NMiss[j]]] ~ multinomial(theta);
     }
   }
-  error_y_ppc = YVoteshare - theta;
-  error_pred = YVoteshare - y_pred;
-  bias_error_y_ppc = mean(fabs(error_y_ppc));
-  bias_error_pred = mean(fabs(error_pred));
-  variance_error_y_ppc = sd(error_y_ppc);
-  variance_error_pred = sd(error_pred);
-  for (j in 1:NBlocs){
-    bias_error_pred_bloc[j] = mean(fabs(error_pred[,j]));
-    bias_error_y_ppc_bloc[j] = mean(fabs(error_y_ppc[,j]));
-  }
-
-
 }
+// generated quantities {
+//   matrix[NObs, NBlocs] y_ppc;
+//   matrix[NObs, NBlocs] y_pred = rep_matrix(0.0, NObs, NBlocs);
+//   matrix[NObs, NBlocs] error_y_ppc;
+//   matrix[NObs, NBlocs] error_pred;
+//   real bias_error_y_ppc;
+//   real bias_error_pred;
+//   vector[NBlocs] bias_error_pred_bloc;
+//   vector[NBlocs] bias_error_y_ppc_bloc;
+//   real variance_error_y_ppc;
+//   real variance_error_pred;
+//
+//   {
+//     for (j in 1:NObs){
+//       vector[NMiss[j]] theta =
+//         ordered_logit_discrimination(y_star[j],
+//             c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]],// +
+//             // c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
+//             // id_Obs_elections[j]],
+//             exp(disc));
+//
+//       y_pred[j,
+//             included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]]]] =
+//         ordered_logit_discrimination(y_star[j],
+//                       c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]],// +
+//                       //c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
+//                       //id_Obs_elections[j]],
+//                       exp(disc))';
+//       error_y_ppc[j, miss[j, 1:NMiss[j]]] = (to_vector(YVoteshare[j, miss[j, 1:NMiss[j]]])/sum(to_vector(YVoteshare[j, miss[j, 1:NMiss[j]]])) - theta)';
+//       error_pred[j, miss[j, 1:NMiss[j]]] = ((to_vector(YVoteshare[j, miss[j, 1:NMiss[j]]])/sum(to_vector(YVoteshare[j, miss[j, 1:NMiss[j]]])) - y_pred[j,
+//             included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]]]]'))';
+//     }
+//   }
+//   bias_error_y_ppc = mean(fabs(error_y_ppc));
+//   bias_error_pred = mean(fabs(error_pred));
+//   variance_error_y_ppc = sd(error_y_ppc);
+//   variance_error_pred = sd(error_pred);
+//   for (j in 1:NBlocs){
+//     bias_error_pred_bloc[j] = mean(fabs(error_pred[,j]));
+//     bias_error_y_ppc_bloc[j] = mean(fabs(error_y_ppc[,j]));
+//   }
+// }

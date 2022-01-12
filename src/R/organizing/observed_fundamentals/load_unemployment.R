@@ -9,21 +9,21 @@ library(tidyverse)
 ###############################################################################
 ## Load dta
 # https://www.insee.fr/fr/statistiques/series/102760732
-df <- read_delim("dta/fundamentals_dta/unemployment/insee_2021_11_01_unemployment.csv",
+df <- read_delim("dta/fundamentals_dta/unemployment/insee_2022_01_08_unemployment.csv",
                delim = ";")
 df_insee_codes <- read_csv("dta/france_classification/departements.csv")
 ###############################################################################
 ## Last update
-last_updated <- df %>%
-  distinct(`Dernière mise à jour`) %>%
-  filter(!is.na(`Dernière mise à jour`)) %>%
-  pull(`Dernière mise à jour`)
+# last_updated <- df %>%
+#   distinct(`Dernière mise à jour`) %>%
+#   filter(!is.na(`Dernière mise à jour`)) %>%
+#   pull(`Dernière mise à jour`)
 ###############################################################################
 ## Clean data
 df <- df %>%
-  select(-`Dernière mise à jour`,
-         -Période,
-         -idBank) %>%
+  # select(-`Dernière mise à jour`,
+  #        -Période,
+  #        -idBank) %>%
   filter(Libellé != "Codes") %>%
   pivot_longer(c(-Libellé),
                names_to = c("Year", "Quarter"),

@@ -138,7 +138,6 @@ all_polls <- all_polls %>%
   group_by(survey_id, question_id, institute, date_fin) %>%
   mutate(remove = max(candidates %in%
                         c("Extr^eme Gauche",
-                          "Arnaud Montebourg",
                           "Sandrine Rousseau",
                           "Eric Ciotti",
                           "Philippe Juvin")) ) %>%

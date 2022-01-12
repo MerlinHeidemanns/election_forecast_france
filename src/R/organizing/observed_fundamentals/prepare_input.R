@@ -19,7 +19,9 @@ election_years <- election_df %>%
   filter(year > 1981) %>%
   distinct(year) %>%
   pull(year)
+election_years <- c(election_years, 2022)
 df_input_departement <- unemployment_df %>%
+  bind_rows(data.frame(departement = unique(unemployment_df$departement), Year = c(2022), Quarter = 2)) %>%
   mutate(date =
            as.Date(paste(Year, "-", c(1,4,7,10)[Quarter], "-01", sep = "")),
          election = ifelse(Year %in% election_years & Quarter == 2, 1, 0),

@@ -1,0 +1,9 @@
+poll_id,election_year,pollName,election_id,period_start_day,period_end_day,candidate,start_day,y,t
+2022 2021-12-06 BVA,2022,BVA,5,2021-12-05,2022-04-10,Le Pen,2021-12-06,71,1
+2022 2021-12-06 BVA,2022,BVA,5,2021-12-05,2022-04-10,Zemmour,2021-12-06,57,1
+2022 2021-12-07 Elabe,2022,Elabe,5,2021-12-05,2022-04-10,Le Pen,2021-12-07,65,1
+2022 2021-12-07 Elabe,2022,Elabe,5,2021-12-05,2022-04-10,Zemmour,2021-12-07,61,1
+2022 2021-12-07 Odoxa,2022,Odoxa,5,2021-12-05,2022-04-10,Le Pen,2021-12-07,88,1
+2022 2021-12-07 Odoxa,2022,Odoxa,5,2021-12-05,2022-04-10,Zemmour,2021-12-07,62,1
+2022 2021-12-10 Harris interactive,2022,Harris interactive,5,2021-12-05,2022-04-10,Le Pen,2021-12-10,123,1
+2022 2021-12-10 Harris interactive,2022,Harris interactive,5,2021-12-05,2022-04-10,Zemmour,2021-12-10,115,1

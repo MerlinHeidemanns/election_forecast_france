@@ -9,7 +9,7 @@ files <- list.files(path)
 table <- lapply(1:length(files), function(j){
   table <- read.csv(paste(path, files[j], sep = "/"), encoding = "UTF-8")
   table %>%
-    mutate(poll_id = paste0(2017, "_", j, "", 1:n()),
+    mutate(poll_id = paste0(2017, "_", PollingFirm, "_", j, "", 1:n()),
            SampleSize = as.integer(str_replace_all(SampleSize, "[^0-9]", ""))) %>%
     rename(pollName = PollingFirm,
            dates = FieldworkDate,

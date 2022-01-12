@@ -4,6 +4,9 @@ date: "`r Sys.Date()`"
 output:
   rmdformats::html_clean:
     highlight: kate
+    fig_width: 10
+    fig_height: 8
+    thumbnails: FALSE
 ---
 
 ```{r setup, include=FALSE}
@@ -22,7 +25,206 @@ A key feature of French elections is that candidates/parties can be reliably ass
 
 ### Forecasting
 
-The model relies
+The model relies on three separate components which are based around the fundamentals components of unemployment and presidential approval, historical trends in bloc association, and current polling numbers. The model predicts the candidate level vote share for the main candidates for each bloc for the first round.
+
+#### Long-term trend
+
+The first component is the long-term trend in bloc association. The model is simple. I use a Gaussian process fit to election results from 1965 to 2017 to model the latent bloc level trends. For each election, I consider that the main candidates have a latent quality that leads to them over- or underperforming relative to the historical trend. Another way of thinking about this factor is to treat it as an error term.
+
+#### Fundamentals model
+
+The fundamentals model predicts the election outcome at the bloc level by department based on data from 1988 to 2017. This model is similar to such approaches in the U.S. context, i.e. also based on presidential approval and unemployment but allows the effect of the latter to vary by bloc and with incumbency. That is we expect for example the Green party in France whose voters might be less concerned with economic developments to fluctuate less as a function of increases or decreases of unemployment. While we might imagine something similar for presidential approval here I only differentiate between the party in power and those which are not as approval is only observed at the national level and there is thus not sufficient variation to estimate bloc level coefficients. For unemployment I rely on INSEE data and simply use the last available data to predict the outcome refitting the model with unemployment for previous years with the same temporal distance to the election. For approval, I estimate the current approval level from approval polls and adjust them for pollster effects and the like.
+
+#### Polling model
+
+Lastly, I use a model for pre-election polls and a Gaussian process model over the election years for which polls are available to estimate the dynamic of public opinion in France.  The assumption is that dynamics across blocs over the election season will play out similarly across years. The Gaussian process here shares a covariance matrix with the long-term trend model. The adjustments are the usual assortment of polling house effects. I estimate the distribution of polling errors by separately estimating the difference between the polling model estimate at the end of an election season and the observed election outcome. 
+
+The pre-election period is split into 18 weeks to ease computation. 
+
+##### Split of the far right
+
+In the main model I consider Zemmour and Le Pen jointly but separately estimate a random walk model to estimate how they split the vote of the right. The final prediction below is then adjusted for that split.
+
+
+#### Combining predictions
+
+I combine the prediction as an uncertainty weighted average using a Dirichlet distribution with the individual prediction as the parameters accounting for candidate quality, error, and polling error respectively.
+
+#### Results
+
+
+```{r data}
+library(tidyverse)
+fit <- read_rds("dta/fit/m2022.Rds")
+data_list <- read_rds("dta/fit/m2022_data_list.Rds")
+indicators <- read_rds("dta/fit/m2022_indicator.Rds")
+df <- read_rds("dta/fit/m2022_polls.rds")
+election_results_all <- read_rds("dta/fit/m2022_election_results_all.rds")
+bloc_vector <- c("Abstention",
+                 "Autre",
+                 "Gauche radicale et extreme gauche",
+                 "Gauche",
+                 "Ecologisme",
+                 "Centre",
+                 "Droite",
+                 "Droite radicale et extreme droite")
+cols <- c("Autre" = "brown",
+          "Abstention" = "grey",
+          "Gauche radicale et extreme gauche" = "brown4",
+          "Gauche" ="brown2",
+          "Ecologisme" = "limegreen",
+          "Centre" ="gold",
+          "Droite" ="blue",
+          "Droite radicale et extreme droite" ="navyblue")
+count_weeks <- 18
+days <- as.Date("2021-12-05") + seq(0, 7 * 17, 7)
+```
+
+
+```{r prediction, echo=FALSE, message=FALSE, warning=FALSE, cache = TRUE}
+prediction <- fit$draws("prediction_adjusted") %>%
+  posterior::as_draws_df()
+main_candidates_list <- c("Melenchon", "Hidalgo", "Jadot", "Macron", "Pecresse", "Le Pen",
+                          "Zemmour")
+out <- matrix(NA, 7, 7)
+out2 <- data.frame()
+for (j in 2:7){
+  for (i in (j + 1):8){
+    tmp <- matrix(NA, nrow = nrow(prediction), ncol = 5)
+    count <- 0
+    for (r in seq(2,8)[c(-(i - 1), -(j - 1))]){
+      count <- count + 1
+      tmp[, count] <- (prediction[,j] > prediction[,r]) & (prediction[,i] > prediction[,r])
+    }
+    out[j - 1, i - 1] <- mean(apply(tmp, 1, all))
+    out[i - 1, j - 1] <- mean(apply(tmp, 1, all))
+    out2 <- bind_rows(out2,
+                      data.frame(
+                      pair = paste(main_candidates_list[j - 1],main_candidates_list[i - 1], sep = "-"),
+                      prob = mean(apply(tmp, 1, all))))
+  }
+}
+
+
+runoff_prob <- data.frame(
+  candidates = main_candidates_list,
+  prob = out %>%
+    apply(., 2, function(x) sum(x, na.rm = TRUE))
+) %>%
+  arrange(prob) %>%
+  mutate(candidates = factor(candidates, levels = candidates))
+matchup_prob <- out2 %>%
+  arrange(prob) %>%
+  mutate(pair = factor(pair, levels = pair))
+ggplot(data = runoff_prob, aes(x = candidates, y = prob)) +
+  geom_point() + 
+  theme_light() + 
+  labs(y = "Probability of making the run-off") + 
+  theme(axis.title.x = element_blank())
+ggplot(data = matchup_prob, aes(x = pair, y = prob)) + 
+  geom_point() +
+  coord_flip() + 
+  theme(axis.title.y = element_blank()) +
+  labs(y = "Match up probability", x ="") +
+  theme_light() 
+```
+
+#### Predicted changes in vote intentions
+
+```{r vote_intentions, echo=FALSE, message=FALSE, warning=FALSE, cache = TRUE}
+fit_summary <- fit$summary("m1_y2")
+post_pred <- lapply(1:data_list$m1_NBlocs, function(ii){
+  data.frame(t1 = indicators$t1,
+             t2 = indicators$t2,
+             pred_mu = fit_summary %>%
+               filter(grepl(paste(ii, "\\]", sep = ""), variable)) %>%
+               pull(mean)) %>%
+    mutate(d = ii) %>%
+    return(.)
+}) %>%
+  do.call("bind_rows", .) %>%
+  mutate(bloc = factor(bloc_vector[d + 1], bloc_vector),
+         year = c(2002, 2007, 2012, 2017, 2022)[t2])  %>%
+  as.data.frame()
+plt_df_rt_melt = fit$draws("m1_y2") %>%
+  posterior::as_draws_df() %>%
+  select(!contains(".")) %>%
+  mutate(iter = 1:n()) %>%
+  pivot_longer(c(-iter),
+               names_to = c("n", "d"),
+               values_to = "draws",
+               names_pattern = "([\\d]+),([\\d]+)") %>%
+  mutate(n = as.integer(n),
+         bloc = factor(bloc_vector[as.integer(d) + 1], levels = bloc_vector)) %>%
+  left_join(data.frame(
+    n = 1:nrow(indicators),
+    t1 = indicators$t1,
+    t2 = indicators$t2
+  )) %>%
+  mutate(
+    year = c(2002, 2007, 2012, 2017, 2022)[t2]
+  )
+
+
+polls <- df %>%
+  select(-`1`) %>%
+  pivot_longer(c(-election_id, -poll_id, -t_long, -t, -i, -pollster_id),
+               names_to = "d",
+               values_to = "prob") %>%
+  rename(t1 = t,
+         t2 = election_id) %>%
+  filter(prob != 0) %>%
+  mutate(bloc = factor(bloc_vector[as.integer(d)], levels = bloc_vector),
+         year = c(2002, 2007, 2012, 2017, 2022)[t2])
+
+election_results_all <- election_results_all %>%
+  mutate(d = match(bloc, bloc_vector),
+         bloc = factor(bloc, levels = bloc_vector),
+         t2 = match(year, c(2002, 2007, 2012, 2017))) %>%
+  filter(year %in% c(2002, 2007, 2012, 2017)) %>%
+  filter(bloc != "Abstention") %>%
+  group_by(year) %>%
+  mutate(percentage = percentage/sum(percentage))
+
+prediction <- fit$summary("prediction", ~ quantile(., c(0.1, 0.25, 0.5, 0.75, 0.9))) %>%
+  mutate(
+    bloc = 1 + as.integer(str_match(variable, "(\\d)")[,2]),
+    bloc = factor(bloc_vector[bloc], levels = bloc_vector)
+  ) %>%
+  mutate(t1 = count_weeks, year = 2022)
+
+p <- ggplot() +
+  geom_line(data = plt_df_rt_melt %>%
+              filter(iter %in% sample(1:1800, 100),
+                     year == 2022), aes(x = days[t1], y = draws,
+                                                         group = iter,
+                                                         colour = bloc), alpha = 0.1) +
+  geom_line(data = post_pred %>%
+              filter(year == 2022),
+            aes(x = days[t1], y = pred_mu),
+                colour = 'black') +
+  geom_point(data = polls %>%
+               group_by(poll_id) %>%
+               mutate(prob = prob/sum(prob)) %>%
+              filter(year == 2022), aes(x = days[t1], y = prob)) +
+  geom_point(data = prediction, aes(x = days[t1], y = `50%`), color = "black") +
+  geom_errorbar(data = prediction, aes(x = days[t1], ymin = `25%`, ymax = `75%`),
+             color = "black", size = 0.5, width = 0) +
+  geom_errorbar(data = prediction, aes(x = days[t1], ymin = `10%`, ymax = `90%`),
+                color = "black", size = 0.25, width = 0) +
+  geom_point(data = prediction, aes(x = days[t1], y = `50%`), color = "black") +
+  theme_bw() + theme(legend.position="none", axis.title.x = element_blank()) +
+  scale_color_manual(values = cols) +
+  scale_fill_manual(values = cols) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+  #geom_hline(data = election_results_all, aes(yintercept = percentage)) +
+  ylab('Polling average') +
+  facet_grid(bloc ~ .)
+p
+```
+
+
+
 
 
 

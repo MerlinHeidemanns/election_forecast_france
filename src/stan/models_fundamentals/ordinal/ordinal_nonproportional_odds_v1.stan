@@ -37,17 +37,6 @@ functions {
     return c;
   }
 
-
-  vector ordered_probit(real mu, vector thres){
-    int len_theta = size(thres);
-    vector[len_theta + 1] out_theta;
-    out_theta[1] = Phi(thres[1] - mu);
-    for (k in 2:len_theta){
-      out_theta[k] = Phi(thres[k] - mu) - Phi(thres[k - 1] - mu);
-    }
-    out_theta[len_theta + 1] = 1 - Phi(thres[len_theta] - mu);
-    return(out_theta);
-  }
   vector ordered_logit(real mu, vector thres){
     int K = size(thres);
     vector[K + 1] pi_i;
@@ -69,64 +58,6 @@ functions {
     pi_i[K + 1] = inv_logit(disc * (mu - thres[K]));
     return(pi_i);
   }
-
-  vector ordered_logit_phi(real mu, vector thres, vector phi){
-    int K = size(thres);
-    vector[K + 1] pi_i;
-    pi_i[1] = 1 - inv_logit(phi[1] * mu - thres[1]);
-    for (k in 2:K){
-      pi_i[k] = inv_logit(phi[k - 1] * mu - thres[k - 1]) - inv_logit(phi[k] * mu - thres[k]);
-    }
-    pi_i[K + 1] = inv_logit(phi[K - 1] * mu - thres[K]);
-    return(pi_i);
-  }
-
-  real student_t3_cdf_link(real mu){
-    return(
-      0.5 + 1/pi() * (1/sqrt(3) * 1/(1 + square(mu)/3) + atan(mu/sqrt(3)))
-    );
-  }
-
-  real clog_log_cdf_link(real mu){
-    return(1 - exp(-exp(mu)));
-  }
-  real log_log_cdf_link(real mu){
-    return(exp(-exp(-mu)));
-  }
-
-  vector ordered_student_t(real mu, vector thres){
-    int K = size(thres);
-    vector[K + 1] pi_i;
-    pi_i[1] = 1 - student_t3_cdf_link(mu - thres[1]);
-    for (k in 2:K){
-      pi_i[k] = student_t3_cdf_link(mu - thres[k - 1]) - student_t3_cdf_link(mu - thres[k]);
-    }
-    pi_i[K + 1] = student_t3_cdf_link(mu - thres[K]);
-    return(pi_i);
-  }
-
-  vector ordered_log_log_link(real mu, vector thres){
-    int K = size(thres);
-    vector[K + 1] pi_i;
-    pi_i[1] = 1 - log_log_cdf_link(mu - thres[1]);
-    for (k in 2:K){
-      pi_i[k] = log_log_cdf_link(mu - thres[k - 1]) - log_log_cdf_link(mu - thres[k]);
-    }
-    pi_i[K + 1] = log_log_cdf_link(mu - thres[K]);
-    return(pi_i);
-  }
-
-  vector ordered_clog_log_link(real mu, vector thres){
-    int K = size(thres);
-    vector[K + 1] pi_i;
-    pi_i[1] = 1 - clog_log_cdf_link(mu - thres[1]);
-    for (k in 2:K){
-      pi_i[k] = clog_log_cdf_link(mu - thres[k - 1]) - clog_log_cdf_link(mu - thres[k]);
-    }
-    pi_i[K + 1] = clog_log_cdf_link(mu - thres[K]);
-    return(pi_i);
-  }
-
 }
 data {
   int NObs;
@@ -136,7 +67,7 @@ data {
   int id_Obs_elections[NObs];
   int id_Obs_departments[NObs];
   matrix[NObs, NBlocs] YVoteshare;
-  vector[NBlocs] lag_YVoteshare_national;
+  matrix[NElections, NBlocs] lag_YVoteshare_national;
 
   // Bloc participation
   int NBlocs_Elections[NElections];
@@ -146,7 +77,6 @@ data {
 
   // National level predictors
   int K;
-  matrix[NElections, K] XNation;
   int incumbency[NElections];
   // -- Approval
   int NPolls;
@@ -181,7 +111,7 @@ transformed data {
   }
 }
 parameters {
-  ordered[NBlocs - 1] c;
+  ordered[NBlocs - 1] c[NElections];
   real<lower = 0.0001> sigma_y;
 
   // Department level intercepts
@@ -190,7 +120,8 @@ parameters {
   // Department level predictors
   vector[NMiss_X] XMiss;
   // National coefficients
-  matrix[2, K] beta;
+  ordered[3] beta1;
+  real beta2;
   // National predictors
   matrix[NElections, NTime] raw_XApproval;
   vector<lower = 0>[NElections] sigma_XApproval;
@@ -203,8 +134,6 @@ parameters {
   real zeta;
   // Department level coefficients
   vector[M] gamma;
-  matrix[NBlocs - 1, 2] raw_beta_np;
-  real<lower = 0> sigma_beta_np;
 
   real disc;
 }
@@ -212,13 +141,11 @@ transformed parameters {
   matrix[NObs, NBlocs] theta = rep_matrix(0.0, NObs, NBlocs);
   vector[NDepartments] alpha = raw_alpha * sigma_alpha;
   vector[NObs] y_star;
-  matrix[NBlocs - 1, NElections] c_star;
   matrix[NObs, M] XDepartment_miss;
   matrix[NElections, NTime] XApproval;
   vector[sum(NPollsters_Presidents)] mu_pollster_president;
   vector[NPolls] tau;
   vector[NElections] psi;
-  matrix[NElections, K + 1] XNation_;
   // Department level predictors
   XDepartment_miss[, 1] = XDepartment[, 1];
   XDepartment_miss[id_X_miss, 1] = XMiss;
@@ -240,24 +167,16 @@ transformed parameters {
       - sum(tau[(supvec_NPolls_Presidents[jj] + 2):(supvec_NPolls_Presidents[jj] + NPolls_Presidents[jj])]);
   }
   // Add
-  XNation_[,1:K] = XNation;
-  XNation_[,K + 1] = inv_logit(XApproval[, 40]);
   // Latent outcome
-  psi = rows_dot_product(XNation, beta[incumbency,]);
+  psi = beta1[incumbency] + beta2 * inv_logit(XApproval[, 40]);
   y_star = alpha[id_Obs_departments] +
-    XDepartment_miss * gamma + psi[id_Obs_elections] +
-    zeta * (1.0 * to_vector(id_Obs_elections));
-  for (j in 1:NElections){
-    c_star[,j] = (sigma_beta_np * raw_beta_np[,incumbency[j]] * inv_logit(XApproval[j, 40]));
-  }
+    psi[id_Obs_elections];
   for (j in 1:NObs){
     {
       theta[j,
             included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]]]] =
         ordered_logit_discrimination(y_star[j],
-                      c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]] +
-                      c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
-                      id_Obs_elections[j]],
+                      c[id_Obs_elections[j], 1:NBlocs_Elections[id_Obs_elections[j]] - 1],
                       exp(disc))';
     }
   }
@@ -283,25 +202,24 @@ model {
     mu_pollster_president[id_Polls_pollster_president] +
     tau);
   // National coefficients
-  to_vector(beta) ~ normal(0, 1);
+  beta1 ~ normal(0, 1);
+  beta2 ~ normal(0, 1);
   // Department predictors
   XMiss ~ normal(0, 1);
   // National trend
   zeta ~ normal(0, 3);
-  sigma_y ~ normal(0, 0.01);
+  sigma_y ~ normal(0, 0.1);
   gamma ~ normal(0, 1);
 
-  sigma_beta_np ~ normal(0, 1);
-  to_vector(raw_beta_np) ~ normal(0, 1);
   raw_alpha ~ std_normal();
   sigma_alpha ~ normal(0, 1);
 
   disc ~ normal(0, 1);
 
-
-  c ~ induced_dirichlet(
-    lag_YVoteshare_national * 2,
-    0.0);
+  for (j in 1:NElections){
+    c[j, 1:(NBlocs_Elections[j] - 1)] ~ induced_dirichlet(
+      lag_YVoteshare_national[j, included_blocs[j, 1:NBlocs_Elections[j]]]' * 2,0.0);
+  }
   to_vector(YVoteshare)[participated] ~ normal(
     to_vector(theta)[participated],
     sigma_y);
@@ -309,7 +227,7 @@ model {
 }
 generated quantities {
   matrix[NObs, NBlocs] y_ppc;
-  matrix[NObs, NBlocs] y_pred = rep_matrix(0.0, NObs, NBlocs);
+  matrix[NObs, NBlocs] y_pred = rep_matrix(0, NObs, NBlocs);
   matrix[NObs, NBlocs] error_y_ppc;
   matrix[NObs, NBlocs] error_pred;
   real bias_error_y_ppc;
@@ -318,17 +236,18 @@ generated quantities {
   vector[NBlocs] bias_error_y_ppc_bloc;
   real variance_error_y_ppc;
   real variance_error_pred;
+  vector[NBlocs - 1] c_rep[NElections];
+  for (j in 1:NElections){
+    c_rep[j, 1:(NBlocs_Elections[j] - 1)] = induced_dirichlet_rng(
+      lag_YVoteshare_national[j, included_blocs[j, 1:NBlocs_Elections[j]]]' * 10,0.0);
+  }
   y_ppc = theta;
-  {
-    for (j in 1:NObs){
-      y_pred[j,
-            included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]]]] =
+  for (j in 1:NObs){
+    y_pred[j,
+            included_blocs[id_Obs_elections[j],1:NBlocs_Elections[id_Obs_elections[j]]]] =
         ordered_logit_discrimination(y_star[j],
-                      c[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1]] +
-                      c_star[included_blocs[id_Obs_elections[j]][1:NBlocs_Elections[id_Obs_elections[j]] - 1],
-                      id_Obs_elections[j]],
+                      c_rep[id_Obs_elections[j], 1:NBlocs_Elections[id_Obs_elections[j]] - 1],
                       exp(disc))';
-    }
   }
   error_y_ppc = YVoteshare - theta;
   error_pred = YVoteshare - y_pred;
@@ -340,6 +259,4 @@ generated quantities {
     bias_error_pred_bloc[j] = mean(fabs(error_pred[,j]));
     bias_error_y_ppc_bloc[j] = mean(fabs(error_y_ppc[,j]));
   }
-
-
 }
