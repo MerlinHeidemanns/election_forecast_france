@@ -157,6 +157,9 @@ parameters {
   vector[m1_NBlocs - 1]                  m1_raw_abstention_adjustment;
   real<lower = 0>                        m1_sigma_abstention_adjustment;
   real<lower = 0>                        m1_beta;
+  matrix[m1_T2, m1_NBlocs - 1]           m1_raw_period_mean;
+  real<lower = 0>                        m1_sigma_period_mean;
+
 
   // M2
   real<lower=0>                          m2_rho;
@@ -188,6 +191,8 @@ parameters {
   vector[sum(m3_NPollsters_Presidents)]  m3_raw_mu_pollster_president;
   vector[m3_NPolls]                      m3_raw_tau;
   real                                   m3_delta;
+  matrix[m3_NElections, m3_NBlocs - 1]   m3_raw_zeta;
+  real<lower = 0>                        m3_sigma_zeta;
   // m3_prediction
   matrix[m3_NDepartments, m3_NBlocs]     m3_prediction;
 
@@ -218,6 +223,7 @@ transformed parameters {
   matrix[m3_NElections, m3_NTime] m3_XApproval;
   vector[sum(m3_NPollsters_Presidents)] m3_mu_pollster_president;
   vector[m3_NPolls] m3_tau;
+  matrix[m3_NElections, m3_NBlocs - 1] m3_zeta;
 
 
   {
@@ -232,7 +238,8 @@ transformed parameters {
     m1_chol_K = cholesky_decompose(m1_K)';
     // M1
     for (i in 1:m1_T2){
-      m1_f[1:m1_NBlocs - 1, 1 + (i - 1) * m1_count_weeks:i * m1_count_weeks] = m1_L_Sigma * m1_eta[i] * m1_chol_K;
+      m1_f[1:m1_NBlocs - 1, 1 + (i - 1) * m1_count_weeks:i * m1_count_weeks] =
+        rep_matrix(m1_raw_period_mean[i]' * m1_sigma_period_mean, 18) + m1_L_Sigma * m1_eta[i] * m1_chol_K;
     }
     m1_f[m1_NBlocs] = m1_zerosT;
     // M2
@@ -252,6 +259,7 @@ transformed parameters {
 
   m1_abstention_adjustment[1:m1_NBlocs - 1] = m1_raw_abstention_adjustment * m1_sigma_abstention_adjustment;
   m1_abstention_adjustment[m1_NBlocs]       = -sum(m1_abstention_adjustment[1:m1_NBlocs - 1]);
+
 
   // M2
   for (j in 1:m2_N){
@@ -287,6 +295,10 @@ transformed parameters {
     m3_alpha[,j] = m3_mu_alpha[j] + cumulative_sum(m3_raw_alpha[,j] * m3_sigma_alpha[j]);
   }
 
+  for (j in 1:m3_NElections){
+    m3_zeta[j] = m3_raw_zeta[j] * m3_sigma_zeta;
+  }
+
   profile("m3_y_star"){
     {
     matrix[m3_NElections, m3_NBlocs - 1] tmp1 = m3_incumbency;
@@ -299,10 +311,11 @@ transformed parameters {
     }
     m3_y_star = m3_alpha[m3_id_Obs_elections] +
                 m3_gamma_incumbency * tmp1[m3_id_Obs_elections] +
-                inv_logit(m3_XApproval[m3_id_Obs_elections, m3_NTime_max]) * m3_gamma * rep_row_vector(1.0, m3_NBlocs - 1) +
+                m3_XApproval[m3_id_Obs_elections, m3_NTime_max] * m3_gamma * rep_row_vector(1.0, m3_NBlocs - 1) +
                 m3_XDepartment_miss * m3_sigma_beta * m3_raw_beta +
                 tmp2 * m3_beta_incumbency +
-                m3_delta * m3_main_contender[m3_id_Obs_elections];
+                m3_delta * m3_main_contender[m3_id_Obs_elections] +
+                m3_zeta[m3_id_Obs_elections];
     }
   }
   m3_voteshare_prediction[1:m3_NObs - m3_NDepartments] = m3_YVoteshare[1:m3_NObs - m3_NDepartments];
@@ -327,6 +340,9 @@ model {
   m1_raw_abstention_adjustment  ~ std_normal();
   m1_sigma_abstention_adjustment ~ normal(0, 1);
   m1_beta                       ~ normal(0.01, 0.02);
+  to_vector(m1_raw_period_mean) ~ std_normal();
+  m1_sigma_period_mean          ~ normal(0, 1);
+
 
   // Likelihood
   for (j in 1:m1_NLimit){
@@ -357,7 +373,7 @@ model {
   to_vector(m2_eta) ~ std_normal();
   to_vector(m2_raw_quality) ~ std_normal();
   m2_sigma_quality ~ normal(0, m2_prior_sigma_quality);
-  m2_sigma ~ normal(0, 0.01);
+  m2_sigma ~ normal(0, 0.05);
   // Likelihood
   for (j in 1:m2_N){
     {
@@ -398,6 +414,8 @@ model {
   m3_gamma_incumbency ~ normal(0, 0.5);
   m3_gamma ~ normal(0, 0.5);
   m3_sigma ~ normal(0, 0.1);
+  to_vector(m3_raw_zeta) ~ std_normal();
+  m3_sigma_zeta ~ normal(0, 0.2);
   {
     profile("m3_softmax"){
       for (j in 1:m3_NObs){
@@ -434,6 +452,7 @@ generated quantities {
   matrix[m1_T, m1_NBlocs] m1_y2 = rep_matrix(0.0, m1_T, m1_NBlocs);
   matrix[m2_N, m1_NBlocs] m2_y2 = rep_matrix(0.0, m2_N, m1_NBlocs);
   matrix[m1_NBlocs, m1_N] m1_y_rep;
+  matrix[m1_NBlocs, m1_N] m1_y_error;
   vector[m1_NBlocs + 1] prediction_adjusted;
   vector[m1_NMiss_results[m1_T2]] m1_prediction_new;
   vector[m1_NMiss_results[m1_T2]] m2_prediction_new;
@@ -442,7 +461,8 @@ generated quantities {
   m1_Omega = multiply_lower_tri_self_transpose(m1_L_Omega);
 
   for (j in 1:m1_T){
-    m1_y2[j, m1_miss_pred[j, 1:m1_NMiss_pred[j]]] = softmax(m1_f[,j][m1_miss_pred[j, 1:m1_NMiss_pred[j]]])';
+    m1_y2[j, m1_miss_pred[j, 1:m1_NMiss_pred[j]]] = softmax(m1_f[,j][m1_miss_pred[j, 1:m1_NMiss_pred[j]]]
+)';
   }
   for (j in 1:m2_N1 + m2_N2)
     m2_y2[j] = softmax(m2_f[,j])';
@@ -457,6 +477,7 @@ generated quantities {
       m1_y_rep[m1_ix, j] =
         to_vector(multinomial_rng(m1_theta[1:m1_NMiss[j]], sum(m1_y[m1_ix, j])))/
         (1.0 * sum(m1_y[m1_ix, j]));
+      m1_y_error[m1_ix, j] = m1_y_rep[m1_ix, j] - to_vector(m1_y[m1_ix, j])/(1.0 * sum(m1_y[m1_ix, j]));
     }
   }
 
@@ -473,7 +494,36 @@ generated quantities {
               tmp[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]]]),
                 m2_sigma));
   }
-  for (j in m3_NObs - m3_NDepartments + 1:m3_NObs){
-    m3_prediction_new = m3_prediction_new + m3_w[j - (m3_NObs - m3_NDepartments)] * m3_voteshare_prediction[j,m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]]]';
+
+  {
+    row_vector[m3_NBlocs - 1] tmp1 = m3_incumbency[m3_NElections];
+    matrix[m3_NDepartments, m3_NBlocs - 1] tmp2;
+    row_vector[m3_NBlocs - 1] tmp3;
+    row_vector[m3_NBlocs - 1] tmp4;
+    matrix[m3_NDepartments, m3_NBlocs - 1] tmp5;
+
+
+    tmp1 = tmp1 * inv_logit(m3_XApproval[m3_NElections, m3_NTime_max]);
+    for (j in 1:m3_NElections){
+      tmp2 = to_vector(m3_XDepartment_miss[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments]) * m3_incumbency[m3_NElections];
+    }
+    for (j in 1:m3_NBlocs - 1){
+      tmp3[j] = m3_mu_alpha[j] + sum(m3_raw_alpha[1:m3_NElections,j] * m3_sigma_alpha[j]) + normal_rng(0,m3_sigma_alpha[j]);
+    }
+    tmp4 = to_row_vector(normal_rng(rep_vector(0.0, m3_NBlocs - 1), m3_sigma_zeta));
+    tmp5 = rep_vector(1.0, m3_NDepartments) * tmp3 +
+                m3_gamma_incumbency * rep_vector(1.0, m3_NDepartments) * tmp1 +
+                m3_XApproval[m3_id_Obs_elections[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments], m3_NTime_max] * m3_gamma * rep_row_vector(1.0, m3_NBlocs - 1) +
+                m3_XDepartment_miss[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments] * m3_sigma_beta * m3_raw_beta +
+                tmp2 * m3_beta_incumbency +
+                m3_delta * m3_main_contender[m3_id_Obs_elections[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments]] +
+                rep_vector(1.0, m3_NDepartments) * tmp4;
+
+    for (j in 1:m3_NDepartments){
+
+      m3_prediction_new = m3_prediction_new + m3_w[j] *
+        to_vector(normal_rng(softmax(append_row(0.0, tmp5[j]')[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]]])',
+        m3_sigma));
+    }
   }
 }
