@@ -116,7 +116,10 @@ df <- df %>%
          pollster_id = 100 * election_id + pollster_id) %>%
   ungroup() %>%
   mutate(pollster_id = as.integer(factor(pollster_id))) %>%
-  ungroup() %>%
+  ungroup()
+pollster_vector <- df %>%
+  distinct(pollName, election_year, pollster_id)
+df <- df %>%
   select(t, election_id, bloc_id, y,poll_id,pollster_id) %>%
   group_by(poll_id) %>%
   pivot_wider(id_cols = c(t, election_id, poll_id,pollster_id),
@@ -425,7 +428,7 @@ data_list <- list(
   m2_x1 = m2_year,
   m2_x2 = array(2022),
   m2_y = m2_df,
-  m2_prior_sigma_quality = 0.6,
+  m2_prior_sigma_quality = 0.15,
   m2_NMiss = m2_NMiss,
   m2_miss = m2_miss,
 
@@ -464,21 +467,28 @@ data_list <- list(
 )
 ################################################################################
 ## Model
-mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals.stan")
+mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_v3.stan")
 ################################################################################
 ## Run
 fit <- mod$sample(
   data = data_list,
   chains = 6,
-  iter_sampling = 300,
-  iter_warmup = 300,
+  iter_sampling = 600,
+  iter_warmup = 600,
   parallel_chains = 6,
   refresh = 100,
-  init = 0.2
+  init = 0.01
 )
 ################################################################################
 ## Plot
 fit$save_object("dta/fit/m2022.Rds")
+write_rds(data_list, "dta/fit/m2022_data_list.Rds")
+write_rds(indicators, "dta/fit/m2022_indicator.Rds")
+write_rds(df, "dta/fit/m2022_polls.rds")
+write_rds(election_results_all, "dta/fit/m2022_election_results_all.rds")
+write_rds(pollster_vector, "dta/fit/m2022_pollster_vector.rds")
+write_rds(m2_year, "dta/fit/m2022_m2_year.rds")
+write_rds(m2_df_results, "dta/fit/m2022_m2_df_results.rds")
 fit <- read_rds("dta/fit/m2022.Rds")
 fit_summary <- fit$summary("m1_y2")
 post_pred <- lapply(1:data_list$m1_NBlocs, function(ii){
@@ -523,7 +533,7 @@ polls <- df %>%
          t2 = election_id) %>%
   filter(prob != 0) %>%
   mutate(bloc = factor(bloc_vector[as.integer(d)], levels = bloc_vector),
-         year = c(2002, 2007, 2012, 2017, 2022)[t2])
+         year = c(2002, 2007, 2012, 2017,2022)[t2])
 
 election_results_all <- election_results_all %>%
   mutate(d = match(bloc, bloc_vector),
@@ -657,6 +667,86 @@ runoff_prob <- data.frame(
 )
 ggplot(data = runoff_prob, aes(x = candidates, y = prob)) +
   geom_point()
+################################################################################
+## Polling house effects
+fit$draws("m1_mu_pollster") %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  pivot_longer(c(-iter),
+               names_to = "variable",
+               values_to = "draws") %>%
+  mutate(
+    bloc_id = as.integer(str_match(variable, "(\\d),")[,2]),
+    pollster_id = as.integer(str_match(variable, ",(\\d+)")[,2])
+  ) %>%
+  filter(!is.na(pollster_id), !is.na(draws)) %>%
+  group_by(iter, pollster_id) %>%
+  mutate(draws = exp(draws)/sum(exp(draws), na.rm = TRUE) -
+           1/n()) %>%
+  ungroup() %>%
+  group_by(pollster_id, bloc_id) %>%
+  summarize(
+    q10 = quantile(draws, 0.1),
+    q25 = quantile(draws, 0.25),
+    q50 = quantile(draws, 0.5),
+    q75 = quantile(draws, 0.75),
+    q90 = quantile(draws, 0.9)
+  ) %>%
+  mutate(bloc = factor(bloc_vector[1 + bloc_id], bloc_vector)) %>%
+  filter(bloc != "Autre") %>%
+  arrange(bloc) %>%
+  mutate(bloc = str_wrap(bloc, width = 20),
+         bloc = factor(bloc, levels = bloc)) %>%
+  left_join(pollster_vector) %>%
+  ggplot(., aes(x = bloc, y = q50, color = as.factor(election_year))) +
+  geom_point(position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = q25, ymax = q75),
+                width = 0, size = 0.5,
+                position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = q10, ymax = q90),
+                width = 0, size = 0.25,
+                position = position_dodge(width = 0.5)) +
+  facet_wrap(pollName ~.) +
+    theme_light() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          legend.title = element_blank(),
+          axis.title.x = element_blank(),
+          legend.position = "bottom") +
+    labs(y = "Pollster deviation from average")
+
+################################################################################
+fit$summary("m2_sigma_quality", ~quantile(. * 100, c(0.1, 0.25, 0.5, 0.75, 0.9))) %>%
+  mutate(bloc = factor(bloc_vector[1 + 1:n()], levels = bloc_vector)) %>%
+  arrange(bloc) %>%
+  mutate(bloc = str_wrap(bloc, width = 20),
+         bloc = factor(bloc, levels = bloc)) %>%
+  ggplot(aes(x = bloc, y = `50%`)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = `25%`, ymax = `75%`), width = 0, size = 0.75) +
+    geom_errorbar(aes(ymin = `10%`, ymax = `90%`), width = 0, size = 0.5) +
+    theme_light() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          legend.title = element_blank(),
+          axis.title.x = element_blank(),
+          legend.position = "bottom") +
+    labs(y = "Candidate variation (percentage)")
+
+
+
+################################################################################
+fit$summary("m1_Omega") %>%
+  mutate(
+    bloc1 = factor(
+      bloc_vector[2 + as.integer(str_match(variable, "(\\d+),")[, 2])],
+      levels = bloc_vector),
+    bloc2 = factor(bloc_vector[2 + as.integer(str_match(variable, ",(\\d+)")[, 2])],
+    levels = bloc_vector)
+  ) %>%
+  select(bloc1, bloc2, median) %>%
+  ggplot(aes(x = bloc1, y = bloc2, fill = median)) +
+    geom_tile() +
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0)
+
 
 
 ################################################################################
@@ -678,6 +768,9 @@ y <- data_list$y %>%
 y_rep_y <- left_join(y, y_rep)
 ggplot(y_rep_y, aes(x = prob, y = mean, color = n)) +
   geom_point()
+
+
+
 
 
 

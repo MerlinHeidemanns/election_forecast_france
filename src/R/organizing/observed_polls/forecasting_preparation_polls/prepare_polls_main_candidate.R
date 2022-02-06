@@ -17,10 +17,16 @@ bloc_vector <- c("Abstention",
                  "Droite radicale et extreme droite")
 main_candidates_list <- c("Macron", "Le Pen", "Pecresse",
                      "Hidalgo", "Jadot", "Zemmour", "Melenchon")
-
 ################################################################################
 ## Import data
-df_past <- read_csv("dta/polls_dta/past_polls_clean.csv")
+df_2017 <- read_csv("dta/polls_dta/2017_polls_clean.csv")
+df_2012 <- read_csv("dta/polls_dta/2012_polls_clean.csv")
+df_2007 <- read_csv("dta/polls_dta/2007_polls_clean.csv")
+df_2002 <- read_csv("dta/polls_dta/2002_polls_clean.csv")
+df_past <- bind_rows(df_2017,
+                      df_2012,
+                      df_2007,
+                      df_2002)
 candidates_blocs <- read_csv("dta/france_classification/candidate_bloc_cross_walk.csv")
 df_current <-
   read_csv("dta/polls_dta/election_season_model/poll_input_current.csv")
