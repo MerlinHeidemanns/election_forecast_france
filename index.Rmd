@@ -60,6 +60,10 @@ data_list <- read_rds("dta/fit/m2022_data_list.Rds")
 indicators <- read_rds("dta/fit/m2022_indicator.Rds")
 df <- read_rds("dta/fit/m2022_polls.rds")
 election_results_all <- read_rds("dta/fit/m2022_election_results_all.rds")
+pollster_vector <- read_rds("dta/fit/m2022_pollster_vector.rds")
+m2_year <- read_rds("dta/fit/m2022_m2_year.rds")
+m2_df_results <- read_rds("dta/fit/m2022_m2_df_results.rds")
+
 bloc_vector <- c("Abstention",
                  "Autre",
                  "Gauche radicale et extreme gauche",
@@ -224,10 +228,142 @@ p
 ```
 
 
+#### Polling house deviations
+
+```{r pollsters, echo=FALSE, message=FALSE, warning=FALSE, cache = TRUE}
+fit$draws("m1_mu_pollster") %>%
+  posterior::as_draws_df() %>%
+  mutate(iter = 1:n()) %>%
+  pivot_longer(c(-iter),
+               names_to = "variable",
+               values_to = "draws") %>%
+  mutate(
+    bloc_id = as.integer(str_match(variable, "(\\d),")[,2]),
+    pollster_id = as.integer(str_match(variable, ",(\\d+)")[,2])
+  ) %>%
+  filter(!is.na(pollster_id), !is.na(draws)) %>%
+  group_by(iter, pollster_id) %>%
+  mutate(draws = exp(draws)/sum(exp(draws), na.rm = TRUE) -
+           1/n()) %>%
+  ungroup() %>%
+  group_by(pollster_id, bloc_id) %>%
+  summarize(
+    q10 = quantile(draws, 0.1),
+    q25 = quantile(draws, 0.25),
+    q50 = quantile(draws, 0.5),
+    q75 = quantile(draws, 0.75),
+    q90 = quantile(draws, 0.9)
+  ) %>%
+  mutate(bloc = factor(bloc_vector[1 + bloc_id], bloc_vector)) %>%
+  filter(bloc != "Autre") %>%
+  arrange(bloc) %>%
+  mutate(bloc = str_wrap(bloc, width = 20),
+         bloc = factor(bloc, levels = bloc)) %>%
+  left_join(pollster_vector) %>%
+  ggplot(., aes(x = bloc, y = q50, color = as.factor(election_year))) +
+  geom_point(position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = q25, ymax = q75),
+                width = 0, size = 0.5,
+                position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = q10, ymax = q90),
+                width = 0, size = 0.25,
+                position = position_dodge(width = 0.5)) +
+  facet_wrap(pollName ~.) +
+    theme_light() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          legend.title = element_blank(),
+          axis.title.x = element_blank(),
+          legend.position = "bottom") + 
+    labs(y = "Pollster deviation from average")
+
+```
+
+### Historical trend model
+
+```{r historical_trend, echo=FALSE, message=FALSE, warning=FALSE, cache = TRUE}
+fit_summary <- fit$summary("m2_y2")
+post_pred <- lapply(1:data_list$m1_NBlocs, function(ii){
+  data.frame(x = c(m2_year, 2022),
+             pred_mu = fit_summary %>%
+               filter(grepl(paste(ii, "\\]", sep = ""), variable)) %>%
+               pull(mean)) %>%
+    mutate(d = ii) %>%
+    return(.)
+}) %>%
+  do.call("bind_rows", .)
+plt_df_rt_melt = fit$draws("m2_y2") %>%
+  posterior::as_draws_df() %>%
+  select(!contains(".")) %>%
+  mutate(iter = 1:n()) %>%
+  pivot_longer(c(-iter),
+               names_to = c("n", "d"),
+               values_to = "draws",
+               names_pattern = "([\\d]+),([\\d]+)") %>%
+  mutate(n = as.integer(n),
+         d = as.integer(d)) %>%
+  left_join(data.frame(
+    n = 1:(length(m2_year) + 1),
+    x2 = c(m2_year, 2022)
+  ))
+
+plt_df_rt_melt <- plt_df_rt_melt %>%
+  mutate(bloc = factor(bloc_vector[d + 1], levels = bloc_vector))
+post_pred <- post_pred %>%
+  mutate(bloc = factor(bloc_vector[d + 1], levels = bloc_vector))
+m2_df_results <- m2_df_results %>%
+  filter(bloc != "Abstention") %>%
+  group_by(year) %>%
+  mutate(percentage = percentage/sum(percentage)) %>%
+  mutate(bloc = factor(bloc, bloc_vector))
 
 
+prediction <- fit$summary("prediction", ~ quantile(., c(0.1, 0.25, 0.5, 0.75, 0.9))) %>%
+  mutate(
+    d = as.integer(str_match(variable, "(\\d)")[,2]) + 1,
+    bloc = factor(bloc_vector[d], levels = bloc_vector)
+  ) %>%
+  mutate(year = 2022)
 
+p <- ggplot() +
+  geom_line(data = plt_df_rt_melt %>%
+              filter(iter %in% sample(1:1800, 400)), aes(x = x2, y = draws,
+                                                         group = iter,
+                                                         colour = bloc), alpha = 0.05) +
+  geom_line(data = post_pred, aes(x = x, y = pred_mu), colour = "black", linetype = 2) +
+  geom_point(data = m2_df_results, aes(x = year, y = percentage), color = "black") +
+  geom_point(data = prediction, aes(x = year, y = `50%`), color = "black") +
+  geom_errorbar(data = prediction, aes(x = year, ymin = `25%`, ymax = `75%`),
+                color = "black", size = 0.5, width = 0) +
+  geom_errorbar(data = prediction, aes(x = year, ymin = `10%`, ymax = `90%`),
+                color = "black", size = 0.25, width = 0) +
+  theme_bw() + theme(legend.position="bottom") +
+  xlab('X') +
+  ylab('y') +
+  facet_wrap(bloc ~ .) +
+  theme(legend.position = "none") +
+  scale_color_manual(values = cols)
+p
+```
 
+#### Candidate quality variation
+
+```{r candidate_quality, echo=FALSE, message=FALSE, warning=FALSE, cache = TRUE}
+fit$summary("m2_sigma_quality", ~quantile(. * 100, c(0.1, 0.25, 0.5, 0.75, 0.9))) %>%
+  mutate(bloc = factor(bloc_vector[1 + 1:n()], levels = bloc_vector)) %>%
+  arrange(bloc) %>%
+  mutate(bloc = str_wrap(bloc, width = 20),
+         bloc = factor(bloc, levels = bloc)) %>%
+  ggplot(aes(x = bloc, y = `50%`)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = `25%`, ymax = `75%`), width = 0, size = 0.75) +
+    geom_errorbar(aes(ymin = `10%`, ymax = `90%`), width = 0, size = 0.5) +
+    theme_light() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          legend.title = element_blank(),
+          axis.title.x = element_blank(),
+          legend.position = "bottom") +
+    labs(y = "Candidate variation (percentage)")
+```
 
 
 
