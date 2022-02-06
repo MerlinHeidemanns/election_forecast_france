@@ -59,10 +59,7 @@ data {
   int m1_miss_pred[m1_T1 * m1_T2, m1_NBlocs];
   int<lower = 1, upper = m1_T2> m1_election[m1_T1 * m1_T2];
 
-
-
-
-
+  // M2
   int<lower=1> m2_N1;
   int<lower=1> m2_N2;
   real m2_x1[m2_N1];
@@ -167,7 +164,10 @@ parameters {
   // M2
   real<lower=0>                          m2_rho;
   matrix[m1_NBlocs - 1, m2_N]            m2_eta;
-  vector<lower = 0>[m1_NBlocs]           m2_sigma_quality;
+  vector<lower = 0>[m1_NBlocs - 1]       m2_sigma_quality;
+  row_vector[m1_NBlocs]                  m2_prediction;
+  matrix[m1_NBlocs - 1,m2_N]             m2_raw_quality;
+  real<lower = 0>                        m2_sigma;
 
   // M3
   vector<lower = 0.0001>[m3_NBlocs - 1]  m3_sigma_alpha;
@@ -213,7 +213,9 @@ transformed parameters {
   matrix[m1_NBlocs, m1_T2]     m1_xi;
   vector[m1_NBlocs]            m1_abstention_adjustment;
   vector[m1_count_weeks]       m1_ex_droite;
-  //
+  // M2
+  matrix[m1_NBlocs,m2_N]     m2_quality;
+  matrix[m2_N, m1_NBlocs]     m2_voteshare_prediction;
   // M3
   matrix[m3_NObs, m3_NBlocs - 1] m3_y_star;
   matrix[m3_NObs, m3_M] m3_XDepartment_miss;
@@ -263,6 +265,16 @@ transformed parameters {
   // Ex droite
   m1_ex_droite = m1_mu_ex_droite + cumulative_sum(m1_raw_ex_droite * m1_sigma_ex_droite);
 
+  // M2
+  for (j in 1:m2_N){
+    m2_quality[2:m1_NBlocs, j] = m2_raw_quality[,j] .* m2_sigma_quality;
+    m2_quality[1, j] = -sum(m2_quality[2:m1_NBlocs, j]);
+  }
+  m2_voteshare_prediction[1:m2_N1] = m2_y;
+  m2_voteshare_prediction[m2_N]    = m2_prediction;
+
+
+
   // M3
   m3_XDepartment_miss[, 1] = m3_XDepartment[, 1];
   m3_XDepartment_miss[m3_id_X_miss, 1] = m3_XMiss;
@@ -283,6 +295,7 @@ transformed parameters {
   }
   //
   for (j in 1:m3_NBlocs - 1){
+
     m3_alpha[,j] = m3_mu_alpha[j] + cumulative_sum(m3_raw_alpha[,j] * m3_sigma_alpha[j]);
   }
 
@@ -312,11 +325,11 @@ model {
 
   // M1 ------------------------------------------------------------------------
   // Priors
-  m1_rho                     ~ normal(50, 10);
+  m1_rho                        ~ normal(2, 1);
   m1_alpha                      ~ student_t(10, 0, 0.5);
   m1_L_Omega                    ~ lkj_corr_cholesky(5);
   for (j in 1:m1_T2){
-    to_vector(m1_eta[j])     ~ std_normal();
+    to_vector(m1_eta[j])        ~ std_normal();
   }
   m1_sigma_mu_pollster          ~ normal(0, 0.08);
   to_vector(m1_raw_mu_pollster) ~ std_normal();
@@ -325,11 +338,11 @@ model {
   m1_mu_abstention              ~ normal(0.22, 0.03);
   m1_raw_abstention_adjustment  ~ std_normal();
   m1_sigma_abstention_adjustment ~ normal(0, 1);
-  m1_beta ~ normal(0.01, 0.002);
+  m1_beta                       ~ normal(0.01, 0.02);
 
-  m1_raw_ex_droite ~ std_normal();
-  m1_sigma_ex_droite ~ normal(0, 0.08);
-  m1_mu_ex_droite ~ normal(0, 0.1);
+  m1_raw_ex_droite              ~ std_normal();
+  m1_sigma_ex_droite            ~ normal(0, 0.08);
+  m1_mu_ex_droite               ~ normal(0, 0.1);
 
   // Likelihood
   for (j in 1:m1_N){
@@ -359,16 +372,19 @@ model {
 
   // M2 ------------------------------------------------------------------------
   // Priors
-  m2_rho ~ normal(12, 1);
+  m2_rho ~ normal(12, 3);
   to_vector(m2_eta) ~ std_normal();
+  to_vector(m2_raw_quality) ~ std_normal();
   m2_sigma_quality ~ normal(0, m2_prior_sigma_quality);
+  m2_sigma ~ normal(0, 0.01);
   // Likelihood
-  for (j in 1:m2_N1){
+  for (j in 1:m2_N){
     {
-      vector[m2_NMiss[j]] theta = softmax(m2_f[m2_miss[j, 1:m2_NMiss[j]], j]);
-      m2_y[j, m2_miss[j, 1:m2_NMiss[j]]] ~ normal(theta, m2_sigma_quality[m2_miss[j, 1:m2_NMiss[j]]]);
+      vector[m2_NMiss[j]] theta = softmax(m2_f[m2_miss[j, 1:m2_NMiss[j]], j] + m2_quality[m2_miss[j, 1:m2_NMiss[j]], j]);
+      m2_voteshare_prediction[j, m2_miss[j, 1:m2_NMiss[j]]] ~ normal(theta, m2_sigma);
     }
   }
+
   // M3 ------------------------------------------------------------------------
   // Approval
   to_vector(m3_raw_XApproval) ~ std_normal();
@@ -424,14 +440,12 @@ model {
     vector[m1_NMiss_results[m1_T2]] m1_pred =
         softmax(m1_f[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]],m1_T2 * m1_T1] +
                 m1_xi[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]],m1_T2]);
-    vector[m1_NMiss_results[m1_T2]] m2_pred =
-        softmax(m2_f[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]],m2_N1 + 1]);
     vector[m1_NMiss_results[m1_T2]] m3_pred = rep_vector(0.0, m1_NMiss_results[m1_T2]);
     for (j in m3_NObs - m3_NDepartments + 1:m3_NObs){
       m3_pred = m3_pred + m3_w[j - (m3_NObs - m3_NDepartments)] * m3_voteshare_prediction[j]';
     }
     prediction ~ dirichlet(m1_pred * 100);
-    prediction ~ dirichlet(m2_pred * 100);
+    prediction ~ dirichlet((m2_voteshare_prediction[m2_N]' + 0.01) * 100);
     prediction ~ dirichlet((m3_pred + 0.01) * 100);
   }
 }
@@ -440,6 +454,11 @@ generated quantities {
   matrix[m2_N, m1_NBlocs] m2_y2 = rep_matrix(0.0, m2_N, m1_NBlocs);
   matrix[m1_NBlocs, m1_N] m1_y_rep;
   vector[m1_NBlocs + 1] prediction_adjusted;
+  vector[m1_NMiss_results[m1_T2]] m1_prediction_new;
+  vector[m1_NMiss_results[m1_T2]] m2_prediction_new;
+  vector[m1_NMiss_results[m1_T2]] m3_prediction_new = rep_vector(0.0, m1_NMiss_results[m1_T2]);
+  matrix[m1_NBlocs - 1,m1_NBlocs - 1] m1_Omega;
+  m1_Omega = multiply_lower_tri_self_transpose(m1_L_Omega);
 
   for (j in 1:m1_T){
     m1_y2[j, m1_miss_pred[j, 1:m1_NMiss_pred[j]]] = softmax(m1_f[,j][m1_miss_pred[j, 1:m1_NMiss_pred[j]]])';
@@ -464,5 +483,20 @@ generated quantities {
   prediction_adjusted[m1_NBlocs] = prediction[m1_NBlocs] * inv_logit(m1_ex_droite[m1_count_weeks]);
   prediction_adjusted[m1_NBlocs + 1] = prediction[m1_NBlocs] * (1 - inv_logit(m1_ex_droite[m1_count_weeks]));
 
+  // Individual predictions by model
+  m1_prediction_new = softmax(m1_f[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]],m1_T2 * m1_T1] +
+                m1_xi[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]],m1_T2]);
 
+  {
+    vector[m1_NBlocs] tmp;
+    tmp[2:m1_NBlocs] = to_vector(normal_rng(rep_vector(0.0, m1_NBlocs - 1), m2_sigma_quality));
+    tmp[1] = -sum(tmp[2:m1_NBlocs]);
+    m2_prediction_new = to_vector(normal_rng(
+      softmax(m2_f[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]],m2_N1 + 1] +
+              tmp[m1_miss_results[m1_T2, 1:m1_NMiss_results[m1_T2]]]),
+                m2_sigma));
+  }
+  for (j in m3_NObs - m3_NDepartments + 1:m3_NObs){
+    m3_prediction_new = m3_prediction_new + m3_w[j - (m3_NObs - m3_NDepartments)] * m3_voteshare_prediction[j]';
+  }
 }
