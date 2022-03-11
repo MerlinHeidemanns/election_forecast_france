@@ -35,7 +35,8 @@ df <- df %>%
       candidates == "Hel`ene Thouy" ~ "Thouy",
       candidates == "Emmanuel Macron" ~ "Macron",
       candidates == "Jean Frederic Poisson" ~ "Poisson",
-      candidates == "Jean Christophe Lagarde" ~ "Lagarde"
+      candidates == "Jean Christophe Lagarde" ~ "Lagarde",
+      candidates == "Christiane Taubira" ~ "Taubira"
     )
   )
 ################################################################################

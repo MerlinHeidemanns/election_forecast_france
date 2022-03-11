@@ -62,9 +62,11 @@ df_current <- df_current %>%
           percentage = percentage/sum(percentage),
          y = as.integer(percentage * sampleSize))
 
+
 ## Prepare past polls
 df_past <- df_past %>%
   bind_rows(df_current) %>%
+  arrange(-election_year) %>%
   #' subset on time frames
   left_join(election_dates,
             by = c("election_year" = "year")) %>%
@@ -95,7 +97,8 @@ df_past <- df_past %>%
   left_join(candidates_blocs %>%
               distinct(bloc, party,
                        candidate, election_year)) %>%
-  mutate(party = ifelse(bloc == "Abstention", "Abstention", party)) %>%
+  mutate(party = ifelse(bloc == "Abstention", "Abstention", party),
+         bloc = ifelse(grepl("Taubira", candidate), "Gauche", bloc)) %>%
   group_by(election_year, party, poll_id) %>%
   mutate(z1 = ifelse(!is.na(election_result_percentage) | election_year == 2022, 1, 0)) %>%
   group_by(election_year, bloc) %>%
@@ -105,9 +108,11 @@ df_past <- df_past %>%
          main_candidate = ifelse(is.na(main_candidate), 0, main_candidate)) %>%
   mutate(bloc = ifelse(!main_candidate, "Autre", bloc)) %>%
   ungroup()
+
 df_le_pen_zemmour <- df_past %>%
   filter(candidate %in% c("Le Pen", "Zemmour")) %>%
   group_by(poll_id) %>%
+  arrange(poll_id) %>%
   filter(n() == 2) %>%
   group_by(poll_id, election_year, pollName, election_id, period_start_day, period_end_day, candidate, start_day) %>%
   summarize(y = sum(y)) %>%

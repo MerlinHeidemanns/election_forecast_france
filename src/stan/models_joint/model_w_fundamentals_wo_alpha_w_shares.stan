@@ -105,6 +105,7 @@ data {
   int m3_NMiss_X;
   int m3_id_X_miss[m3_NMiss_X];
   int m3_NTime_max;
+  matrix[m3_NObs, m3_NBlocs - 1] m3_shares;
 
 
 
@@ -176,9 +177,12 @@ parameters {
   real<lower = 0>                        m2_sigma;
 
   // M3
-  vector<lower = 0.0001>[m3_NBlocs - 1]  m3_sigma_alpha;
-  real                                   m3_mu_alpha[m3_NBlocs - 1];
-  matrix[m3_NElections, m3_NBlocs - 1]   m3_raw_alpha;
+  row_vector[m3_NBlocs - 1]              m3_intercepts;
+  vector[m3_NBlocs - 1]                  m3_phi;
+
+  matrix[m3_NElections, m3_NBlocs - 1]   m3_raw_zeta;
+  real<lower = 0>                        m3_sigma_zeta;
+
   // Department level predictors
   vector[m3_NMiss_X]                     m3_XMiss;
   // Department level predictors
@@ -229,13 +233,15 @@ transformed parameters {
   matrix[m3_NObs, m3_NBlocs - 1] m3_y_star;
   matrix[m3_NObs, m3_M] m3_XDepartment_miss;
   matrix[m3_NElections, m3_K + 1] m3_XNation_;
-  matrix[m3_NElections, m3_NBlocs - 1] m3_alpha;
   // Department level predictors
   matrix[m3_NBlocs, m3_NBlocs] m3_epsilon;
   matrix[m3_NObs, m3_NBlocs] m3_voteshare_prediction;
   matrix[m3_NElections, m3_NTime] m3_XApproval;
   vector[sum(m3_NPollsters_Presidents)] m3_mu_pollster_president;
   vector[m3_NPolls] m3_tau;
+  matrix[m3_NElections, m3_NBlocs - 1] m3_zeta;
+  matrix[m3_NObs, m3_NBlocs - 1]        m3_shares_phi;
+
 
 
   {
@@ -289,6 +295,10 @@ transformed parameters {
   // M3
   m3_XDepartment_miss[, 1] = m3_XDepartment[, 1];
   m3_XDepartment_miss[m3_id_X_miss, 1] = m3_XMiss;
+
+  for (j in 1:(m3_NBlocs - 1)){
+    m3_shares_phi[, j] = m3_shares[, j] * m3_phi[j];
+  }
   // Approval
   // -- Random walk
   for (jj in 1:m3_NElections){
@@ -305,8 +315,9 @@ transformed parameters {
       - sum(m3_tau[(m3_supvec_NPolls_Presidents[jj] + 2):(m3_supvec_NPolls_Presidents[jj] + m3_NPolls_Presidents[jj])]);
   }
   //
-  for (j in 1:m3_NBlocs - 1){
-    m3_alpha[,j] = m3_mu_alpha[j] + cumulative_sum(m3_raw_alpha[,j] * m3_sigma_alpha[j]);
+
+  for (j in 1:m3_NElections){
+    m3_zeta[j] = m3_raw_zeta[j] * m3_sigma_zeta;
   }
 
 
@@ -320,12 +331,14 @@ transformed parameters {
     for (j in 1:m3_NElections){
       tmp2[1 + (j - 1) * m3_NDepartments:j * m3_NDepartments] = to_vector(m3_XDepartment_miss[1 + (j - 1) * m3_NDepartments:j * m3_NDepartments]) * m3_incumbency[j];
     }
-    m3_y_star = m3_alpha[m3_id_Obs_elections] +
+    m3_y_star = rep_vector(1.0, m3_NObs) * m3_intercepts  +
+                m3_shares_phi +
                 m3_gamma_incumbency * tmp1[m3_id_Obs_elections] +
                 m3_XApproval[m3_id_Obs_elections, m3_NTime_max] * m3_gamma * rep_row_vector(1.0, m3_NBlocs - 1) +
                 m3_XDepartment_miss * m3_sigma_beta * m3_raw_beta +
                 tmp2 * m3_beta_incumbency +
-                m3_delta * m3_main_contender[m3_id_Obs_elections];
+                m3_delta * m3_main_contender[m3_id_Obs_elections] +
+                m3_zeta[m3_id_Obs_elections];
     }
   }
   m3_voteshare_prediction[1:m3_NObs - m3_NDepartments] = m3_YVoteshare[1:m3_NObs - m3_NDepartments];
@@ -397,6 +410,9 @@ model {
   }
 
   // M3 ------------------------------------------------------------------------
+  m3_intercepts ~ normal(0, 0.5);
+  to_vector(m3_raw_zeta) ~ std_normal();
+  m3_sigma_zeta ~ normal(0, 0.2);
   // Approval
   to_vector(m3_raw_XApproval) ~ std_normal();
   m3_mu_XApproval ~ normal(0, 2);
@@ -405,6 +421,8 @@ model {
   m3_sigma_mu_pollster ~ normal(0, 0.05);
   m3_raw_mu_pollster_president ~ std_normal();
   m3_raw_tau ~ std_normal();
+  m3_phi ~ normal(0, 0.5);
+
   // Likelihood
   {
     vector[m3_NTime * m3_NElections] m3_XApproval_vector;
@@ -420,9 +438,6 @@ model {
   m3_XMiss ~ normal(0, 1);
   m3_beta_incumbency ~ normal(0, 0.3);
   // // National trend
-  m3_mu_alpha ~ normal(0, 0.4);
-  m3_sigma_alpha ~ normal(0, 0.5);
-  to_vector(m3_raw_alpha) ~ std_normal();
   to_vector(m3_raw_beta) ~ std_normal();
   m3_sigma_beta ~ normal(0, 0.3);
   m3_gamma_incumbency ~ normal(0, 0.5);
@@ -522,16 +537,15 @@ generated quantities {
     row_vector[m3_NBlocs - 1] tmp4;
     matrix[m3_NDepartments, m3_NBlocs - 1] tmp5;
 
+    tmp4 = to_row_vector(normal_rng(rep_vector(0.0, m3_NBlocs - 1), m3_sigma_zeta));
 
     tmp1 = tmp1 * inv_logit(m3_XApproval[m3_NElections, m3_NTime_max]);
     for (j in 1:m3_NElections){
       tmp2 = to_vector(m3_XDepartment_miss[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments]) * m3_incumbency[m3_NElections];
     }
-    for (j in 1:m3_NBlocs - 1){
-      tmp3[j] = m3_mu_alpha[j] + sum(m3_raw_alpha[1:m3_NElections,j] * m3_sigma_alpha[j]) + normal_rng(0,m3_sigma_alpha[j]);
-    }
-    tmp5 = rep_vector(1.0, m3_NDepartments) * tmp3 +
+    tmp5 = rep_vector(1.0, m3_NDepartments) * m3_intercepts +
                 m3_gamma_incumbency * rep_vector(1.0, m3_NDepartments) * tmp1 +
+                m3_shares_phi[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments] +
                 m3_XApproval[m3_id_Obs_elections[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments], m3_NTime_max] * m3_gamma * rep_row_vector(1.0, m3_NBlocs - 1) +
                 m3_XDepartment_miss[1 + (m3_NElections - 1) * m3_NDepartments:m3_NElections * m3_NDepartments] * m3_sigma_beta * m3_raw_beta +
                 tmp2 * m3_beta_incumbency +
