@@ -315,11 +315,20 @@ m3_lagged_share <- m3_df_election_results %>%
                        year = 2022)) %>%
   arrange(year) %>%
   group_by(departement) %>%
-  filter(lead(year) %in% election_years) %>%
+  mutate(Centre =
+           ifelse(Centre == 0,
+                  lag(Centre), Centre),
+         Ecologisme =
+           ifelse(Ecologisme == 0,
+                  lag(Ecologisme), Ecologisme)) %>%
+  filter(lead(year) %in% m3_election_years) %>%
   mutate(election_id = match(lead(year), m3_election_years),
          department_id = match(departement, m3_department_vector)) %>%
   arrange(election_id, department_id) %>%
-  ungroup()
+  ungroup() %>%
+  select(-year, -departement)
+m3_lagged_share <- m3_lagged_share[, bloc_vector[3:8]]
+
 
 m3_std_log_unemployment <- (log(m3_unemployment) - mean(log(m3_unemployment[!is.na(m3_unemployment)])))/sd(log(m3_unemployment[!is.na(m3_unemployment)]))
 m3_XDepartments <- cbind(m3_std_log_unemployment)
@@ -444,6 +453,7 @@ data_list <- list(
   m3_main_contender = main_contender,
   m3_XDepartment = m3_XDepartments,
   m3_K = m3_K,
+  m3_shares = m3_lagged_share,
   m3_incumbency = m3_incumbency,
   m3_XNation = m3_XNation,
   m3_M = m3_M,
@@ -465,24 +475,30 @@ data_list <- list(
   m3_w = m3_w,
   m3_NTime_max = m3_NTime_max
 )
+for (j in 1:length(data_list)){
+  if (any(is.na(data_list[[j]]))){
+    print(names(data_list)[j])
+  }
+}
 ################################################################################
 ## Model
-mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals.stan")
+#mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_wo_alpha.stan")
+mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_wo_alpha_w_shares.stan")
 ################################################################################
 ## Run
 fit <- mod$sample(
   data = data_list,
   chains = 6,
-  iter_sampling = 600,
-  iter_warmup = 600,
+  iter_sampling = 400,
+  iter_warmup = 400,
   parallel_chains = 6,
   refresh = 100,
   init = 0.01
 )
 ################################################################################
 ## Plot
-fit$save_object("dta/fit/m2022.Rds")
-write_rds(data_list, "dta/fit/m2022_data_list.Rds")
+fit$save_object("dta/fit/m2022_w_shares.Rds")
+write_rds(data_list, "dta/fit/m2022_data_list_w_shares.Rds")
 write_rds(indicators, "dta/fit/m2022_indicator.Rds")
 write_rds(df, "dta/fit/m2022_polls.rds")
 write_rds(election_results_all, "dta/fit/m2022_election_results_all.rds")

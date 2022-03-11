@@ -34,6 +34,7 @@ number_of_elections <- length(election_years) + 1
 start_day <- as.Date("2016-12-18 ")
 start_times <- c(start_day, start_day + seq(1, 17) * 7)
 for (start_indicator in seq(3, 17)){
+  print(start_indicator)
   #start_indicator <- 10
   ################################################################################
   ## Data
@@ -172,17 +173,6 @@ for (start_indicator in seq(3, 17)){
                      "election_id" = "t2"))
   miss_pred <-  miss[sort(rep(match(c(1, 2, 3, 4), df$election_id), count_weeks)), ]
   NMiss_pred <- c(NMiss[sort(rep(match(c(1, 2, 3, 4), df$election_id), count_weeks))])
-  ################################################################################
-  ## Le Pen v Zemmour
-  df_le_pen_zemmour <- df_le_pen_zemmour %>%
-    group_by(poll_id) %>%
-    mutate(n = sum(y)) %>%
-    ungroup() %>%
-    filter(candidate == "Le Pen")
-  m1_N_ex_droite <- nrow(df_le_pen_zemmour)
-  m1_ix_t_ex_droite <- df_le_pen_zemmour %>% pull(t)
-  m1_n_ex_droite <- df_le_pen_zemmour %>% pull(n)
-  m1_y_ex_droite <- df_le_pen_zemmour %>% pull(y)
   ################################################################################
   m3_election_years <- c(1988, 1995, 2002, 2007, 2012, 2017, 2022)
   m3_election_years <- m3_election_years[m3_election_years <= this_year]
@@ -347,15 +337,23 @@ for (start_indicator in seq(3, 17)){
                 values_from = percentage,
                 values_fill = 0) %>%
     select(-Abstention) %>%
-    bind_rows(data.frame(departement = unique(m3_df_election_results$departement),
-                         year = 2017)) %>%
+    # bind_rows(data.frame(departement = unique(m3_df_election_results$departement),
+    #                      year = 2012)) %>%
     arrange(year) %>%
     group_by(departement) %>%
-    filter(lead(year) %in% election_years) %>%
+    mutate(Centre =
+             ifelse(Centre == 0,
+                    lag(Centre), Centre),
+           Ecologisme =
+             ifelse(Ecologisme == 0,
+                    lag(Ecologisme), Ecologisme)) %>%
+    filter(lead(year) %in% m3_election_years) %>%
     mutate(election_id = match(lead(year), m3_election_years),
            department_id = match(departement, m3_department_vector)) %>%
     arrange(election_id, department_id) %>%
-    ungroup()
+    ungroup() %>%
+    select(-year, -departement)
+  m3_lagged_share <- m3_lagged_share[, bloc_vector[3:8]]
 
   m3_std_log_unemployment <- (log(m3_unemployment) - mean(log(m3_unemployment[!is.na(m3_unemployment)])))/sd(log(m3_unemployment[!is.na(m3_unemployment)]))
   m3_XDepartments <- cbind(m3_std_log_unemployment)
@@ -455,11 +453,6 @@ for (start_indicator in seq(3, 17)){
     m1_miss_pred = miss_pred,
     m1_election = indicators$t2,
 
-    m1_N_ex_droite = m1_N_ex_droite,
-    m1_ix_t_ex_droite = m1_ix_t_ex_droite,
-    m1_n_ex_droite = m1_n_ex_droite,
-    m1_y_ex_droite = m1_y_ex_droite,
-
     m2_N1 = length(m2_year),
     m2_N2 = 1,
     m2_x1 = m2_year,
@@ -480,6 +473,7 @@ for (start_indicator in seq(3, 17)){
     m3_miss = m3_miss,
     m3_main_contender = main_contender,
     m3_XDepartment = m3_XDepartments,
+    m3_shares = m3_lagged_share,
     m3_K = m3_K,
     m3_incumbency = m3_incumbency,
     m3_XNation = m3_XNation,
@@ -510,23 +504,23 @@ for (start_indicator in seq(3, 17)){
   }
   ################################################################################
   ## Model
-  mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_wo_adjustment_wo_alpha.stan")
+  mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_wo_adjustment_wo_alpha_w_shares.stan")
   ################################################################################
   ## Run
   fit <- mod$sample(
     data = data_list,
     chains = 6,
-    iter_sampling = 300,
+    iter_sampling = 350,
     iter_warmup = 300,
     parallel_chains = 6,
-    refresh = 100,
+    refresh = 0,
     init = 0
   )
   ################################################################################
   ## Poll model
-  fit$save_object(paste0("dta/fit/m2017_", start_indicator,".Rds", sep = ""))
+  fit$save_object(paste0("dta/fit/m2017_w_shares_", start_indicator,".Rds", sep = ""))
 }
-fit <- read_rds(paste("dta/fit/m2017_", start_indicator,"_with_zeta.Rds", sep = ""))
+fit <- read_rds(paste("dta/fit/m2017_w_shares_", start_indicator,"_with_zeta.Rds", sep = ""))
 
 ## Mean prediction
 prediction <- lapply(seq(3, 17), function(j){

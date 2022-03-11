@@ -1,5 +1,5 @@
 ################################################################################
-## Title: Backtest model for 2017
+## Title: Backtest model for 2012
 ################################################################################
 ## Empty environment
 rm(list = ls())
@@ -26,22 +26,20 @@ cols <- c("Autre" = "brown",
           "Droite" ="blue",
           "Droite radicale et extreme droite" ="navyblue")
 count_weeks <- 18
-this_year <- 2017
-election_years <- c(2002, 2007, 2012, 2017)
+this_year <- 2012
+election_years <- c(2002, 2007, 2012)
 election_years <- election_years[election_years < this_year]
-participating_blocs <- c(1,2,3, 5,6,7, 0)
+participating_blocs <- c(1, 2, 3, 4, 5, 6, 7)
 number_of_elections <- length(election_years) + 1
-start_day <- as.Date("2016-12-18 ")
+start_day <- as.Date("2012-12-18 ")
 start_times <- c(start_day, start_day + seq(1, 17) * 7)
-for (start_indicator in seq(3, 17)){
+for (start_indicator in c(10)){
+  print(start_indicator)
   #start_indicator <- 10
   ################################################################################
   ## Data
   df <- read_csv(file = "dta/polls_dta/election_season_model/poll_input.csv",col_types = cols())
   df_current <- read_csv(file = "dta/polls_dta/election_season_model/poll_input_current.csv",
-                               col_types = cols())
-  df_le_pen_zemmour <- read_csv(
-    file = "dta/polls_dta/election_season_model/poll_input_le_pen_zemmour.csv",
                                col_types = cols())
 
   election_results <- read_csv("dta/polls_dta/election_results_clean.csv",
@@ -145,7 +143,7 @@ for (start_indicator in seq(3, 17)){
 
   m1_NLimit <- df %>%
     mutate(n = 1:n()) %>%
-    filter(election_id == 4, t == start_indicator) %>%
+    filter(election_id == 3, t == start_indicator) %>%
     pull(n) %>%
     max()
 
@@ -156,7 +154,7 @@ for (start_indicator in seq(3, 17)){
   abstention_share <- results[,1]/apply(results, 1, sum)
   results <- results[,2:8]
   miss <- array(0, dim = dim(results))
-  tmp <- miss01_results %>% rbind(c(1,1,1,0,1,1,1))
+  tmp <- miss01_results %>% rbind(c(1,1,1,1,1,1,1))
   for (j in 1:nrow(miss)){
     miss[j, 1:sum(tmp[df$election_id[j],])] <-
       seq(1, ncol(tmp))[as.logical(tmp[df$election_id[j],])]
@@ -170,21 +168,11 @@ for (start_indicator in seq(3, 17)){
     left_join(indicators,
               by = c("t" = "t1",
                      "election_id" = "t2"))
-  miss_pred <-  miss[sort(rep(match(c(1, 2, 3, 4), df$election_id), count_weeks)), ]
-  NMiss_pred <- c(NMiss[sort(rep(match(c(1, 2, 3, 4), df$election_id), count_weeks))])
+  miss_pred <-  miss[sort(rep(match(c(1, 2, 3), df$election_id), count_weeks)), ]
+  NMiss_pred <- c(NMiss[sort(rep(match(c(1, 2, 3), df$election_id), count_weeks))])
+
   ################################################################################
-  ## Le Pen v Zemmour
-  df_le_pen_zemmour <- df_le_pen_zemmour %>%
-    group_by(poll_id) %>%
-    mutate(n = sum(y)) %>%
-    ungroup() %>%
-    filter(candidate == "Le Pen")
-  m1_N_ex_droite <- nrow(df_le_pen_zemmour)
-  m1_ix_t_ex_droite <- df_le_pen_zemmour %>% pull(t)
-  m1_n_ex_droite <- df_le_pen_zemmour %>% pull(n)
-  m1_y_ex_droite <- df_le_pen_zemmour %>% pull(y)
-  ################################################################################
-  m3_election_years <- c(1988, 1995, 2002, 2007, 2012, 2017, 2022)
+  m3_election_years <- c(1988, 1995, 2002, 2007, 2012)
   m3_election_years <- m3_election_years[m3_election_years <= this_year]
   m3_df <- read_csv(file = "dta/election_results/department_candidate_votes_blocs_clean.csv",col_types = cols()) %>%
     filter(year %in% m3_election_years,
@@ -347,15 +335,23 @@ for (start_indicator in seq(3, 17)){
                 values_from = percentage,
                 values_fill = 0) %>%
     select(-Abstention) %>%
-    bind_rows(data.frame(departement = unique(m3_df_election_results$departement),
-                         year = 2017)) %>%
+    # bind_rows(data.frame(departement = unique(m3_df_election_results$departement),
+    #                      year = 2012)) %>%
     arrange(year) %>%
     group_by(departement) %>%
-    filter(lead(year) %in% election_years) %>%
+    mutate(Centre =
+             ifelse(Centre == 0,
+                    lag(Centre), Centre),
+           Ecologisme =
+             ifelse(Ecologisme == 0,
+                    lag(Ecologisme), Ecologisme)) %>%
+    filter(lead(year) %in% m3_election_years) %>%
     mutate(election_id = match(lead(year), m3_election_years),
            department_id = match(departement, m3_department_vector)) %>%
     arrange(election_id, department_id) %>%
-    ungroup()
+    ungroup() %>%
+    select(-year, -departement)
+  m3_lagged_share <- m3_lagged_share[, bloc_vector[3:8]]
 
   m3_std_log_unemployment <- (log(m3_unemployment) - mean(log(m3_unemployment[!is.na(m3_unemployment)])))/sd(log(m3_unemployment[!is.na(m3_unemployment)]))
   m3_XDepartments <- cbind(m3_std_log_unemployment)
@@ -431,7 +427,7 @@ for (start_indicator in seq(3, 17)){
     m1_NLimit = m1_NLimit,
     m1_NBlocs = ncol(results),
     m1_T1 = count_weeks,
-    m1_T2 = 4,
+    m1_T2 = 3,
     m1_t1 = seq(1, count_weeks),
     m1_ix_time = df$i,
     m1_ix_election = df$election_id,
@@ -440,7 +436,7 @@ for (start_indicator in seq(3, 17)){
     m1_abstention_share = abstention_share[,1],
     m1_abstention_share_included = as.integer(abstention_share[,1] > 0),
     m1_y_results = t(round(1000 * result_matrix)),
-    m1_ix_results = c(indicators %>% filter(t1 == count_weeks) %>% pull(i))[1:4],
+    m1_ix_results = c(indicators %>% filter(t1 == count_weeks) %>% pull(i))[1:number_of_elections],
     m1_NMiss_results = NMiss_results,
     m1_miss_results = miss_results,
     m1_NPollsters = df %>% distinct(election_id, pollster_id) %>%
@@ -455,15 +451,10 @@ for (start_indicator in seq(3, 17)){
     m1_miss_pred = miss_pred,
     m1_election = indicators$t2,
 
-    m1_N_ex_droite = m1_N_ex_droite,
-    m1_ix_t_ex_droite = m1_ix_t_ex_droite,
-    m1_n_ex_droite = m1_n_ex_droite,
-    m1_y_ex_droite = m1_y_ex_droite,
-
     m2_N1 = length(m2_year),
     m2_N2 = 1,
     m2_x1 = m2_year,
-    m2_x2 = array(2017),
+    m2_x2 = array(2012),
     m2_y = m2_df,
     m2_prior_sigma_quality = 0.15,
     m2_NMiss = m2_NMiss,
@@ -480,12 +471,14 @@ for (start_indicator in seq(3, 17)){
     m3_miss = m3_miss,
     m3_main_contender = main_contender,
     m3_XDepartment = m3_XDepartments,
+    m3_shares = m3_lagged_share,
     m3_K = m3_K,
     m3_incumbency = m3_incumbency,
     m3_XNation = m3_XNation,
     m3_M = m3_M,
     m3_NMiss_X = m3_NMiss_X,
     m3_id_X_miss = m3_id_X_miss,
+
 
     m3_NInclusion = m3_NInclusion,
     m3_NPolls = m3_NPolls,
@@ -510,13 +503,13 @@ for (start_indicator in seq(3, 17)){
   }
   ################################################################################
   ## Model
-  mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_wo_adjustment_wo_alpha.stan")
+  mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_wo_adjustment_wo_alpha_w_shares.stan")
   ################################################################################
   ## Run
   fit <- mod$sample(
     data = data_list,
     chains = 6,
-    iter_sampling = 300,
+    iter_sampling = 350,
     iter_warmup = 300,
     parallel_chains = 6,
     refresh = 100,
@@ -524,19 +517,17 @@ for (start_indicator in seq(3, 17)){
   )
   ################################################################################
   ## Poll model
-  fit$save_object(paste0("dta/fit/m2017_", start_indicator,".Rds", sep = ""))
+  fit$save_object(paste0("dta/fit/m2012_w_shares_", start_indicator,".Rds", sep = ""))
 }
-fit <- read_rds(paste("dta/fit/m2017_", start_indicator,"_with_zeta.Rds", sep = ""))
 
 ## Mean prediction
-prediction <- lapply(seq(3, 17), function(j){
-  fit <- read_rds(paste0("dta/fit/m2017_", j,".Rds", sep = ""))
+prediction <- lapply(seq(3, 17, 1), function(j){
+  fit <- read_rds(paste0("dta/fit/m2012_w_shares_", j,".Rds", sep = ""))
   prediction_results <- fit$summary("prediction",
                                     ~ quantile(., c(0.1,0.25, 0.5, 0.75, 0.9))) %>%
     mutate(
-      bloc = as.integer(str_match(variable, "(\\d+)")[,2]),
-      bloc = bloc_vector[1 + ifelse(bloc > 3, bloc + 1, bloc)],
-      year = 2017,
+      bloc = bloc_vector[1 + as.integer(str_match(variable, "(\\d+)")[,2])],
+      year = 2012,
       t = start_times[j]
     ) %>%
     left_join(
@@ -566,14 +557,13 @@ ggplot(prediction, aes(x = t, y = `50%`)) +
   facet_wrap(bloc ~.)
 
 ## Prediction according to the fundamentals model
-prediction <- lapply(seq(3, 17), function(j){
-  fit <- read_rds(paste0("dta/fit/m2017_", j,".Rds", sep = ""))
-  prediction_results <- fit$summary("m2_prediction_new",
+prediction <- lapply(seq(3, 17, 1), function(j){
+  fit <- read_rds(paste0("dta/fit/m2012_w_shares_", j,".Rds", sep = ""))
+  prediction_results <- fit$summary("m3_prediction_new",
                                     ~ quantile(., c(0.1,0.25, 0.5, 0.75, 0.9))) %>%
     mutate(
-      bloc = as.integer(str_match(variable, "\\[(\\d+)")[,2]),
-      bloc = bloc_vector[1 + ifelse(bloc > 3, bloc + 1, bloc)],
-      year = 2017,
+      bloc = bloc_vector[1 + as.integer(str_match(variable, "\\[(\\d+)")[,2])],
+      year = 2012,
       t = start_times[j]
     ) %>%
     left_join(

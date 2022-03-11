@@ -33,21 +33,18 @@ participating_blocs <- c(1,2,3, 5,6,7, 0)
 number_of_elections <- length(election_years) + 1
 start_day <- as.Date("2016-12-18 ")
 start_times <- c(start_day, start_day + seq(1, 17) * 7)
+
+dta <- read_rds("2017_dta.rds")
+
 for (start_indicator in seq(3, 17)){
   #start_indicator <- 10
   ################################################################################
   ## Data
-  df <- read_csv(file = "dta/polls_dta/election_season_model/poll_input.csv",col_types = cols())
-  df_current <- read_csv(file = "dta/polls_dta/election_season_model/poll_input_current.csv",
-                               col_types = cols())
-  df_le_pen_zemmour <- read_csv(
-    file = "dta/polls_dta/election_season_model/poll_input_le_pen_zemmour.csv",
-                               col_types = cols())
-
-  election_results <- read_csv("dta/polls_dta/election_results_clean.csv",
-                               col_types = cols())
-  candidates_blocs <- read_csv("dta/france_classification/candidate_bloc_cross_walk.csv",
-                               col_types = cols())
+  df <- dta$df
+  df_current <- dta$df_current
+  df_le_pen_zemmour <- dta$df_le_pen_zemmour
+  election_results <- dta$election_results
+  candidates_blocs <- dta$candidates_blocs
 
   ################################################################################
   election_results <- election_results %>%
@@ -87,8 +84,7 @@ for (start_indicator in seq(3, 17)){
 
   ################################################################################
   ## Historical averages
-  m2_df_election_results <- read_csv(file = "dta/election_results/department_candidate_votes_blocs_clean.csv",col_types = cols()) %>%
-    filter(departement != "Mayotte")
+  m2_df_election_results <- dta$m2_df_election_results
   ###############################################################################
   #' Mangle data
   m2_df_results <- m2_df_election_results %>%
@@ -173,29 +169,13 @@ for (start_indicator in seq(3, 17)){
   miss_pred <-  miss[sort(rep(match(c(1, 2, 3, 4), df$election_id), count_weeks)), ]
   NMiss_pred <- c(NMiss[sort(rep(match(c(1, 2, 3, 4), df$election_id), count_weeks))])
   ################################################################################
-  ## Le Pen v Zemmour
-  df_le_pen_zemmour <- df_le_pen_zemmour %>%
-    group_by(poll_id) %>%
-    mutate(n = sum(y)) %>%
-    ungroup() %>%
-    filter(candidate == "Le Pen")
-  m1_N_ex_droite <- nrow(df_le_pen_zemmour)
-  m1_ix_t_ex_droite <- df_le_pen_zemmour %>% pull(t)
-  m1_n_ex_droite <- df_le_pen_zemmour %>% pull(n)
-  m1_y_ex_droite <- df_le_pen_zemmour %>% pull(y)
-  ################################################################################
   m3_election_years <- c(1988, 1995, 2002, 2007, 2012, 2017, 2022)
   m3_election_years <- m3_election_years[m3_election_years <= this_year]
-  m3_df <- read_csv(file = "dta/election_results/department_candidate_votes_blocs_clean.csv",col_types = cols()) %>%
-    filter(year %in% m3_election_years,
-           departement != "Mayotte") %>%
-    filter(!(bloc %in% c("Abstention")))
-  m3_df_election_results <- read_csv(file = "dta/election_results/department_candidate_votes_blocs_clean.csv",col_types = cols()) %>%
-    filter(departement != "Mayotte")
-  m3_df_incumbency <- read_csv("dta/fundamentals_dta/cleaned_input/incumbency.csv",col_types = cols())
-  m3_df_input_department <-
-    read_csv("dta/fundamentals_dta/cleaned_input/input_data.csv",col_types = cols())
-  m3_df_approval <- read_csv("dta/fundamentals_dta/approval.csv",col_types = cols())
+  m3_df <- dta$m3_df
+  m3_df_election_results <- dta$m3_df_election_results
+  m3_df_incumbency <- dta$m3_df_incumbency
+  m3_df_input_department <- dta$m3_df_input_department
+  m3_df_approval <- dta$m3_df_approval
   ## Election year and departement id
   m3_department_vector <- m3_df %>%
     distinct(departement) %>%
@@ -203,7 +183,7 @@ for (start_indicator in seq(3, 17)){
     sort()
   ###############################################################################
   ## Mangle incumbency
-  m3_national_incumbency <- read_csv("dta/fundamentals_dta/cleaned_input/incumbency.csv",col_types = cols()) %>%
+  m3_national_incumbency <- m3_df_incumbency %>%
     mutate(bloc_id = match(incumbent_bloc, bloc_vector)) %>%
     select(bloc_id, election_year) %>%
     filter(election_year %in% m3_election_years) %>%
@@ -347,15 +327,23 @@ for (start_indicator in seq(3, 17)){
                 values_from = percentage,
                 values_fill = 0) %>%
     select(-Abstention) %>%
-    bind_rows(data.frame(departement = unique(m3_df_election_results$departement),
-                         year = 2017)) %>%
+    # bind_rows(data.frame(departement = unique(m3_df_election_results$departement),
+    #                      year = 2012)) %>%
     arrange(year) %>%
     group_by(departement) %>%
-    filter(lead(year) %in% election_years) %>%
+    mutate(Centre =
+             ifelse(Centre == 0,
+                    lag(Centre), Centre),
+           Ecologisme =
+             ifelse(Ecologisme == 0,
+                    lag(Ecologisme), Ecologisme)) %>%
+    filter(lead(year) %in% m3_election_years) %>%
     mutate(election_id = match(lead(year), m3_election_years),
            department_id = match(departement, m3_department_vector)) %>%
     arrange(election_id, department_id) %>%
-    ungroup()
+    ungroup() %>%
+    select(-year, -departement)
+  m3_lagged_share <- m3_lagged_share[, bloc_vector[3:8]]
 
   m3_std_log_unemployment <- (log(m3_unemployment) - mean(log(m3_unemployment[!is.na(m3_unemployment)])))/sd(log(m3_unemployment[!is.na(m3_unemployment)]))
   m3_XDepartments <- cbind(m3_std_log_unemployment)
@@ -455,11 +443,6 @@ for (start_indicator in seq(3, 17)){
     m1_miss_pred = miss_pred,
     m1_election = indicators$t2,
 
-    m1_N_ex_droite = m1_N_ex_droite,
-    m1_ix_t_ex_droite = m1_ix_t_ex_droite,
-    m1_n_ex_droite = m1_n_ex_droite,
-    m1_y_ex_droite = m1_y_ex_droite,
-
     m2_N1 = length(m2_year),
     m2_N2 = 1,
     m2_x1 = m2_year,
@@ -480,6 +463,7 @@ for (start_indicator in seq(3, 17)){
     m3_miss = m3_miss,
     m3_main_contender = main_contender,
     m3_XDepartment = m3_XDepartments,
+    m3_shares = m3_lagged_share,
     m3_K = m3_K,
     m3_incumbency = m3_incumbency,
     m3_XNation = m3_XNation,
@@ -510,7 +494,7 @@ for (start_indicator in seq(3, 17)){
   }
   ################################################################################
   ## Model
-  mod <- cmdstan_model("src/stan/models_joint/model_w_fundamentals_wo_adjustment_wo_alpha.stan")
+  mod <- cmdstan_model("model_w_fundamentals_wo_adjustment_wo_alpha_w_shares.stan")
   ################################################################################
   ## Run
   fit <- mod$sample(
@@ -524,73 +508,6 @@ for (start_indicator in seq(3, 17)){
   )
   ################################################################################
   ## Poll model
-  fit$save_object(paste0("dta/fit/m2017_", start_indicator,".Rds", sep = ""))
+  fit$save_object(paste0("m2017_w_shares_", start_indicator,".Rds", sep = ""))
 }
-fit <- read_rds(paste("dta/fit/m2017_", start_indicator,"_with_zeta.Rds", sep = ""))
 
-## Mean prediction
-prediction <- lapply(seq(3, 17), function(j){
-  fit <- read_rds(paste0("dta/fit/m2017_", j,".Rds", sep = ""))
-  prediction_results <- fit$summary("prediction",
-                                    ~ quantile(., c(0.1,0.25, 0.5, 0.75, 0.9))) %>%
-    mutate(
-      bloc = as.integer(str_match(variable, "(\\d+)")[,2]),
-      bloc = bloc_vector[1 + ifelse(bloc > 3, bloc + 1, bloc)],
-      year = 2017,
-      t = start_times[j]
-    ) %>%
-    left_join(
-      election_results_all %>%
-        filter(bloc != "Abstention") %>%
-        group_by(year) %>%
-        mutate(percentage = percentage/sum(percentage, na.rm = TRUE))
-    )
-  return(prediction_results)
-}) %>%
-  do.call("bind_rows", .)
-
-ggplot(prediction_results, aes(x = percentage, y = `50%`)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = `25%`, ymax = `75%`), width = 0, size = 0.75) +
-  geom_errorbar(aes(ymin = `10%`, ymax = `90%`), width = 0, size = 0.5) +
-  geom_abline(aes(intercept = 0, slope = 1)) +
-  theme_light()
-
-ggplot(prediction, aes(x = t, y = `50%`)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = `25%`, ymax = `75%`), width = 0, size = 0.75) +
-  geom_errorbar(aes(ymin = `10%`, ymax = `90%`), width = 0, size = 0.5) +
-  geom_abline(aes(intercept = 0, slope = 1)) +
-  geom_hline(aes(yintercept = percentage)) +
-  theme_light() +
-  facet_wrap(bloc ~.)
-
-## Prediction according to the fundamentals model
-prediction <- lapply(seq(3, 17), function(j){
-  fit <- read_rds(paste0("dta/fit/m2017_", j,".Rds", sep = ""))
-  prediction_results <- fit$summary("m2_prediction_new",
-                                    ~ quantile(., c(0.1,0.25, 0.5, 0.75, 0.9))) %>%
-    mutate(
-      bloc = as.integer(str_match(variable, "\\[(\\d+)")[,2]),
-      bloc = bloc_vector[1 + ifelse(bloc > 3, bloc + 1, bloc)],
-      year = 2017,
-      t = start_times[j]
-    ) %>%
-    left_join(
-      election_results_all %>%
-        filter(bloc != "Abstention") %>%
-        group_by(year) %>%
-        mutate(percentage = percentage/sum(percentage, na.rm = TRUE))
-    )
-  return(prediction_results)
-}) %>%
-  do.call("bind_rows", .)
-
-ggplot(prediction, aes(x = t, y = `50%`)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = `25%`, ymax = `75%`), width = 0, size = 0.75) +
-  geom_errorbar(aes(ymin = `10%`, ymax = `90%`), width = 0, size = 0.5) +
-  geom_abline(aes(intercept = 0, slope = 1)) +
-  geom_hline(aes(yintercept = percentage)) +
-  theme_light() +
-  facet_wrap(bloc ~.)
